@@ -14,7 +14,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── net-p2p
     │   ├── bitcoinxtd
     │   └── bitcoinxt-qt
-    └── dev-util
+    └── www-servers
         └── nginx
 ```
 
