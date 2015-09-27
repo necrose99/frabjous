@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name><![CDATA[frabjous]]></name>
+    <description lang="en"><![CDATA[Frabjous! Yet another personal Gentoo overlay]]></description>
+    <homepage>https://github.com/csmk/frabjous</homepage>
+    <owner type="person">
+      <email>csmk@cmsrv.org</email>
+      <name><![CDATA[Ian Moone]]></name>
+    </owner>
+    <source type="git">git@github.com:csmk/frabjous.git</source>
+    <source type="git">https://github.com/csmk/frabjous.git</source>
+    <feed>https://github.com/csmk/frabjous/commits/master.atom</feed>
+  </repo>
+</repositories>
