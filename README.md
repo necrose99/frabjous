@@ -15,7 +15,9 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── bitcoinxtd
     │   └── bitcoinxt-qt
     └── www-servers
-        └── nginx
+        ├── nginx
+        └── h2o
+
 ```
 
 ##Issues
