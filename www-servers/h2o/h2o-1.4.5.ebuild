@@ -14,12 +14,13 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-IUSE="libressl"
+IUSE="libressl websocket"
 
 DEPEND="
 	dev-libs/libyaml
 	>=dev-libs/libuv-1.0.0
-	libressl? ( dev-libs/libressl )"
+	libressl? ( dev-libs/libressl )
+	websocket? ( net-libs/wslay )"
 
 RDEPEND="${DEPEND}"
 
