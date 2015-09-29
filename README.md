@@ -4,12 +4,13 @@ Yet another personal [Gentoo](https://gentoo.org/) overlay. This overlay contain
 **DISCLAIMER:** This repository contains experimental ebuilds with extra added features. Use at your own risk! However, I've been using these packages in a production environment without any problems.
 
 ## How to install the overlay
-You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work:
-```layman -f -o https://raw.githubusercontent.com/csmk/frabjous/master/overlay.xml -a frabjous```
+You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work: `layman -a frabjous`
 
 ## Repository tree
 ```
     .
+    ├── dev-python
+    │   └── cryptography
     ├── net-dns
     │   ├── ldns-utils
     │   └── nsd
