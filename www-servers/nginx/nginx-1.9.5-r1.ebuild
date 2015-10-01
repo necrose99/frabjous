@@ -316,6 +316,12 @@ src_prepare() {
 		sed -i -e 's/-llua5.1/-llua/' "${HTTP_LUA_MODULE_WD}/config" || die
 	fi
 
+	# Variable $server_protocol is empty on HTTP2: https://trac.nginx.org/nginx/ticket/800
+	# Will be released in 1.9.6
+	if use nginx_modules_http_v2; then
+		epatch "${FILESDIR}/server_protocol_empty".patch
+	fi
+
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):' || die
 	# We have config protection, don't rename etc files
 	sed -i 's:.default::' auto/install || die
