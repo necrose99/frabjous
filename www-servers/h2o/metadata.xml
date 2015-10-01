@@ -9,9 +9,7 @@
     H2O is a new generation HTTP server. Not only is it very fast, it also provides much quicker response to end-users when compared to older generations of HTTP servers.
   </longdescription>
   <use>
-    <flag name='websocket'>Add support for WebSocket, requires
-      <pkg>net-libs/wslay</pkg>
-      as a dependency.
-    </flag>
+    <flag name='mruby'>Enable support for mruby</flag>
+    <flag name='websocket'>Add support for WebSocket at library level</flag>
   </use>
 </pkgmetadata>
