@@ -19,8 +19,9 @@ KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~s
 IUSE="debug libressl +ssl static-libs test +threads"
 
 DEPEND="ssl? (
-	!libressl? ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
-	libressl? ( dev-libs/libressl )
+		!libressl? ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
+		libressl? ( dev-libs/libressl )
+	)
 "
 RDEPEND="
 	${DEPEND}
