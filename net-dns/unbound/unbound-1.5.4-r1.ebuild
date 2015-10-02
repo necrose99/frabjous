@@ -32,7 +32,7 @@ CDEPEND=">=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
 		>=dev-libs/protobuf-c-1.0.2-r1[${MULTILIB_USEDEP}]
 	)
 	ecdsa? (
-		!libressl? (dev-libs/openssl:0[-bindist] )
+		!libressl? ( dev-libs/openssl:0[-bindist] )
 		libressl? ( dev-libs/libressl )
 	)
 	python? ( ${PYTHON_DEPS} )"

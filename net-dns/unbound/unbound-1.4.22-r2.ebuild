@@ -24,7 +24,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 CDEPEND=">=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
 	>=dev-libs/libevent-2.0.21[${MULTILIB_USEDEP}]
-	!libressl? (>=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
+	!libressl? ( >=dev-libs/openssl-1.0.1h-r2[${MULTILIB_USEDEP}] )
 	libressl? ( dev-libs/libressl )
 	python? ( ${PYTHON_DEPS} )"
 
