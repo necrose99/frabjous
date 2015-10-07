@@ -52,7 +52,6 @@ RDEPEND="
 	)
 "
 
-
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/bitcoinxt-${My_PV}"
@@ -116,15 +115,15 @@ src_configure() {
 	fi
 	my_econf="${my_econf} --with-system-leveldb"
 	econf \
+		${my_econf}  \
+		$(use_with dbus qtdbus)  \
+		$(use_with qrcode qrencode)  \
+		$(use_with libressl) \
 		--disable-ccache \
 		--disable-static \
 		--without-libs    \
 		--without-utils    \
 		--without-daemon  \
-		${my_econf}  \
-		$(use_with dbus qtdbus)  \
-		$(use_with qrcode qrencode)  \
-		$(use_with libressl) \
 		--with-gui=$(usex qt5 qt5 qt4)
 		"$@"
 }
