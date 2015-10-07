@@ -9,7 +9,7 @@ DB_VER="4.8"
 inherit db-use autotools eutils toolchain-funcs user systemd fdo-mime gnome2-utils kde4-functions qt4-r2
 
 DESCRIPTION="BitcoinXT crypto-currency GUI wallet"
-HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
+HOMEPAGE="https://bitcoinxt.software/"
 My_PV="${PV/\.0b/}A"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
