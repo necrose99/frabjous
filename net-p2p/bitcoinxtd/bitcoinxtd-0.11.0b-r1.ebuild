@@ -18,7 +18,6 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
 IUSE="+docs libressl +logrotate +ssl +upnp +wallet"
 
-
 OPENSSL_DEPEND="dev-libs/openssl:0[-bindist]"
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
@@ -37,7 +36,6 @@ RDEPEND="
 	upnp? ( net-libs/miniupnpc )
 	virtual/bitcoin-leveldb
 "
-
 
 DEPEND="${RDEPEND}"
 
@@ -69,13 +67,14 @@ src_configure() {
 	fi
 	my_econf="${my_econf} --with-system-leveldb"
 	econf \
+		${my_econf} \
+		$(use_with libressl) \
 		--disable-ccache \
 		--disable-static \
-		--without-libs    \
-		--without-utils    \
-		--with-daemon  \
-		--without-gui     \
-		${my_econf}  \
+		--without-libs \
+		--without-utils \
+		--with-daemon \
+		--without-gui \
 		"$@"
 }
 
