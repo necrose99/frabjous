@@ -10,7 +10,7 @@ inherit db-use autotools eutils toolchain-funcs user systemd fdo-mime gnome2-uti
 
 DESCRIPTION="BitcoinXT crypto-currency GUI wallet"
 HOMEPAGE="https://bitcoinxt.software/"
-My_PV="${PV/\.0b/}A"
+My_PV="${PV/\.0b/B}"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -22,7 +22,7 @@ REQUIRED_USE="${REQUIRED_USE} ^^ ( qt4 qt5 )"
 LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl vi vi_VN zh_HK zh_CN zh_TW"
 for X in ${LANGS} ; do
     IUSE="${IUSE} linguas_${X}"
-	done
+done
 
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
@@ -124,7 +124,7 @@ src_configure() {
 		${my_econf}  \
 		$(use_with dbus qtdbus)  \
 		$(use_with qrcode qrencode)  \
-		$(use_with libressl libressl) \
+		$(use_with libressl) \
 		--with-gui=$(usex qt5 qt5 qt4)
 		"$@"
 }
