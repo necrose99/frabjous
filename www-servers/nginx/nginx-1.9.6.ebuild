@@ -30,7 +30,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/masterzen/nginx-upload-progr
 HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/nginx-upload-progress-module-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
 
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.26"
+HTTP_HEADERS_MORE_MODULE_PV="0.261"
 HTTP_HEADERS_MORE_MODULE_P="ngx_http_headers_more-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/agentzh/headers-more-nginx-module/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="${WORKDIR}/headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_PV}"
@@ -54,7 +54,7 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.9.16"
+HTTP_LUA_MODULE_PV="0.9.17"
 HTTP_LUA_MODULE_P="ngx_http_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/openresty/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
@@ -78,7 +78,7 @@ HTTP_METRICS_MODULE_URI="https://github.com/madvertise/ngx_metrics/archive/v${HT
 HTTP_METRICS_MODULE_WD="${WORKDIR}/ngx_metrics-${HTTP_METRICS_MODULE_PV}"
 
 # naxsi-core (https://github.com/nbs-system/naxsi, GPLv2+)
-HTTP_NAXSI_MODULE_PV="0.53-2"
+HTTP_NAXSI_MODULE_PV="0.54"
 HTTP_NAXSI_MODULE_P="ngx_http_naxsi-${HTTP_NAXSI_MODULE_PV}"
 HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_MODULE_PV}.tar.gz"
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
@@ -168,7 +168,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
 geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
 split_clients upstream_ip_hash userid uwsgi"
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip gzip_static
- image_filter mp4 perl random_index realip secure_link stub_status sub v2 xslt"
+image_filter mp4 perl random_index realip secure_link stub_status sub xslt"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_upload_progress
@@ -190,7 +190,7 @@ NGINX_MODULES_3RD="
 	http_mogilefs
 	http_memc"
 
-IUSE="aio debug +http +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools
+IUSE="aio debug +http http2 +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools
  rtmp selinux ssl threads userland_GNU vim-syntax"
 
 for mod in $NGINX_MODULES_STD; do
@@ -216,6 +216,10 @@ CDEPEND="
 		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl )
 	)
+	http2? (
+		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
+		libressl? ( dev-libs/libressl )
+	)
 	http-cache? ( 
 		userland_GNU? ( 
 			!libressl? ( dev-libs/openssl:0= )
@@ -234,10 +238,6 @@ CDEPEND="
 			!libressl? ( dev-libs/openssl:0= )
 			libressl? ( dev-libs/libressl )
 		)
-	)
-	nginx_modules_http_v2? (
-		!libressl? ( >=dev-libs/openssl-1.0.2d:0= )
-		libressl? ( dev-libs/libressl )
 	)
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_lua? ( !luajit? ( dev-lang/lua:0= ) luajit? ( dev-lang/luajit:2= ) )
@@ -316,12 +316,6 @@ src_prepare() {
 		sed -i -e 's/-llua5.1/-llua/' "${HTTP_LUA_MODULE_WD}/config" || die
 	fi
 
-	# Variable $server_protocol is empty on HTTP2: https://trac.nginx.org/nginx/ticket/800
-	# Will be released in 1.9.6
-	if use nginx_modules_http_v2; then
-		epatch "${FILESDIR}/server_protocol_empty".patch
-	fi
-
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):' || die
 	# We have config protection, don't rename etc files
 	sed -i 's:.default::' auto/install || die
@@ -358,11 +352,12 @@ src_configure() {
 
 	use aio		  && myconf+=( --with-file-aio )
 	use debug	  && myconf+=( --with-debug )
+	use http2     && myconf+=( --with-http_v2_module )
 	use ipv6	  && myconf+=( --with-ipv6 )
 	use libatomic && myconf+=( --with-libatomic )
 	use pcre	  && myconf+=( --with-pcre )
 	use pcre-jit  && myconf+=( --with-pcre-jit )
-	use perftools   && myconf+=( --with-google_perftools_module )
+	use perftools && myconf+=( --with-google_perftools_module )
 	use threads   && myconf+=( --with-threads )
 
 	# HTTP modules
@@ -484,7 +479,7 @@ src_configure() {
 				myconf+=( --add-module=${HTTP_MEMC_MODULE_WD} )
 		fi
 
-	if use http || use http-cache; then
+	if use http || use http-cache || use http2; then
 		http_enabled=1
 	fi
 
@@ -674,9 +669,14 @@ pkg_postinst() {
 		fi
 	fi
 
-	if use nginx_modules_http_lua && use nginx_modules_http_v2; then
+	if use nginx_modules_http_spdy; then
+		ewarn "In nginx 1.9.5 the spdy module was superseded by http2."
+		ewarn "Update your configs and package.use accordingly."
+	fi
+
+	if use nginx_modules_http_lua && use http2; then
 		ewarn "Lua 3rd party module author warns against using ${P} with"
-		ewarn "NGINX_MODULES_HTTP=\"lua v2\". For more info, see http://git.io/OldLsg"
+		ewarn "NGINX_MODULES_HTTP=\"lua http2\". For more info, see http://git.io/OldLsg"
 	fi
 
 	# This is the proper fix for bug #458726/#469094, resp. CVE-2013-0337 for
