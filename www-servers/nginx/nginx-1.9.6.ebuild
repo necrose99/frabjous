@@ -209,6 +209,9 @@ for mod in $NGINX_MODULES_3RD; do
 	IUSE="${IUSE} nginx_modules_${mod}"
 done
 
+# Add so we can warn users updating about config changes
+IUSE="${IUSE} nginx_modules_http_spdy"
+
 CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
