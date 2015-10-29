@@ -27,6 +27,9 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 
 ```
 
+## Tip Jar
+Bitcoin donations are welcome: **1L5CYEMhnSCe8LusB7r6TGtXurUBWjFXjA**
+
 ## Contributing
 Contributions are welcome. Fork and create a pull request. Bugs to versions in the main gentoo tree should always be filed in the [Gentoo Bugzilla](https://bugs.gentoo.org/).
 
