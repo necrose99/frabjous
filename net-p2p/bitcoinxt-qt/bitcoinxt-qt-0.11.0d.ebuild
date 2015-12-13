@@ -6,24 +6,27 @@ EAPI=5
 
 DB_VER="4.8"
 
-inherit db-use autotools eutils toolchain-funcs user systemd fdo-mime gnome2-utils kde4-functions qt4-r2
+inherit db-use autotools eutils toolchain-funcs user fdo-mime gnome2-utils kde4-functions qt4-r2
 
 DESCRIPTION="BitcoinXT crypto-currency GUI wallet"
-HOMEPAGE="https://bitcoinxt.software/"
-My_PV="${PV/\.0b/B}"
+HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
+My_PV="${PV/\.0d/}D"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="dbus +docs kde libressl ljr +logrotate +qrcode qt4 qt5 test +ssl upnp +wallet"
+IUSE="dbus +doc kde libressl ljr +logrotate +qrcode qt4 qt5 +ssl test upnp +wallet"
 REQUIRED_USE="${REQUIRED_USE} ^^ ( qt4 qt5 )"
 
 LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl vi vi_VN zh_HK zh_CN zh_TW"
 for X in ${LANGS} ; do
-    IUSE="${IUSE} linguas_${X}"
+	IUSE="${IUSE} linguas_${X}"
 done
 
+OPENSSL_DEPEND="
+	!libressl? ( dev-libs/openssl:0[-bindist] )
+	libressl? ( dev-libs/libressl )"
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
 RDEPEND="
@@ -33,15 +36,11 @@ RDEPEND="
 	)
 	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 dev-qt/qtnetwork:5 dev-qt/qtwidgets:5 dev-qt/linguist-tools:5 )
-	>=app-shells/bash-4.1
-	sys-apps/sed
+	app-shells/bash:0
 	dev-libs/boost[threads(+)]
 	dev-libs/glib:2
 	dev-libs/crypto++
-	ssl? (
-		!libressl? ( dev-libs/openssl:0[-bindist] )
-		libressl? ( dev-libs/libressl )
-	)
+	ssl? ( ${OPENSSL_DEPEND} )
 	logrotate? ( app-admin/logrotate )
 	wallet? ( ${WALLET_DEPEND} )
 	upnp? ( net-libs/miniupnpc )
@@ -69,7 +68,6 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}/9999-syslibs.patch"
-#	epatch "${FILESDIR}/9999-sys_libsecp256k1.patch"
 
 	local filt= yeslang= nolang=
 
@@ -96,7 +94,7 @@ src_prepare() {
 	sed "s/locale\/${filt}/bitcoin.qrc/" -i 'src/Makefile.qt.include'
 	einfo "Languages -- Enabled:$yeslang -- Disabled:$nolang"
 
-	cd ${S}
+	cd "${S}"
 	eautoreconf
 }
 
@@ -115,15 +113,15 @@ src_configure() {
 	fi
 	my_econf="${my_econf} --with-system-leveldb"
 	econf \
-		${my_econf}  \
-		$(use_with dbus qtdbus)  \
-		$(use_with qrcode qrencode)  \
-		$(use_with libressl) \
 		--disable-ccache \
 		--disable-static \
-		--without-libs    \
-		--without-utils    \
-		--without-daemon  \
+		--without-libs \
+		--without-utils \
+		--without-daemon \
+		${my_econf} \
+		$(use_with dbus qtdbus) \
+		$(use_with qrcode qrencode) \
+		$(use_with libressl) \
 		--with-gui=$(usex qt5 qt5 qt4)
 		"$@"
 }
@@ -158,10 +156,6 @@ src_install() {
 		fperms 400 "${my_data}/bitcoin.conf"
 	fi
 
-	#newconfd "${FILESDIR}/bitcoinxt.confd" ${PN}
-	#newinitd "${FILESDIR}/bitcoinxt.initd" ${PN}
-	#systemd_dounit "${FILESDIR}/bitcoinxtd.service"
-
 	keepdir "${my_data}"
 	fperms 700 "${my_topdir}"
 	fowners bitcoinxt:bitcoinxt "${my_topdir}"
@@ -171,13 +165,12 @@ src_install() {
 	newins "share/pixmaps/bitcoin.ico" "${PN}.ico"
 	make_desktop_entry "${PN} %u" "BitcoinXT-Qt" "/usr/share/pixmaps/${PN}.ico" "Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
 
-
 	if use kde; then
 		insinto /usr/share/kde4/services
 		doins contrib/debian/bitcoin-qt.protocol
 	fi
 
-	if use docs; then
+	if use doc; then
 		dodoc README.md
 		dodoc doc/release-notes.md
 		dodoc doc/assets-attribution.md doc/bips.md doc/tor.md

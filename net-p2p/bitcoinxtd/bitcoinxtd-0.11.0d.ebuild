@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -9,28 +9,26 @@ DB_VER="4.8"
 inherit db-use autotools eutils toolchain-funcs user systemd
 
 DESCRIPTION="BitcoinXT crypto-currency wallet for automated services"
-HOMEPAGE="https://bitcoinxt.software/"
-My_PV="${PV/\.0b/B}"
+HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
+My_PV="${PV/\.0d/}D"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="+docs libressl +logrotate +ssl +upnp +wallet"
+IUSE="+doc libressl +logrotate +ssl +upnp +wallet"
 
-OPENSSL_DEPEND="dev-libs/openssl:0[-bindist]"
+OPENSSL_DEPEND="
+	!libressl? ( dev-libs/openssl:0[-bindist] )
+	libressl? ( dev-libs/libressl )"
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
 RDEPEND="
-	>=app-shells/bash-4.1
-	sys-apps/sed
+	app-shells/bash:0
 	dev-libs/boost[threads(+)]
 	dev-libs/glib:2
 	dev-libs/crypto++
-	ssl? (
-		!libressl? ( ${OPENSSL_DEPEND} )
-		libressl? ( dev-libs/libressl )
-	)
+	ssl? ( ${OPENSSL_DEPEND} )
 	logrotate? ( app-admin/logrotate )
 	wallet? ( ${WALLET_DEPEND} )
 	upnp? ( net-libs/miniupnpc )
@@ -67,14 +65,14 @@ src_configure() {
 	fi
 	my_econf="${my_econf} --with-system-leveldb"
 	econf \
-		${my_econf} \
-		$(use_with libressl) \
 		--disable-ccache \
 		--disable-static \
 		--without-libs \
 		--without-utils \
 		--with-daemon \
 		--without-gui \
+		${my_econf} \
+		$(use_with libressl) \
 		"$@"
 }
 
@@ -102,8 +100,8 @@ src_install() {
 	if [ -f "${ROOT}${my_data}/bitcoin.conf" ]; then
 		elog "${EROOT}${my_data}/bitcoin.conf already installed - not overwriting it"
 	else
+		doins "${FILESDIR}/bitcoin.conf"
 		elog "default ${EROOT}${my_data}/bitcoin.conf installed - you will need to edit it"
-		newins "${FILESDIR}/bitcoin.conf" bitcoin.conf
 		fowners bitcoinxt:bitcoinxt "${my_data}/bitcoin.conf"
 		fperms 400 "${my_data}/bitcoin.conf"
 	fi
@@ -117,7 +115,7 @@ src_install() {
 	fowners bitcoinxt:bitcoinxt "${my_topdir}"
 	fowners bitcoinxt:bitcoinxt "${my_data}"
 
-	if use docs; then
+	if use doc; then
 		dodoc README.md
 		dodoc doc/release-notes.md
 	fi
