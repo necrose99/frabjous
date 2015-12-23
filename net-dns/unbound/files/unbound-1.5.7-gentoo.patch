@@ -1,0 +1,11 @@
+--- unbound-1.5.7.orig/doc/example.conf.in	2015-12-10 16:59:18.000000000 +0900
++++ unbound-1.5.7/doc/example.conf.in	2015-12-23 17:15:24.702492429 +0900
+@@ -367,7 +367,7 @@
+ 	# you start unbound (i.e. in the system boot scripts).  And enable:
+ 	# Please note usage of unbound-anchor root anchor is at your own risk
+ 	# and under the terms of our LICENSE (see that file in the source).
+-	# auto-trust-anchor-file: "@UNBOUND_ROOTKEY_FILE@"
++	# auto-trust-anchor-file: ""
+ 
+ 	# File with DLV trusted keys. Same format as trust-anchor-file.
+ 	# There can be only one DLV configured, it is trusted from root down.

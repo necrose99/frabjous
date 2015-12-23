@@ -66,7 +66,7 @@ src_prepare() {
 	# 'auto-trust-anchor-file'.
 	# [23109:0] error: Could not open autotrust file for writing,
 	# /etc/dnssec/root-anchors.txt: Permission denied
-	epatch "${FILESDIR}"/${PN}-1.4.12-gentoo.patch
+	epatch "${FILESDIR}"/${PN}-1.5.7-gentoo.patch
 
 	# required for the python part
 	multilib_copy_sources
