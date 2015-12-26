@@ -26,6 +26,9 @@ DEPEND="${RDEPEND}
 S=${WORKDIR}/${PN}-${P}
 
 src_prepare() {
+	# Libressl
+	epatch "${FILESDIR}"/${P}-libressl.patch
+
 	sed -i -e "s#^LUAPATH.*#LUAPATH=$(pkg-config --variable INSTALL_LMOD lua)#"\
 		-e "s#^LUACPATH.*#LUACPATH=$(pkg-config --variable INSTALL_CMOD lua)#" Makefile || die
 	sed -i -e "s/-O2//" src/Makefile || die
