@@ -216,14 +216,6 @@ CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
 	ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl )
-	)
-	http2? (
-		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
-		libressl? ( dev-libs/libressl )
-	)
-	http-cache? (
 		userland_GNU? (
 			!libressl? ( dev-libs/openssl:0= )
 			libressl? ( dev-libs/libressl )
@@ -236,12 +228,6 @@ CDEPEND="
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
-	nginx_modules_http_secure_link? (
-		userland_GNU? (
-			!libressl? ( dev-libs/openssl:0= )
-			libressl? ( dev-libs/libressl )
-		)
-	)
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_lua? ( !luajit? ( dev-lang/lua:0= ) luajit? ( dev-lang/luajit:2= ) )
 	nginx_modules_http_auth_pam? ( virtual/pam )
@@ -257,11 +243,14 @@ DEPEND="${CDEPEND}
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
-REQUIRED_USE="pcre-jit? ( pcre )
+REQUIRED_USE="http-cache? ( ssl )
+	http2? ( ssl )
+	pcre-jit? ( pcre )
 	nginx_modules_http_lua? ( nginx_modules_http_rewrite )
 	nginx_modules_http_naxsi? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
+	nginx_modules_http_secure_link? ( ssl )
 	nginx_modules_http_security? ( pcre )
 	nginx_modules_http_push_stream? ( ssl )"
 
