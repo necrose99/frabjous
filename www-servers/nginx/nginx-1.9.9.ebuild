@@ -223,8 +223,8 @@ CDEPEND="
 		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
 		libressl? ( dev-libs/libressl )
 	)
-	http-cache? ( 
-		userland_GNU? ( 
+	http-cache? (
+		userland_GNU? (
 			!libressl? ( dev-libs/openssl:0= )
 			libressl? ( dev-libs/libressl )
 		)
