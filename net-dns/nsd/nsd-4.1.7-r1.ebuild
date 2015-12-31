@@ -37,6 +37,9 @@ DEPEND="
 "
 
 src_prepare() {
+	# Fix for LibreSSL >= 2.3.0
+	epatch "${FILESDIR}"/${PN}-4.1.7-no-ssl2_3.patch
+
 	# Fix the paths in the munin plugin to match our install
 	epatch "${FILESDIR}"/nsd_munin_.patch
 }
