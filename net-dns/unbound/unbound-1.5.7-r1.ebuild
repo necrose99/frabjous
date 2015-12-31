@@ -62,6 +62,9 @@ pkg_setup() {
 }
 
 src_prepare() {
+	# Fix for LibreSSL >= 2.3.0
+	epatch "${FILESDIR}"/${PN}-1.5.7-no-ssl2_3.patch
+
 	# To avoid below error messages, set 'trust-anchor-file' to same value in
 	# 'auto-trust-anchor-file'.
 	# [23109:0] error: Could not open autotrust file for writing,
