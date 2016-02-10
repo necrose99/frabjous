@@ -27,10 +27,7 @@ http {
 	large_client_header_buffers 4 2k;
 	request_pool_size 4k;
 
-	gzip on;
-	gzip_min_length 1100;
-	gzip_buffers 4 8k;
-	gzip_types text/plain;
+	gzip off;
 
 	output_buffers 1 32k;
 	postpone_output 1460;

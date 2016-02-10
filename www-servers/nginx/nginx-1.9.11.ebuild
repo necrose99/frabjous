@@ -30,7 +30,7 @@ HTTP_UPLOAD_PROGRESS_MODULE_URI="https://github.com/masterzen/nginx-upload-progr
 HTTP_UPLOAD_PROGRESS_MODULE_WD="${WORKDIR}/nginx-upload-progress-module-${HTTP_UPLOAD_PROGRESS_MODULE_PV}"
 
 # http_headers_more (https://github.com/agentzh/headers-more-nginx-module, BSD license)
-HTTP_HEADERS_MORE_MODULE_PV="0.261"
+HTTP_HEADERS_MORE_MODULE_PV="0.29"
 HTTP_HEADERS_MORE_MODULE_P="ngx_http_headers_more-${HTTP_HEADERS_MORE_MODULE_PV}"
 HTTP_HEADERS_MORE_MODULE_URI="https://github.com/agentzh/headers-more-nginx-module/archive/v${HTTP_HEADERS_MORE_MODULE_PV}.tar.gz"
 HTTP_HEADERS_MORE_MODULE_WD="${WORKDIR}/headers-more-nginx-module-${HTTP_HEADERS_MORE_MODULE_PV}"
@@ -120,10 +120,10 @@ HTTP_STICKY_MODULE_P="nginx_http_sticky_module_ng-${HTTP_STICKY_MODULE_PV}"
 HTTP_STICKY_MODULE_URI="https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/${HTTP_STICKY_MODULE_PV}.tar.bz2"
 HTTP_STICKY_MODULE_WD="${WORKDIR}/nginx-goodies-nginx-sticky-module-ng-c78b7dd79d0d"
 
-# mogilefs-module (http://www.grid.net.ru/nginx/mogilefs.en.html, BSD-2)
+# mogilefs-module (https://github.com/vkholodkov/nginx-mogilefs-module, BSD-2)
 HTTP_MOGILEFS_MODULE_PV="1.0.4"
 HTTP_MOGILEFS_MODULE_P="ngx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}"
-HTTP_MOGILEFS_MODULE_URI="http://www.grid.net.ru/nginx/download/nginx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}.tar.gz"
+HTTP_MOGILEFS_MODULE_URI="https://github.com/vkholodkov/nginx-mogilefs-module/archive/${HTTP_MOGILEFS_MODULE_PV}.tar.gz"
 HTTP_MOGILEFS_MODULE_WD="${WORKDIR}/nginx_mogilefs_module-${HTTP_MOGILEFS_MODULE_PV}"
 
 # memc-module (https://github.com/openresty/memc-nginx-module, BSD-2)
@@ -131,6 +131,12 @@ HTTP_MEMC_MODULE_PV="0.16"
 HTTP_MEMC_MODULE_P="ngx_memc_module-${HTTP_MEMC_MODULE_PV}"
 HTTP_MEMC_MODULE_URI="https://github.com/openresty/memc-nginx-module/archive/v${HTTP_MEMC_MODULE_PV}.tar.gz"
 HTTP_MEMC_MODULE_WD="${WORKDIR}/memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
+
+# nginx-ldap-auth-module (https://github.com/kvspb/nginx-auth-ldap, BSD-2)
+HTTP_LDAP_MODULE_PV="d0f2f829f708792ee97a9241c9c6ffd33c47c7c1"
+HTTP_LDAP_MODULE_P="nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
+HTTP_LDAP_MODULE_URI="https://github.com/kvspb/nginx-auth-ldap/archive/${HTTP_LDAP_MODULE_PV}.tar.gz"
+HTTP_LDAP_MODULE_WD="${WORKDIR}/nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 
 inherit eutils ssl-cert toolchain-funcs perl-module flag-o-matic user systemd versionator multilib
 
@@ -155,7 +161,8 @@ SRC_URI="http://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_push_stream? ( ${HTTP_PUSH_STREAM_MODULE_URI} -> ${HTTP_PUSH_STREAM_MODULE_P}.tar.gz )
 	nginx_modules_http_sticky? ( ${HTTP_STICKY_MODULE_URI} -> ${HTTP_STICKY_MODULE_P}.tar.bz2 )
 	nginx_modules_http_mogilefs? ( ${HTTP_MOGILEFS_MODULE_URI} -> ${HTTP_MOGILEFS_MODULE_P}.tar.gz )
-	nginx_modules_http_memc? ( ${HTTP_MEMC_MODULE_URI} -> ${HTTP_MEMC_MODULE_P}.tar.gz )"
+	nginx_modules_http_memc? ( ${HTTP_MEMC_MODULE_URI} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
+	nginx_modules_http_auth_ldap? ( ${HTTP_LDAP_MODULE_URI} -> ${HTTP_LDAP_MODULE_P}.tar.gz )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -164,11 +171,13 @@ LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 SLOT="mainline"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
 
-NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif fastcgi
-geo gzip limit_req limit_conn map memcached proxy referer rewrite scgi ssi
-split_clients upstream_ip_hash userid uwsgi"
-NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip gzip_static
-image_filter mp4 perl random_index realip secure_link stub_status sub xslt"
+NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
+	fastcgi geo gzip limit_req limit_conn map memcached proxy referer
+	rewrite scgi ssi split_clients upstream_ip_hash userid uwsgi"
+NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
+	gzip_static image_filter mp4 perl random_index realip secure_link
+	slice stub_status sub xslt"
+NGINX_MODULES_STREAM="access limit_conn upstream"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_upload_progress
@@ -188,9 +197,10 @@ NGINX_MODULES_3RD="
 	http_sticky
 	http_ajp
 	http_mogilefs
-	http_memc"
+	http_memc
+	http_auth_ldap"
 
-IUSE="aio debug +http http2 +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools
+IUSE="aio debug +http +http2 +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools
  rtmp selinux ssl threads userland_GNU vim-syntax"
 
 for mod in $NGINX_MODULES_STD; do
@@ -199,6 +209,10 @@ done
 
 for mod in $NGINX_MODULES_OPT; do
 	IUSE="${IUSE} nginx_modules_http_${mod}"
+done
+
+for mod in $NGINX_MODULES_STREAM; do
+	IUSE="${IUSE} nginx_modules_stream_${mod}"
 done
 
 for mod in $NGINX_MODULES_MAIL; do
@@ -210,15 +224,24 @@ for mod in $NGINX_MODULES_3RD; do
 done
 
 # Add so we can warn users updating about config changes
+# @TODO: jbergstroem: remove on next release series
 IUSE="${IUSE} nginx_modules_http_spdy"
 
 CDEPEND="
 	pcre? ( >=dev-libs/libpcre-4.2 )
 	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
 	ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:= )
+	)
+	http2? (
+		!libressl? ( >=dev-libs/openssl-1.0.1c:0= )
+		libressl? ( dev-libs/libressl:= )
+	)
+	http-cache? (
 		userland_GNU? (
 			!libressl? ( dev-libs/openssl:0= )
-			libressl? ( dev-libs/libressl )
+			libressl? ( dev-libs/libressl:= )
 		)
 	)
 	nginx_modules_http_geoip? ( dev-libs/geoip )
@@ -228,12 +251,19 @@ CDEPEND="
 	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
 	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
 	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
+	nginx_modules_http_secure_link? (
+		userland_GNU? (
+			!libressl? ( dev-libs/openssl:0= )
+			libressl? ( dev-libs/libressl:= )
+		)
+	)
 	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
 	nginx_modules_http_lua? ( !luajit? ( dev-lang/lua:0= ) luajit? ( dev-lang/luajit:2= ) )
 	nginx_modules_http_auth_pam? ( virtual/pam )
 	nginx_modules_http_metrics? ( dev-libs/yajl )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
 	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
+	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	perftools? ( dev-util/google-perftools )"
 RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-nginx )
@@ -243,14 +273,11 @@ DEPEND="${CDEPEND}
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
-REQUIRED_USE="http-cache? ( ssl )
-	http2? ( ssl )
-	pcre-jit? ( pcre )
+REQUIRED_USE="pcre-jit? ( pcre )
 	nginx_modules_http_lua? ( nginx_modules_http_rewrite )
 	nginx_modules_http_naxsi? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
-	nginx_modules_http_secure_link? ( ssl )
 	nginx_modules_http_security? ( pcre )
 	nginx_modules_http_push_stream? ( ssl )"
 
@@ -340,14 +367,14 @@ src_configure() {
 
 	cd "${S}"
 
-	local myconf=() http_enabled= mail_enabled=
+	local myconf=() http_enabled= mail_enabled= stream_enabled=
 
-	use aio		  && myconf+=( --with-file-aio )
-	use debug	  && myconf+=( --with-debug )
+	use aio       && myconf+=( --with-file-aio )
+	use debug     && myconf+=( --with-debug )
 	use http2     && myconf+=( --with-http_v2_module )
-	use ipv6	  && myconf+=( --with-ipv6 )
+	use ipv6      && myconf+=( --with-ipv6 )
 	use libatomic && myconf+=( --with-libatomic )
-	use pcre	  && myconf+=( --with-pcre )
+	use pcre      && myconf+=( --with-pcre )
 	use pcre-jit  && myconf+=( --with-pcre-jit )
 	use perftools && myconf+=( --with-google_perftools_module )
 	use threads   && myconf+=( --with-threads )
@@ -466,10 +493,15 @@ src_configure() {
 		myconf+=( --add-module=${HTTP_MOGILEFS_MODULE_WD} )
 	fi
 
-		if use nginx_modules_http_memc ; then
-				http_enabled=1
-				myconf+=( --add-module=${HTTP_MEMC_MODULE_WD} )
-		fi
+	if use nginx_modules_http_memc ; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_MEMC_MODULE_WD} )
+	fi
+
+	if use nginx_modules_http_auth_ldap; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_LDAP_MODULE_WD} )
+	fi
 
 	if use http || use http-cache || use http2; then
 		http_enabled=1
@@ -480,6 +512,27 @@ src_configure() {
 		use ssl && myconf+=( --with-http_ssl_module )
 	else
 		myconf+=( --without-http --without-http-cache )
+	fi
+
+	# Stream modules
+	for mod in $NGINX_MODULES_STREAM; do
+		if use nginx_modules_stream_${mod}; then
+			stream_enabled=1
+		else
+			# Treat stream upstream slightly differently
+			if ! use nginx_modules_stream_upstream; then
+				myconf+=( --without-stream_upstream_hash_module )
+				myconf+=( --without-stream_upstream_least_conn_module )
+				myconf+=( --without-stream_upstream_zone_module )
+			else
+				myconf+=( --without-stream_${stream}_module )
+			fi
+		fi
+	done
+
+	if [ $stream_enabled ]; then
+		myconf+=( --with-stream )
+		use ssl && myconf+=( --with-stream_ssl_module )
 	fi
 
 	# MAIL modules
@@ -542,7 +595,7 @@ src_compile() {
 src_install() {
 	emake DESTDIR="${D%/}" install
 
-	cp "${FILESDIR}"/nginx.conf "${ED}"etc/nginx/nginx.conf || die
+	cp "${FILESDIR}"/nginx.conf-r2 "${ED}"etc/nginx/nginx.conf || die
 
 	newinitd "${FILESDIR}"/nginx.initd-r2 nginx
 
@@ -650,6 +703,11 @@ src_install() {
 	if use nginx_modules_http_memc; then
 		docinto ${HTTP_MEMC_MODULE_P}
 		dodoc "${HTTP_MEMC_MODULE_WD}"/README.markdown
+	fi
+
+	if use nginx_modules_http_auth_ldap; then
+		docinto ${HTTP_LDAP_MODULE_P}
+		dodoc "${HTTP_LDAP_MODULE_WD}"/example.conf
 	fi
 }
 
