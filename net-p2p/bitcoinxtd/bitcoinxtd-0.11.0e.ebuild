@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -10,17 +10,14 @@ inherit db-use autotools eutils toolchain-funcs user systemd
 
 DESCRIPTION="BitcoinXT crypto-currency wallet for automated services"
 HOMEPAGE="https://github/bitcoinxt/bitcoinxt"
-My_PV="${PV/\.0d/}D"
+My_PV="${PV/\.0e/}E"
 SRC_URI="https://github.com/bitcoinxt/bitcoinxt/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="+doc libressl +logrotate +ssl +upnp +wallet"
+IUSE="+doc libressl +logrotate system-libsecp256k1 upnp +wallet"
 
-OPENSSL_DEPEND="
-	!libressl? ( dev-libs/openssl:0[-bindist] )
-	libressl? ( dev-libs/libressl )"
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
 RDEPEND="
@@ -28,8 +25,10 @@ RDEPEND="
 	dev-libs/boost[threads(+)]
 	dev-libs/glib:2
 	dev-libs/crypto++
-	ssl? ( ${OPENSSL_DEPEND} )
+	!libressl? ( dev-libs/openssl:0[-bindist] )
+	libressl? ( dev-libs/libressl )
 	logrotate? ( app-admin/logrotate )
+	system-libsecp256k1? ( =dev-libs/libsecp256k1-0.0.0_pre20150423 )
 	wallet? ( ${WALLET_DEPEND} )
 	upnp? ( net-libs/miniupnpc )
 	virtual/bitcoin-leveldb
@@ -73,6 +72,7 @@ src_configure() {
 		--without-gui \
 		${my_econf} \
 		$(use_with libressl) \
+		$(use_with system-libsecp256k1) \
 		"$@"
 }
 
@@ -82,7 +82,6 @@ src_compile() {
 	OPTS+=("CXXFLAGS=${CXXFLAGS} -I$(db_includedir "${DB_VER}")")
 	OPTS+=("LDFLAGS=${LDFLAGS} -ldb_cxx-${DB_VER}")
 
-	use ssl  && OPTS+=(USE_SSL=1)
 	use upnp && OPTS+=(USE_UPNP=1)
 
 	cd src || die
