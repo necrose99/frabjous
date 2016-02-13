@@ -34,7 +34,7 @@ RDEPEND="
 	qt4? ( dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 dev-qt/qtnetwork:5 dev-qt/qtwidgets:5 dev-qt/linguist-tools:5 )
 	app-shells/bash:0
-	dev-libs/boost[threads(+)]
+	dev-libs/boost:0[threads(+)]
 	dev-libs/glib:2
 	dev-libs/crypto++
 	!libressl? ( dev-libs/openssl:0[-bindist] )

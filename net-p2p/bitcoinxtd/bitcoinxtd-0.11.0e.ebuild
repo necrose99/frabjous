@@ -22,7 +22,7 @@ WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]
 
 RDEPEND="
 	app-shells/bash:0
-	dev-libs/boost[threads(+)]
+	dev-libs/boost:0[threads(+)]
 	dev-libs/glib:2
 	dev-libs/crypto++
 	!libressl? ( dev-libs/openssl:0[-bindist] )

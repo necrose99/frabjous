@@ -200,8 +200,7 @@ NGINX_MODULES_3RD="
 	http_memc
 	http_auth_ldap"
 
-IUSE="aio debug +http +http2 +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools
- rtmp selinux ssl threads userland_GNU vim-syntax"
+IUSE="aio debug +http +http2 +http-cache ipv6 libatomic libressl luajit +pcre pcre-jit perftools rtmp selinux ssl threads userland_GNU vim-syntax"
 
 for mod in $NGINX_MODULES_STD; do
 	IUSE="${IUSE} +nginx_modules_http_${mod}"
