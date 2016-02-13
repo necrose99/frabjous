@@ -23,6 +23,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── ldns
     │   └── wslay
     ├── net-p2p
+    │   ├── bitcoinclassicd
+    │   ├── bitcoinclassic-qt
     │   ├── bitcoinxtd
     │   └── bitcoinxt-qt
     ├── sys-auth
