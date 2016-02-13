@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -26,9 +26,6 @@ DEPEND="${RDEPEND}"
 DOCS="AUTHORS NEWS README samples/*"
 
 src_prepare() {
-	# Fix for LibreSSL >= 2.3.0
-	epatch "${FILESDIR}"/${P}-no-ssl3.patch
-
 	sed -i -e "/^PREFIX/s:/usr/local:${EPREFIX}/usr:" \
 		-e "/^MANDIR/s:man:share/man:" \
 		-e "/^CFLAGS/s:CFLAGS =:CFLAGS +=:" \
