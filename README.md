@@ -12,8 +12,6 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 ## Repository tree
 ```
     .
-    ├── app-misc
-    │   └── c_rehash
     ├── dev-lua
     │   └── luasec
     ├── mail-filter
