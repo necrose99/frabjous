@@ -5,13 +5,14 @@
 EAPI=5
 
 DB_VER="4.8"
+COMMITHASH="8d25555d5a94d8e98c84555d79babbd07ee1177a"
 
 inherit db-use autotools eutils toolchain-funcs fdo-mime gnome2-utils kde4-functions qt4-r2
 
 DESCRIPTION="Bitcoin Classic crypto-currency GUI wallet"
 HOMEPAGE="https://github/bitcoinclassic/bitcoinclassic"
 My_PV="${PV}.cl1"
-SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz https://github.com/zander/bitcoinclassic/raw/${COMMITHASH}/src/qt/res/icons/bitcoin-systray.png https://github.com/zander/bitcoinclassic/raw/${COMMITHASH}/src/qt/res/icons/bitcoin.png"
 
 LICENSE="MIT"
 SLOT="0"
@@ -55,10 +56,12 @@ S="${WORKDIR}/bitcoinclassic-${My_PV}"
 
 src_prepare() {
 	epatch "${FILESDIR}/9999-syslibs.patch"
+	
+	# Import new splash screen and systray-icon
+	# https://github.com/bitcoinclassic/bitcoinclassic/pull/41
 	epatch "${FILESDIR}/new-copyright-year.patch"
 	epatch "${FILESDIR}/new-splash-screen-and-systray-icon.patch"
-
-	cp "${FILESDIR}"/{bitcoin-systray,bitcoin}.png src/qt/res/icons
+	cp "${DISTDIR}"/{bitcoin-systray,bitcoin}.png src/qt/res/icons || die
 
 	local filt= yeslang= nolang= lan ts x
 
