@@ -10,7 +10,7 @@ COMMITHASH="8d25555d5a94d8e98c84555d79babbd07ee1177a"
 inherit db-use autotools eutils toolchain-funcs fdo-mime gnome2-utils kde4-functions qt4-r2
 
 DESCRIPTION="Bitcoin Classic crypto-currency GUI wallet"
-HOMEPAGE="https://github/bitcoinclassic/bitcoinclassic"
+HOMEPAGE="https://github.com/bitcoinclassic/bitcoinclassic"
 My_PV="${PV}.cl1"
 SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz https://github.com/zander/bitcoinclassic/raw/${COMMITHASH}/src/qt/res/icons/bitcoin-systray.png https://github.com/zander/bitcoinclassic/raw/${COMMITHASH}/src/qt/res/icons/bitcoin.png"
 
