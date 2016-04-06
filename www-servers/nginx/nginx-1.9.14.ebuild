@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 # Maintainer notes:
 # - http_rewrite-independent pcre-support makes sense for matching locations without an actual rewrite
@@ -54,7 +54,7 @@ HTTP_FANCYINDEX_MODULE_URI="https://github.com/aperezdc/ngx-fancyindex/archive/v
 HTTP_FANCYINDEX_MODULE_WD="${WORKDIR}/ngx-fancyindex-${HTTP_FANCYINDEX_MODULE_PV}"
 
 # http_lua (https://github.com/openresty/lua-nginx-module, BSD license)
-HTTP_LUA_MODULE_PV="0.10.0"
+HTTP_LUA_MODULE_PV="0.10.2"
 HTTP_LUA_MODULE_P="ngx_http_lua-${HTTP_LUA_MODULE_PV}"
 HTTP_LUA_MODULE_URI="https://github.com/openresty/lua-nginx-module/archive/v${HTTP_LUA_MODULE_PV}.tar.gz"
 HTTP_LUA_MODULE_WD="${WORKDIR}/lua-nginx-module-${HTTP_LUA_MODULE_PV}"
@@ -103,7 +103,7 @@ HTTP_ECHO_MODULE_WD="${WORKDIR}/echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 
 # mod_security for nginx (https://modsecurity.org/, Apache-2.0)
 # keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PV="2.9.0"
+HTTP_SECURITY_MODULE_PV="2.9.1"
 HTTP_SECURITY_MODULE_P="modsecurity-${HTTP_SECURITY_MODULE_PV}"
 HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -133,12 +133,15 @@ HTTP_MEMC_MODULE_URI="https://github.com/openresty/memc-nginx-module/archive/v${
 HTTP_MEMC_MODULE_WD="${WORKDIR}/memc-nginx-module-${HTTP_MEMC_MODULE_PV}"
 
 # nginx-ldap-auth-module (https://github.com/kvspb/nginx-auth-ldap, BSD-2)
-HTTP_LDAP_MODULE_PV="d0f2f829f708792ee97a9241c9c6ffd33c47c7c1"
+HTTP_LDAP_MODULE_PV="8517bb05ecc896b54429ca5e95137b0a386bd41a"
 HTTP_LDAP_MODULE_P="nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 HTTP_LDAP_MODULE_URI="https://github.com/kvspb/nginx-auth-ldap/archive/${HTTP_LDAP_MODULE_PV}.tar.gz"
 HTTP_LDAP_MODULE_WD="${WORKDIR}/nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 
-inherit eutils ssl-cert toolchain-funcs perl-module flag-o-matic user systemd versionator multilib
+# We handle deps below ourselves
+SSL_DEPS_SKIP=1
+
+inherit ssl-cert toolchain-funcs perl-module flag-o-matic user systemd versionator multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="http://nginx.org"
@@ -322,12 +325,10 @@ pkg_setup() {
 }
 
 src_prepare() {
-	epatch_user
-
-	epatch "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
+	eapply "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
 
 	if use nginx_modules_http_upstream_check; then
-		epatch "${FILESDIR}/check-1.9.2".patch
+		eapply -p0 "${FILESDIR}/check-1.9.2".patch
 	fi
 
 	if use nginx_modules_http_lua; then
@@ -347,6 +348,8 @@ src_prepare() {
 			sed -i -e "/${module}/d" auto/install || die
 		fi
 	done
+
+	eapply_user
 }
 
 src_configure() {
