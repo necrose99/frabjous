@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -21,13 +21,11 @@ KEYWORDS="~amd64 ~x86"
 IUSE="bind8-stats ipv6 libevent libressl minimal-responses mmap munin +nsec3 ratelimit root-server runtime-checks ssl"
 
 RDEPEND="
-	!libressl? ( dev-libs/openssl:* )
-	libressl? ( dev-libs/libressl )
 	virtual/yacc
 	libevent? ( dev-libs/libevent )
 	ssl? (
-		!libressl? ( dev-libs/openssl:* )
-		libressl? ( dev-libs/libressl )
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:= )
 	)
 	munin? ( net-analyzer/munin )
 "
@@ -46,6 +44,8 @@ src_prepare() {
 
 src_configure() {
 	econf \
+		--enable-pie \
+		--enable-relro-now \
 		--enable-largefile \
 		--with-logfile="${EPREFIX}"/var/log/nsd.log \
 		--with-pidfile="${EPREFIX}"/run/nsd/nsd.pid \
@@ -86,7 +86,7 @@ src_install() {
 
 	# remove the /run directory that usually resides on tmpfs and is
 	# being taken care of by the nsd init script anyway (checkpath)
-	rm -rf "${D}"/run || die "Failed to remove /run"
+	rm -rf "${ED}"/run || die "Failed to remove /run"
 }
 
 pkg_postinst() {
