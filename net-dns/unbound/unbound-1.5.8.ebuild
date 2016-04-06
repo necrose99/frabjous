@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -26,7 +26,7 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 CDEPEND=">=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
 	>=dev-libs/libevent-2.0.21[${MULTILIB_USEDEP}]
 	!libressl? ( >=dev-libs/openssl-1.0.1h-r2:0[${MULTILIB_USEDEP}] )
-	libressl? ( dev-libs/libressl )
+	libressl? ( >=dev-libs/libressl-2.2.4:0[${MULTILIB_USEDEP}] )
 	dnstap? (
 		dev-libs/fstrm[${MULTILIB_USEDEP}]
 		>=dev-libs/protobuf-c-1.0.2-r1[${MULTILIB_USEDEP}]
@@ -68,7 +68,7 @@ src_prepare() {
 	# 'auto-trust-anchor-file'.
 	# [23109:0] error: Could not open autotrust file for writing,
 	# /etc/dnssec/root-anchors.txt: Permission denied
-	epatch "${FILESDIR}"/${PN}-1.5.7-gentoo.patch
+	epatch "${FILESDIR}"/${PN}-1.5.7-trust-anchor-file.patch
 
 	# required for the python part
 	multilib_copy_sources
