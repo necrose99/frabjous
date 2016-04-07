@@ -56,7 +56,7 @@ S="${WORKDIR}/bitcoinclassic-${My_PV}"
 
 src_prepare() {
 	epatch "${FILESDIR}/9999-syslibs.patch"
-	
+
 	# Import new splash screen and systray-icon
 	# https://github.com/bitcoinclassic/bitcoinclassic/pull/41
 	epatch "${FILESDIR}/new-copyright-year.patch"
