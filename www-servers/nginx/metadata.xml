@@ -17,6 +17,7 @@
     </flag>
     <flag name="nginx_modules_http_auth_pam">Use PAM for simple http authentication</flag>
     <flag name="nginx_modules_http_auth_request">Implements client authorization based on the result of a subrequest</flag>
+    <flag name="nginx_modules_http_brotli">Enable support for Brotli compression; the filter module depends on libbrotli</flag>
     <flag name="nginx_modules_http_cache_purge">Adds ability to purge content from FastCGI, proxy, SCGI and uWSGI caches</flag>
     <flag name="nginx_modules_http_dav_ext">NGINX WebDAV missing commands support</flag>
     <flag name="nginx_modules_http_echo">Enable support for "echo", "sleep" and more shell-style goodies to Nginx config file</flag>
