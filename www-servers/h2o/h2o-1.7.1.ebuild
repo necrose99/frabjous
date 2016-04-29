@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -20,10 +20,10 @@ DEPEND="
 	dev-libs/libyaml
 	>=dev-libs/libuv-1.0.0
 	libressl? ( dev-libs/libressl )
-		mruby? (
-			sys-devel/bison
-			dev-lang/ruby:2.0
-		)
+	mruby? (
+		sys-devel/bison
+		dev-lang/ruby:2.0
+	)
 	websocket? ( net-libs/wslay )"
 
 RDEPEND="dev-libs/libyaml
