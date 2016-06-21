@@ -10,13 +10,13 @@ inherit db-use autotools eutils toolchain-funcs user systemd
 
 DESCRIPTION="Bitcoin Classic crypto-currency wallet for automated services"
 HOMEPAGE="https://github.com/bitcoinclassic/bitcoinclassic"
-My_PV="${PV}.cl1"
+My_PV="${PV}cl1"
 SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="+doc libressl +logrotate system-libsecp256k1 upnp +wallet"
+IUSE="+doc examples libressl +logrotate system-libsecp256k1 system-univalue test upnp +wallet zeromq"
 
 WALLET_DEPEND="media-gfx/qrencode sys-libs/db:$(db_ver_to_slot "${DB_VER}")[cxx]"
 
@@ -28,24 +28,28 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0[-bindist] )
 	libressl? ( dev-libs/libressl )
 	logrotate? ( app-admin/logrotate )
-	system-libsecp256k1? ( =dev-libs/libsecp256k1-0.0.0_pre20150423 )
-	wallet? ( ${WALLET_DEPEND} )
-	upnp? ( net-libs/miniupnpc )
+	system-libsecp256k1? ( =dev-libs/libsecp256k1-0.0.0_pre20151118[recovery] )
+	system-univalue? ( dev-libs/univalue )
 	virtual/bitcoin-leveldb
+	upnp? ( net-libs/miniupnpc )
+	wallet? ( ${WALLET_DEPEND} )
+	zeromq? ( net-libs/zeromq )
 "
 
 DEPEND="${RDEPEND}"
 
+REQUIRED_USE="system-libsecp256k1? ( system-univalue )"
+
 S="${WORKDIR}/bitcoinclassic-${My_PV}"
 
 pkg_setup() {
-	local UG='bitcoinclassic'
+	local UG='bitcoin'
 	enewgroup "${UG}"
-	enewuser "${UG}" -1 -1 /var/lib/bitcoinclassic "${UG}"
+	enewuser "${UG}" -1 -1 /var/lib/bitcoind "${UG}"
 }
 
 src_prepare() {
-	epatch "${FILESDIR}/9999-syslibs.patch"
+	epatch "${FILESDIR}/${PV}-syslibs.patch"
 	eautoreconf
 }
 
@@ -57,22 +61,32 @@ src_configure() {
 	else
 		my_econf="${my_econf} --without-miniupnpc --disable-upnp-default"
 	fi
+	if use test; then
+		my_econf="${my_econf} --enable-tests"
+	else
+		my_econf="${my_econf} --disable-tests"
+	fi
 	if use wallet; then
 		my_econf="${my_econf} --enable-wallet"
 	else
 		my_econf="${my_econf} --disable-wallet"
 	fi
+	if use !zeromq; then
+		my_econf="${my_econf} --disable-zmq"
+	fi
 	my_econf="${my_econf} --with-system-leveldb"
 	econf \
+		--disable-bench \
 		--disable-ccache \
 		--disable-static \
+		--disable-util-cli \
+		--disable-util-tx \
 		--without-libs \
-		--without-utils \
 		--with-daemon \
 		--without-gui \
 		${my_econf} \
-		$(use_with libressl) \
 		$(use_with system-libsecp256k1) \
+		$(use_with system-univalue) \
 		"$@"
 }
 
@@ -90,37 +104,39 @@ src_compile() {
 }
 
 src_install() {
-	local my_topdir="/var/lib/bitcoinclassic"
-	local my_data="${my_topdir}/.bitcoin"
+	local my_data="/var/lib/bitcoind"
 
 	dobin src/${PN}
 
-	insinto "${my_data}"
-	if [ -f "${ROOT}${my_data}/bitcoin.conf" ]; then
-		elog "${EROOT}${my_data}/bitcoin.conf already installed - not overwriting it"
-	else
-		doins "${FILESDIR}/bitcoin.conf"
-		elog "default ${EROOT}${my_data}/bitcoin.conf installed - you will need to edit it"
-		fowners bitcoinclassic:bitcoinclassic "${my_data}/bitcoin.conf"
-		fperms 400 "${my_data}/bitcoin.conf"
-	fi
+	insinto /etc/bitcoin
+	newins "${FILESDIR}/bitcoin.conf" bitcoin.conf
+	fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
+	fperms 660 /etc/bitcoin/bitcoin.conf
 
-	newconfd "${FILESDIR}/bitcoinclassic.confd" ${PN}
-	newinitd "${FILESDIR}/bitcoinclassic.initd" ${PN}
+	newconfd "${FILESDIR}/bitcoinclassicd.confd" ${PN}
+	newinitd "${FILESDIR}/bitcoinclassicd.initd" ${PN}
 	systemd_dounit "${FILESDIR}/bitcoinclassicd.service"
 
 	keepdir "${my_data}"
-	fperms 700 "${my_topdir}"
-	fowners bitcoinclassic:bitcoinclassic "${my_topdir}"
-	fowners bitcoinclassic:bitcoinclassic "${my_data}"
+	fperms 750 "${my_data}"
+	fowners bitcoin:bitcoin "${my_data}"
+	dosym /etc/bitcoin/bitcoin.conf "${my_data}/bitcoin.conf"
 
 	if use doc; then
-		dodoc README.md
+		dodoc doc/README.md
 		dodoc doc/release-notes.md
+		dodoc doc/assets-attribution.md doc/bips.md doc/tor.md
+		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
+		use zeromq && dodoc -r contrib/zmq
+	fi
+
+	if use examples; then
+		docinto examples
+		dodoc -r contrib/{qos,spendfrom,tidy_datadir.sh}
 	fi
 
 	if use logrotate; then
 		insinto /etc/logrotate.d
-		newins "${FILESDIR}/bitcoinclassicd.logrotate" bitcoinclassicd
+		newins "${FILESDIR}/bitcoinclassicd.logrotate" ${PN}
 	fi
 }

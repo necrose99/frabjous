@@ -1,11 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+	<maintainer type="person">
+		<email>csmk [at] cmsrv [dot] org</email>
+		<name>Ian Moone</name>
+	</maintainer>
 	<use>
 		<flag name="logrotate">Use app-admin/logrotate for rotating logs</flag>
 		<flag name="system-libsecp256k1">Use system libsecp256k instead of the bundled one</flag>
+		<flag name="system-univalue">Use system univalue instead of the bundled one</flag>
 		<flag name="upnp">Enable Universal Plug and Play</flag>
 		<flag name="wallet">Enable wallet support</flag>
+		<flag name="zeromq">Report blocks and transactions via zeromq</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">bitcoinclassic/bitcoinclassic</remote-id>

@@ -9,21 +9,21 @@
 # "/etc/systemd/system/bitcoinclassicd.service.d/myopts.conf"
 # containing:
 #       [Service]
-#       Environment="BITCOINCLASSIC_OPTS=-debug -logtimestamps"
+#       Environment="BITCOIN_OPTS=-debug -logtimestamps"
 #       Nice=10
 # This will override the setting appearing below.
 
 # Note that almost all daemon options could be specified in
-# /etc/bitcoinclassic/bitcoinclassic.conf
+# /etc/bitcoin/bitcoin.conf
 
 [Unit]
 Description=Bitcoin Classic Daemon
 After=network.target
 
 [Service]
-User=bitcoinclassic
-Environment=BITCOINCLASSIC_OPTS=
-ExecStart=/usr/bin/bitcoinclassicd -daemon=0 $BITCOINCLASSIC_OPTS
+User=bitcoin
+Environment=BITCOIN_OPTS=
+ExecStart=/usr/bin/bitcoinclassicd -daemon=0 $BITCOIN_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
