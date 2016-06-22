@@ -9,7 +9,7 @@ DB_VER="4.8"
 inherit db-use autotools eutils toolchain-funcs fdo-mime gnome2-utils kde4-functions qt4-r2
 
 DESCRIPTION="Bitcoin Classic crypto-currency GUI wallet"
-HOMEPAGE="https://github.com/bitcoinclassic/bitcoinclassic"
+HOMEPAGE="https://bitcoinclassic.com/"
 My_PV="${PV}cl1"
 SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 

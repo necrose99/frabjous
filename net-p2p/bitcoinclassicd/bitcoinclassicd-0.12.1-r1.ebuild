@@ -9,7 +9,7 @@ DB_VER="4.8"
 inherit db-use autotools eutils toolchain-funcs user systemd
 
 DESCRIPTION="Bitcoin Classic crypto-currency wallet for automated services"
-HOMEPAGE="https://github.com/bitcoinclassic/bitcoinclassic"
+HOMEPAGE="https://bitcoinclassic.com/"
 My_PV="${PV}cl1"
 SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
