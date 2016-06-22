@@ -1,9 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
+	<maintainer type="person">
+		<email>csmk [at] cmsrv [dot] org</email>
+		<name>Ian Moone</name>
+	</maintainer>
 	<use>
 		<flag name="qrcode">Enable generation of QR Codes for receiving payments</flag>
-		<flag name="system-libsecp256k1">Use system libsecp256k instead of the bundled one</flag>
+		<flag name="system-libsecp256k1">Use system libsecp256k1 instead of the bundled one</flag>
 		<flag name="wallet">Enable wallet support</flag>
 	</use>
 	<upstream>
