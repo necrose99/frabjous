@@ -45,7 +45,7 @@ S="${WORKDIR}/bitcoinclassic-${My_PV}"
 pkg_setup() {
 	local UG='bitcoin'
 	enewgroup "${UG}"
-	enewuser "${UG}" -1 -1 /var/lib/bitcoind "${UG}"
+	enewuser "${UG}" -1 -1 /var/lib/bitcoinclassic "${UG}"
 }
 
 src_prepare() {
