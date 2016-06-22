@@ -14,7 +14,7 @@
 # This will override the setting appearing below.
 
 # Note that almost all daemon options could be specified in
-# /etc/bitcoinxt/bitcoinxt.conf
+# /etc/bitcoinxt/bitcoin.conf
 
 [Unit]
 Description=BitcoinXT Daemon
