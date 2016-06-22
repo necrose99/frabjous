@@ -1,16 +1,16 @@
 # /etc/conf.d/bitcoinclassicd: config file for /etc/init.d/bitcoinclassicd
 
 # Config file location
-#BITCOIND_CONFIGFILE="/etc/bitcoin/bitcoin.conf"
+#BITCOIND_CONFIGFILE="/etc/bitcoinclassic/bitcoin.conf"
 
 # What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
-#BITCOIND_PIDDIR="/var/run/bitcoinclassicd"
+#BITCOIND_PIDDIR="/var/run/bitcoinclassic"
 
 # What filename to give the pidfile
 #BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/bitcoinclassicd.pid"
 
 # Where to write bitcoind data (be mindful that the blockchain is large)
-#BITCOIND_DATADIR="/var/lib/bitcoind"
+#BITCOIND_DATADIR="/var/lib/bitcoinclassic"
 
 # User and group to own bitcoind process
 #BITCOIND_USER="bitcoin"

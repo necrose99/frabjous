@@ -1,4 +1,4 @@
-/var/lib/bitcoind/debug.log {
+/var/lib/bitcoinclassic/debug.log {
 	missingok
 	weekly
 	sharedscripts

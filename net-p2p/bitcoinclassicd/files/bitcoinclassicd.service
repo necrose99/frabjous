@@ -14,7 +14,7 @@
 # This will override the setting appearing below.
 
 # Note that almost all daemon options could be specified in
-# /etc/bitcoin/bitcoin.conf
+# /etc/bitcoinclassic/bitcoin.conf
 
 [Unit]
 Description=Bitcoin Classic Daemon

@@ -104,14 +104,14 @@ src_compile() {
 }
 
 src_install() {
-	local my_data="/var/lib/bitcoind"
+	local my_data="/var/lib/bitcoinclassic"
 
 	dobin src/${PN}
 
-	insinto /etc/bitcoin
+	insinto /etc/bitcoinclassic
 	newins "${FILESDIR}/bitcoin.conf" bitcoin.conf
-	fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
-	fperms 660 /etc/bitcoin/bitcoin.conf
+	fowners bitcoin:bitcoin /etc/bitcoinclassic/bitcoin.conf
+	fperms 660 /etc/bitcoinclassic/bitcoin.conf
 
 	newconfd "${FILESDIR}/bitcoinclassicd.confd" ${PN}
 	newinitd "${FILESDIR}/bitcoinclassicd.initd" ${PN}
@@ -120,7 +120,7 @@ src_install() {
 	keepdir "${my_data}"
 	fperms 750 "${my_data}"
 	fowners bitcoin:bitcoin "${my_data}"
-	dosym /etc/bitcoin/bitcoin.conf "${my_data}/bitcoin.conf"
+	dosym /etc/bitcoinclassic/bitcoin.conf "${my_data}/bitcoin.conf"
 
 	if use doc; then
 		dodoc doc/README.md
