@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,12 +6,12 @@ EAPI=5
 inherit eutils multilib pam pax-utils systemd user
 
 DESCRIPTION="Policy framework for controlling privileges for system-wide services"
-HOMEPAGE="http://www.freedesktop.org/wiki/Software/polkit"
-SRC_URI="http://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/polkit"
+SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 IUSE="examples gtk +introspection jit kde nls pam selinux systemd test"
 
 CDEPEND="
@@ -31,6 +31,7 @@ DEPEND="${CDEPEND}
 	dev-libs/libxslt
 	dev-util/gtk-doc-am
 	dev-util/intltool
+	sys-devel/gettext
 	virtual/pkgconfig
 "
 RDEPEND="${CDEPEND}
@@ -64,6 +65,12 @@ pkg_setup() {
 
 src_prepare() {
 	sed -i -e 's|unix-group:wheel|unix-user:0|' src/polkitbackend/*-default.rules || die #401513
+
+	# Workaround upstream hack around standard gtk-doc behavior, bug #552170
+	sed -i -e 's/@ENABLE_GTK_DOC_TRUE@\(TARGET_DIR\)/\1/' \
+		-e '/install-data-local:/,/uninstall-local:/ s/@ENABLE_GTK_DOC_TRUE@//' \
+		-e 's/@ENABLE_GTK_DOC_FALSE@install-data-local://' \
+		docs/polkit/Makefile.in || die
 }
 
 src_configure() {
