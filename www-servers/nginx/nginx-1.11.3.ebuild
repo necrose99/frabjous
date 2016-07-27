@@ -84,7 +84,7 @@ HTTP_NAXSI_MODULE_URI="https://github.com/nbs-system/naxsi/archive/${HTTP_NAXSI_
 HTTP_NAXSI_MODULE_WD="${WORKDIR}/naxsi-${HTTP_NAXSI_MODULE_PV}/naxsi_src"
 
 # nginx-rtmp-module (https://github.com/arut/nginx-rtmp-module, BSD license)
-RTMP_MODULE_PV="1.1.7"
+RTMP_MODULE_PV="1.1.8"
 RTMP_MODULE_P="ngx_rtmp-${RTMP_MODULE_PV}"
 RTMP_MODULE_URI="https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE_PV}.tar.gz"
 RTMP_MODULE_WD="${WORKDIR}/nginx-rtmp-module-${RTMP_MODULE_PV}"
@@ -138,7 +138,7 @@ HTTP_LDAP_MODULE_P="nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 HTTP_LDAP_MODULE_URI="https://github.com/kvspb/nginx-auth-ldap/archive/${HTTP_LDAP_MODULE_PV}.tar.gz"
 HTTP_LDAP_MODULE_WD="${WORKDIR}/nginx-auth-ldap-${HTTP_LDAP_MODULE_PV}"
 
-# This module require https://github.com/bagder/libbrotli
+# This module depends on https://github.com/bagder/libbrotli
 # ngx_brotli (https://github.com/google/ngx_brotli, BSD license)
 HTTP_BROTLI_MODULE_PV="master"
 HTTP_BROTLI_MODULE_P="ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
@@ -188,7 +188,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
 	gzip_static image_filter mp4 perl random_index realip secure_link
 	slice stub_status sub xslt"
-NGINX_MODULES_STREAM="access limit_conn upstream"
+NGINX_MODULES_STREAM="access geo geoip limit_conn split_clients upstream"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_upload_progress
