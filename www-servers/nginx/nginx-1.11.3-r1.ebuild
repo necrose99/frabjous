@@ -188,7 +188,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
 	gzip_static image_filter mp4 perl random_index realip secure_link
 	slice stub_status sub xslt"
-NGINX_MODULES_STREAM="access geo geoip limit_conn split_clients upstream"
+NGINX_MODULES_STREAM="access limit_conn upstream"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_upload_progress
@@ -206,7 +206,6 @@ NGINX_MODULES_3RD="
 	http_security
 	http_push_stream
 	http_sticky
-	http_ajp
 	http_mogilefs
 	http_memc
 	http_auth_ldap
@@ -330,10 +329,11 @@ pkg_setup() {
 
 src_prepare() {
 	eapply "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
+	eapply "${FILESDIR}/${PN}-httpoxy-mitigation.patch"
 
-	if use rtmp; then
-		cd "${RTMP_MODULE_WD}" || die
-		eapply "${FILESDIR}"/rtmp-nginx-1.11.0.patch
+	if use nginx_modules_http_sticky; then
+		cd "${HTTP_STICKY_MODULE_WD}" || die
+		eapply "${FILESDIR}"/http-sticky-nginx-1.11.2.patch
 		cd "${S}" || die
 	fi
 
@@ -576,7 +576,8 @@ src_configure() {
 	tc-export CC
 
 	if ! use prefix; then
-		myconf+=( --user=${PN}" "--group=${PN} )
+		myconf+=( --user=${PN} )
+		myconf+=( --group=${PN} )
 	fi
 
 	./configure \
@@ -780,4 +781,16 @@ pkg_postinst() {
 		ewarn "'rx' permissions on /var/log/nginx (default on a fresh install)"
 		ewarn "Otherwise you end up with empty log files after a logrotate."
 	fi
+
+	# HTTPoxy mitigation
+	ewarn ""
+	ewarn "This nginx installation comes with a mitigation for the HTTPoxy"
+	ewarn "vulnerability for FastCGI applications by setting the HTTP_PROXY FastCGI"
+	ewarn "parameter to an empty string per default when you are sourcing the default"
+	ewarn "'fastcgi_params' or 'fastcgi.conf' in your server block(s)."
+	ewarn ""
+	ewarn "If this is causing any problems for you make sure that you are sourcing the"
+	ewarn "default parameters _before_ you set your own values."
+	ewarn "If you are relying on user-supplied proxy values you have to remove the"
+	ewarn "correlating lines from 'fastcgi_params' and or 'fastcgi.conf'."
 }
