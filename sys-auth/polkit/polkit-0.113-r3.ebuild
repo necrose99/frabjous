@@ -40,7 +40,6 @@ RDEPEND="${CDEPEND}
 PDEPEND="
 	gtk? ( || (
 		>=gnome-extra/polkit-gnome-0.105
-		lxde-base/lxpolkit
 		) )
 	kde? ( || (
 		kde-plasma/polkit-kde-agent
