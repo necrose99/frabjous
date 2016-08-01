@@ -34,7 +34,7 @@ RDEPEND="
 	!libressl? ( dev-libs/openssl:0[-bindist] )
 	libressl? ( dev-libs/libressl )
 	qrcode? ( media-gfx/qrencode )
-	qt4? ( dev-qt/qtgui:4 )
+	qt4? ( dev-qt/qtcore:4[ssl] dev-qt/qtgui:4 )
 	qt5? ( dev-qt/qtgui:5 dev-qt/qtnetwork:5 dev-qt/qtwidgets:5 dev-qt/linguist-tools:5 )
 	system-libsecp256k1? ( =dev-libs/libsecp256k1-0.0.0_pre20150423 )
 	upnp? ( net-libs/miniupnpc )
