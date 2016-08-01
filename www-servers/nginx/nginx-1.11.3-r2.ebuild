@@ -188,7 +188,7 @@ NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
 	gzip_static image_filter mp4 perl random_index realip secure_link
 	slice stub_status sub xslt"
-NGINX_MODULES_STREAM="access limit_conn upstream"
+NGINX_MODULES_STREAM="access geo geoip limit_conn split_clients upstream"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
 	http_upload_progress

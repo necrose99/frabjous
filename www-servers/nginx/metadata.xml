@@ -33,6 +33,9 @@
     <flag name="nginx_modules_http_security">Enable support for ModSecurity</flag>
     <flag name="nginx_modules_http_slowfs_cache">This module adds the ability to cache static files</flag>
     <flag name="nginx_modules_http_sticky">Add a sticky cookie to be always forwarded to the same upstream server</flag>
+	<flag name="nginx_modules_stream_geo"></flag>
+	<flag name="nginx_modules_stream_geoip"></flag>
+	<flag name="nginx_modules_stream_split_clients"></flag>
     <flag name="pcre-jit">Enable JIT for pcre</flag>
     <flag name="perftools">
       Use 
@@ -43,7 +46,7 @@
     <flag name="rtmp">NGINX-based Media Streaming Server</flag>
   </use>
   <upstream>
-    <changelog>http://nginx.org/en/CHANGES</changelog>
+    <changelog>https://nginx.org/en/CHANGES</changelog>
     <remote-id type="github">yaoweibin/nginx_ajp_module</remote-id>
   </upstream>
 </pkgmetadata>
