@@ -336,7 +336,7 @@ pkg_setup() {
 
 src_prepare() {
 	eapply "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
-	eapply "${FILESDIR}/${PN}-httpoxy-mitigation.patch"
+	eapply "${FILESDIR}/${PN}-httpoxy-mitigation-r1.patch"
 	eapply "${FILESDIR}/${PN}-1.11.3-fix-build-without-stream_ssl_module.patch"
 
 	if use nginx_modules_http_sticky; then
