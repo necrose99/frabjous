@@ -20,6 +20,7 @@ RDEPEND="
 	>=dev-libs/jansson-2.3
 	>=dev-db/lmdb-0.9.15
 	>=dev-libs/userspace-rcu-0.5.4
+	>=dev-libs/libedit-20130712.3.1
 	caps? ( >=sys-libs/libcap-ng-0.6.4 )
 	dnstap? ( dev-libs/fstrm dev-libs/protobuf-c )
 	idn? ( net-dns/libidn )
