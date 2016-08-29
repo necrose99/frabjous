@@ -4,7 +4,7 @@
 
 Yet another personal [Gentoo](https://gentoo.org/) overlay. This overlay contain only ebuilds for packages that I'm interested in. It also include support for the upcoming `libressl` USE flag. So, for now I recommend to use this overlay in conjunction with the [libressl](https://github.com/gentoo/libressl) repository.
 
-**DISCLAIMER:** This repository contains experimental ebuilds with extra added features. Use at your own risk! However, I've been using these packages in a production environment without any problems.
+**DISCLAIMER:** This repository contains experimental ebuilds with extra added features. Use at your own risk! However, I've been using these packages in a production environment without major problems.
 
 ## How to install the overlay
 You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work: `layman -a frabjous`
@@ -15,6 +15,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── mail-filter
     │   └── imapfilter
     ├── net-dns
+    │   ├── dnscrypt-wrapper
     │   ├── knot
     │   └── unbound
     ├── net-libs
