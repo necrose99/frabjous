@@ -8,7 +8,7 @@ DNSCRYPT_LOGFILE=${DNSCRYPT_LOGFILE:-/var/log/dnscrypt-wrapper.log}
 pidfile=${pidfile:-${rundir}/dnscrypt-wrapper.pid}
 rundir=${rundir:-/var/run/dnscrypt-wrapper}
 runas_user=${runas_user:-dnscrypt}
-runas_group=${runas_user:-dnscrypt}
+runas_group=${runas_group:-dnscrypt}
 
 depend() {
 	use net
