@@ -27,6 +27,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── bitcoinxt-qt
     ├── sys-auth
     │   └── polkit
+    ├── www-apps
+    │   └── gogs
     └── www-servers
         ├── nginx
         └── h2o
