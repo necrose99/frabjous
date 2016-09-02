@@ -103,7 +103,7 @@ IUSE="$IUSE_DATABASE_ADAPTER $IUSE_CACHE_ADAPTER pam +ssl"
 
 REQUIRED_USE="|| ( sqlite tidb mysql postgres )"
 
-DEPEND=">dev-go/go-bindata-3.0.7
+DEPEND=">=dev-go/go-bindata-3.0.7
 	sqlite? ( dev-db/sqlite:3 )
 	redis? ( dev-db/redis )
 	tidb? ( dev-db/tidb )
