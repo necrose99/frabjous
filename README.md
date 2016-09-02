@@ -14,6 +14,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     .
     ├── dev-go
     │   └── go-bindata
+    ├── dev-db
+    │   └── tidb
     ├── mail-filter
     │   └── imapfilter
     ├── net-dns
