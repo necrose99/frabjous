@@ -13,9 +13,5 @@
 		faster, but requires more memory and CPU time to
 		compile.
 		</flag>
-		<flag name="lmdb">Use the LMDB database to store
-		timers for slave zones on disk, making the timers
-		persist across server restarts.
-		</flag>
 	</use>
 </pkgmetadata>
