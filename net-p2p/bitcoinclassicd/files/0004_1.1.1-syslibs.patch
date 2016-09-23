@@ -1,0 +1,42 @@
+--- a/qa/pull-tester/rpc-tests.py
++++ b/qa/pull-tester/rpc-tests.py
+@@ -36,8 +36,8 @@
+     ENABLE_WALLET=0
+ if 'ENABLE_BITCOIND' not in vars():
+     ENABLE_BITCOIND=0
+-if 'ENABLE_UTILS' not in vars():
+-    ENABLE_UTILS=0
++if 'ENABLE_CLI' not in vars():
++    ENABLE_CLI=0
+ if 'ENABLE_ZMQ' not in vars():
+     ENABLE_ZMQ=0
+ 
+@@ -145,7 +145,7 @@
+         coverage = RPCCoverage()
+         print("Initializing coverage directory at %s\n" % coverage.dir)
+ 
+-    if(ENABLE_WALLET == 1 and ENABLE_UTILS == 1 and ENABLE_BITCOIND == 1):
++    if(ENABLE_WALLET == 1 and ENABLE_CLI == 1 and ENABLE_BITCOIND == 1):
+         rpcTestDir = sourceDir + '/qa/rpc-tests/'
+         run_extended = '-extended' in opts
+         cov_flag = coverage.flag if coverage else ''
+@@ -191,7 +191,7 @@
+             coverage.cleanup()
+ 
+     else:
+-        print "No rpc tests to run. Wallet, utils, and bitcoind must all be enabled"
++        print "No rpc tests to run. Wallet, cli, and bitcoind must all be enabled"
+ 
+ 
+ class RPCCoverage(object):
+--- a/qa/pull-tester/tests_config.py.in
++++ b/qa/pull-tester/tests_config.py.in
+@@ -9,7 +9,7 @@
+ 
+ # These will turn into comments if they were disabled when configuring.
+ @ENABLE_WALLET_TRUE@ENABLE_WALLET=1
+-@BUILD_BITCOIN_UTILS_TRUE@ENABLE_UTILS=1
++@BUILD_BITCOIN_CLI_TRUE@ENABLE_CLI=1
+ @BUILD_BITCOIND_TRUE@ENABLE_BITCOIND=1
+ @ENABLE_ZMQ_TRUE@ENABLE_ZMQ=1
+ 
