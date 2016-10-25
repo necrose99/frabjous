@@ -147,8 +147,9 @@ HTTP_BROTLI_MODULE_WD="${WORKDIR}/ngx_brotli-${HTTP_BROTLI_MODULE_PV}"
 
 # We handle deps below ourselves
 SSL_DEPS_SKIP=1
+AUTOTOOLS_AUTO_DEPEND="no"
 
-inherit ssl-cert toolchain-funcs perl-module flag-o-matic user systemd versionator multilib
+inherit autotools ssl-cert toolchain-funcs perl-module flag-o-matic user systemd versionator multilib
 
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="https://nginx.org"
@@ -246,8 +247,8 @@ done
 IUSE="${IUSE} nginx_modules_http_spdy"
 
 CDEPEND="
-	pcre? ( >=dev-libs/libpcre-4.2 )
-	pcre-jit? ( >=dev-libs/libpcre-8.20[jit] )
+	pcre? ( dev-libs/libpcre:= )
+	pcre-jit? ( dev-libs/libpcre:=[jit] )
 	ssl? (
 		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl:= )
@@ -266,27 +267,34 @@ CDEPEND="
 	nginx_modules_http_gunzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip? ( sys-libs/zlib )
 	nginx_modules_http_gzip_static? ( sys-libs/zlib )
-	nginx_modules_http_image_filter? ( media-libs/gd[jpeg,png] )
-	nginx_modules_http_perl? ( >=dev-lang/perl-5.8 )
-	nginx_modules_http_rewrite? ( >=dev-libs/libpcre-4.2 )
+	nginx_modules_http_image_filter? ( media-libs/gd:=[jpeg,png] )
+	nginx_modules_http_perl? ( >=dev-lang/perl-5.8:= )
+	nginx_modules_http_rewrite? ( dev-libs/libpcre:= )
 	nginx_modules_http_secure_link? (
 		userland_GNU? (
 			!libressl? ( dev-libs/openssl:0= )
 			libressl? ( dev-libs/libressl:= )
 		)
 	)
-	nginx_modules_http_xslt? ( dev-libs/libxml2 dev-libs/libxslt )
+	nginx_modules_http_xslt? ( dev-libs/libxml2:= dev-libs/libxslt )
 	nginx_modules_http_lua? ( !luajit? ( dev-lang/lua:0= ) luajit? ( dev-lang/luajit:2= ) )
 	nginx_modules_http_auth_pam? ( virtual/pam )
-	nginx_modules_http_metrics? ( dev-libs/yajl )
+	nginx_modules_http_metrics? ( dev-libs/yajl:= )
 	nginx_modules_http_dav_ext? ( dev-libs/expat )
-	nginx_modules_http_security? ( >=dev-libs/libxml2-2.7.8 dev-libs/apr-util www-servers/apache )
+	nginx_modules_http_security? (
+		dev-libs/apr:=
+		dev-libs/apr-util:=
+		dev-libs/libxml2:=
+		net-misc/curl
+		www-servers/apache
+	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
 	perftools? ( dev-util/google-perftools )"
 RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-nginx )
 	!www-servers/nginx:0"
 DEPEND="${CDEPEND}
+	nginx_modules_http_security? ( ${AUTOTOOLS_DEPEND} )
 	arm? ( dev-libs/libatomic_ops )
 	libatomic? ( dev-libs/libatomic_ops )"
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
@@ -346,6 +354,28 @@ src_prepare() {
 		sed -i -e 's/-llua5.1/-llua/' "${HTTP_LUA_MODULE_WD}/config" || die
 	fi
 
+	if use nginx_modules_http_security; then
+		cd "${HTTP_SECURITY_MODULE_WD}" || die
+
+		eapply "${FILESDIR}"/http_security-pr_1158.patch
+
+		eautoreconf
+
+		if use luajit ; then
+			sed -i \
+				-e 's|^\(LUA_PKGNAMES\)=.*|\1="luajit"|' \
+				configure || die
+		fi
+
+		cd "${S}" || die
+	fi
+
+	if use nginx_modules_http_upload_progress; then
+		cd "${HTTP_UPLOAD_PROGRESS_MODULE_WD}" || die
+		eapply "${FILESDIR}"/http_uploadprogress-issue_50-r1.patch
+		cd "${S}" || die
+	fi
+
 	find auto/ -type f -print0 | xargs -0 sed -i 's:\&\& make:\&\& \\$(MAKE):' || die
 	# We have config protection, don't rename etc files
 	sed -i 's:.default::' auto/install || die
@@ -367,18 +397,16 @@ src_configure() {
 	# mod_security needs to generate nginx/modsecurity/config before including it
 	if use nginx_modules_http_security; then
 		cd "${HTTP_SECURITY_MODULE_WD}" || die
-		if use luajit ; then
-			sed -i \
-				-e 's|^\(LUA_PKGNAMES\)=.*|\1="luajit"|' \
-				configure || die
-		fi
+
 		./configure \
 			--enable-standalone-module \
+			--disable-mlogc \
+			--with-ssdeep=no \
 			$(use_enable pcre-jit) \
 			$(use_with nginx_modules_http_lua lua) || die "configure failed for mod_security"
-	fi
 
-	cd "${S}" || die
+		cd "${S}" || die
+	fi
 
 	local myconf=() http_enabled= mail_enabled= stream_enabled=
 
