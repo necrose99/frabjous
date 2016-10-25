@@ -35,10 +35,6 @@ DEPEND="${RDEPEND}
 	doc? ( dev-python/sphinx )
 "
 
-PATCHES=(
-	"${FILESDIR}/2.3.0-added-conversion-to-wire-format-when-writing-FNV64-hash-values.patch"
-)
-
 S="${WORKDIR}/${P/_/-}"
 
 src_configure() {
