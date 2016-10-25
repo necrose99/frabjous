@@ -613,7 +613,6 @@ src_configure() {
 		WITHOUT_IPV6=" -DNGX_HAVE_INET6=0"
 	fi
 
-
 	./configure \
 		--prefix="${EPREFIX}"/usr \
 		--conf-path="${EPREFIX}"/etc/${PN}/${PN}.conf \
