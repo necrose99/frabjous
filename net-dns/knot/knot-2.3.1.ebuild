@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="dnstap doc caps +fastparser idn systemd"
 
 RDEPEND="
-	>=net-libs/gnutls-3.0
+	>=net-libs/gnutls-3.3
 	>=dev-libs/jansson-2.3
 	>=dev-db/lmdb-0.9.15
 	>=dev-libs/userspace-rcu-0.5.4
