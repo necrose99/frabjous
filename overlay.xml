@@ -6,7 +6,7 @@
     <description lang="en"><![CDATA[Frabjous! Yet another personal Gentoo overlay]]></description>
     <homepage>https://github.com/csmk/frabjous</homepage>
     <owner type="person">
-      <email>csmk@cmsrv.org</email>
+      <email>csmk@chaoslab.org</email>
       <name><![CDATA[Ian Moone]]></name>
     </owner>
     <source type="git">git@github.com:csmk/frabjous.git</source>
