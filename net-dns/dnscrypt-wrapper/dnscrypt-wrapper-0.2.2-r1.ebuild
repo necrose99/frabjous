@@ -34,8 +34,8 @@ src_install() {
 	fperms 750 "${my_data}"
 	fowners dnscrypt:dnscrypt "${my_data}"
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	if use doc; then

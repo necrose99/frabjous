@@ -1,6 +1,6 @@
+DNSCRYPT_LOGFILE=/dev/null
 DNSCRYPT_LISTENIP=0.0.0.0
 DNSCRYPT_LISTENPORT=443
-DNSCRYPT_USER=dnscrypt
 DNSCRYPT_PROVIDER_NAME=2.dnscrypt-cert.example.com
 DNSCRYPT_SECRET_KEY=/etc/dnscrypt-wrapper/1.key
 DNSCRYPT_PROVIDER_CERT=/etc/dnscrypt-wrapper/1.cert
