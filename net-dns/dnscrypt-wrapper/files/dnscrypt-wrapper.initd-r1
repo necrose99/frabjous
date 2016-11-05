@@ -25,8 +25,8 @@ start() {
 	ebegin "Starting DNSCrypt wrapper"
 	start-stop-daemon --start --quiet \
 		--exec /usr/sbin/dnscrypt-wrapper -- \
-		--pidfile="${pidfile}" \
-		--logfile="${DNSCRYPT_LOGFILE}" \
+		--pidfile=${pidfile} \
+		--logfile=${DNSCRYPT_LOGFILE} \
 		--daemonize --user=${runas_user} \
 		--listen-address=${DNSCRYPT_LISTENIP}:${DNSCRYPT_LISTENPORT} \
 		--resolver-address=${DNSCRYPT_RESOLVERIP}:${DNSCRYPT_RESOLVERPORT} \
