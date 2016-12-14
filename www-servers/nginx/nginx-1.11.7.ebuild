@@ -288,7 +288,7 @@ CDEPEND="
 		www-servers/apache
 	)
 	nginx_modules_http_auth_ldap? ( net-nds/openldap[ssl?] )
-	nginx_modules_http_brotli? ( dev-libs/libbroli )
+	nginx_modules_http_brotli? ( dev-libs/libbrotli )
 	perftools? ( dev-util/google-perftools )"
 RDEPEND="${CDEPEND}
 	selinux? ( sec-policy/selinux-nginx )
