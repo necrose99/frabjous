@@ -16,6 +16,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── go-bindata
     ├── dev-db
     │   └── tidb
+    ├── dev-libs
+    │   └── libbrotli
     ├── dev-util
     │   ├── goyacc
     │   └── golex
