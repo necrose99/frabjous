@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
-	<maintainer>
-		<email>csmk [at] chaoslab [dot] org</email>
-    	<name>Ian Moone</name>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
 	</maintainer>
 	<longdescription lang="en">
-		H2O is a new generation HTTP server. Not only is it very fast, it also provides much quicker response to end-users when compared to older generations of HTTP servers.
+		H2O is a new generation HTTP server. Not only is it very fast,
+		it also provides much quicker response to end-users
+		when compared to older generations of HTTP servers.
 	</longdescription>
 	<use>
 		<flag name='mruby'>Enable support for mruby</flag>
