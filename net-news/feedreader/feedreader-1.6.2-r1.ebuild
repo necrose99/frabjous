@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI=6
 
 inherit cmake-utils gnome2 vala
 
@@ -45,6 +45,7 @@ S="${WORKDIR}/FeedReader-${PV}"
 
 src_prepare() {
 	vala_src_prepare
+	eapply_user
 }
 
 src_configure() {
@@ -55,10 +56,6 @@ src_configure() {
 		-DGSETTINGS_LOCALINSTALL=OFF
 	)
 	cmake-utils_src_configure
-}
-
-src_compile() {
-	cmake-utils_src_compile
 }
 
 src_install() {
