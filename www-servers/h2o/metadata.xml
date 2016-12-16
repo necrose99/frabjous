@@ -11,6 +11,7 @@
 		when compared to older generations of HTTP servers.
 	</longdescription>
 	<use>
+		<flag name="libh2o">Aside from the standalone server, build H2O as a library</flag>
 		<flag name='mruby'>Enable support for mruby</flag>
 		<flag name='websocket'>Add support for WebSocket at library level</flag>
 	</use>

@@ -1,0 +1,12 @@
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+/var/log/h2o/*.log {
+	missingok
+	delaycompress
+	sharedscripts
+	postrotate
+		test -r /run/h2o.pid && kill -USR1 `cat /run/h2o.pid`
+	endscript
+}
