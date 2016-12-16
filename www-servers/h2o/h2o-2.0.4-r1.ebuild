@@ -15,17 +15,17 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="libh2o libressl mruby websocket"
 
-DEPEND="
+RDEPEND="
 	libh2o? (
 		>=dev-libs/libuv-1.0.0
 		websocket? ( net-libs/wslay )
 	)
-	libressl? ( dev-libs/libressl )
+	libressl? ( dev-libs/libressl )"
+DEPEND="${RDEPEND}
 	mruby? (
 		sys-devel/bison
 		dev-lang/ruby:2.2
 	)"
-RDEPEND="${DEPEND}"
 REQUIRED_USE="websocket? ( libh2o )"
 
 pkg_setup(){
