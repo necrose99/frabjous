@@ -7,6 +7,6 @@
 	delaycompress
 	sharedscripts
 	postrotate
-		test -r /run/h2o.pid && kill -USR1 `cat /run/h2o.pid`
+		test -r /run/h2o.pid && kill -HUP `cat /run/h2o.pid`
 	endscript
 }
