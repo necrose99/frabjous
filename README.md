@@ -26,6 +26,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── net-im
     │   └── prosody
     ├── net-libs
+    │   ├── nodejs
     │   └── wslay
     ├── net-misc
     │   └── stunnel

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>cmsk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<flag name="npm">Enable NPM package manager</flag>
+	<flag name="bundled-openssl">Use bundled OpenSSL instead of system-wide (EXPERIMENTAL)</flag>
+	<flag name="snapshot">Enable snapshot creation for faster startup</flag>
+	<flag name="systemtap">Enable SystemTAP/DTrace tracing</flag>
+	</use>
+</pkgmetadata>
