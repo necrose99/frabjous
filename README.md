@@ -12,26 +12,25 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 ## Repository tree
 ```
     .
-    ├── dev-go
-    │   └── go-bindata
     ├── dev-db
     │   └── tidb
+    ├── dev-go
+    │   └── go-bindata
     ├── dev-libs
     │   └── libbrotli
     ├── mail-filter
     │   └── imapfilter
     ├── net-dns
     │   ├── dnscrypt-wrapper
-    │   ├── knot
-    │   └── unbound
+    │   └── knot
     ├── net-im
     │   └── prosody
     ├── net-libs
     │   └── wslay
-    ├── net-news
-    │   └── feedreader
     ├── net-misc
     │   └── stunnel
+    ├── net-news
+    │   └── feedreader
     ├── net-p2p
     │   ├── bitcoinclassicd
     │   ├── bitcoinclassic-qt
