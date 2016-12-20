@@ -159,7 +159,7 @@ GOLANG_PKG_TAGS="${GOLANG_PKG_TAGS:-}"
 # Sets additional standard Go workspaces to be appended to the environment
 # variable GOPATH, as described in http://golang.org/doc/code.html.
 # This eclass defaults to an empty list.
-GOLANG_PKG_VENDOR="${GOLANG_PKG_VENDOR:-}"
+GOLANG_PKG_VENDOR=()
 
 # @ECLASS-VARIABLE: GOLANG_PKG_STATIK
 # @DESCRIPTION:
@@ -395,6 +395,7 @@ golang_setup() {
 		export GOBIN="$_GOBIN"
 		export CGO_ENABLED
 		export GOEXPERIMENT
+		export GO15VENDOREXPERIMENT=0
 
 		debug-print "${FUNCNAME}: GOPATH = ${GOPATH}"
 		debug-print "${FUNCNAME}: GOBIN = ${GOBIN}"
@@ -404,10 +405,10 @@ golang_setup() {
 }
 
 
-# @FUNCTION: golang-base_src_prepare
+# @FUNCTION: golang-common_src_prepare
 # @DESCRIPTION:
 # Prepare source code.
-golang-base_src_prepare() {
+golang-common_src_prepare() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	pushd "${WORKDIR}" > /dev/null
@@ -438,7 +439,7 @@ golang-base_src_prepare() {
 
 				# Collects all the tokens of the dependency.
 				local -A DEPENDENCY=()
-				while read -d $'\n' key value; do
+				while read -r -d $'\n' key value; do
 					[[ -z ${key} ]] && continue
 					DEPENDENCY[$key]="${value}"
 				done <<-EOF
@@ -506,7 +507,7 @@ golang-base_src_prepare() {
 							mv ${DEPENDENCY[project_name]}-${DEPENDENCY[revision]}* "${GOPATH}"/src/${destdir} || die
 						eend
 						;;
-					*) die "Function 'golang-base_src_prepare' doesn't support '${DEPENDENCY[importpath]}'" ;;
+					*) die "Function 'golang-common_src_prepare' doesn't support '${DEPENDENCY[importpath]}'" ;;
 				esac
 			done
 
@@ -520,12 +521,13 @@ golang-base_src_prepare() {
 	local VENDOR="${S}/vendor"
 	if [[ -d "${VENDOR}" ]]; then
 		golang_add_vendor "${VENDOR}"
+		export GO15VENDOREXPERIMENT=1
 	fi
 
 	# Auto-detects the presence of Go's vendored
 	# dependencies inside $S/*/vendor
 	if [[ -n ${GOLANG_PKG_BUILDPATH} && ${GOLANG_PKG_BUILDPATH##*/} != "..." ]]; then
-		while read -d $' ' path; do
+		while read -r -d $' ' path; do
 			# Trims leading slash (if any).
 			path="${path/\//}"
 
@@ -547,7 +549,7 @@ golang-base_src_prepare() {
 	# (see github.com/tools/godep for more infos).
 	VENDOR="${S}/Godeps/_workspace"
 	if [[ -d "${VENDOR}" ]]; then
-		GOLANG_PKG_VENDOR+=" ${VENDOR}"
+		golang_add_vendor "${VENDOR}"
 	fi
 
 
@@ -556,10 +558,10 @@ golang-base_src_prepare() {
 }
 
 
-# @FUNCTION: golang-base_src_configure
+# @FUNCTION: golang-common_src_configure
 # @DESCRIPTION:
 # Configure the package.
-golang-base_src_configure() {
+golang-common_src_configure() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ ${EGO} ]] || die "No GoLang implementation set (golang_setup not called?)."
@@ -571,7 +573,7 @@ golang-base_src_configure() {
 	# GoLang doesn't have a configure phase,
 	# so instead this eclass prints the output of 'go env'.
 	local -a GOLANG_ENV=()
-	while read line; do
+	while read -r line; do
 		GOLANG_ENV+=("${line}")
 	done <<-EOF
 		$( ${GO} env )
@@ -611,7 +613,7 @@ golang-base_src_configure() {
 
 			# Collects all the tokens of the dependency.
 			local -A DEPENDENCY=()
-			while read -d $'\n' key value; do
+			while read -r -d $'\n' key value; do
 				[[ -z ${key} ]] && continue
 				DEPENDENCY[$key]="${value}"
 			done <<-EOF
@@ -667,31 +669,28 @@ golang-base_src_configure() {
 }
 
 
-# @FUNCTION: golang-base_src_compile
+# @FUNCTION: golang-common_src_compile
 # @DESCRIPTION:
 # Compiles the package.
-golang-base_src_compile() {
+golang-common_src_compile() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ ${EGO} ]] || die "No GoLang implementation set (golang_setup not called?)."
 
 	# Populates env variable GOPATH with vendored workspaces (if present).
-	if [[ -n ${GOLANG_PKG_VENDOR} || "1" == ${GO15VENDOREXPERIMENT} ]]; then
+	if [[ -n ${GOLANG_PKG_VENDOR} ]]; then
 		einfo "Using vendored dependencies from:"
 
-		# Prints Go's vendored directory.
-		if [[ "1" == ${GO15VENDOREXPERIMENT} ]]; then
-			einfo "- vendor"
-		fi
-	fi
-
-	# Prints user defined vendored directories.
-	if [[ -n ${GOLANG_PKG_VENDOR} ]]; then
 		for path in "${GOLANG_PKG_VENDOR[@]}"; do
 			[ -d ${path} ] || continue
 
+			if [[ ${path//${S}\//} == "vendor" ]]; then
+				einfo "- vendor/ (native vendoring support)"
+				continue
+			fi
+
 			debug-print "$FUNCNAME: GOPATH: Adding vendor path ${path}"
-			ebegin "- ${path//${WORKDIR}\//}"
+			ebegin "- ${path//${S}\//}"
 				GOPATH="${GOPATH}:$( echo ${path} )"
 			eend
 		done
@@ -717,21 +716,24 @@ golang-base_src_compile() {
 	local EGO_BUILD_FLAGS="$( echo ${EGO_VERBOSE} ) $( echo ${EGO_PARALLEL} ) $( echo ${EGO_EXTRA_OPTIONS} )"
 	[[ -n ${EGO_INSTALLSUFFIX} ]] && EGO_BUILD_FLAGS+=" $( echo ${EGO_INSTALLSUFFIX} )"
 
-	# Defines the output binary name of the package.
-	# If the package is a multiple package then this eclass doesn't specify
-	# the output name.
-	[[ -z ${GOLANG_PKG_BUILDPATH} ]] && EGO_BUILD_FLAGS+=" -o ${GOBIN}/${GOLANG_PKG_OUTPUT_NAME}"
+	# Detects the total number of packages.
+	local pkgs=0 ifs_save=${IFS} IFS=$' '
+	for path in ${GOLANG_PKG_BUILDPATH[@]} ; do
+		pkgs=$(( $pkgs + 1 ))
+	done
+	[[ ${pkgs} -eq 0 ]] && pkgs=1 # there is always at least 1 package
+	IFS=${ifs_save}
 
-	# Builds the package.
-	einfo "Compiling package(s):"
-	if [[ -n ${GOLANG_PKG_BUILDPATH} && ${GOLANG_PKG_BUILDPATH##*/} != "..." ]]; then
+	# Builds the package
+	einfo "Compiling ${pkgs} package(s):"
+	if [[ -n ${GOLANG_PKG_BUILDPATH} && ${GOLANG_PKG_BUILDPATH##*/} != "..." && ${pkgs} -gt 1 ]]; then
 
 		# NOTE: This eclass trims all leading and trailing white spaces from the
 		#       input of the following 'while read' loop, then appends an extra
 		#       trailing space; this is necessary to avoid undefined behaviours
 		#       within the loop when GOLANG_PKG_BUILDPATH is populated with only
 		#       a single element.
-		while read -d $' ' cmd; do
+		while read -r -d $' ' cmd; do
 			# Ignores $cmd when it's empty or a string of white spaces
 			#einfo "cmd: |$cmd| cmd: |${cmd##*/}|"
 			[[ -n $cmd ]] || continue
@@ -742,6 +744,10 @@ golang-base_src_compile() {
 				"${GOLANG_PKG_IMPORTPATH_ALIAS}/${GOLANG_PKG_NAME}${cmd}"
 		done <<< "$( echo ${GOLANG_PKG_BUILDPATH}) "
 	else
+		# If the package is a multiple package (/...)
+		# then this eclass doesn't specify the output name.
+		[[ ${GOLANG_PKG_BUILDPATH##*/} != "..." ]] && EGO_BUILD_FLAGS+=" -o ${GOBIN}/${GOLANG_PKG_OUTPUT_NAME}"
+
 		golang_do_build \
 			${EGO_BUILD_FLAGS} \
 			"${GOLANG_PKG_IMPORTPATH_ALIAS}/${GOLANG_PKG_NAME}${GOLANG_PKG_BUILDPATH}"
@@ -749,10 +755,10 @@ golang-base_src_compile() {
 }
 
 
-# @FUNCTION: golang-base_src_install
+# @FUNCTION: golang-common_src_install
 # @DESCRIPTION:
 # Installs binaries and documents from DOCS or HTML_DOCS arrays.
-golang-base_src_install() {
+golang-common_src_install() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ ${EGO} ]] || die "No GoLang implementation set (golang_setup not called?)."
@@ -799,10 +805,10 @@ golang-base_src_install() {
 	einstalldocs
 }
 
-# @FUNCTION: golang-base_src_test
+# @FUNCTION: golang-common_src_test
 # @DESCRIPTION:
 # Runs the unit tests for the main package.
-golang-base_src_test() {
+golang-common_src_test() {
 	debug-print-function ${FUNCNAME} "${@}"
 
 	[[ ${EGO} ]] || die "No GoLang implementation set (golang_setup not called?)."
@@ -832,7 +838,7 @@ golang-base_src_test() {
 
 	# Defines sub-packages.
 	local EGO_SUBPACKAGES="${GOLANG_PKG_IMPORTPATH_ALIAS}/${GOLANG_PKG_NAME}${GOLANG_PKG_BUILDPATH}"
-	[[ -n ${GOLANG_PKG_IS_MULTIPLE} ]] || EGO_SUBPACKAGES="./..."
+	[[ -z ${GOLANG_PKG_IS_MULTIPLE} ]] || EGO_SUBPACKAGES="./..."
 
 	# Runs the unit tests.
 	einfo "${EGO} test ${EGO_BUILD_FLAGS} ${EGO_SUBPACKAGES}"
@@ -901,22 +907,16 @@ golang_add_vendor() {
 
 	[[ ${GOLANG_VERSION} ]] || die "No Golang implementation set (golang_setup not called?)."
 
-	case $( get_version_component_range 1-2 ${GOLANG_VERSION} ) in
-		1.4*)
-			# TODO: traverse $1 and expose all the bundled /vendor
-			#       sub-directories to GOLANG_PKG_VENDOR
-			if [[ ! -d "${1}"/src ]]; then
-				ebegin "Fixing $1"
-					ln -s "${1}" "${1}"/src || die
-				eend
-			fi
+	[[ ! -d "${1}" ]] && return
 
-			GOLANG_PKG_VENDOR+=" ${1}"
-			;;
-		1.5*)
-			export GO15VENDOREXPERIMENT=1
-			;;
-	esac
+	# NOTE: this hack is required by Go v1.4 and older versions.
+	if [[ ! -d "${1}"/src ]]; then
+		ebegin "Fixing $1"
+			ln -s "${1}" "${1}"/src || die
+		eend
+	fi
+
+	GOLANG_PKG_VENDOR+=(${1})
 }
 
 
