@@ -1,4 +1,4 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -16,7 +16,7 @@ KEYWORDS="~amd64 ~x86"
 LICENSE="MIT"
 SLOT="0"
 
-DEPEND="dev-python/sphinx"
+DEPEND="dev-python/sphinx[python_targets_python2_7]"
 
 S="${WORKDIR}/${MY_P}"
 
