@@ -1,0 +1,32 @@
+#!/sbin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+command="/usr/bin/node"
+command_args="/usr/share/rocketchat/main.js"
+start_stop_daemon_args="-u ${ROCKET_USER:=rocket} \
+	-g ${ROCKET_GROUP:=rocket} \
+	-1 ${ROCKET_LOG_APP:-${ROCKET_LOG_DIR:-/var/log/rocketchat}/app.log} \
+	-2 ${ROCKET_LOG_ERR:-${ROCKET_LOG_DIR:-/var/log/rocketchat}/err.log} \
+	-e \"MONGO_URL=${ROCKET_MONGO_URL:-mongodb://localhost:27017/rocketchat}\" \
+	-e \"MONGO_OPLOG_URL=${ROCKET_MONGO_OPLOG_URL:-mongodb://localhost:27017/local}\" 
+	-e \"ROOT_URL=${ROCKET_ROOT_URL}\" \
+	-e \"PORT=${ROCKET_PORT:-3000}\" \
+	-e \"MAIL_URL=${ROCKET_MAIL_URL}\" \
+	-b -m -p ${ROCKET_PID:-/run/rocketchat.pid}"
+
+depend() {
+	need net
+	after mongodb
+}
+
+start_pre() {
+	# For a restart, give the node process some time
+	# to properly terminate.
+	if [ "$RC_CMD" = restart ]; then
+		sleep 1
+	fi
+
+	checkpath -d -m 0700 -o "${ROCKET_USER}":"${ROCKET_GROUP}" "/tmp/ufs"
+}
