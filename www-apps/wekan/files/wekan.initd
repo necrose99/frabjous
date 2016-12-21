@@ -1,0 +1,30 @@
+#!/sbin/openrc-run
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+command="/usr/bin/node"
+command_args="/usr/share/wekan/main.js"
+start_stop_daemon_args="-u ${WEKAN_USER:=wekan} \
+	-g ${WEKAN_GROUP:=wekan} \
+	-1 ${WEKAN_LOG_APP:-${WEKAN_LOG_DIR:-/var/log/wekan}/app.log} \
+	-2 ${WEKAN_LOG_ERR:-${WEKAN_LOG_DIR:-/var/log/wekan}/err.log} \
+	-e \"MONGO_URL=${WEKAN_MONGO_URL:-mongodb://localhost:27017/wekan}\" \
+	-e \"ROOT_URL=${WEKAN_ROOT_URL}\" \
+	-e \"PORT=${WEKAN_PORT:-8080}\" \
+	-e \"MAIL_URL=${WEKAN_MAIL_URL}\" \
+	-e \"MAIL_FROM=${WEKAN_MAIL_FROM}\" \
+	-b -m -p ${WEKAN_PID:-/run/wekan.pid}"
+
+depend() {
+	need net
+	after mongodb
+}
+
+start_pre() {
+	# For a restart, give the node process some time
+	# to properly terminate.
+	if [ "$RC_CMD" = restart ]; then
+		sleep 1
+	fi
+}

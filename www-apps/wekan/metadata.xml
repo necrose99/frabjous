@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		Wekan is an open-source and collaborative kanban board application.
+		Whether you’re maintaining a personal todo list, planning your
+		holidays with some friends, or working in a team on your next
+		revolutionary idea, Kanban boards are an unbeatable tool to
+		keep your things organized.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">wekan/wekan</remote-id>
+	</upstream>
+</pkgmetadata>
