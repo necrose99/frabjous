@@ -13,36 +13,41 @@ SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="libh2o libressl mruby websocket"
+IUSE="bundled-ssl libh2o libressl +mruby websocket"
 
 RDEPEND="
 	libh2o? (
 		>=dev-libs/libuv-1.0.0
 		websocket? ( net-libs/wslay )
 	)
-	libressl? ( dev-libs/libressl )"
+	!bundled-ssl? (
+		!libressl? ( dev-libs/openssl:0= )
+		libressl? ( dev-libs/libressl:= )
+	)"
 DEPEND="${RDEPEND}
 	mruby? (
 		sys-devel/bison
-		dev-lang/ruby:2.2
+		|| ( dev-lang/ruby:2.2 dev-lang/ruby:2.3 )
 	)"
-REQUIRED_USE="websocket? ( libh2o )"
+REQUIRED_USE="
+	websocket? ( libh2o )
+	bundled-ssl? ( !libressl )"
 
-pkg_setup(){
+pkg_setup() {
 	enewgroup h2o
 	enewuser h2o -1 -1 /var/www/h2o h2o
 }
 
-src_configure(){
+src_configure() {
 	local mycmakeargs=(
 		-DWITHOUT_LIBS="$(usex !libh2o)"
-		-DWITH_BUNDLED_SSL="$(usex !libressl)"
+		-DWITH_BUNDLED_SSL="$(usex bundled-ssl)"
 		-DWITH_MRUBY="$(usex mruby)"
 	)
 	cmake-utils_src_configure
 }
 
-src_install(){
+src_install() {
 	cmake-utils_src_install
 
 	newinitd "${FILESDIR}"/h2o.initd-r1 h2o
