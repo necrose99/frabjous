@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
 inherit user
 
@@ -16,8 +16,8 @@ KEYWORDS="~amd64"
 IUSE=""
 
 RDEPEND="dev-db/mongodb
-		 >=net-libs/nodejs-6.9.1
-		 media-gfx/graphicsmagick[jpeg,png]"
+	>=net-libs/nodejs-6.9.1[npm]
+	media-gfx/graphicsmagick[jpeg,png]"
 DEPEND="${RDEPEND}"
 
 ROCKET_DEST="/usr/share/${PN}"
