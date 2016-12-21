@@ -40,7 +40,9 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── sys-auth
     │   └── polkit
     ├── www-apps
-    │   └── gogs
+    │   ├── gogs
+    │   ├── rocketchat
+    │   └── wekan
     ├── www-client
     │   └── inox
     └── www-servers
