@@ -20,6 +20,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── libbrotli
     ├── mail-filter
     │   └── imapfilter
+    ├── media-video
+    │   └── gnome-mpv
     ├── net-dns
     │   ├── dnscrypt-wrapper
     │   └── knot
