@@ -1,4 +1,4 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -559,7 +559,7 @@ src_install() {
 			-e "s:plugins:plugins --user-data-dir=\${HOME}/.config/chromium${CHROMIUM_SUFFIX}:"
 		)
 	fi
-	sed "${sedargs[@]}" "${FILESDIR}/inox-launcher-r3.sh" > inox-launcher.sh || die
+	sed "${sedargs[@]}" "${FILESDIR}/inox-launcher-r4.sh" > inox-launcher.sh || die
 	doexe inox-launcher.sh
 
 	# It is important that we name the target "chromium-browser",
