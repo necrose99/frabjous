@@ -37,8 +37,6 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── bitcoinclassic-qt
     │   ├── bitcoinxtd
     │   └── bitcoinxt-qt
-    ├── sys-auth
-    │   └── polkit
     ├── www-apps
     │   ├── gogs
     │   ├── rocketchat
