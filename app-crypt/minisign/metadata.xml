@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		It is portable, lightweight, and uses the highly secure Ed25519 public-key signature system.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">jedisct1/minisign</remote-id>
+	</upstream>
+</pkgmetadata>
