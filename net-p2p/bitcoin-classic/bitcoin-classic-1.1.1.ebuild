@@ -229,4 +229,3 @@ pkg_postinst() {
 pkg_postrm() {
 	use gui && update_caches
 }
-
