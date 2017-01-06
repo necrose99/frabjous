@@ -1,0 +1,9 @@
+# Config file for /etc/init.d/bitcoin-classic
+
+# owner of bitcoind process (don't change, must be existing)
+BITCOIN_USER="bitcoin"
+
+BITCOIN_OPTS="${BITCOIN_OPTS}"
+
+# nice level
+NICELEVEL="19"

@@ -1,8 +1,0 @@
-/var/lib/bitcoinclassic/debug.log {
-	missingok
-	weekly
-	sharedscripts
-	postrotate
-		killall -HUP bitcoinclassicd
-	endscript
-}
