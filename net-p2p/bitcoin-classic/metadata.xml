@@ -7,8 +7,7 @@
 	</maintainer>
 	<use>
 		<flag name="daemon">Build the system daemon</flag>
-		<flag name="gui">Build support for a graphical client</flag>
-		<flag name="logrotate">Use app-admin/logrotate for rotating logs</flag>
+		<flag name="gui">Build the end-user Qt GUI for the Bitcoin crypto-currency</flag>
 		<flag name="qrcode">Enable generation of QR Codes for receiving payments</flag>
 		<flag name="upnp">Enable Universal Plug and Play</flag>
 		<flag name="utils">Enable command-line client and transaction tool</flag>

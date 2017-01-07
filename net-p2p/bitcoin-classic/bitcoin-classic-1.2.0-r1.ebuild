@@ -12,8 +12,8 @@ SRC_URI="https://github.com/bitcoinclassic/bitcoinclassic/archive/v${PV}.tar.gz 
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="bash-completion +daemon dbus examples gui hardened kde libressl +logrotate qrcode test upnp +utils +wallet +zeromq"
+KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
+IUSE="+daemon dbus examples gui hardened kde libressl qrcode test upnp +utils +wallet +zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cs cs_CZ cy da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mk_MK mn ms_MY nb nl pam pl pt_BR pt_PT ro ro_RO ru ru_RU sk sl_SI sq sr sv ta th_TH tr tr_TR uk ur_PK uz@Cyrl uz@Latn vi vi_VN zh zh_CN zh_TW"
 
 for X in ${LANGS} ; do
@@ -45,18 +45,19 @@ NDEPEND="
 	)
 	gui?  (
 		!net-p2p/bitcoin-qt
+		!net-p2p/bitcoinxt[gui]
 		!net-p2p/bitcoin-unlimited[gui,qt4,qt5]
 	)
 	utils? (
 		!net-p2p/bitcoin-cli
 		!net-p2p/bitcoin-tx
+		!net-p2p/bitcoinxt[utils]
 		!net-p2p/bitcoin-unlimited[utils]
 	)"
 
 RDEPEND="${DEPEND} ${NDEPEND}"
 
 REQUIRED_USE="
-	logrotate? ( daemon )
 	dbus? ( gui )
 	kde? ( gui )
 	qrcode? ( gui )"
@@ -146,30 +147,32 @@ src_configure() {
 
 src_install() {
 	if use daemon; then
+		local my_home="/var/lib/bitcoin"
+		local my_data="${my_home}/.bitcoin"
+
 		dobin src/bitcoind
 
 		insinto /etc/bitcoin
 		newins "${FILESDIR}/${PN}.conf" bitcoin.conf
 		fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
 		fperms 600 /etc/bitcoin/bitcoin.conf
+		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
+		doins share/rpcuser/rpcuser.py
 
 		newconfd "${FILESDIR}/${PN}.confd" ${PN}
 		newinitd "${FILESDIR}/${PN}.initd" ${PN}
-		systemd_newunit "contrib/init/bitcoind.service" ${PN}.service
+		systemd_dounit "${FILESDIR}/${PN}.service"
 
-		keepdir /var/lib/bitcoin/.bitcoin
-		fperms 700 /var/lib/bitcoin
-		fowners bitcoin:bitcoin /var/lib/bitcoin/
-		fowners bitcoin:bitcoin /var/lib/bitcoin/.bitcoin
-		dosym /etc/bitcoin/bitcoin.conf /var/lib/bitcoin/.bitcoin/bitcoin.conf
+		keepdir "${my_data}"
+		fperms 700 "${my_home}"
+		fowners bitcoin:bitcoin "${my_home}"
+		fowners bitcoin:bitcoin "${my_data}"
+		dosym /etc/bitcoin/bitcoin.conf "${my_data}"/bitcoin.conf
 
-		use bash-completion &&
 		newbashcomp contrib/bitcoind.bash-completion ${PN}
 
-		if use logrotate; then
-			insinto /etc/logrotate.d
-			newins "${FILESDIR}/${PN}.logrotate" ${PN}
-		fi
+		insinto /etc/logrotate.d
+		newins "${FILESDIR}/${PN}.logrotate" ${PN}
 	fi
 
 	if use gui; then
@@ -178,9 +181,9 @@ src_install() {
 
 		# Install icons and desktop entry.
 		for size in 16 32 64 128 256 ; do
-			newicon -s ${size} "share/pixmaps/bitcoin${size}.png" bitcoin-qt.png
+			newicon -s ${size} "share/pixmaps/bitcoin${size}.png" bitcoin.png
 		done
-		make_desktop_entry "bitcoin-qt %u" "Bitcoin Classic" "bitcoin-qt" \
+		make_desktop_entry "bitcoin-qt %u" "Bitcoin Classic" "bitcoin" \
 			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
 
 		if use kde; then
@@ -193,7 +196,6 @@ src_install() {
 	if use examples; then
 		docinto examples
 		dodoc -r contrib/{qos,spendfrom}
-		use daemon && dodoc "contrib/debian/examples/bitcoin.conf"
 		use zeromq && dodoc -r contrib/zmq
 	fi
 
@@ -202,11 +204,7 @@ src_install() {
 		dobin src/bitcoin-tx
 
 		doman contrib/debian/manpages/bitcoin-cli.1
-
-		if ! use daemon; then
-			use bash-completion &&
-				newbashcomp contrib/bitcoind.bash-completion ${PN}
-		fi
+		use daemon || newbashcomp contrib/bitcoind.bash-completion ${PN}
 	fi
 
 	doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}

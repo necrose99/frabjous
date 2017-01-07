@@ -1,0 +1,23 @@
+[Unit]
+Description=Bitcoin Classic Daemon
+After=network.target
+
+[Service]
+User=bitcoin
+Group=bitcoin
+UMask=022
+
+Type=forking
+PIDFile=/var/lib/bitcoin/bitcoind.pid
+ExecStart=/usr/bin/bitcoind -daemon -pid=/var/lib/bitcoin/bitcoind.pid \
+-conf=/etc/bitcoin/bitcoin.conf -datadir=/var/lib/bitcoin/.bitcoin -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

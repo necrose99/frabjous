@@ -3,27 +3,86 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-vardir="/var/lib/bitcoin"
-conffile="${vardir}/.bitcoin/bitcoin.conf"
-bitcoind_user="${BITCOIN_USER:-nobody:nobody}"
+BITCOIND_DEFAULT_DATADIR="/var/lib/bitcoin/.bitcoin"
+BITCOIND_CONFIGFILE=${BITCOIND_CONFIGFILE:-/etc/bitcoin/bitcoin.conf}
+BITCOIND_PIDDIR=${BITCOIND_PIDDIR:-/var/run/bitcoind}
+BITCOIND_PIDFILE=${BITCOIND_PIDFILE:-${BITCOIND_PIDDIR}/bitcoind.pid}
+BITCOIND_DATADIR=${BITCOIND_DATADIR:-${BITCOIND_DEFAULT_DATADIR}}
+BITCOIND_USER=${BITCOIND_USER:-${BITCOIN_USER:-bitcoin}}
+BITCOIND_GROUP=${BITCOIND_GROUP:-bitcoin}
+BITCOIND_BIN=${BITCOIND_BIN:-/usr/bin/bitcoind}
+BITCOIND_NICE=${BITCOIND_NICE:-${NICELEVEL:-0}}
+BITCOIND_OPTS="${BITCOIND_OPTS:-${BITCOIN_OPTS}}"
 
-description="Bitcoin Classic crypto-currency wallet for automated services"
-pidfile="/run/${SVCNAME}.pid"
+name="Bitcoin Classic Daemon"
+description="Bitcoin cryptocurrency P2P network daemon"
+
 command="/usr/bin/bitcoind"
-command_args="${BITCOIN_OPTS}"
-command_background="true"
-start_stop_daemon_args="-u ${bitcoind_user} -e HOME=${vardir} -N ${NICELEVEL:-0} -w 2000"
+command_args="-pid=\"${BITCOIND_PIDFILE}\" \
+		-conf=\"${BITCOIND_CONFIGFILE}\" \
+		-datadir=\"${BITCOIND_DATADIR}\" \
+		-daemon \
+		${BITCOIND_OPTS}"
+
+required_files="${BITCOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${BITCOIND_USER} \
+			-N ${BITCOIND_NICE} -w 2000"
+pidfile="${BITCOIND_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${BITCOIND_SIGTERM_TIMEOUT}"
 
 depend() {
-	need net
+	need localmount net
 }
 
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
 start_pre() {
-	checkpath -f -o ${bitcoind_user} -m 0400 ${conffile} || return 1
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+	"${BITCOIND_DATADIR}"
 
-	if ! grep -q '^rpcpassword=' "${conffile}"; then
-		eerror "Please edit `readlink -f ${conffile}`"
-		eerror "There must be at least a line assigning rpcpassword=something-secure"
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+	"${BITCOIND_PIDDIR}"
+
+	checkpath -f \
+	-o ${BITCOIND_USER}:${BITCOIND_GROUP} \
+	-m 0600 \
+	${BITCOIND_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run bitcoind."
+		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Bitcoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
 		return 1
 	fi
 }
