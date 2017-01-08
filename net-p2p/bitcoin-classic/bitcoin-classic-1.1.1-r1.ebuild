@@ -145,6 +145,7 @@ src_configure() {
 		my_econf="${my_econf} --disable-zmq"
 	fi
 	econf \
+		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--enable-reduce-exports \
