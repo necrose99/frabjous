@@ -36,6 +36,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── feedreader
     ├── net-p2p
     │   ├── bitcoin-classic
+    │   ├── bitcoin-unlimited
     │   └── bitcoinxt
     ├── www-apps
     │   ├── gogs
