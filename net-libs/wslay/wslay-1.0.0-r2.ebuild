@@ -3,6 +3,7 @@
 # $Id$
 
 EAPI=6
+RESTRICT="mirror"
 
 inherit autotools
 
