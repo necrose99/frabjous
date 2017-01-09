@@ -191,6 +191,7 @@ src_install() {
 		dobin src/qt/bitcoin-qt
 
 		# Install icons and desktop entry.
+		local size
 		for size in 16 32 64 128 256 ; do
 			newicon -s ${size} "share/pixmaps/bitcoin${size}.png" bitcoin.png
 		done
