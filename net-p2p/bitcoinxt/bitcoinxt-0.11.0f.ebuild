@@ -25,6 +25,7 @@ done
 DEPEND="
 	dev-libs/boost:0[threads(+)]
 	dev-libs/libevent
+	net-misc/curl
 	gui? (
 		dev-libs/protobuf
 		dev-qt/qtgui:5
