@@ -1,0 +1,33 @@
+# /etc/conf.d/zcash: config file for /etc/init.d/zcash
+
+# Config file location
+#ZCASHD_CONFIGFILE="/etc/zcash/zcash.conf"
+
+# What directory to write pidfile to?  (created and owned by $ZCASHD_USER)
+#ZCASHD_PIDDIR="/var/run/zcashd"
+
+# What filename to give the pidfile
+#ZCASHD_PIDFILE="${ZCASHD_PIDDIR}/zcashd.pid"
+
+# Where to write zcashd data (be mindful that the blockchain is large)
+#ZCASHD_DATADIR="/var/lib/zcashd"
+
+# User and group to own zcashd process
+#ZCASHD_USER="zcash"
+#ZCASHD_GROUP="zcash"
+
+# Path to zcashd executable
+#ZCASHD_BIN="/usr/bin/zcashd"
+
+# Nice value to run zcashd under
+ZCASHD_NICE=19
+
+# Additional options (avoid -conf and -datadir, use flags above)
+ZCASHD_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for zcashd to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+ZCASHD_SIGTERM_TIMEOUT=60

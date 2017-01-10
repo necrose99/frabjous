@@ -1,0 +1,82 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+ZCASHD_DEFAULT_DATADIR="/var/lib/zcashd"
+ZCASHD_CONFIGFILE=${ZCASHD_CONFIGFILE:-/etc/zcash/zcash.conf}
+ZCASHD_PIDDIR=${ZCASHD_PIDDIR:-/var/run/zcashd}
+ZCASHD_PIDFILE=${ZCASHD_PIDFILE:-${ZCASHD_PIDDIR}/zcashd.pid}
+ZCASHD_DATADIR=${ZCASHD_DATADIR:-${ZCASHD_DEFAULT_DATADIR}}
+ZCASHD_USER=${ZCASHD_USER:-${ZCASH_USER:-zcash}}
+ZCASHD_GROUP=${ZCASHD_GROUP:-zcash}
+ZCASHD_BIN=${ZCASHD_BIN:-/usr/bin/zcashd}
+ZCASHD_NICE=${ZCASHD_NICE:-${NICELEVEL:-0}}
+ZCASHD_OPTS="${ZCASHD_OPTS:-${ZCASH_OPTS}}"
+
+name="Zcash Daemon"
+description="Zcash cryptocurrency P2P network daemon"
+
+command="/usr/bin/zcashd"
+command_args="-pid=\"${ZCASHD_PIDFILE}\" \
+		-conf=\"${ZCASHD_CONFIGFILE}\" \
+		-datadir=\"${ZCASHD_DATADIR}\" \
+		-daemon \
+		${ZCASHD_OPTS}"
+
+required_files="${ZCASHD_CONFIGFILE}"
+start_stop_daemon_args="-u ${ZCASHD_USER} \
+			-N ${ZCASHD_NICE} -w 2000"
+pidfile="${ZCASHD_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${ZCASHD_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${ZCASHD_USER}:${ZCASHD_GROUP}" \
+	"${ZCASHD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${ZCASHD_USER}:${ZCASHD_GROUP}" \
+	"${ZCASHD_PIDDIR}"
+
+	checkpath -f \
+	-o ${ZCASHD_USER}:${ZCASHD_GROUP} \
+	-m 0600 \
+	${ZCASHD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${ZCASHD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run zcashd."
+		eerror "The setting must appear in ${ZCASHD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		return 1
+	fi
+}
