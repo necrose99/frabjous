@@ -40,10 +40,10 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# No hardcoded cflags
-	eapply "${FILESDIR}"/${P}-cflags.patch
-
 	eapply_user
+
+	# Remove hardcoded flags
+	sed -i "s/-O2 -g //g" ./CMakeLists.txt || die "sed fix failed!"
 }
 
 src_configure() {
