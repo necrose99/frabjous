@@ -1,18 +1,18 @@
 # Based on https://github.com/mrueg/repoman-travis
 
-sudo: required
+sudo: false
 language: python
 python:
-    - "3.4"
+    - pypy
 
 git:
     depth: 1
 
 env:
     global:
-        - OVERLAY_NAME='csmk'
+        - PORTAGE_ROOT="$(mktemp -d)"
     matrix:
-        - PORTAGE_VER="2.3.0" REPOMAN_VER="2.3.0"
+        - PORTAGE_VER="2.2.28"
 
 matrix:
     fast_finish: true
