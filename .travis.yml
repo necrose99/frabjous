@@ -1,6 +1,6 @@
 # Based on https://github.com/mrueg/repoman-travis
 
-sudo: false
+sudo: required
 language: python
 python:
     - "3.4"
