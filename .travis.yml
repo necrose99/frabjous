@@ -17,13 +17,14 @@ env:
 matrix:
     fast_finish: true
 
+
 install:
     - .travis/install_portage.sh
     - export PATH="${PORTAGE_ROOT}/usr/bin:${PATH}"
     - export PORTAGE_CONFIGROOT="${PORTAGE_ROOT}" ROOT="${PORTAGE_ROOT}"
 
 script:
-    - repoman full -i -d
+    - repoman full -d
 
 notifications:
   email:

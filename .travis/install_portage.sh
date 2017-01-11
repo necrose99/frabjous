@@ -48,7 +48,7 @@ main-repo = gentoo
 [gentoo]
 location = ${gentoo_tree_dir}
 
-[rindeal]
+[frabjous]
 location = ${TRAVIS_BUILD_DIR}
 _EOF_
 
@@ -61,7 +61,7 @@ _EOF_
 
 ln -s "${gentoo_tree_dir}/profiles/base" "${portage_conf_dir}/make.profile"
 
+
 ## cleanup
 ## --------
 rm -rf "${tmp_dir}"
-
