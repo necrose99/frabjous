@@ -8,7 +8,7 @@ inherit bash-completion-r1 eutils systemd user
 
 DESCRIPTION="High-performance authoritative-only DNS server"
 HOMEPAGE="http://www.knot-dns.cz/"
-SRC_URI="https://secure.nic.cz/files/knot-dns/${P/_/-}.tar.xz"
+SRC_URI="https://secure.nic.cz/files/knot-dns/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -35,15 +35,12 @@ DEPEND="${RDEPEND}
 	doc? ( dev-python/sphinx )
 "
 
-S="${WORKDIR}/${P/_/-}"
-
 src_configure() {
 	econf \
 		--with-storage="${EPREFIX}/var/lib/${PN}" \
 		--with-rundir="${EPREFIX}/var/run/${PN}" \
 		--with-lmdb \
 		--with-bash-completions="$(get_bashcompdir)" \
-		--disable-shared \
 		$(use_enable fastparser) \
 		$(use_enable dnstap) \
 		$(use_enable doc documentation) \
