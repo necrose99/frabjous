@@ -24,12 +24,9 @@ before_script:
     - wget "https://www.gentoo.org/dtd/metadata.dtd" -O /usr/portage/distfiles/metadata.dtd
     - ln -s portage-portage-${PORTAGE_VER}/cnf/repos.conf /etc/portage/repos.conf
     - ln -s /usr/portage/profiles/base/ /etc/portage/make.profile
-    - SIZE=$(stat -c %s .travis.yml.upstream)
     - cd travis-overlay
 script:
     - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full -i -d"
-# You can append own scripts after this line
-
 notifications:
   email:
     on_success: change  # options: [always|never|change] default: always
