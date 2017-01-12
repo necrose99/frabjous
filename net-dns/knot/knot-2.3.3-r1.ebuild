@@ -46,12 +46,16 @@ src_configure() {
 		$(use_enable doc documentation) \
 		$(use_with idn libidn) \
 		$(use_enable static-libs static) \
-		$(usex systemd --enable-systemd=yes --enable-systemd=no)
+		--enable-systemd=$(usex systemd)
 }
 
 src_compile() {
 	default
-	use doc && emake -C doc html
+
+	if use doc; then
+		emake -C doc html
+		HTML_DOCS=( doc/_build/html/{*.html,*.js,_sources,_static} )
+	fi
 }
 
 src_test() {
@@ -59,8 +63,6 @@ src_test() {
 }
 
 src_install() {
-	use doc && HTML_DOCS=( doc/_build/html/{*.html,*.js,_sources,_static} )
-
 	default
 
 	keepdir /var/lib/${PN}
