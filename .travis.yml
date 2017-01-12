@@ -21,5 +21,5 @@ before_script:
     - rsync --recursive --links --safe-links --perms --times --omit-dir-times --compress --force --whole-file --delete --stats --human-readable --timeout=180 --exclude=/distfiles --checksum --quiet rsync://rsync.gentoo.org/gentoo-portage /usr/portage
     - ln -s /usr/portage/profiles/default/linux/amd64/13.0 /etc/portage/make.profile
     - cd travis-overlay
--script:
+script:
     - ./../portage-2.3.0/bin/repoman full -i -d
