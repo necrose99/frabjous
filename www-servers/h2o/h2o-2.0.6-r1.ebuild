@@ -36,7 +36,7 @@ REQUIRED_USE="
 
 pkg_setup() {
 	enewgroup h2o
-	enewuser h2o -1 -1 /var/www/h2o h2o
+	enewuser h2o -1 -1 -1 h2o
 }
 
 src_prepare() {
@@ -64,8 +64,8 @@ src_install() {
 	insinto /etc/h2o
 	doins "${FILESDIR}"/h2o.conf
 
-	keepdir /var/{log,www}/h2o
-	fowners h2o:h2o /var/{log,www}/h2o
+	keepdir /var/log/h2o
+	fowners h2o:h2o /var/log/h2o
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
