@@ -6,6 +6,7 @@
 		<name>Ian Moone</name>
 	</maintainer>
 	<use>
+		<flag name="daemon">Build the system daemon, not just the libraries</flag>
 		<flag name="dnstap">Include support for the dnstap
 		binary log format (http://dnstap.info/).
 		</flag>
@@ -13,5 +14,6 @@
 		faster, but requires more memory and CPU time to
 		compile.
 		</flag>
+		<flag name="utils">Install command-line utilities</flag>
 	</use>
 </pkgmetadata>
