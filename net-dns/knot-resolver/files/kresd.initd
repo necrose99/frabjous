@@ -1,0 +1,37 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+: ${config:="/etc/kresd/config"}
+: ${cachedir:="/var/cache/kresd"}
+: ${logfile:="/var/log/kresd.log"}
+: ${runas_user:="kresd:kresd"}
+
+if [ "${SVCNAME}" = "kresd" ]; then
+	pidfile=${pidfile:-/run/kresd.pid}
+else
+	pidfile=${pidfile:-/run/kresd_${SVCNAME#*.}.pid}
+fi
+
+# Note: Do not change --forks=1, it's buggy.
+# You can run multiples instances by creating a
+# symbolic link from kresd to kresd.foo in /etc/init.d.
+
+command="/usr/sbin/kresd"
+command_args="--quiet --forks=1 --config=$config $cachedir"
+command_background="yes"
+required_files="$config"
+start_stop_daemon_args="
+	--chdir=$cachedir
+	--stdout=$logfile
+	--stderr=$logfile"
+
+depend() {
+	need net
+	provide dns
+}
+
+start_pre() {
+	checkpath -d -m 750 -o "${runas_user}" "$cachedir"
+}

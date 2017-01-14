@@ -1,0 +1,203 @@
+--- a/config.mk
++++ b/config.mk
+@@ -1,7 +1,7 @@
+ # Project
+ MAJOR := 1
+ MINOR := 1
+-PATCH := 0
++PATCH := 1
+ ABIVER := 1
+ BUILDMODE := dynamic
+ HARDENING := yes
+--- a/Makefile
++++ b/Makefile
+@@ -15,22 +15,34 @@
+ endif
+ 
+ # Dependencies
+-$(eval $(call find_lib,libknot,2.1))
++$(eval $(call find_lib,libknot,2.3.1,yes))
++$(eval $(call find_lib,libdnssec,2.3.1,yes))
++$(eval $(call find_lib,libzscanner,2.3.1,yes))
+ $(eval $(call find_lib,lmdb))
+-$(eval $(call find_lib,libzscanner,2.1))
+-$(eval $(call find_lib,libuv,1.0))
+-$(eval $(call find_lib,nettle))
++$(eval $(call find_lib,libuv,1.0,yes))
++$(eval $(call find_lib,nettle,,yes))
+ $(eval $(call find_alt,lua,luajit))
+ $(eval $(call find_lib,cmocka))
+ $(eval $(call find_bin,doxygen))
+ $(eval $(call find_bin,sphinx-build))
+ $(eval $(call find_lib,libmemcached,1.0))
+-$(eval $(call find_lib,hiredis))
++$(eval $(call find_lib,hiredis,,yes))
+ $(eval $(call find_lib,socket_wrapper))
+ $(eval $(call find_lib,libdnssec))
+ $(eval $(call find_lib,libsystemd,227))
+ $(eval $(call find_lib,gnutls))
+ 
++# Lookup SONAME
++$(eval $(call find_soname,libknot))
++$(eval $(call find_soname,libzscanner))
++
++ifeq ($(libknot_SONAME),)
++  $(error "Unable to resolve libknot_SONAME, update find_soname in platform.mk")
++endif
++ifeq ($(libzscanner_SONAME),)
++  $(error "Unable to resolve libzscanner_SONAME, update find_some in platform.mk")
++endif
++
+ # Find Go version and platform
+ GO_VERSION := $(shell $(GO) version 2>/dev/null)
+ ifeq ($(GO_VERSION),)
+@@ -91,10 +103,10 @@
+ 	$(info INCLUDEDIR: $(INCLUDEDIR))
+ 	$(info MODULEDIR:  $(MODULEDIR))
+ 	$(info )
+-	$(info Dependencies)
++	$(info Core Dependencies)
+ 	$(info ------------)
+ 	$(info [$(HAS_libknot)] libknot (lib))
+-	$(info [$(HAS_lmdb)] lmdb (lib))
++	$(info [yes] $(if $(filter $(HAS_lmdb),yes),system,embedded) lmdb (lib))
+ 	$(info [$(HAS_lua)] luajit (daemon))
+ 	$(info [$(HAS_libuv)] libuv (daemon))
+ 	$(info [$(HAS_gnutls)] libgnutls (daemon))
+@@ -110,6 +122,19 @@
+ 	$(info [$(HAS_libsystemd)] systemd (daemon))
+ 	$(info )
+ 
++ifeq ($(HAS_libknot),no)
++	$(error libknot >= 2.3.1 required)
++endif
++ifeq ($(HAS_libzscanner),no)
++	$(error libzscanner >= 2.3.1 required)
++endif
++ifeq ($(HAS_libdnssec),no)
++	$(error libdnssec >= 2.3.1 required)
++endif
++ifeq ($(HAS_libuv),no)
++	$(error libuv >= 1.0 required)
++endif
++
+ # Installation directories
+ $(DESTDIR)$(MODULEDIR):
+ 	$(INSTALL) -d $@
+--- a/platform.mk
++++ b/platform.mk
+@@ -49,7 +49,9 @@
+             BINFLAGS += -pie
+             LDFLAGS += -Wl,-z,relro,-z,now
+         endif
+-        LDFLAGS += -ldl
++        ifeq ($(UNAME),Linux)
++            LDFLAGS += -ldl
++        endif
+     endif
+ endif
+ 
+@@ -175,3 +177,16 @@
+ define find_gopkg
+ 	HAS_$(1) := $(shell go list $(2) > /dev/null 2>&1 && echo yes || echo no)
+ endef
++
++define find_soname
++
++# Use objdump -p on Linux and BSDs
++ifeq ($(PLATFORM),POSIX)
++ifeq ($(UNAME),OpenBSD)
++	$(1)_SONAME = $$(shell basename $$$$(readlink -f $$$$(pkg-config --variable=libdir $(1))/$(1)$(LIBEXT)) | cut -f 1-3 -d .)
++else
++	$(1)_SONAME = $$(shell objdump -p $$$$(pkg-config --variable=libdir $(1))/$(1)$(LIBEXT) | sed -ne 's/[[:space:]]*SONAME[[:space:]]*\($(1)\.so\.[0-4]*\)/\1/p')
++endif
++endif
++
++endef # find_soname
+--- a/daemon/daemon.mk
++++ b/daemon/daemon.mk
+@@ -23,7 +23,9 @@
+ bindings-install: $(kresd_DIST) $(DESTDIR)$(MODULEDIR)
+ 	$(INSTALL) -m 0644 $(kresd_DIST) $(DESTDIR)$(MODULEDIR)
+ 
+-kresd_CFLAGS := -fPIE
++kresd_CFLAGS := -fPIE \
++		-Dlibknot_SONAME=\"$(libknot_SONAME)\" \
++		-Dlibzscanner_SONAME=\"$(libzscanner_SONAME)\"
+ kresd_DEPEND := $(libkres) $(contrib)
+ kresd_LIBS := $(libkres_TARGET) $(contrib_TARGET) $(libknot_LIBS) \
+               $(libzscanner_LIBS) $(libdnssec_LIBS) $(libuv_LIBS) $(lua_LIBS) \
+--- a/daemon/engine.c
++++ b/daemon/engine.c
+@@ -129,26 +129,6 @@
+ 	return 1;
+ }
+ 
+-/** Return platform-specific versioned library name. */
+-static int l_libpath(lua_State *L)
+-{
+-	int n = lua_gettop(L);
+-	if (n < 2)
+-		return 0;
+-	auto_free char *lib_path = NULL;
+-	const char *lib_name = lua_tostring(L, 1);
+-	const char *lib_version = lua_tostring(L, 2);
+-#if defined(__APPLE__)
+-	lib_path = afmt("%s.%s.dylib", lib_name, lib_version);
+-#elif _WIN32
+-	lib_path = afmt("%s.dll", lib_name); /* Versioned in RC files */
+-#else
+-	lib_path = afmt("%s.so.%s", lib_name, lib_version);
+-#endif
+-	lua_pushstring(L, lib_path);
+-	return 1;
+-}
+-
+ /** Quit current executable. */
+ static int l_quit(lua_State *L)
+ {
+@@ -508,8 +488,10 @@
+ 	lua_setglobal(engine->L, "user");
+ 	lua_pushcfunction(engine->L, l_trustanchor);
+ 	lua_setglobal(engine->L, "trustanchor");
+-	lua_pushcfunction(engine->L, l_libpath);
+-	lua_setglobal(engine->L, "libpath");
++	lua_pushliteral(engine->L, libknot_SONAME);
++	lua_setglobal(engine->L, "libknot_SONAME");
++	lua_pushliteral(engine->L, libzscanner_SONAME);
++	lua_setglobal(engine->L, "libzscanner_SONAME");
+ 	lua_pushcfunction(engine->L, l_tojson);
+ 	lua_setglobal(engine->L, "tojson");
+ 	lua_pushcfunction(engine->L, l_map);
+--- a/daemon/lua/kres.lua
++++ b/daemon/lua/kres.lua
+@@ -11,17 +11,7 @@
+ local bor = bit.bor
+ local band = bit.band
+ local C = ffi.C
+-
+--- Load any of supported libknot SO versions
+-local knot
+-for ver = 2, 3 do
+-	local ok, lib = pcall(ffi.load, libpath('libknot', tostring(ver)))
+-	if ok then
+-		knot = lib
+-		break
+-	end
+-end
+-assert(knot, 'support libknot not found')
++local knot = ffi.load(libknot_SONAME)
+ 
+ ffi.cdef[[
+ 
+--- a/modules/policy/zonefile.lua
++++ b/modules/policy/zonefile.lua
+@@ -3,7 +3,7 @@
+ --
+ 
+ local ffi = require('ffi')
+-local libzscanner = ffi.load(libpath('libzscanner', '1'))
++local libzscanner = ffi.load(libzscanner_SONAME)
+ ffi.cdef[[
+ void free(void *ptr);
+ void *realloc(void *ptr, size_t size);

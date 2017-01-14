@@ -1,0 +1,7 @@
+/var/log/kresd.log {
+	notifempty
+	missingok
+	postrotate
+		/etc/init.d/kresd --quiet --ifstarted restart
+	endscript
+}

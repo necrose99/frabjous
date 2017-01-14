@@ -26,7 +26,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── gnome-mpv
     ├── net-dns
     │   ├── dnscrypt-wrapper
-    │   └── knot
+    │   ├── knot
+    │   └── knot-resolver
     ├── net-libs
     │   ├── nodejs
     │   └── wslay

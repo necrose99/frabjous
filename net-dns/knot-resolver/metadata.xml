@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		The Knot DNS Resolver is a caching full resolver implementation
+		written in C and LuaJIT, including both a resolver library and
+		a daemon. Modular architecture of the library keeps the core tiny
+		and efficient, and provides a state-machine like API for extensions.
+	</longdescription>
+	<use>
+		<flag name="go">Build modules written in Go</flag>
+		<flag name="memcached">Build memcached backend module</flag>
+		<flag name="redis">Build redis backend module</flag>
+	</use>
+</pkgmetadata>
