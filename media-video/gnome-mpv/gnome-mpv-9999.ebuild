@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=6
 
-inherit autotools eutils fdo-mime git-r3 gnome2-utils versionator
+inherit autotools fdo-mime git-r3 gnome2-utils
 
 DESCRIPTION="A simple GTK+ frontend for mpv"
 HOMEPAGE="https://github.com/gnome-mpv/gnome-mpv"
-EGIT_REPO_URI="https://github.com/gnome-mpv/gnome-mpv.git"
+EGIT_REPO_URI=( {https,git}://github.com/gnome-mpv/gnome-mpv.git )
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -34,6 +34,7 @@ src_prepare() {
 	sed -i '/install-data-hook:/d' Makefile.am || die
 	sed -i '/uninstall-hook:/d' Makefile.am || die
 	mkdir m4
+	eapply_user
 	eautoreconf
 }
 
