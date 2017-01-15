@@ -34,7 +34,6 @@ REQUIRED_USE="
 	websocket? ( libh2o )
 	bundled-ssl? ( !libressl )"
 
-
 S="${WORKDIR}/${P/_/-}"
 
 pkg_setup() {
