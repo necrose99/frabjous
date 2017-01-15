@@ -14,7 +14,7 @@ start_stop_daemon_args="-u ${ROCKET_USER:=rocket} \
 	-e \"ROOT_URL=${ROCKET_ROOT_URL}\" \
 	-e \"PORT=${ROCKET_PORT:-3000}\" \
 	-e \"MAIL_URL=${ROCKET_MAIL_URL}\" \
-	-b -m -p ${ROCKET_PID:-/run/rocketchat.pid}"
+	-b -m -p ${ROCKET_PID:-/run/rocketchat/rocketchat.pid}"
 
 depend() {
 	need net
@@ -28,5 +28,5 @@ start_pre() {
 		sleep 1
 	fi
 
-	checkpath -d -m 0700 -o "${ROCKET_USER}":"${ROCKET_GROUP}" "/tmp/ufs"
+	checkpath -d -m 0700 -o "${ROCKET_USER}":"${ROCKET_GROUP}" /tmp/ufs /run/rocketchat
 }
