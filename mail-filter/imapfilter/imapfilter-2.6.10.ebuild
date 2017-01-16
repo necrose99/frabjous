@@ -2,18 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
-
-inherit eutils toolchain-funcs
+EAPI=6
+RESTRICT="mirror"
 
 DESCRIPTION="An IMAP mail filtering utility"
-HOMEPAGE="http://imapfilter.hellug.gr"
+HOMEPAGE="https://github.com/lefcha/imapfilter"
 SRC_URI="https://github.com/lefcha/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~ppc ~x86"
-
+KEYWORDS="~amd64 ~x86"
 IUSE="libressl"
 
 RDEPEND="
@@ -27,13 +25,15 @@ DOCS="AUTHORS NEWS README samples/*"
 
 src_prepare() {
 	# Fix compatibility with LibreSSL
-	epatch "${FILESDIR}"/${PN}-2.6.8-libressl-compat.patch
+	eapply "${FILESDIR}"/${PN}-2.6.8-libressl-compat.patch
 
 	sed -i -e "/^PREFIX/s:/usr/local:${EPREFIX}/usr:" \
 		-e "/^MANDIR/s:man:share/man:" \
 		-e "/^CFLAGS/s:CFLAGS =:CFLAGS +=:" \
 		-e "/^CFLAGS/s/-O//" \
 		src/Makefile || die
+
+		eapply_user
 }
 
 src_compile() {
