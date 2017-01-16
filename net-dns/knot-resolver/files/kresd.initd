@@ -9,9 +9,9 @@
 : ${runas_user:="kresd:kresd"}
 
 if [ "${SVCNAME}" = "kresd" ]; then
-	pidfile=${pidfile:-/run/kresd.pid}
+	pidfile="/run/kresd.pid"
 else
-	pidfile=${pidfile:-/run/kresd_${SVCNAME#*.}.pid}
+	pidfile="/run/kresd_${SVCNAME#*.}.pid"
 fi
 
 # Note: Do not change --forks=1, it's buggy.
