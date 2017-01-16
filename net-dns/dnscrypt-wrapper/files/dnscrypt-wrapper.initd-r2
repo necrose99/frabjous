@@ -1,33 +1,29 @@
 #!/sbin/openrc-run
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-pidfile=${pidfile:-${rundir}/dnscrypt-wrapper.pid}
-rundir=${rundir:-/var/run/dnscrypt-wrapper}
-runas_user=${runas_user:-dnscrypt}
-runas_group=${runas_group:-dnscrypt}
+: ${RUNDIR:="/run/dnscrypt-wrapper"}
+: ${PIDFILE:="${RUNDIR}/dnscrypt-wrapper.pid"}
+: ${RUNAS_USER:="dnscrypt"}
+: ${RUNAS_GROUP:="dnscrypt"}
 
 depend() {
-	use net
-	before dns
-	after logger
+	need net
+	use dns
+}
+
+start_pre() {
+	checkpath -d -m 750 -o "${RUNAS_USER}:${RUNAS_GROUP}" "${RUNDIR}" /etc/dnscrypt-wrapper
 }
 
 start() {
-	if [ ! -d "${rundir}" ]; then
-		mkdir "${rundir}"
-		if [ -n "${runas_user}" ]; then
-			chown -R ${runas_user}:${runas_group} "${rundir}"
-		fi
-	fi
-
 	ebegin "Starting DNSCrypt wrapper"
 	start-stop-daemon --start --quiet \
 		--exec /usr/sbin/dnscrypt-wrapper -- \
-		--pidfile=${pidfile} \
+		--pidfile=${PIDFILE} \
 		--logfile=${DNSCRYPT_LOGFILE} \
-		--daemonize --user=${runas_user} \
+		--daemonize --user=${RUNAS_USER} \
 		--listen-address=${DNSCRYPT_LISTENIP}:${DNSCRYPT_LISTENPORT} \
 		--resolver-address=${DNSCRYPT_RESOLVERIP}:${DNSCRYPT_RESOLVERPORT} \
 		--provider-name=${DNSCRYPT_PROVIDER_NAME} \
@@ -38,6 +34,6 @@ start() {
 
 stop() {
 	ebegin "Stopping DNSCrypt wrapper"
-	start-stop-daemon --stop --quiet --pidfile ${pidfile}
+	start-stop-daemon --stop --quiet --pidfile ${PIDFILE}
 	eend $?
 }
