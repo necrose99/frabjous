@@ -1,13 +1,13 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI=6
 
 inherit systemd user
 
 DESCRIPTION="A server-side dnscrypt proxy"
-HOMEPAGE="https://dnscrypt.org/"
+HOMEPAGE="https://github.com/cofyc/dnscrypt-wrapper"
 SRC_URI="https://github.com/cofyc/dnscrypt-wrapper/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
