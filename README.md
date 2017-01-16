@@ -20,6 +20,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── go-bindata
     ├── dev-libs
     │   └── libbrotli
+    ├── dev-util
+    │   └── electron
     ├── mail-filter
     │   └── imapfilter
     ├── media-video
