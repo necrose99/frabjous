@@ -12,8 +12,7 @@ EGIT_REPO_URI=( {https,git}://github.com/gnome-mpv/gnome-mpv.git )
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE=""
+KEYWORDS=""
 
 COMMON_DEPEND=">=dev-libs/glib-2.30
 	>=x11-libs/gtk+-3.18:3

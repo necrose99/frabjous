@@ -14,8 +14,7 @@ EGIT_REPO_URI=( {https,git}://github.com/phw/peek.git )
 
 LICENSE="GPL-3"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE=""
+KEYWORDS=""
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
