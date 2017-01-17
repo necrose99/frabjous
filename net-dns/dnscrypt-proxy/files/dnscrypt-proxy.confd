@@ -1,0 +1,17 @@
+# You can run multiples instances by creating a symbolic link
+# from dnscrypt-proxy to dnscrypt-proxy.foo in /etc/init.d. After that,
+# copy dnscrypt-proxy to dnscrypt-proxy.foo in /etc/conf.d and make
+# the necessary changes in the new config file.
+
+DNSCRYPT_LOCALIP=127.0.0.1
+DNSCRYPT_LOCALPORT=53
+DNSCRYPT_OPTIONS="--ephemeral-keys"
+# Pick exactly ONE of the following sets:
+# option 1) selection from CSV file, uses the first column as the key
+DNSCRYPT_RESOLVER_NAME=cisco # Cisco OpenDNS
+DNSCRYPT_RESOLVERS_LIST=/usr/share/dnscrypt-proxy/dnscrypt-resolvers.csv
+# option 2) manually specified parameters
+#DNSCRYPT_RESOLVERIP=203.0.133.53
+#DNSCRYPT_RESOLVERPORT=443
+#DNSCRYPT_PROVIDER_NAME=2.dnscrypt-cert.example.com
+#DNSCRYPT_PROVIDER_KEY=1234:5678:90AB:CDEF:DEAD:BEEF:CAFE:BEA7:1234:5678:90AB:CDEF:DEAD:BEEF:CAFE:BEA7
