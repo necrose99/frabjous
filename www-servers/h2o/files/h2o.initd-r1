@@ -9,15 +9,16 @@ description="An optimized HTTP/1.x, HTTP/2 server"
 description_configtest="Run H2O internal config check."
 description_reload="Reload the H2O configuration without losing connections."
 
-h2o_config=${h2o_config:-/etc/h2o/h2o.conf}
-pidfile=`grep pid-file ${h2o_config} | cut -d' ' -f2`
+: ${config:="/etc/h2o/h2o.conf"}
+pidfile=`grep pid-file ${config} | cut -d' ' -f2`
 
 command="/usr/bin/h2o"
-command_args="-m daemon -c ${h2o_config}"
+command_args="-m daemon -c ${config}"
+required_files="$config"
 
 depend() {
 	use net
-	after dns logger
+	after logger
 }
 
 start_pre() {
@@ -33,30 +34,25 @@ stop_pre() {
 }
 
 stop() {
-	ebegin "Stopping ${SVCNAME}"
+	ebegin "Stopping H2O"
 	start-stop-daemon --stop --quiet --pidfile ${pidfile}
 	eend $?
 }
 
 reload() {
 	configtest || return 1
-	ebegin "Refreshing ${SVCNAME} configuration"
+	ebegin "Refreshing H2O configuration"
 	kill -HUP `cat ${pidfile}` &>/dev/null
 	eend $? "Failed to reload ${SVCNAME}"
 }
 
 configtest() {
-	ebegin "Checking ${SVCNAME} configuration"
+	ebegin "Checking H2O configuration"
 
-	if [ ! -f "${h2o_config}" ] ; then
-		ewarn "${h2o_config} does not exist."
-		return 1
-	fi
-
-	${command} -c ${h2o_config} -t >/dev/null
+	${command} -c ${config} -t >/dev/null
 
 	if [ $? -ne 0 ]; then
-		${command} -c ${h2o_config} -t
+		${command} -c ${config} -t
 	fi
 
 	eend $? "failed, please correct errors above"
