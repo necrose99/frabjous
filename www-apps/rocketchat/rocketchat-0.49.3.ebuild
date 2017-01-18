@@ -32,9 +32,9 @@ src_unpack() {
 
 src_prepare() {
 	default
-	pushd "programs/server"
+	pushd "programs/server" > /dev/null || die
 	npm install || die "Error in npm install"
-	popd
+	popd > /dev/null || die
 }
 
 src_install() {
