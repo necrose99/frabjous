@@ -1,5 +1,5 @@
+ROCKET_PORT="3000"
+ROCKET_ROOT_URL="http://localhost:3000/"
+ROCKET_MAIL_URL="smtp://localhost:25"
 ROCKET_MONGO_URL="mongodb://localhost:27017/rocketchat"
 ROCKET_MONGO_OPLOG_URL="mongodb://localhost:27017/local"
-ROCKET_ROOT_URL="http://localhost:3000/"
-ROCKET_PORT="3000"
-ROCKET_MAIL_URL="smtp://localhost:25"
