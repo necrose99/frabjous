@@ -6,12 +6,13 @@
 extra_commands="configtest"
 extra_started_commands="reload"
 description="An optimized HTTP/1.x, HTTP/2 server"
-description_configtest="Run H2O internal config check."
-description_reload="Reload the H2O configuration without losing connections."
+description_configtest="Run H2O internal config check"
+description_reload="Reload the H2O configuration without losing connections"
 
 : ${config:="/etc/h2o/h2o.conf"}
 pidfile=`grep pid-file ${config} | cut -d' ' -f2`
 
+name="H2O"
 command="/usr/bin/h2o"
 command_args="-m daemon -c ${config}"
 required_files="$config"
@@ -34,20 +35,20 @@ stop_pre() {
 }
 
 stop() {
-	ebegin "Stopping H2O"
+	ebegin "Stopping ${name}"
 	start-stop-daemon --stop --quiet --pidfile ${pidfile}
 	eend $?
 }
 
 reload() {
 	configtest || return 1
-	ebegin "Refreshing H2O configuration"
+	ebegin "Refreshing ${name} configuration"
 	kill -HUP `cat ${pidfile}` &>/dev/null
 	eend $? "Failed to reload ${SVCNAME}"
 }
 
 configtest() {
-	ebegin "Checking H2O configuration"
+	ebegin "Checking ${name} configuration"
 
 	${command} -c ${config} -t >/dev/null
 
