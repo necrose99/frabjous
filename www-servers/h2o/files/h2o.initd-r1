@@ -34,17 +34,11 @@ stop_pre() {
 	fi
 }
 
-stop() {
-	ebegin "Stopping ${name}"
-	start-stop-daemon --stop --quiet --pidfile ${pidfile}
-	eend $?
-}
-
 reload() {
 	configtest || return 1
 	ebegin "Refreshing ${name} configuration"
 	kill -HUP `cat ${pidfile}` &>/dev/null
-	eend $? "Failed to reload ${SVCNAME}"
+	eend $? "Failed to reload ${name}"
 }
 
 configtest() {
@@ -56,5 +50,5 @@ configtest() {
 		${command} -c ${config} -t
 	fi
 
-	eend $? "failed, please correct errors above"
+	eend $? "Failed, please correct errors above"
 }
