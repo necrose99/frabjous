@@ -8,7 +8,7 @@ RESTRICT="mirror"
 inherit cmake-utils systemd user
 
 DESCRIPTION="An optimized HTTP server with support for HTTP/1.x and HTTP/2"
-HOMEPAGE="https://github.com/h2o/h2o"
+HOMEPAGE="https://h2o.examp1e.net/"
 SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -23,7 +23,7 @@ RDEPEND="
 	)
 	!bundled-ssl? (
 		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:= )
+		libressl? ( dev-libs/libressl:0= )
 	)"
 DEPEND="${RDEPEND}
 	mruby? (
@@ -69,5 +69,5 @@ src_install() {
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}/h2o.logrotate" ${PN}
+	newins "${FILESDIR}"/h2o.logrotate ${PN}
 }
