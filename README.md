@@ -14,10 +14,6 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     .
     ├── app-crypt
     │   └── minisign
-    ├── dev-db
-    │   └── tidb
-    ├── dev-go
-    │   └── go-bindata
     ├── dev-libs
     │   └── libbrotli
     ├── dev-util
@@ -47,7 +43,6 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── bitcoinxt
     │   └── zcash
     ├── www-apps
-    │   ├── gogs
     │   └── rocketchat
     ├── www-client
     │   └── inox
