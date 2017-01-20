@@ -3,11 +3,12 @@
 # $Id$
 
 EAPI=6
+RESTRICT="mirror"
 
 inherit systemd user
 
 DESCRIPTION="A tool for securing communications between a client and a DNS resolver"
-HOMEPAGE="https://dnscrypt.org/"
+HOMEPAGE="https://dnscrypt.org"
 SRC_URI="https://download.dnscrypt.org/${PN}/${P}.tar.gz"
 
 LICENSE="ISC"
@@ -23,7 +24,6 @@ RDEPEND="
 		libressl? ( dev-libs/libressl:0= )
 	)
 	systemd? ( sys-apps/systemd )"
-
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
