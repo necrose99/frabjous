@@ -8,20 +8,19 @@ VALA_MIN_API_VERSION=0.22
 
 inherit cmake-utils git-r3 gnome2-utils vala
 
-DESCRIPTION="An simple animated Gif screen recorder"
+DESCRIPTION="Simple animated Gif screen recorder"
 HOMEPAGE="https://github.com/phw/peek"
 EGIT_REPO_URI=( {https,git}://github.com/phw/peek.git )
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
 	>=x11-libs/gtk+-3.14:3
-	media-video/ffmpeg
-	media-gfx/imagemagick"
-
+	media-video/ffmpeg[X,encode]
+	|| ( media-gfx/imagemagick media-gfx/graphicsmagick[imagemagick] )"
 DEPEND="${RDEPEND}
 	$(vala_depend)
 	>=sys-devel/gettext-0.19.0"
@@ -34,7 +33,6 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		-DBUILD_TESTS=ON
 		-DGSETTINGS_COMPILE=OFF
 	)
 	cmake-utils_src_configure
