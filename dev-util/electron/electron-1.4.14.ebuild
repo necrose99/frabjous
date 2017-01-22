@@ -520,8 +520,7 @@ src_configure() {
 		-Dlibspeechd_h_prefix=speech-dispatcher/"
 
 	# TODO: use the file at run time instead of effectively compiling it in.
-	myconf+="
-		-Dusb_ids_path=/usr/share/misc/usb.ids"
+	myconf+=" -Dusb_ids_path=/usr/share/misc/usb.ids"
 
 	myconf+=" -Dfieldtrial_testing_like_official_build=1"
 
@@ -624,9 +623,9 @@ src_configure() {
 	# --shared-libuv cannot be used as electron's node fork
 	# patches uv_loop structure.
 	./configure --shared --without-bundled-v8 $(usex !bundled-openssl "--shared-openssl" "") \
-				--shared-http-parser --shared-zlib --without-npm \
-				--with-intl=system-icu --without-dtrace \
-				--dest-cpu=${target_arch} --prefix="" || die
+		--shared-http-parser --shared-zlib --without-npm \
+		--with-intl=system-icu --without-dtrace \
+		--dest-cpu=${target_arch} --prefix="" || die
 	popd > /dev/null || die
 
 	# libchromiumcontent configuration

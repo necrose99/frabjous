@@ -1,8 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI=5
 PYTHON_COMPAT=( python2_7 )
 
 CHROMIUM_LANGS="am ar bg bn ca cs da de el en-GB es es-419 et fa fi fil fr gu he
@@ -10,8 +10,8 @@ CHROMIUM_LANGS="am ar bg bn ca cs da de el en-GB es es-419 et fa fi fil fr gu he
 	sv sw ta te th tr uk vi zh-CN zh-TW"
 
 inherit check-reqs chromium-2 eutils gnome2-utils flag-o-matic multilib \
-	multiprocessing pax-utils portability python-any-r1 readme.gentoo-r1 \
-	toolchain-funcs versionator virtualx xdg-utils
+	multiprocessing pax-utils portability python-any-r1 toolchain-funcs \
+	versionator virtualx xdg-utils
 
 # Keep this in sync with vendor/brightray/vendor/libchromiumcontent/VERSION
 CHROMIUM_VERSION="52.0.2743.82"
@@ -34,7 +34,7 @@ LIBCHROMIUMCONTENT_P="libchromiumcontent-${LIBCHROMIUMCONTENT_COMMIT}"
 ASAR_P="asar-${ASAR_VERSION}"
 
 DESCRIPTION="Cross platform application development framework based on web technologies"
-HOMEPAGE="http://electron.atom.io/"
+HOMEPAGE="http://electron.atom.io"
 SRC_URI="
 	https://commondatastorage.googleapis.com/chromium-browser-official/${CHROMIUM_P}.tar.xz
 	https://github.com/electron/electron/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -55,7 +55,7 @@ LIBCC_S="${BRIGHTRAY_S}/vendor/libchromiumcontent"
 LICENSE="BSD"
 SLOT="$(get_version_component_range 1-2)"
 KEYWORDS="~amd64"
-IUSE="bundled-openssl custom-cflags cups gnome gnome-keyring hidpi kerberos lto neon pic +proprietary-codecs pulseaudio selinux +system-ffmpeg +tcmalloc"
+IUSE="bundled-openssl cups custom-cflags gnome gnome-keyring hidpi kerberos lto +proprietary-codecs pulseaudio selinux +system-ffmpeg +tcmalloc"
 RESTRICT="!system-ffmpeg? ( proprietary-codecs? ( bindist ) )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
@@ -124,9 +124,7 @@ RDEPEND="!<dev-util/electron-0.36.12-r4
 	>=dev-libs/libuv-1.8.0:=
 	!bundled-openssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )"
 DEPEND="${RDEPEND}
-	!arm? (
-		dev-lang/yasm
-	)
+	dev-lang/yasm
 	dev-lang/perl
 	dev-perl/JSON
 	>=dev-util/gperf-3.0.3
@@ -170,7 +168,7 @@ if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 fi
 
 pkg_pretend() {
-	if [[ $(tc-getCC)$ == *gcc* ]] && \
+	if [[ $(tc-getCC) = *gcc* ]] && \
 		[[ $(gcc-major-version)$(gcc-minor-version) -lt 48 ]]; then
 		die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
 	fi
@@ -180,15 +178,15 @@ pkg_pretend() {
 		local lto_n_rlimit_min="16384"
 		local maxfiles=$(ulimit -n -H)
 		if [ "${maxfiles}" -lt "${lto_n_rlimit_min}" ]; then
-			eerror ""
+			eerror
 			eerror "Building with USE=\"lto\" requires file descriptor" \
-				   "limit to be no less than ${lto_n_rlimit_min}."
-		    eerror "The current limit for portage is ${maxfiles}."
+				"limit to be no less than ${lto_n_rlimit_min}."
+			eerror "The current limit for portage is ${maxfiles}."
 			eerror "Please add the following to /etc/security/limits.conf:"
-			eerror ""
+			eerror
 			eerror "   root hard    nofile  ${lto_n_rlimit_min}"
 			eerror "   root soft    nofile  ${lto_n_rlimit_min}"
-			eerror ""
+			eerror
 			die
 		fi
 	fi
@@ -227,7 +225,7 @@ _get_install_suffix() {
 	local slot=${c[0]}
 	local suffix
 
-	if [[ "${slot}" == "0" ]]; then
+	if [[ "${slot}" = "0" ]]; then
 		suffix=""
 	else
 		suffix="-${slot}"
@@ -487,17 +485,12 @@ src_configure() {
 		-Duse_system_snappy=1
 		-Duse_system_speex=1
 		-Duse_system_xdg_utils=1
+		-Duse_system_yasm=1
 		-Duse_system_zlib=1"
 
 	# Needed for system icu - we don't need additional data files.
 	myconf+=" -Dicu_use_data_file_flag=0"
 	myconf+=" -Dgenerate_character_data=0"
-
-	# TODO: patch gyp so that this arm conditional is not needed.
-	if ! use arm; then
-		myconf+="
-			-Duse_system_yasm=1"
-	fi
 
 	# Optional dependencies.
 	# TODO: linux_link_kerberos, bug #381289.
@@ -521,14 +514,12 @@ src_configure() {
 		-Dlibspeechd_h_prefix=speech-dispatcher/"
 
 	# TODO: use the file at run time instead of effectively compiling it in.
-	myconf+="
-		-Dusb_ids_path=/usr/share/misc/usb.ids"
+	myconf+=" -Dusb_ids_path=/usr/share/misc/usb.ids"
 
 	# Save space by removing DLOG and DCHECK messages (about 6% reduction).
-	myconf+="
-		-Dlogging_like_official_build=1"
+	myconf+=" -Dlogging_like_official_build=1"
 
-	if [[ $(tc-getCC) == *clang* ]]; then
+	if [[ $(tc-getCC) = *clang* ]]; then
 		myconf+=" -Dclang=1"
 	else
 		myconf+=" -Dclang=0"
@@ -562,32 +553,6 @@ src_configure() {
 	if [[ $myarch = amd64 ]] ; then
 		target_arch=x64
 		ffmpeg_target_arch=x64
-	elif [[ $myarch = x86 ]] ; then
-		target_arch=ia32
-		ffmpeg_target_arch=ia32
-	elif [[ $myarch = arm64 ]] ; then
-		target_arch=arm64
-		ffmpeg_target_arch=arm64
-	elif [[ $myarch = arm ]] ; then
-		target_arch=arm
-		ffmpeg_target_arch=$(usex neon arm-neon arm)
-		# TODO: re-enable NaCl (NativeClient).
-		local CTARGET=${CTARGET:-${CHOST}}
-		if [[ $(tc-is-softfloat) == "no" ]]; then
-
-			myconf_gyp+=" -Darm_float_abi=hard"
-		fi
-		filter-flags "-mfpu=*"
-		use neon || myconf_gyp+=" -Darm_fpu=${ARM_FPU:-vfpv3-d16}"
-
-		if [[ ${CTARGET} == armv[78]* ]]; then
-			myconf_gyp+=" -Darmv7=1"
-		else
-			myconf_gyp+=" -Darmv7=0"
-		fi
-		myconf_gyp+=" -Dsysroot=
-			$(gyp_use neon arm_neon)
-			-Ddisable_nacl=1"
 	else
 		die "Failed to determine target arch, got '$myarch'."
 	fi
@@ -607,13 +572,8 @@ src_configure() {
 		replace-flags "-Os" "-O2"
 		strip-flags
 
-		# Prevent linker from running out of address space, bug #471810 .
-		if use x86; then
-			filter-flags "-g*"
-		fi
-
 		# Prevent libvpx build failures. Bug 530248, 544702, 546984.
-		if [[ ${myarch} == amd64 || ${myarch} == x86 ]]; then
+		if [[ ${myarch} = amd64 ]]; then
 			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 \
 						 -mno-avx -mno-avx2
 		fi
@@ -636,9 +596,6 @@ src_configure() {
 
 	if ! use system-ffmpeg; then
 		local build_ffmpeg_args=""
-		if use pic && [[ "${ffmpeg_target_arch}" == "ia32" ]]; then
-			build_ffmpeg_args+=" --disable-asm"
-		fi
 
 		# Re-configure bundled ffmpeg. See bug #491378 for example reasons.
 		einfo "Configuring bundled ffmpeg..."
@@ -661,9 +618,9 @@ src_configure() {
 	# --shared-libuv cannot be used as electron's node fork
 	# patches uv_loop structure.
 	./configure --shared --without-bundled-v8 $(usex !bundled-openssl "--shared-openssl" "") \
-				--shared-http-parser --shared-zlib --without-npm \
-				--with-intl=system-icu --without-dtrace \
-				--dest-cpu=${target_arch} --prefix="" || die
+		--shared-http-parser --shared-zlib --without-npm \
+		--with-intl=system-icu --without-dtrace \
+		--dest-cpu=${target_arch} --prefix="" || die
 	popd > /dev/null || die
 
 	# libchromiumcontent configuration
@@ -689,10 +646,10 @@ eninja() {
 		local jobs=$(makeopts_jobs)
 		local loadavg=$(makeopts_loadavg)
 
-		if [[ ${MAKEOPTS} == *-j* && ${jobs} != 999 ]]; then
+		if [[ ${MAKEOPTS} = *-j* && ${jobs} != 999 ]]; then
 			NINJAOPTS+=" -j ${jobs}"
 		fi
-		if [[ ${MAKEOPTS} == *-l* && ${loadavg} != 999 ]]; then
+		if [[ ${MAKEOPTS} = *-l* && ${loadavg} != 999 ]]; then
 			NINJAOPTS+=" -l ${loadavg}"
 		fi
 	fi
