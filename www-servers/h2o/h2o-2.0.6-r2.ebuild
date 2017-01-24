@@ -8,7 +8,7 @@ RESTRICT="mirror"
 inherit cmake-utils systemd user
 
 DESCRIPTION="An optimized HTTP server with support for HTTP/1.x and HTTP/2"
-HOMEPAGE="https://h2o.examp1e.net/"
+HOMEPAGE="https://h2o.examp1e.net"
 SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -28,8 +28,8 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	mruby? (
 		sys-devel/bison
-		|| ( dev-lang/ruby:2.2 dev-lang/ruby:2.3 )
-	)"
+		|| ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 )
+)"
 REQUIRED_USE="
 	websocket? ( libh2o )
 	bundled-ssl? ( !libressl )"
@@ -40,10 +40,13 @@ pkg_setup() {
 }
 
 src_prepare() {
-	eapply_user
+	eapply "${FILESDIR}"/${P}-fix_help.patch
 
 	# Remove hardcoded flags
-	sed -i "s/-O2 -g //g" ./CMakeLists.txt || die "sed fix failed!"
+	sed -i "s/-O2 -g \${CC_WARNING_FLAGS} //g" ./CMakeLists.txt \
+		|| die "sed fix failed!"
+
+	eapply_user
 }
 
 src_configure() {
