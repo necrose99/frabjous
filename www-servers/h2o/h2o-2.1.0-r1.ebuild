@@ -28,8 +28,13 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	mruby? (
 		sys-devel/bison
-		|| ( dev-lang/ruby:2.4 dev-lang/ruby:2.3 dev-lang/ruby:2.2 dev-lang/ruby:2.1 )
-)"
+		|| (
+			dev-lang/ruby:2.4
+			dev-lang/ruby:2.3
+			dev-lang/ruby:2.2
+			dev-lang/ruby:2.1
+		)
+	)"
 REQUIRED_USE="
 	websocket? ( libh2o )
 	bundled-ssl? ( !libressl )"
