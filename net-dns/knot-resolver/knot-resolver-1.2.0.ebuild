@@ -80,15 +80,17 @@ src_install() {
 	insinto /etc/kresd
 	doins "${FILESDIR}"/root.keys
 	newins "${FILESDIR}"/kresd.config config
-	fowners kresd:kresd "${EPREFIX}"/etc/kresd/root.keys
-	fowners root:kresd "${EPREFIX}"/etc/kresd/config*
-	fperms 0640 "${EPREFIX}"/etc/kresd/config*
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/kresd.logrotate kresd
 }
 
 pkg_postinst() {
+	# Set permissions
+	chown kresd:kresd "${EROOT%/}"/etc/kresd/root.keys
+	chown root:kresd "${EROOT%/}"/etc/kresd/config*
+	chmod 0640 "${EROOT%/}"/etc/kresd/config*
+
 	if ! use systemd ; then
 		elog
 		elog "Note: Do not change the argument '--forks=1', it's buggy."
