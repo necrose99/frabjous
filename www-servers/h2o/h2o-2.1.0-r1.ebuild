@@ -56,7 +56,7 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
-		-DCMAKE_INSTALL_SYSCONFDIR=/etc/h2o
+		-DCMAKE_INSTALL_SYSCONFDIR="${EPREFIX}"/etc/h2o
 		-DWITHOUT_LIBS="$(usex !libh2o)"
 		-DWITH_BUNDLED_SSL="$(usex bundled-ssl)"
 		-DWITH_MRUBY="$(usex mruby)"
