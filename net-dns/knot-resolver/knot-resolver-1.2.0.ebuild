@@ -7,10 +7,9 @@ RESTRICT="mirror"
 
 inherit eutils flag-o-matic systemd user
 
-MY_P="${PN}-${PV/_/-}"
 DESCRIPTION="A caching full DNS resolver implementation written in C and LuaJIT"
 HOMEPAGE="https://www.knot-resolver.cz"
-SRC_URI="https://secure.nic.cz/files/knot-resolver/${MY_P}.tar.xz -> ${P}.tar.xz"
+SRC_URI="https://secure.nic.cz/files/knot-resolver/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
@@ -27,12 +26,9 @@ RDEPEND="
 	memcached? ( dev-libs/libmemcached )
 	redis? ( >=dev-libs/hiredis-0.11.0 )
 	systemd? ( sys-apps/systemd )"
-
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	test? ( dev-util/cmocka )"
-
-S="${WORKDIR}/${MY_P}"
 
 pkg_setup() {
 	enewgroup kresd
@@ -40,7 +36,6 @@ pkg_setup() {
 }
 
 src_prepare() {
-	# Leave optimization level to user CFLAGS
 	# FORTIFY_SOURCE is enabled by default in Gentoo
 	sed -i 's/ -D_FORTIFY_SOURCE=2//g' ./config.mk \
 		|| die "sed fix failed. Uh-oh..."
@@ -71,7 +66,7 @@ src_install() {
 		PREFIX="${EPREFIX}/usr" \
 		ETCDIR="${EPREFIX}/etc/kresd" \
 		DESTDIR="${D}" install \
-			|| die 'emake install failed'
+		|| die 'emake install failed'
 
 	newconfd "${FILESDIR}"/kresd.confd kresd
 	newinitd "${FILESDIR}"/kresd.initd kresd
@@ -85,9 +80,9 @@ src_install() {
 	insinto /etc/kresd
 	doins "${FILESDIR}"/root.keys
 	newins "${FILESDIR}"/kresd.config config
-	fowners kresd:kresd /etc/kresd/root.keys
-	fowners root:kresd /etc/kresd/config*
-	fperms 0640 /etc/kresd/config*
+	fowners kresd:kresd "${EPREFIX}"/etc/kresd/root.keys
+	fowners root:kresd "${EPREFIX}"/etc/kresd/config*
+	fperms 0640 "${EPREFIX}"/etc/kresd/config*
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/kresd.logrotate kresd
