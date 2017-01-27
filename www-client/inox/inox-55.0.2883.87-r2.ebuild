@@ -171,7 +171,7 @@ PATCHES=(
 	"${FILESDIR}/chromium-icu-58.patch"
 
 	# Inox patches
-	"${FILESDIR}/inox"
+	"${FILESDIR}/inox-55"
 )
 
 pkg_pretend() {
