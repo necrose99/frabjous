@@ -30,6 +30,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── dnscrypt-wrapper
     │   ├── knot
     │   └── knot-resolver
+    ├── net-firewall
+    │   └── firehol
     ├── net-libs
     │   ├── nodejs
     │   └── wslay

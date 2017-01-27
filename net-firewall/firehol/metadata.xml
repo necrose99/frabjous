@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		FireHOL, an iptables stateful packet filtering firewall for humans!
+		FireQOS, a TC based bandwidth shaper for humans!
+	</longdescription>
+	<upstream>
+		<remote-id type="github">firehol/firehol</remote-id>
+	</upstream>
+</pkgmetadata>
