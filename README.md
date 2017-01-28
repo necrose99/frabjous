@@ -52,8 +52,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── www-client
     │   └── inox
     ├── www-servers
-    │   ├── nginx
-    │   └── h2o
+    │   ├── h2o
+    │   └── nginx
     └── x11-terms
         └── terminix-bin
 
