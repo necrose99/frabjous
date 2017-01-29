@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="go hardened memcached redis systemd test"
 
 RDEPEND="
-	>=net-dns/knot-2.3.1
+	>=net-dns/knot-2.3.1:=
 	>=dev-libs/libuv-1.7.0
 	dev-lang/luajit:2
 	dev-lua/luasocket
@@ -87,9 +87,9 @@ src_install() {
 
 pkg_postinst() {
 	# Set permissions
-	chown kresd:kresd "${EROOT%/}"/etc/kresd/root.keys
-	chown root:kresd "${EROOT%/}"/etc/kresd/config*
-	chmod 0640 "${EROOT%/}"/etc/kresd/config*
+	chown kresd:kresd "${EROOT%/}"/etc/kresd/root.keys || die
+	chown root:kresd "${EROOT%/}"/etc/kresd/config* || die
+	chmod 0640 "${EROOT%/}"/etc/kresd/config* || die
 
 	if ! use systemd ; then
 		elog
