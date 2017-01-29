@@ -40,7 +40,7 @@ src_compile() {
 			|| die "sed fix failed. Uh-oh..."
 	fi
 
-	./zcutil/build.sh -j$(makeopts_jobs) $(usex test "--disable-tests" "") \
+	./zcutil/build.sh -j$(makeopts_jobs) $(usex !test "--disable-tests" "") \
 		|| die "Build failed!"
 }
 
@@ -90,6 +90,9 @@ src_install() {
 }
 
 pkg_postinst() {
+	chmod 0750 "${EROOT%/}"/var/lib/zcashd || die
+	chown -R zcash:zcash "${EROOT%/}"/var/lib/zcashd || die
+
 	ewarn
 	ewarn "SECURITY WARNINGS:"
 	ewarn "Zcash is unfinished and highly experimental. Use at your own risk."
