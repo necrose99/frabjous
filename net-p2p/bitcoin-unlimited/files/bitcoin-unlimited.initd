@@ -13,7 +13,7 @@
 : ${BITCOIND_NICE:=0}
 : ${BITCOIND_SIGTERM_TIMEOUT:=60}
 
-name="Bitcoin Daemon"
+name="Bitcoin Unlimited Daemon"
 description="Bitcoin cryptocurrency P2P network daemon"
 
 command="${BITCOIND_BIN}"
@@ -45,8 +45,7 @@ start_pre() {
 	checkconfig || return 1
 }
 
-checkconfig()
-{
+checkconfig() {
 	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
 		eerror
 		eerror "ERROR: You must set a secure rpcpassword to run bitcoind."

@@ -21,8 +21,7 @@ for X in ${LANGS} ; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-DEPEND="
-	dev-libs/boost:0[threads(+)]
+DEPEND="dev-libs/boost:0[threads(+)]
 	dev-libs/libevent
 	gui? (
 		dev-libs/protobuf
@@ -63,12 +62,12 @@ REQUIRED_USE="
 	qrcode? ( gui )"
 
 S="${WORKDIR}/BitcoinUnlimited-${PV}"
+UG="bitcoin"
 
 pkg_setup() {
 	if use daemon; then
-		local UG='bitcoin'
-		enewgroup "${UG}"
-		enewuser "${UG}" -1 -1 /var/lib/bitcoin "${UG}"
+		enewgroup ${UG}
+		enewuser ${UG} -1 -1 /var/lib/bitcoin ${UG}
 	fi
 }
 
@@ -138,15 +137,15 @@ src_install() {
 		dobin src/bitcoind
 
 		insinto "${my_etc}"
-		newins "${FILESDIR}/${PN}.conf" bitcoin.conf
-		fowners bitcoin:bitcoin "${my_etc}"/bitcoin.conf
+		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
+		fowners ${UG}:${UG} "${my_etc}"/bitcoin.conf
 		fperms 600 "${my_etc}"/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
 
-		newconfd "${FILESDIR}/${PN}.confd" ${PN}
-		newinitd "${FILESDIR}/${PN}.initd" ${PN}
-		systemd_dounit "${FILESDIR}/${PN}.service"
+		newconfd "${FILESDIR}"/${PN}.confd ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd ${PN}
+		systemd_dounit "${FILESDIR}"/${PN}.service
 
 		keepdir "/var/lib/bitcoin/.bitcoin"
 
@@ -155,7 +154,7 @@ src_install() {
 		newbashcomp contrib/bitcoind.bash-completion ${PN}
 
 		insinto /etc/logrotate.d
-		newins "${FILESDIR}/${PN}.logrotate" ${PN}
+		newins "${FILESDIR}"/${PN}.logrotate ${PN}
 	fi
 
 	if use gui; then
@@ -199,11 +198,9 @@ pkg_preinst() {
 }
 
 update_caches() {
-	if use gui; then
-		gnome2_icon_cache_update
-		fdo-mime_desktop_database_update
-		buildsycoca
-	fi
+	gnome2_icon_cache_update
+	fdo-mime_desktop_database_update
+	buildsycoca
 }
 
 pkg_postinst() {
@@ -211,7 +208,7 @@ pkg_postinst() {
 
 	if use daemon; then
 		chmod 0750 "${EROOT%/}"/var/lib/bitcoin || die
-		chown -R bitcoin:bitcoin "${EROOT%/}"/var/lib/bitcoin || die
+		chown -R ${UG}:${UG} "${EROOT%/}"/var/lib/bitcoin || die
 	fi
 }
 
