@@ -39,14 +39,14 @@ REQUIRED_USE="
 	websocket? ( libh2o )
 	bundled-ssl? ( !libressl )"
 
+PATCHES=( "${FILESDIR}"/${P}-fix_help.patch )
+
 pkg_setup() {
 	enewgroup h2o
 	enewuser h2o -1 -1 -1 h2o
 }
 
 src_prepare() {
-	eapply "${FILESDIR}"/${P}-fix_help.patch
-
 	# Leave optimization level to user CFLAGS
 	sed -i "s/-O2 -g \${CC_WARNING_FLAGS} //g" ./CMakeLists.txt \
 		|| die "sed fix failed!"
