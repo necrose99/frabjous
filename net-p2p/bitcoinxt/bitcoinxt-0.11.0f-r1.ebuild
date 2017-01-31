@@ -64,11 +64,12 @@ REQUIRED_USE="
 	qrcode? ( gui )"
 
 S="${WORKDIR}/bitcoinxt-${My_PV}"
+UG="${PN}"
 
 pkg_setup() {
 	if use daemon; then
-		enewgroup ${PN}
-		enewuser ${PN} -1 -1 /var/lib/${PN} ${PN}
+		enewgroup ${UG}
+		enewuser ${UG} -1 -1 /var/lib/bitcoinxt ${UG}
 	fi
 }
 
@@ -134,13 +135,13 @@ src_configure() {
 
 src_install() {
 	if use daemon; then
-		local my_etc="/etc/${PN}"
+		local my_etc="/etc/bitcoinxt"
 
 		dobin src/bitcoind
 
 		insinto "${my_etc}"
 		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
-		fowners ${PN}:${PN} "${my_etc}"/bitcoin.conf
+		fowners ${UG}:${UG} "${my_etc}"/bitcoin.conf
 		fperms 600 "${my_etc}"/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
@@ -148,7 +149,7 @@ src_install() {
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
-		keepdir "/var/lib/${PN}/.bitcoin"
+		keepdir "/var/lib/bitcoinxt/.bitcoin"
 
 		dodoc doc/{assets-attribution.md,bips.md,tor.md}
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
@@ -199,19 +200,17 @@ pkg_preinst() {
 }
 
 update_caches() {
-	if use gui; then
-		gnome2_icon_cache_update
-		fdo-mime_desktop_database_update
-		buildsycoca
-	fi
+	gnome2_icon_cache_update
+	fdo-mime_desktop_database_update
+	buildsycoca
 }
 
 pkg_postinst() {
 	use gui && update_caches
 
 	if use daemon; then
-		chmod 0750 "${EROOT%/}"/var/lib/${PN} || die
-		chown -R ${PN}:${PN} "${EROOT%/}"/var/lib/${PN} || die
+		chmod 0750 "${EROOT%/}"/var/lib/bitcoinxt || die
+		chown -R ${PN}:${PN} "${EROOT%/}"/var/lib/bitcoinxt || die
 	fi
 }
 

@@ -45,8 +45,7 @@ start_pre() {
 	checkconfig || return 1
 }
 
-checkconfig()
-{
+checkconfig() {
 	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
 		eerror
 		eerror "ERROR: You must set a secure rpcpassword to run bitcoind."
