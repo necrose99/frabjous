@@ -19,7 +19,7 @@ SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chro
 LICENSE="BSD GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="custom-cflags cups gnome gnome-keyring gtk3 kerberos neon pic +proprietary-codecs pulseaudio selinux +suid +system-ffmpeg +tcmalloc widevine"
+IUSE="custom-cflags cups gnome gnome-keyring gtk3 kerberos neon pic +proprietary-codecs pulseaudio selinux +suid +system-ffmpeg +tcmalloc widevine webrtc"
 RESTRICT="!system-ffmpeg? ( proprietary-codecs? ( bindist ) )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
@@ -158,16 +158,6 @@ For other desktop environments, try one of the following:
 
 S=${WORKDIR}/chromium-${PV}
 
-PATCHES=(
-	"${FILESDIR}/chromium-system-ffmpeg-r4.patch"
-	"${FILESDIR}/chromium-widevine-r1.patch"
-	"${FILESDIR}/chromium-glibc-2.24.patch"
-	"${FILESDIR}/chromium-56-gcc4.patch"
-
-	# Inox patches
-	"${FILESDIR}/inox-56"
-)
-
 pre_build_checks() {
 	if [[ ${MERGE_TYPE} != binary ]]; then
 		local -x CPP="$(tc-getCXX) -E"
@@ -206,6 +196,35 @@ pkg_setup() {
 }
 
 src_prepare() {
+	local PATCHES=(
+		"${FILESDIR}/chromium-widevine-r1.patch"
+		"${FILESDIR}/chromium-glibc-2.24.patch"
+		"${FILESDIR}/chromium-56-gcc4.patch"
+
+		# Inox patches
+		"${FILESDIR}/inox-56/add-duckduckgo-search-engine.patch"
+		"${FILESDIR}/inox-56/branding.patch"
+		"${FILESDIR}/inox-56/disable-autofill-download-manager.patch"
+		"${FILESDIR}/inox-56/disable-battery-status-service.patch"
+		"${FILESDIR}/inox-56/disable-default-extensions.patch"
+		"${FILESDIR}/inox-56/disable-first-run-behaviour.patch"
+		"${FILESDIR}/inox-56/disable-gcm-status-check.patch"
+		"${FILESDIR}/inox-56/disable-google-ipv6-probes.patch"
+		"${FILESDIR}/inox-56/disable-google-url-tracker.patch"
+		"${FILESDIR}/inox-56/disable-missing-key-warning.patch"
+		"${FILESDIR}/inox-56/disable-new-avatar-menu.patch"
+		"${FILESDIR}/inox-56/disable-translation-lang-fetch.patch"
+		"${FILESDIR}/inox-56/disable-update-pings.patch"
+		"${FILESDIR}/inox-56/disable-web-resource-service.patch"
+		"${FILESDIR}/inox-56/fix-building-without-safebrowsing-part1.patch"
+		"${FILESDIR}/inox-56/fix-building-without-safebrowsing-part2.patch"
+		"${FILESDIR}/inox-56/modify-default-prefs.patch"
+		"${FILESDIR}/inox-56/restore-classic-ntp.patch"
+	)
+
+	use system-ffmpeg && PATCHES+=( "${FILESDIR}/chromium-system-ffmpeg-r4.patch" )
+	use webrtc || PATCHES+=( "${FILESDIR}/inox-56/fix-building-without-webrtc.patch" )
+
 	default
 
 	local keeplibs=(
@@ -376,9 +395,9 @@ src_configure() {
 	myconf_gn+=" enable_remoting=false"
 	myconf_gn+=" enable_google_now=false"
 	myconf_gn+=" safe_browsing_mode=0"
-	myconf_gn+=" enable_webrtc=false"
 	myconf_gn+=" enable_hotwording=false"
 	myconf_gn+=" enable_print_preview=false"
+	myconf_gn+=" enable_webrtc=$(usex webrtc true false)"
 
 	# Optional dependencies.
 	myconf_gn+=" enable_widevine=$(usex widevine true false)"
