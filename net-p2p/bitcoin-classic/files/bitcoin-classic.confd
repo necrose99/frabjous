@@ -14,7 +14,7 @@
 
 # User and group to own bitcoind process
 #BITCOIND_USER="bitcoin"
-#BITCOIND_GROUP="bitcoin"
+#BITCOIND_GROUP="${BITCOIND_USER}"
 
 # Path to bitcoind executable
 #BITCOIND_BIN="/usr/bin/bitcoind"
