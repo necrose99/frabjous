@@ -9,7 +9,7 @@ inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions system
 
 My_PV="${PV/\.0f/}F"
 DESCRIPTION="Bitcoin XT crypto-currency wallet for automated services"
-HOMEPAGE="https://bitcoinxt.software/"
+HOMEPAGE="https://bitcoinxt.software"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
@@ -22,8 +22,7 @@ for X in ${LANGS} ; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-DEPEND="
-	dev-libs/boost:0[threads(+)]
+DEPEND="dev-libs/boost:0[threads(+)]
 	dev-libs/libevent
 	net-misc/curl
 	gui? (
@@ -40,8 +39,7 @@ DEPEND="
 	upnp? ( net-libs/miniupnpc )
 	wallet? ( media-gfx/qrencode sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
-
-NDEPEND="
+RDEPEND="${DEPEND}
 	daemon? (
 		!net-p2p/bitcoind
 		!net-p2p/bitcoin-classic[daemon]
@@ -59,8 +57,6 @@ NDEPEND="
 		!net-p2p/bitcoin-unlimited[utils]
 	)"
 
-RDEPEND="${DEPEND} ${NDEPEND}"
-
 REQUIRED_USE="
 	|| ( daemon gui utils )
 	dbus? ( gui )
@@ -71,9 +67,8 @@ S="${WORKDIR}/bitcoinxt-${My_PV}"
 
 pkg_setup() {
 	if use daemon; then
-		local UG='bitcoinxt'
-		enewgroup "${UG}"
-		enewuser "${UG}" -1 -1 /var/lib/bitcoinxt "${UG}"
+		enewgroup ${PN}
+		enewuser ${PN} -1 -1 /var/lib/${PN} ${PN}
 	fi
 }
 
@@ -116,78 +111,51 @@ src_prepare() {
 }
 
 src_configure() {
-	local my_econf=
-
-	if use !daemon; then
-		my_econf="${my_econf} --without-daemon"
-	fi
-	if use gui; then
-		my_econf="${my_econf} --with-gui=qt5"
-	else
-		my_econf="${my_econf} --without-gui"
-	fi
-	if use !hardened; then
-		my_econf="${my_econf} --disable-hardening"
-	fi
-	if use !test; then
-		my_econf="${my_econf} --disable-tests"
-	fi
-	if use upnp; then
-		my_econf="${my_econf} --with-miniupnpc --enable-upnp-default"
-	else
-		my_econf="${my_econf} --without-miniupnpc --disable-upnp-default"
-	fi
-	if use !utils; then
-		my_econf="${my_econf} --without-utils"
-	fi
-	if use !wallet; then
-		my_econf="${my_econf} --disable-wallet"
-	fi
-	if use !zeromq; then
-		my_econf="${my_econf} --disable-zmq"
-	fi
+	local myconf=( --without-libs --enable-reduce-exports )
+	use daemon || myconf+=( --without-daemon )
+	use dbus && myconf+=( --with-qtdbus )
+	use gui && myconf+=( --with-gui=qt5 )
+	use gui || myconf+=( --without-gui )
+	use hardened || myconf+=( --disable-hardening )
+	use libressl && myconf+=( --with-libressl )
+	use qrcode && myconf+=( --with-qrencode )
+	use test || myconf+=( --disable-tests )
+	use upnp && myconf+=( --with-miniupnpc --enable-upnp-default )
+	use upnp || myconf+=( --without-miniupnpc --disable-upnp-default )
+	use utils || myconf+=( --without-utils )
+	use wallet || myconf+=( --disable-wallet )
+	use zeromq || myconf+=( --disable-zmq )
 	econf \
 		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
-		--enable-reduce-exports \
-		--without-libs \
-		${my_econf} \
-		$(use_with libressl) \
-		$(use_with dbus qtdbus) \
-		$(use_with qrcode qrencode)
+		"${myconf[@]}" || die
 }
 
 src_install() {
 	if use daemon; then
-		local my_etc="/etc/bitcoinxt"
-		local my_home="/var/lib/bitcoinxt"
-		local my_data="${my_home}/.bitcoin"
+		local my_etc="/etc/${PN}"
 
 		dobin src/bitcoind
 
 		insinto "${my_etc}"
-		newins "${FILESDIR}/${PN}.conf" bitcoin.conf
-		fowners bitcoinxt:bitcoinxt "${my_etc}"/bitcoin.conf
+		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
+		fowners ${PN}:${PN} "${my_etc}"/bitcoin.conf
 		fperms 600 "${my_etc}"/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
-		newconfd "${FILESDIR}/${PN}.confd" ${PN}
-		newinitd "${FILESDIR}/${PN}.initd" ${PN}
-		systemd_dounit "${FILESDIR}/${PN}.service"
+		newconfd "${FILESDIR}"/${PN}.confd ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd ${PN}
+		systemd_dounit "${FILESDIR}"/${PN}.service
 
-		keepdir "${my_data}"
-		fperms 700 "${my_home}"
-		fowners bitcoinxt:bitcoinxt "${my_home}"
-		fowners bitcoinxt:bitcoinxt "${my_data}"
-		dosym "${my_etc}"/bitcoin.conf "${my_data}"/bitcoin.conf
+		keepdir "/var/lib/${PN}/.bitcoin"
 
 		dodoc doc/{assets-attribution.md,bips.md,tor.md}
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion ${PN}
 
 		insinto /etc/logrotate.d
-		newins "${FILESDIR}/${PN}.logrotate" ${PN}
+		newins "${FILESDIR}"/${PN}.logrotate ${PN}
 	fi
 
 	if use gui; then
@@ -231,13 +199,20 @@ pkg_preinst() {
 }
 
 update_caches() {
-	use gui && gnome2_icon_cache_update && \
-	fdo-mime_desktop_database_update && \
-	buildsycoca
+	if use gui; then
+		gnome2_icon_cache_update
+		fdo-mime_desktop_database_update
+		buildsycoca
+	fi
 }
 
 pkg_postinst() {
 	use gui && update_caches
+
+	if use daemon; then
+		chmod 0750 "${EROOT%/}"/var/lib/${PN} || die
+		chown -R ${PN}:${PN} "${EROOT%/}"/var/lib/${PN} || die
+	fi
 }
 
 pkg_postrm() {
