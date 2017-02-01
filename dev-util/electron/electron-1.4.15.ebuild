@@ -17,13 +17,13 @@ inherit check-reqs chromium-2 eutils gnome2-utils flag-o-matic multilib \
 # Keep this in sync with vendor/brightray/vendor/libchromiumcontent/VERSION
 CHROMIUM_VERSION="53.0.2785.143"
 # Keep this in sync with vendor/brightray
-BRIGHTRAY_COMMIT="ba4a8491dbdec51508702cbc2c35ea38ad064cba"
+BRIGHTRAY_COMMIT="5333d0e64b897c8584cee85bfcf7c045a7ca1e66"
 # Keep this in sync with vendor/node
 NODE_COMMIT="811cfe3fcd360179d3dd436e3d80e1b045adf633"
 # Keep this in sync with vendor/native_mate
 NATIVE_MATE_COMMIT="b5e5de626c6a57e44c7e6448d8bbaaac475d493c"
 # Keep this in sync with vendor/brightray/vendor/libchromiumcontent
-LIBCHROMIUMCONTENT_COMMIT="76bb29da18cbeec0051e0690bc1b95e78034a422"
+LIBCHROMIUMCONTENT_COMMIT="97e32dafa4a1112f14eef61a663cf39a03ed4c97"
 # Keep this in sync with package.json#devDependencies
 ASAR_VERSION="0.12.1"
 
@@ -153,14 +153,18 @@ DEPEND+=" $(python_gen_any_dep '
 	dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
 	dev-python/beautifulsoup:4[${PYTHON_USEDEP}]
 	dev-python/html5lib[${PYTHON_USEDEP}]
+	dev-python/jinja[${PYTHON_USEDEP}]
 	dev-python/jsmin[${PYTHON_USEDEP}]
+	dev-python/ply[${PYTHON_USEDEP}]
 	dev-python/simplejson[${PYTHON_USEDEP}]
 ')"
 python_check_deps() {
 	has_version --host-root "dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]" &&
 	has_version --host-root ">=dev-python/beautifulsoup-4.3.2:4[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/html5lib[${PYTHON_USEDEP}]" &&
+	has_version --host-root "dev-python/jinja[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/jsmin[${PYTHON_USEDEP}]" &&
+	has_version --host-root "dev-python/ply[${PYTHON_USEDEP}]" &&
 	has_version --host-root "dev-python/simplejson[${PYTHON_USEDEP}]"
 }
 
@@ -257,14 +261,14 @@ src_prepare() {
 	ln -s "${WORKDIR}/${ASAR_P}/node_modules" "${S}/node_modules" || die
 
 	# electron patches
-	epatch "${FILESDIR}/${P}.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14.patch"
 	epatch "${FILESDIR}/${P}-default_app-icon.patch"
-	epatch "${FILESDIR}/${P}-use-system-ninja.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14-use-system-ninja.patch"
 
 	# node patches
 	cd "${NODE_S}" || die
-	epatch "${FILESDIR}/${P}-vendor-node.patch"
-	epatch "${FILESDIR}/electron-vendor-node-external-snapshots-r1.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14-vendor-node.patch"
+	epatch "${FILESDIR}/${PN}-vendor-node-external-snapshots-r1.patch"
 	# make sure node uses the correct version of v8
 	rm -r deps/v8 || die
 	ln -s ../../../v8 deps/ || die
@@ -284,17 +288,18 @@ src_prepare() {
 
 	# brightray patches
 	cd "${BRIGHTRAY_S}" || die
-	epatch "${FILESDIR}/${P}-vendor-brightray.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14-vendor-brightray.patch"
 
 	# libcc patches
 	cd "${LIBCC_S}" || die
-	epatch "${FILESDIR}/${P}-vendor-libchromiumcontent.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14-vendor-libchromiumcontent.patch"
 	epatch "${FILESDIR}/${P}-vendor-libchromiumcontent-sort-filenames.patch"
-	epatch "${FILESDIR}/${P}-vendor-libchromiumcontent-use-system-tools.patch"
+	epatch "${FILESDIR}/${PN}-1.4.14-vendor-libchromiumcontent-use-system-tools.patch"
 
 	# chromium patches
 	cd "${S}" || die
 	epatch "${FILESDIR}/chromium-system-ffmpeg-r2.patch"
+	epatch "${FILESDIR}/chromium-system-jinja-r11.patch"
 	epatch "${FILESDIR}/chromium-disable-widevine.patch"
 	epatch "${FILESDIR}/chromium-last-commit-position-r0.patch"
 	epatch "${FILESDIR}/chromium-remove-gardiner-mod-font-r0.patch"
@@ -374,7 +379,6 @@ src_prepare() {
 		'third_party/google_input_tools/third_party/closure_library/third_party/closure' \
 		'third_party/hunspell' \
 		'third_party/iccjpeg' \
-		'third_party/jinja2' \
 		'third_party/jstemplate' \
 		'third_party/khronos' \
 		'third_party/leveldatabase' \
@@ -395,7 +399,6 @@ src_prepare() {
 		'third_party/libyuv' \
 		'third_party/lss' \
 		'third_party/lzma_sdk' \
-		'third_party/markupsafe' \
 		'third_party/mesa' \
 		'third_party/modp_b64' \
 		'third_party/mt19937ar' \
@@ -414,7 +417,6 @@ src_prepare() {
 		'third_party/pdfium/third_party/libpng16' \
 		'third_party/pdfium/third_party/libtiff' \
 		'third_party/pdfium/third_party/zlib_v128' \
-		'third_party/ply' \
 		'third_party/polymer' \
 		'third_party/protobuf' \
 		'third_party/protobuf/third_party/six' \
