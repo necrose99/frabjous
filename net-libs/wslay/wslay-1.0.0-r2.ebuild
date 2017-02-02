@@ -16,13 +16,9 @@ SRC_URI="https://github.com/tatsuhiro-t/${PN}/archive/release-${PV}.tar.gz -> ${
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="examples test"
+IUSE=""
 
-RDEPEND="
-	examples? ( dev-libs/nettle )
-	test? ( dev-util/cunit )"
-DEPEND="${RDEPEND}
-	dev-python/sphinx"
+DEPEND="dev-python/sphinx"
 
 DOCS=( AUTHORS COPYING NEWS README.rst )
 
