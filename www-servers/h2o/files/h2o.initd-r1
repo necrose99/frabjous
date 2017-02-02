@@ -42,7 +42,7 @@ reload() {
 }
 
 configtest() {
-	ebegin "Checking ${name} configuration"
+	ebegin "Checking ${name}' configuration"
 
 	${command} -c ${config} -t &>/dev/null
 
