@@ -6,7 +6,7 @@
 extra_commands="configtest"
 extra_started_commands="reload"
 description="An optimized HTTP/1.x, HTTP/2 server"
-description_configtest="Run H2O internal config check"
+description_configtest="Run H2O' internal config check"
 description_reload="Reload the H2O configuration without losing connections"
 
 : ${config:="/etc/h2o/h2o.conf"}
@@ -36,7 +36,7 @@ stop_pre() {
 
 reload() {
 	configtest || return 1
-	ebegin "Refreshing ${name} configuration"
+	ebegin "Refreshing ${name}' configuration"
 	kill -HUP `cat ${pidfile}` &>/dev/null
 	eend $? "Failed to reload ${name}"
 }
@@ -44,7 +44,7 @@ reload() {
 configtest() {
 	ebegin "Checking ${name} configuration"
 
-	${command} -c ${config} -t >/dev/null
+	${command} -c ${config} -t &>/dev/null
 
 	if [ $? -ne 0 ]; then
 		${command} -c ${config} -t
