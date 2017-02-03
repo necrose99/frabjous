@@ -14,7 +14,7 @@ SRC_URI="https://secure.nic.cz/files/knot-resolver/${P}.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="go hardened memcached redis systemd test"
+IUSE="go hardened memcached redis static-libs systemd test"
 
 RDEPEND="
 	>=net-dns/knot-2.3.1:=
@@ -54,6 +54,7 @@ src_compile() {
 		HAS_libsystemd=$(usex systemd) \
 		HAS_cmocka=$(usex test) \
 		HARDENING=$(usex hardened) \
+		BUILDMODE=$(usex static-libs static dynamic) \
 		|| die 'emake failed'
 }
 
