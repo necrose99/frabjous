@@ -26,6 +26,7 @@ NATIVE_MATE_COMMIT="b5e5de626c6a57e44c7e6448d8bbaaac475d493c"
 LIBCHROMIUMCONTENT_COMMIT="97e32dafa4a1112f14eef61a663cf39a03ed4c97"
 # Keep this in sync with package.json#devDependencies
 ASAR_VERSION="0.12.1"
+BROWSERIFY_VERSION="14.0.0"
 
 CHROMIUM_P="chromium-${CHROMIUM_VERSION}"
 BRIGHTRAY_P="brightray-${BRIGHTRAY_COMMIT}"
@@ -33,6 +34,7 @@ NODE_P="node-${NODE_COMMIT}"
 NATIVE_MATE_P="native-mate-${NATIVE_MATE_COMMIT}"
 LIBCHROMIUMCONTENT_P="libchromiumcontent-${LIBCHROMIUMCONTENT_COMMIT}"
 ASAR_P="asar-${ASAR_VERSION}"
+BROWSERIFY_P="browserify-${BROWSERIFY_VERSION}"
 
 DESCRIPTION="Cross platform application development framework based on web technologies"
 HOMEPAGE="http://electron.atom.io"
@@ -44,6 +46,7 @@ SRC_URI="
 	https://github.com/zcbenz/native-mate/archive/${NATIVE_MATE_COMMIT}.tar.gz -> ${NATIVE_MATE_P}.tar.gz
 	https://github.com/electron/libchromiumcontent/archive/${LIBCHROMIUMCONTENT_COMMIT}.tar.gz -> ${LIBCHROMIUMCONTENT_P}.tar.gz
 	https://github.com/elprans/asar/releases/download/v${ASAR_VERSION}-gentoo/asar-build.tar.gz -> ${ASAR_P}.tar.gz
+	https://github.com/elprans/node-browserify/releases/download/${BROWSERIFY_VERSION}-gentoo/browserify-build.tar.gz -> ${BROWSERIFY_P}.tar.gz
 "
 
 S="${WORKDIR}/${CHROMIUM_P}"
@@ -134,10 +137,7 @@ DEPEND="${RDEPEND}
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
-	virtual/pkgconfig
-	>=net-libs/nodejs-4.6.0[npm]"
-# browserify is also necessary, so you will probably need
-# to install it before emerging electron: npm install -g browserify
+	virtual/pkgconfig"
 
 # For nvidia-drivers blocker, see bug #413637 .
 RDEPEND+="
@@ -173,7 +173,7 @@ if ! has chromium_pkg_die ${EBUILD_DEATH_HOOKS}; then
 fi
 
 pkg_pretend() {
-	if [[ $(tc-getCC) = *gcc* ]] && \
+	if [[ $(tc-getCC) == *gcc* ]] && \
 		[[ $(gcc-major-version)$(gcc-minor-version) -lt 48 ]]; then
 		die 'At least gcc 4.8 is required, see bugs: #535730, #525374, #518668.'
 	fi
@@ -230,7 +230,7 @@ _get_install_suffix() {
 	local slot=${c[0]}
 	local suffix
 
-	if [[ "${slot}" = "0" ]]; then
+	if [[ "${slot}" == "0" ]]; then
 		suffix=""
 	else
 		suffix="-${slot}"
@@ -259,10 +259,12 @@ src_prepare() {
 	rm -r "${S}/vendor/breakpad" &&
 		ln -s "../breakpad" "${S}/vendor/breakpad" || die
 	ln -s "${WORKDIR}/${ASAR_P}/node_modules" "${S}/node_modules" || die
+	ln -s "${WORKDIR}/${BROWSERIFY_P}/node_modules" \
+		"${S}/node_modules_browserify" || die
 
 	# electron patches
-	epatch "${FILESDIR}/${PN}-1.4.14.patch"
-	epatch "${FILESDIR}/${P}-default_app-icon.patch"
+	epatch "${FILESDIR}/${P}.patch"
+	#epatch "${FILESDIR}/${P}-default_app-icon.patch"
 	epatch "${FILESDIR}/${PN}-1.4.14-use-system-ninja.patch"
 
 	# node patches
@@ -524,7 +526,7 @@ src_configure() {
 
 	myconf+=" -Dfieldtrial_testing_like_official_build=1"
 
-	if [[ $(tc-getCC) = *clang* ]]; then
+	if [[ $(tc-getCC) == *clang* ]]; then
 		myconf+=" -Dclang=1"
 	else
 		myconf+=" -Dclang=0"
@@ -555,7 +557,7 @@ src_configure() {
 		-Dgoogle_default_client_secret=${google_default_client_secret}"
 
 	local myarch="$(tc-arch)"
-	if [[ $myarch = amd64 ]] ; then
+	if [[ $myarch == amd64 ]] ; then
 		target_arch=x64
 		ffmpeg_target_arch=x64
 	else
@@ -578,9 +580,9 @@ src_configure() {
 		strip-flags
 
 		# Prevent libvpx build failures. Bug 530248, 544702, 546984.
-		if [[ ${myarch} = amd64 ]]; then
+		if [[ ${myarch} == amd64 ]]; then
 			filter-flags -mno-mmx -mno-sse2 -mno-ssse3 -mno-sse4.1 \
-						 -mno-avx -mno-avx2
+				-mno-avx -mno-avx2
 		fi
 	fi
 
@@ -640,8 +642,7 @@ src_configure() {
 	build/linux/unbundle/replace_gyp_files.py ${myconf} || die
 
 	myconf+=" -Ivendor/node/config.gypi
-			  -Icommon.gypi
-			  electron.gyp"
+		-Icommon.gypi electron.gyp"
 
 	egyp_chromium ${myconf} || die
 }
@@ -651,10 +652,10 @@ eninja() {
 		local jobs=$(makeopts_jobs)
 		local loadavg=$(makeopts_loadavg)
 
-		if [[ ${MAKEOPTS} = *-j* && ${jobs} != 999 ]]; then
+		if [[ ${MAKEOPTS} == *-j* && ${jobs} != 999 ]]; then
 			NINJAOPTS+=" -j ${jobs}"
 		fi
-		if [[ ${MAKEOPTS} = *-l* && ${loadavg} != 999 ]]; then
+		if [[ ${MAKEOPTS} == *-l* && ${loadavg} != 999 ]]; then
 			NINJAOPTS+=" -l ${loadavg}"
 		fi
 	fi
