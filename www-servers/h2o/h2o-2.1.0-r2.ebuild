@@ -14,11 +14,11 @@ SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="bundled-ssl libh2o libressl +mruby websocket"
+IUSE="bundled-ssl libh2o libressl libuv +mruby websocket"
 
 RDEPEND="
 	libh2o? (
-		>=dev-libs/libuv-1.0.0
+		libuv? ( >=dev-libs/libuv-1.0.0 )
 		websocket? ( net-libs/wslay )
 	)
 	!bundled-ssl? (
@@ -35,9 +35,9 @@ DEPEND="${RDEPEND}
 			dev-lang/ruby:2.1
 		)
 	)"
-REQUIRED_USE="
-	websocket? ( libh2o )
-	bundled-ssl? ( !libressl )"
+REQUIRED_USE="bundled-ssl? ( !libressl )
+	libuv? ( libh2o )
+	websocket? ( libh2o )"
 
 PATCHES=( "${FILESDIR}"/${P}-fix_help.patch )
 
@@ -57,9 +57,10 @@ src_prepare() {
 src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_INSTALL_SYSCONFDIR="${EPREFIX}"/etc/h2o
-		-DWITHOUT_LIBS="$(usex !libh2o)"
-		-DWITH_BUNDLED_SSL="$(usex bundled-ssl)"
-		-DWITH_MRUBY="$(usex mruby)"
+		-DDISABLE_LIBUV="$(usex !libuv ON OFF)"
+		-DWITHOUT_LIBS="$(usex !libh2o ON OFF)"
+		-DWITH_BUNDLED_SSL="$(usex bundled-ssl ON OFF)"
+		-DWITH_MRUBY="$(usex mruby ON OFF)"
 	)
 	cmake-utils_src_configure
 }

@@ -13,8 +13,9 @@
 	<use>
 		<flag name="bundled-ssl">Use bundled LibreSSL instead</flag>
 		<flag name="libh2o">Aside from the standalone server, build H2O as a library</flag>
-		<flag name='mruby'>Enable support for mruby</flag>
-		<flag name='websocket'>Add support for WebSocket at library level</flag>
+		<flag name="libuv">Use <pkg>dev-libs/libuv</pkg> at library level</flag>
+		<flag name="mruby">Enable support for mruby</flag>
+		<flag name="websocket">Add support for WebSocket at library level</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">h2o/h2o</remote-id>
