@@ -73,7 +73,6 @@ src_install() {
 	doins "${FILESDIR}"/h2o.conf
 
 	keepdir /var/log/h2o
-	fowners h2o:h2o /var/log/h2o
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
