@@ -51,7 +51,7 @@ src_prepare() {
 	sed -i "s/-O2 -g \${CC_WARNING_FLAGS} //g" ./CMakeLists.txt \
 		|| die "sed fix failed!"
 
-	eapply_user
+	default
 }
 
 src_configure() {
