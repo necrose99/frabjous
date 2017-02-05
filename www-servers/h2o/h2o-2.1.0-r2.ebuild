@@ -57,10 +57,10 @@ src_prepare() {
 src_configure() {
 	local mycmakeargs=(
 		-DCMAKE_INSTALL_SYSCONFDIR="${EPREFIX}"/etc/h2o
-		-DDISABLE_LIBUV="$(usex !libuv ON OFF)"
-		-DWITHOUT_LIBS="$(usex !libh2o ON OFF)"
-		-DWITH_BUNDLED_SSL="$(usex bundled-ssl ON OFF)"
-		-DWITH_MRUBY="$(usex mruby ON OFF)"
+		-DDISABLE_LIBUV="$(usex !libuv)"
+		-DWITHOUT_LIBS="$(usex !libh2o)"
+		-DWITH_BUNDLED_SSL="$(usex bundled-ssl)"
+		-DWITH_MRUBY="$(usex mruby)"
 	)
 	cmake-utils_src_configure
 }
@@ -78,5 +78,5 @@ src_install() {
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/h2o.logrotate ${PN}
+	newins "${FILESDIR}"/h2o.logrotate-r1 ${PN}
 }
