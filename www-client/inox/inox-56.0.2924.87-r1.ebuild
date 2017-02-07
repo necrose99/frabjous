@@ -202,28 +202,28 @@ src_prepare() {
 		"${FILESDIR}/chromium-56-gcc4.patch"
 
 		# Inox patches
-		"${FILESDIR}/inox-56/add-duckduckgo-search-engine.patch"
-		"${FILESDIR}/inox-56/branding.patch"
-		"${FILESDIR}/inox-56/disable-autofill-download-manager.patch"
-		"${FILESDIR}/inox-56/disable-battery-status-service.patch"
-		"${FILESDIR}/inox-56/disable-default-extensions.patch"
-		"${FILESDIR}/inox-56/disable-first-run-behaviour.patch"
-		"${FILESDIR}/inox-56/disable-gcm-status-check.patch"
-		"${FILESDIR}/inox-56/disable-google-ipv6-probes.patch"
-		"${FILESDIR}/inox-56/disable-google-url-tracker.patch"
-		"${FILESDIR}/inox-56/disable-missing-key-warning.patch"
-		"${FILESDIR}/inox-56/disable-new-avatar-menu.patch"
-		"${FILESDIR}/inox-56/disable-translation-lang-fetch.patch"
-		"${FILESDIR}/inox-56/disable-update-pings.patch"
-		"${FILESDIR}/inox-56/disable-web-resource-service.patch"
-		"${FILESDIR}/inox-56/fix-building-without-safebrowsing-part1.patch"
-		"${FILESDIR}/inox-56/fix-building-without-safebrowsing-part2.patch"
-		"${FILESDIR}/inox-56/modify-default-prefs.patch"
-		"${FILESDIR}/inox-56/restore-classic-ntp.patch"
+		"${FILESDIR}/inox-56/0001-fix-building-without-safebrowsing.patch"
+		"${FILESDIR}/inox-56/0003-disable-autofill-download-manager.patch"
+		"${FILESDIR}/inox-56/0004-disable-google-url-tracker.patch"
+		"${FILESDIR}/inox-56/0005-disable-default-extensions.patch"
+		"${FILESDIR}/inox-56/0006-modify-default-prefs.patch"
+		"${FILESDIR}/inox-56/0007-disable-web-resource-service.patch"
+		"${FILESDIR}/inox-56/0008-restore-classic-ntp.patch"
+		"${FILESDIR}/inox-56/0009-disable-google-ipv6-probes.patch"
+		"${FILESDIR}/inox-56/0010-disable-gcm-status-check.patch"
+		"${FILESDIR}/inox-56/0011-add-duckduckgo-search-engine.patch"
+		"${FILESDIR}/inox-56/0012-branding.patch"
+		"${FILESDIR}/inox-56/0013-disable-missing-key-warning.patch"
+		"${FILESDIR}/inox-56/0014-disable-translation-lang-fetch.patch"
+		"${FILESDIR}/inox-56/0015-disable-update-pings.patch"
+		"${FILESDIR}/inox-56/0016-chromium-sandbox-pie.patch"
+		"${FILESDIR}/inox-56/0017-disable-new-avatar-menu.patch"
+		"${FILESDIR}/inox-56/0018-disable-first-run-behaviour.patch"
+		"${FILESDIR}/inox-56/0019-disable-battery-status-service.patch"
 	)
 
 	use system-ffmpeg && PATCHES+=( "${FILESDIR}/chromium-system-ffmpeg-r4.patch" )
-	use webrtc || PATCHES+=( "${FILESDIR}/inox-56/fix-building-without-webrtc.patch" )
+	use webrtc || PATCHES+=( "${FILESDIR}/inox-56/0002-fix-building-without-webrtc.patch" )
 
 	default
 
