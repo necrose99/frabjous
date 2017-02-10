@@ -12,8 +12,6 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 ## Repository tree
 ```
     .
-    ├── app-admin
-    │   └── keepassxc
     ├── app-crypt
     │   └── minisign
     ├── dev-libs
@@ -63,5 +61,5 @@ Bitcoin donations are welcome: **18RsspfceUbXEqgzx29DuZYafZVDgM4F4g**
 ## Contributing
 Contributions are welcome. Fork and create a pull request. Bugs to versions in the main gentoo tree should always be filed in the [Gentoo Bugzilla](https://bugs.gentoo.org/).
 
-##Issues
+## Issues
 Report bugs on the [github issues site](https://github.com/csmk/frabjous/issues)
