@@ -11,6 +11,9 @@
 		of privacy through a sophisticated zero-knowledge proving scheme
 		that preserves confidentiality of transaction metadata. 
 	</longdescription>
+	<use>
+		<flag name="mining">Build mining code</flag>
+	</use>
 	<upstream>
 		<remote-id type="github">zcash/zcash</remote-id>
 	</upstream>
