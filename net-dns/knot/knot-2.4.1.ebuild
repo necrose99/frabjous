@@ -45,8 +45,8 @@ pkg_setup() {
 
 src_configure() {
 	local myconf=( --with-lmdb )
-	use daemon && myconf+=( --with-storage=${EPREFIX}/var/lib/${PN} )
-	use daemon && myconf+=( --with-rundir=${EPREFIX}/var/run/${PN} )
+	use daemon && myconf+=( --with-storage="${EPREFIX}"/var/lib/${PN} )
+	use daemon && myconf+=( --with-rundir="${EPREFIX}"/var/run/${PN} )
 	use utils && myconf+=( --with-bash-completions=$(get_bashcompdir) )
 	econf \
 		"${myconf[@]}" \
