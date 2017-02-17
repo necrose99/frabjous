@@ -3,20 +3,18 @@
 # $Id$
 
 EAPI=6
-
 inherit eutils linux-info
 
-DESCRIPTION="An iptables stateful packet filtering firewall for humans"
-HOMEPAGE="https://firehol.org"
+DESCRIPTION="iptables firewall generator"
+HOMEPAGE="https://github.com/firehol/firehol"
 SRC_URI="https://github.com/firehol/firehol/releases/download/v${PV}/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
 IUSE="doc ipv6"
+KEYWORDS="~amd64 ~arm"
 
-RDEPEND="net-firewall/ipset
-	net-firewall/iptables
+RDEPEND="net-firewall/iptables
 	sys-apps/iproute2[-minimal,ipv6?]
 	net-misc/iputils[ipv6?]
 	net-misc/iprange
@@ -49,6 +47,7 @@ pkg_setup() {
 src_configure() {
 	econf \
 		--disable-vnetbuild \
+		--disable-update-ipsets \
 		$(use_enable doc) \
 		$(use_enable ipv6)
 }
