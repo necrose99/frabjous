@@ -19,8 +19,8 @@ KEYWORDS=""
 RDEPEND="
 	>=dev-libs/glib-2.38:2
 	>=x11-libs/gtk+-3.14:3
-	media-video/ffmpeg[X,encode]
-	|| ( media-gfx/imagemagick media-gfx/graphicsmagick[imagemagick] )"
+    virtual/ffmpeg[encode,X]
+    virtual/imagemagick-tools"
 DEPEND="${RDEPEND}
 	$(vala_depend)
 	>=sys-devel/gettext-0.19.0"
