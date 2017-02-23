@@ -82,7 +82,7 @@ src_prepare() {
 		BUILDTYPE=Debug
 	fi
 
-	eapply_user
+	default
 }
 
 src_configure() {
