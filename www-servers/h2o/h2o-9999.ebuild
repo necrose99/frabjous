@@ -12,7 +12,7 @@ EGIT_REPO_URI=( {https,git}://github.com/h2o/h2o.git )
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="bundled-ssl libh2o libressl libuv +mruby websocket"
 
 RDEPEND="
