@@ -1,6 +1,5 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 RESTRICT="mirror"
@@ -18,12 +17,13 @@ KEYWORDS=""
 
 RDEPEND="
 	>=dev-libs/glib-2.38:2
+	dev-libs/keybinder:3
 	>=x11-libs/gtk+-3.14:3
-    virtual/ffmpeg[encode,X]
-    virtual/imagemagick-tools"
+	virtual/ffmpeg[encode,X]
+	virtual/imagemagick-tools"
 DEPEND="${RDEPEND}
 	$(vala_depend)
-	>=sys-devel/gettext-0.19.0"
+	>=sys-devel/gettext-0.19"
 
 src_prepare() {
 	default
