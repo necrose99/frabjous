@@ -47,11 +47,9 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── zcash
     ├── www-client
     │   └── inox
-    ├── www-servers
-    │   ├── h2o
-    │   └── nginx
-    └── x11-terms
-        └── terminix-bin
+    └── www-servers
+        ├── h2o
+        └── nginx
 
 ```
 
