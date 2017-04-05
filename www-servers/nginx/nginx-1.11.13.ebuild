@@ -189,6 +189,9 @@ LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 SLOT="mainline"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
 
+# Package doesn't provide a real test suite
+RESTRICT="test"
+
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
 	fastcgi geo gzip limit_req limit_conn map memcached proxy referer
 	rewrite scgi ssi split_clients upstream_hash upstream_ip_hash
@@ -352,11 +355,20 @@ src_prepare() {
 	eapply "${FILESDIR}/${PN}-1.4.1-fix-perl-install-path.patch"
 	eapply "${FILESDIR}/${PN}-httpoxy-mitigation-r1.patch"
 
+	if use nginx_modules_http_echo; then
+		cd "${HTTP_ECHO_MODULE_WD}" || die
+		eapply "${FILESDIR}"/http_echo-nginx-1.11.11+.patch
+		cd "${S}" || die
+	fi
+
 	if use nginx_modules_http_upstream_check; then
 		eapply -p0 "${FILESDIR}"/http_upstream_check-nginx-1.11.5+.patch
 	fi
 
 	if use nginx_modules_http_lua; then
+		cd "${HTTP_LUA_MODULE_WD}" || die
+		eapply -p1 "${FILESDIR}"/http_lua_nginx-1.11.11+.patch
+		cd "${S}" || die
 		sed -i -e 's/-llua5.1/-llua/' "${HTTP_LUA_MODULE_WD}/config" || die
 	fi
 
@@ -364,6 +376,7 @@ src_prepare() {
 		cd "${HTTP_SECURITY_MODULE_WD}" || die
 
 		eapply "${FILESDIR}"/http_security-pr_1158.patch
+		eapply "${FILESDIR}"/http_security-pr_1373.patch
 
 		eautoreconf
 
