@@ -1,6 +1,5 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 RESTRICT="mirror"
@@ -9,7 +8,7 @@ inherit cmake-utils systemd user
 
 DESCRIPTION="An optimized HTTP server with support for HTTP/1.x and HTTP/2"
 HOMEPAGE="https://h2o.examp1e.net"
-SRC_URI="https://github.com/h2o/h2o/archive/v${PV/_/-}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -40,8 +39,6 @@ REQUIRED_USE="bundled-ssl? ( !libressl )
 	websocket? ( libh2o )"
 
 PATCHES=( "${FILESDIR}"/${P}-fix_help.patch )
-
-S="${WORKDIR}/${P/_/-}"
 
 pkg_setup() {
 	enewgroup h2o
