@@ -8,7 +8,7 @@ inherit bash-completion-r1 systemd user
 
 DESCRIPTION="Cryptocurrency that offers privacy of transactions"
 HOMEPAGE="https://z.cash"
-SRC_URI="https://github.com/${PN}/${PN}/archive/v1.0.7-1.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -18,8 +18,6 @@ IUSE="+examples +hardened mining test"
 DEPEND="app-arch/unzip
 	net-misc/wget"
 RDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${PN}-1.0.7-1"
 
 pkg_setup() {
 	enewgroup "${PN}"
