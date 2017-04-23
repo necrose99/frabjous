@@ -38,7 +38,10 @@ REQUIRED_USE="bundled-ssl? ( !libressl )
 	libuv? ( libh2o )
 	websocket? ( libh2o )"
 
-PATCHES=( "${FILESDIR}"/${PN}-2.2.0-fix_help.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.2.0-fix_help.patch
+	"${FILESDIR}"/${P}-ocsp-stapling.patch
+)
 
 pkg_setup() {
 	enewgroup h2o
