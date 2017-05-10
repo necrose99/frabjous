@@ -1,6 +1,5 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=6
 
@@ -16,13 +15,13 @@ SRC_URI="https://nodejs.org/dist/v${PV}/node-v${PV}.tar.xz"
 LICENSE="Apache-1.1 Apache-2.0 BSD BSD-2 MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86 ~x64-macos"
-IUSE="bundled-openssl cpu_flags_x86_sse2 debug icu +npm snapshot +ssl test"
+IUSE="bundled-ssl cpu_flags_x86_sse2 debug icu libressl +npm snapshot +ssl test"
 
 RDEPEND="icu? ( >=dev-libs/icu-55:= )
 	npm? ( ${PYTHON_DEPS} )
 	>=net-libs/http-parser-2.5.2:=
 	>=dev-libs/libuv-1.8.0:=
-	!bundled-openssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )
+	!bundled-ssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )
 	sys-libs/zlib"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
@@ -30,7 +29,8 @@ DEPEND="${RDEPEND}
 
 S="${WORKDIR}/node-v${PV}"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	bundled-openssl? ( ssl )"
+	libressl? ( bundled-ssl )
+	bundled-ssl? ( ssl )"
 
 pkg_pretend() {
 	(use x86 && ! use cpu_flags_x86_sse2) && \
@@ -85,7 +85,7 @@ src_configure() {
 	use icu && myconf+=( --with-intl=system-icu )
 	use snapshot && myconf+=( --with-snapshot )
 	use ssl || myconf+=( --without-ssl )
-	use bundled-openssl || myconf+=( --shared-openssl )
+	use bundled-ssl || myconf+=( --shared-openssl )
 	use debug && myconf+=( --debug )
 
 	case ${ABI} in
