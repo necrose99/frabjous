@@ -103,6 +103,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-perl/JSON
 	>=dev-util/gperf-3.0.3
 	dev-util/ninja
+	net-libs/nodejs
 	sys-apps/hwids[usb(+)]
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
@@ -164,9 +165,9 @@ pre_build_checks() {
 			# bugs: #601654
 			die "At least clang 3.9.1 is required"
 		fi
-		if tc-is-gcc && ! version_is_at_least 4.9 "$(gcc-version)"; then
+		if tc-is-gcc && ! version_is_at_least 4.8 "$(gcc-version)"; then
 			# bugs: #535730, #525374, #518668, #600288
-			die "At least gcc 4.9 is required"
+			die "At least gcc 4.8 is required"
 		fi
 	fi
 
@@ -201,32 +202,36 @@ src_prepare() {
 	local PATCHES=(
 		"${FILESDIR}/chromium-widevine-r1.patch"
 		"${FILESDIR}/chromium-FORTIFY_SOURCE.patch"
-		"${FILESDIR}/chromium-57-gcc4.patch"
+		"${FILESDIR}/chromium-gn-bootstrap-r2.patch"
+		"${FILESDIR}/skia-avx2.patch"
 
 		# Inox patches
-		"${FILESDIR}/inox-57/0001-fix-building-without-safebrowsing.patch"
-		"${FILESDIR}/inox-57/0003-disable-autofill-download-manager.patch"
-		"${FILESDIR}/inox-57/0004-disable-google-url-tracker.patch"
-		"${FILESDIR}/inox-57/0005-disable-default-extensions.patch"
-		"${FILESDIR}/inox-57/0006-modify-default-prefs.patch"
-		"${FILESDIR}/inox-57/0007-disable-web-resource-service.patch"
-		"${FILESDIR}/inox-57/0008-restore-classic-ntp.patch"
-		"${FILESDIR}/inox-57/0009-disable-google-ipv6-probes.patch"
-		"${FILESDIR}/inox-57/0010-disable-gcm-status-check.patch"
-		"${FILESDIR}/inox-57/0011-add-duckduckgo-search-engine.patch"
-		"${FILESDIR}/inox-57/0012-branding.patch"
-		"${FILESDIR}/inox-57/0013-disable-missing-key-warning.patch"
-		"${FILESDIR}/inox-57/0014-disable-translation-lang-fetch.patch"
-		"${FILESDIR}/inox-57/0015-disable-update-pings.patch"
-		"${FILESDIR}/inox-57/0016-chromium-sandbox-pie.patch"
-		"${FILESDIR}/inox-57/0017-disable-new-avatar-menu.patch"
-		"${FILESDIR}/inox-57/0018-disable-first-run-behaviour.patch"
-		"${FILESDIR}/inox-57/0019-disable-battery-status-service.patch"
+		"${FILESDIR}/inox-58/0001-fix-building-without-safebrowsing.patch"
+		"${FILESDIR}/inox-58/0003-disable-autofill-download-manager.patch"
+		"${FILESDIR}/inox-58/0004-disable-google-url-tracker.patch"
+		"${FILESDIR}/inox-58/0005-disable-default-extensions.patch"
+		"${FILESDIR}/inox-58/0006-modify-default-prefs.patch"
+		"${FILESDIR}/inox-58/0007-disable-web-resource-service.patch"
+		"${FILESDIR}/inox-58/0008-restore-classic-ntp.patch"
+		"${FILESDIR}/inox-58/0009-disable-google-ipv6-probes.patch"
+		"${FILESDIR}/inox-58/0010-disable-gcm-status-check.patch"
+		"${FILESDIR}/inox-58/0011-add-duckduckgo-search-engine.patch"
+		"${FILESDIR}/inox-58/0012-branding.patch"
+		"${FILESDIR}/inox-58/0013-disable-missing-key-warning.patch"
+		"${FILESDIR}/inox-58/0014-disable-translation-lang-fetch.patch"
+		"${FILESDIR}/inox-58/0015-disable-update-pings.patch"
+		"${FILESDIR}/inox-58/0016-chromium-sandbox-pie.patch"
+		"${FILESDIR}/inox-58/0017-disable-new-avatar-menu.patch"
+		"${FILESDIR}/inox-58/0018-disable-first-run-behaviour.patch"
+		"${FILESDIR}/inox-58/0019-disable-battery-status-service.patch"
 	)
 
 	use system-ffmpeg && PATCHES+=( "${FILESDIR}/chromium-system-ffmpeg-r4.patch" )
 
 	default
+
+	mkdir -p third_party/node/linux/node-linux-x64/bin || die
+	ln -s "${EPREFIX}"/usr/bin/node third_party/node/linux/node-linux-x64/bin/node || die
 
 	local keeplibs=(
 		base/third_party/dmg_fp
@@ -299,6 +304,8 @@ src_prepare() {
 		third_party/mesa
 		third_party/modp_b64
 		third_party/mt19937ar
+		third_party/node
+		third_party/node/node_modules/vulcanize/third_party/UglifyJS2
 		third_party/openh264
 		third_party/openmax_dl
 		third_party/opus
@@ -534,7 +541,7 @@ src_configure() {
 
 	einfo "Configuring Chromium..."
 	# TODO: bootstrapped gn binary hangs when using tcmalloc with portage's sandbox.
-	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "${myconf_gn} use_allocator=\"none\"" || die
+	tools/gn/bootstrap/bootstrap.py -v --no-clean --gn-gen-args "${myconf_gn} use_allocator=\"none\"" || die
 	myconf_gn+=" use_allocator=$(usex tcmalloc \"tcmalloc\" \"none\")"
 	out/Release/gn gen --args="${myconf_gn}" out/Release || die
 }
