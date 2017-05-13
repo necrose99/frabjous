@@ -30,7 +30,7 @@ DEPEND="dev-libs/boost:0[threads(+)]
 		dev-qt/qtgui:5
 		dev-qt/qtnetwork:5
 		dev-qt/qtwidgets:5
-		dev-qt/linguist-tools:5
+		dev-qt/linguist-tools
 		dbus? ( dev-qt/qtdbus:5 )
 		qrcode? ( media-gfx/qrencode )
 	)
