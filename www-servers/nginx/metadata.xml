@@ -32,6 +32,7 @@
     <flag name="nginx_modules_http_upload_progress">Implementing an upload progress system, that monitors RFC1867 POST uploads</flag>
     <flag name="nginx_modules_http_upstream_check">Add the support of health check with the upstream servers</flag>
     <flag name="nginx_modules_http_security">Enable support for ModSecurity</flag>
+    <flag name="nginx_modules_http_set_misc">Enable various set_xxx directives added to nginx's rewrite module (md5/sha1, sql/json quoting, and many more)</flag>
     <flag name="nginx_modules_http_slowfs_cache">This module adds the ability to cache static files</flag>
     <flag name="nginx_modules_http_sticky">Add a sticky cookie to be always forwarded to the same upstream server</flag>
 	<flag name="nginx_modules_stream_geo"></flag>

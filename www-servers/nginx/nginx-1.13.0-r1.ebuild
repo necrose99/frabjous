@@ -150,6 +150,12 @@ HTTP_BROTLI_P="brotli-${HTTP_BROTLI_PV}"
 HTTP_BROTLI_URI="https://github.com/google/brotli/archive/${HTTP_BROTLI_PV}.tar.gz"
 HTTP_BROTLI_WD="${WORKDIR}/brotli-${HTTP_BROTLI_PV}"
 
+# set-misc-nginx-module (https://github.com/openresty/set-misc-nginx-module, BSD)
+HTTP_SET_MISC_MODULE_PV="0.31"
+HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
+HTTP_SET_MISC_MODULE_URI="https://github.com/openresty/set-misc-nginx-module/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
+HTTP_SET_MISC_MODULE_WD="${WORKDIR}/set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
+
 # We handle deps below ourselves
 SSL_DEPS_SKIP=1
 AUTOTOOLS_AUTO_DEPEND="no"
@@ -180,7 +186,8 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_memc? ( ${HTTP_MEMC_MODULE_URI} -> ${HTTP_MEMC_MODULE_P}.tar.gz )
 	nginx_modules_http_auth_ldap? ( ${HTTP_LDAP_MODULE_URI} -> ${HTTP_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz
-		${HTTP_BROTLI_URI} -> ${HTTP_BROTLI_P}.tar.gz )"
+		${HTTP_BROTLI_URI} -> ${HTTP_BROTLI_P}.tar.gz )
+	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -223,7 +230,8 @@ NGINX_MODULES_3RD="
 	http_mogilefs
 	http_memc
 	http_auth_ldap
-	http_brotli"
+	http_brotli
+	http_set_misc"
 
 IUSE="aio debug +http +http2 +http-cache +ipv6 libatomic libressl luajit +pcre
 	pcre-jit perftools rtmp selinux ssl threads userland_GNU vim-syntax"
@@ -315,7 +323,8 @@ REQUIRED_USE="pcre-jit? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
 	nginx_modules_http_security? ( pcre )
-	nginx_modules_http_push_stream? ( ssl )"
+	nginx_modules_http_push_stream? ( ssl )
+	nginx_modules_http_set_misc? ( nginx_modules_http_ndk )"
 
 pkg_setup() {
 	NGINX_HOME="/var/lib/nginx"
@@ -576,6 +585,11 @@ src_configure() {
 		myconf+=( --add-module=${HTTP_BROTLI_MODULE_WD} )
 	fi
 
+	if use nginx_modules_http_set_misc; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_SET_MISC_MODULE_WD} )
+	fi
+
 	if use http || use http-cache || use http2; then
 		http_enabled=1
 	fi
@@ -803,6 +817,11 @@ src_install() {
 	if use nginx_modules_http_brotli; then
 		docinto ${HTTP_BROTLI_P}
 		dodoc "${HTTP_BROTLI_MODULE_WD}"/README.md
+	fi
+
+	if use nginx_modules_http_set_misc; then
+		docinto ${HTTP_SET_MISC_MODULE_P}
+		dodoc "${HTTP_SET_MISC_MODULE_WD}"/README.markdown
 	fi
 }
 
