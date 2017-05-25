@@ -27,6 +27,7 @@
     <flag name="nginx_modules_http_metrics">Collect nginx responde code metrics and more</flag>
     <flag name="nginx_modules_http_mogilefs">MogileFS client for nginx web server</flag>
     <flag name="nginx_modules_http_naxsi">An open-source, high performance, low rules maintenance WAF for NGINX</flag>
+    <flag name="nginx_modules_http_ndk">This module is like SDK for some another modules (so, it is only needed as dependency for them)</flag>
     <flag name="nginx_modules_http_push_stream">A pure stream http push technology</flag>
     <flag name="nginx_modules_http_upload_progress">Implementing an upload progress system, that monitors RFC1867 POST uploads</flag>
     <flag name="nginx_modules_http_upstream_check">Add the support of health check with the upstream servers</flag>

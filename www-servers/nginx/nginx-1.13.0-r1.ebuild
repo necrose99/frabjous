@@ -16,11 +16,11 @@ EAPI="6"
 # prevent perl-module from adding automagic perl DEPENDs
 GENTOO_DEPEND_ON_PERL="no"
 
-# devel_kit (https://github.com/simpl/ngx_devel_kit, BSD license)
-DEVEL_KIT_MODULE_PV="0.3.0"
-DEVEL_KIT_MODULE_P="ngx_devel_kit-${DEVEL_KIT_MODULE_PV}-r1"
-DEVEL_KIT_MODULE_URI="https://github.com/simpl/ngx_devel_kit/archive/v${DEVEL_KIT_MODULE_PV}.tar.gz"
-DEVEL_KIT_MODULE_WD="${WORKDIR}/ngx_devel_kit-${DEVEL_KIT_MODULE_PV}"
+# http_ndk (https://github.com/simpl/ngx_devel_kit, BSD license)
+HTTP_NDK_MODULE_PV="0.3.0"
+HTTP_NDK_MODULE_P="ngx_devel_kit-${HTTP_NDK_MODULE_PV}-r1"
+HTTP_NDK_MODULE_URI="https://github.com/simpl/ngx_devel_kit/archive/v${HTTP_NDK_MODULE_PV}.tar.gz"
+HTTP_NDK_MODULE_WD="${WORKDIR}/ngx_devel_kit-${HTTP_NDK_MODULE_PV}"
 
 # http_uploadprogress (https://github.com/masterzen/nginx-upload-progress-module, BSD-2 license)
 HTTP_UPLOAD_PROGRESS_MODULE_PV="0.9.2"
@@ -159,7 +159,7 @@ inherit autotools ssl-cert toolchain-funcs perl-module flag-o-matic user systemd
 DESCRIPTION="Robust, small and high performance http and reverse proxy server"
 HOMEPAGE="https://nginx.org"
 SRC_URI="https://nginx.org/download/${P}.tar.gz
-	${DEVEL_KIT_MODULE_URI} -> ${DEVEL_KIT_MODULE_P}.tar.gz
+	nginx_modules_http_ndk? ( ${HTTP_NDK_MODULE_URI} -> ${HTTP_NDK_MODULE_P}.tar.gz )
 	nginx_modules_http_upload_progress? ( ${HTTP_UPLOAD_PROGRESS_MODULE_URI} -> ${HTTP_UPLOAD_PROGRESS_MODULE_P}.tar.gz )
 	nginx_modules_http_headers_more? ( ${HTTP_HEADERS_MORE_MODULE_URI} -> ${HTTP_HEADERS_MORE_MODULE_P}.tar.gz )
 	nginx_modules_http_cache_purge? ( ${HTTP_CACHE_PURGE_MODULE_URI} -> ${HTTP_CACHE_PURGE_MODULE_P}.tar.gz )
@@ -204,6 +204,7 @@ NGINX_MODULES_STREAM_STD="access geo limit_conn map return split_clients
 NGINX_MODULES_STREAM_OPT="geoip realip ssl_preread"
 NGINX_MODULES_MAIL="imap pop3 smtp"
 NGINX_MODULES_3RD="
+	http_ndk
 	http_upload_progress
 	http_headers_more
 	http_cache_purge
@@ -309,7 +310,7 @@ DEPEND="${CDEPEND}
 PDEPEND="vim-syntax? ( app-vim/nginx-syntax )"
 
 REQUIRED_USE="pcre-jit? ( pcre )
-	nginx_modules_http_lua? ( nginx_modules_http_rewrite )
+	nginx_modules_http_lua? ( nginx_modules_http_ndk nginx_modules_http_rewrite )
 	nginx_modules_http_naxsi? ( pcre )
 	nginx_modules_http_dav_ext? ( nginx_modules_http_dav )
 	nginx_modules_http_metrics? ( nginx_modules_http_stub_status )
@@ -463,6 +464,11 @@ src_configure() {
 	fi
 
 	# third-party modules
+	if use nginx_modules_http_ndk; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_NDK_MODULE_WD} )
+	fi
+
 	if use nginx_modules_http_upload_progress; then
 		http_enabled=1
 		myconf+=( --add-module=${HTTP_UPLOAD_PROGRESS_MODULE_WD} )
@@ -497,7 +503,6 @@ src_configure() {
 			export LUA_LIB=$(pkg-config --variable libdir lua)
 			export LUA_INC=$(pkg-config --variable includedir lua)
 		fi
-		myconf+=( --add-module=${DEVEL_KIT_MODULE_WD} )
 		myconf+=( --add-module=${HTTP_LUA_MODULE_WD} )
 	fi
 
@@ -707,6 +712,11 @@ src_install() {
 	# logrotate
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/nginx.logrotate-r1 nginx
+
+	if use nginx_modules_http_ndk; then
+		docinto ${HTTP_NDK_MODULE_P}
+		dodoc "${HTTP_NDK_MODULE_WD}"/README.md
+	fi
 
 	if use nginx_modules_http_perl; then
 		cd "${S}"/objs/src/http/modules/perl/ || die
