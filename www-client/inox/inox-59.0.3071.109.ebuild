@@ -8,17 +8,16 @@ CHROMIUM_LANGS="am ar bg bn ca cs da de el en-GB es es-419 et fa fi fil fr gu he
 	hi hr hu id it ja kn ko lt lv ml mr ms nb nl pl pt-BR pt-PT ro ru sk sl sr
 	sv sw ta te th tr uk vi zh-CN zh-TW"
 
-inherit check-reqs chromium-2 eutils gnome2-utils flag-o-matic multilib multiprocessing pax-utils portability python-any-r1 readme.gentoo-r1 toolchain-funcs versionator virtualx xdg-utils
+inherit check-reqs chromium-2 eutils gnome2-utils flag-o-matic multilib ninja-utils pax-utils portability python-any-r1 readme.gentoo-r1 toolchain-funcs versionator virtualx xdg-utils
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
 HOMEPAGE="http://chromium.org/"
 SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz"
 
-# inox patchset is GPL-3
-LICENSE="BSD GPL-3"
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="component-build cups custom-cflags gconf gnome-keyring gtk3 kerberos neon pic +proprietary-codecs pulseaudio selinux +suid +system-ffmpeg +system-libvpx +tcmalloc widevine webrtc"
+IUSE="component-build cups custom-cflags gconf gnome-keyring +gtk3 kerberos neon pic +proprietary-codecs pulseaudio selinux +suid +system-ffmpeg -system-libvpx -tcmalloc widevine"
 RESTRICT="!system-ffmpeg? ( proprietary-codecs? ( bindist ) )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
@@ -31,12 +30,9 @@ QA_PRESTRIPPED=".*\.nexe"
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	cups? ( >=net-print/cups-1.3.11:= )
-	>=dev-libs/elfutils-0.149
 	dev-libs/expat:=
 	dev-libs/glib:2
 	dev-libs/icu:=
-	>=dev-libs/jsoncpp-0.5.0-r1:=
-	dev-libs/libxml2:=[icu]
 	dev-libs/libxslt:=
 	dev-libs/nspr:=
 	>=dev-libs/nss-3.14.3:=
@@ -46,21 +42,17 @@ COMMON_DEPEND="
 	>=media-libs/alsa-lib-1.0.19:=
 	media-libs/fontconfig:=
 	media-libs/freetype:=
-	>=media-libs/harfbuzz-1.3.1:=[icu(+)]
-	media-libs/libexif:=
+	>=media-libs/harfbuzz-1.4.2:=[icu(-)]
 	media-libs/libjpeg-turbo:=
 	media-libs/libpng:=
 	system-libvpx? ( media-libs/libvpx:=[postproc,svc] )
-	media-libs/speex:=
 	pulseaudio? ( media-sound/pulseaudio:= )
 	system-ffmpeg? ( >=media-video/ffmpeg-3:= )
 	sys-apps/dbus:=
 	sys-apps/pciutils:=
-	>=sys-libs/libcap-2.22:=
 	virtual/udev
 	x11-libs/cairo:=
 	x11-libs/gdk-pixbuf:2
-	x11-libs/libdrm
 	x11-libs/libX11:=
 	x11-libs/libXcomposite:=
 	x11-libs/libXcursor:=
@@ -68,7 +60,6 @@ COMMON_DEPEND="
 	x11-libs/libXext:=
 	x11-libs/libXfixes:=
 	>=x11-libs/libXi-1.6.0:=
-	x11-libs/libXinerama:=
 	x11-libs/libXrandr:=
 	x11-libs/libXrender:=
 	x11-libs/libXScrnSaver:=
@@ -94,23 +85,22 @@ RDEPEND="${COMMON_DEPEND}
 	widevine? ( www-plugins/chrome-binary-plugins[widevine(-)] )
 "
 # dev-vcs/git - https://bugs.gentoo.org/593476
+# sys-apps/sandbox - https://crbug.com/586444
 DEPEND="${COMMON_DEPEND}
 	>=app-arch/gzip-1.7
 	!arm? (
 		dev-lang/yasm
 	)
 	dev-lang/perl
-	dev-perl/JSON
 	>=dev-util/gperf-3.0.3
 	dev-util/ninja
 	net-libs/nodejs
 	sys-apps/hwids[usb(+)]
+	tcmalloc? ( !<sys-apps/sandbox-2.11 )
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	virtual/pkgconfig
 	dev-vcs/git
-	x11-libs/gtk+:2
-	x11-libs/gtk+:3
 	$(python_gen_any_dep '
 		dev-python/beautifulsoup:python-2[${PYTHON_USEDEP}]
 		>=dev-python/beautifulsoup-4.3.2:4[${PYTHON_USEDEP}]
@@ -146,14 +136,9 @@ are not displayed properly:
 - media-fonts/wqy-microhei
 - media-fonts/wqy-zenhei
 
-Depending on your desktop environment, you may need
-to install additional packages to get icons on the Downloads page.
-
-For KDE, the required package is kde-frameworks/oxygen-icons.
-
-For other desktop environments, try one of the following:
-- x11-themes/gnome-icon-theme
-- x11-themes/tango-icon-theme
+To fix broken icons on the Downloads page, you should install an icon
+theme that covers the appropriate MIME types, and configure this as your
+GTK+ icon theme.
 "
 
 S=${WORKDIR}/chromium-${PV}
@@ -202,31 +187,34 @@ src_prepare() {
 	local PATCHES=(
 		"${FILESDIR}/chromium-widevine-r1.patch"
 		"${FILESDIR}/chromium-FORTIFY_SOURCE.patch"
-		"${FILESDIR}/chromium-gn-bootstrap-r2.patch"
 		"${FILESDIR}/skia-avx2.patch"
+		"${FILESDIR}/chromium-dma-buf-r1.patch"
+		"${FILESDIR}/chromium-system-ffmpeg-r6.patch"
+		"${FILESDIR}/chromium-system-icu-r1.patch"
 
 		# Inox patches
-		"${FILESDIR}/inox-58/0001-fix-building-without-safebrowsing.patch"
-		"${FILESDIR}/inox-58/0003-disable-autofill-download-manager.patch"
-		"${FILESDIR}/inox-58/0004-disable-google-url-tracker.patch"
-		"${FILESDIR}/inox-58/0005-disable-default-extensions.patch"
-		"${FILESDIR}/inox-58/0006-modify-default-prefs.patch"
-		"${FILESDIR}/inox-58/0007-disable-web-resource-service.patch"
-		"${FILESDIR}/inox-58/0008-restore-classic-ntp.patch"
-		"${FILESDIR}/inox-58/0009-disable-google-ipv6-probes.patch"
-		"${FILESDIR}/inox-58/0010-disable-gcm-status-check.patch"
-		"${FILESDIR}/inox-58/0011-add-duckduckgo-search-engine.patch"
-		"${FILESDIR}/inox-58/0012-branding.patch"
-		"${FILESDIR}/inox-58/0013-disable-missing-key-warning.patch"
-		"${FILESDIR}/inox-58/0014-disable-translation-lang-fetch.patch"
-		"${FILESDIR}/inox-58/0015-disable-update-pings.patch"
-		"${FILESDIR}/inox-58/0016-chromium-sandbox-pie.patch"
-		"${FILESDIR}/inox-58/0017-disable-new-avatar-menu.patch"
-		"${FILESDIR}/inox-58/0018-disable-first-run-behaviour.patch"
-		"${FILESDIR}/inox-58/0019-disable-battery-status-service.patch"
-	)
+		"${FILESDIR}/inox-59/0001-fix-building-without-safebrowsing.patch"
+		"${FILESDIR}/inox-59/0003-disable-autofill-download-manager.patch"
+		"${FILESDIR}/inox-59/0004-disable-google-url-tracker.patch"
+		"${FILESDIR}/inox-59/0005-disable-default-extensions.patch"
+		"${FILESDIR}/inox-59/0006-modify-default-prefs.patch"
+		"${FILESDIR}/inox-59/0007-disable-web-resource-service.patch"
+		"${FILESDIR}/inox-59/0008-restore-classic-ntp.patch"
+		"${FILESDIR}/inox-59/0009-disable-google-ipv6-probes.patch"
+		"${FILESDIR}/inox-59/0010-disable-gcm-status-check.patch"
+		"${FILESDIR}/inox-59/0011-add-duckduckgo-search-engine.patch"
+		"${FILESDIR}/inox-59/0012-branding.patch"
+		"${FILESDIR}/inox-59/0013-disable-missing-key-warning.patch"
+		"${FILESDIR}/inox-59/0014-disable-translation-lang-fetch.patch"
+		"${FILESDIR}/inox-59/0015-disable-update-pings.patch"
+		"${FILESDIR}/inox-59/0016-chromium-sandbox-pie.patch"
+		"${FILESDIR}/inox-59/0017-disable-new-avatar-menu.patch"
+		"${FILESDIR}/inox-59/0018-disable-first-run-behaviour.patch"
+		"${FILESDIR}/inox-59/0019-disable-battery-status-service.patch"
 
-	use system-ffmpeg && PATCHES+=( "${FILESDIR}/chromium-system-ffmpeg-r4.patch" )
+		# Waiting upstream approval
+		#"${FILESDIR}/inox-59/9999-disable-metrics.patch"
+	)
 
 	default
 
@@ -277,6 +265,7 @@ src_prepare() {
 		third_party/fips181
 		third_party/flatbuffers
 		third_party/flot
+		third_party/freetype
 		third_party/google_input_tools
 		third_party/google_input_tools/third_party/closure_library
 		third_party/google_input_tools/third_party/closure_library/third_party/closure
@@ -296,7 +285,7 @@ src_prepare() {
 		third_party/libudev
 		third_party/libusb
 		third_party/libwebm
-		third_party/libxml/chromium
+		third_party/libxml
 		third_party/libyuv
 		third_party/lss
 		third_party/lzma_sdk
@@ -313,14 +302,13 @@ src_prepare() {
 		third_party/pdfium
 		third_party/pdfium/third_party/agg23
 		third_party/pdfium/third_party/base
+		third_party/pdfium/third_party/build
 		third_party/pdfium/third_party/bigint
 		third_party/pdfium/third_party/freetype
 		third_party/pdfium/third_party/lcms2-2.6
-		third_party/pdfium/third_party/libjpeg
 		third_party/pdfium/third_party/libopenjpeg20
 		third_party/pdfium/third_party/libpng16
 		third_party/pdfium/third_party/libtiff
-		third_party/pdfium/third_party/zlib_v128
 		third_party/ply
 		third_party/polymer
 		third_party/protobuf
@@ -330,6 +318,10 @@ src_prepare() {
 		third_party/skia
 		third_party/smhasher
 		third_party/sqlite
+		third_party/swiftshader
+		third_party/swiftshader/third_party/llvm-subzero
+		third_party/swiftshader/third_party/pnacl-subzero
+		third_party/swiftshader/third_party/subzero
 		third_party/tcmalloc
 		third_party/usrsctp
 		third_party/web-animations-js
@@ -373,6 +365,8 @@ src_configure() {
 	# for development and debugging.
 	myconf_gn+=" is_component_build=$(usex component-build true false)"
 
+	myconf_gn+=" use_allocator=$(usex tcmalloc \"tcmalloc\" \"none\")"
+
 	# Disable nacl, we can't build without pnacl (http://crbug.com/269560).
 	myconf_gn+=" enable_nacl=false"
 
@@ -380,6 +374,7 @@ src_configure() {
 	# TODO: use_system_hunspell (upstream changes needed).
 	# TODO: use_system_libsrtp (bug #459932).
 	# TODO: use_system_libusb (http://crbug.com/266149).
+	# TODO: xml (bug #616818).
 	# TODO: use_system_opus (https://code.google.com/p/webrtc/issues/detail?id=3077).
 	# TODO: use_system_protobuf (bug #525560).
 	# TODO: use_system_ssl (http://crbug.com/58087).
@@ -390,10 +385,10 @@ src_configure() {
 		flac
 		harfbuzz-ng
 		icu
+		libdrm
 		libjpeg
 		libpng
 		libwebp
-		libxml
 		libxslt
 		re2
 		snappy
@@ -411,12 +406,12 @@ src_configure() {
 	# Inox
 	myconf_gn+=" enable_hangout_services_extension=false"
 	myconf_gn+=" enable_rlz=false"
+	myconf_gn+=" enable_rlz_support=false"
 	myconf_gn+=" enable_remoting=false"
 	myconf_gn+=" enable_google_now=false"
 	myconf_gn+=" safe_browsing_mode=0"
 	myconf_gn+=" enable_hotwording=false"
 	myconf_gn+=" enable_print_preview=false"
-	myconf_gn+=" enable_webrtc=$(usex webrtc true false)"
 
 	# Optional dependencies.
 	myconf_gn+=" enable_widevine=$(usex widevine true false)"
@@ -540,27 +535,8 @@ src_configure() {
 	touch chrome/test/data/webui/i18n_process_css_test.html || die
 
 	einfo "Configuring Chromium..."
-	# TODO: bootstrapped gn binary hangs when using tcmalloc with portage's sandbox.
-	tools/gn/bootstrap/bootstrap.py -v --no-clean --gn-gen-args "${myconf_gn} use_allocator=\"none\"" || die
-	myconf_gn+=" use_allocator=$(usex tcmalloc \"tcmalloc\" \"none\")"
+	tools/gn/bootstrap/bootstrap.py -v --no-clean --gn-gen-args "${myconf_gn}" || die
 	out/Release/gn gen --args="${myconf_gn}" out/Release || die
-}
-
-eninja() {
-	if [[ -z ${NINJAOPTS+set} ]]; then
-		local jobs=$(makeopts_jobs)
-		local loadavg=$(makeopts_loadavg)
-
-		if [[ ${MAKEOPTS} == *-j* && ${jobs} != 999 ]]; then
-			NINJAOPTS+=" -j ${jobs}"
-		fi
-		if [[ ${MAKEOPTS} == *-l* && ${loadavg} != 999 ]]; then
-			NINJAOPTS+=" -l ${loadavg}"
-		fi
-	fi
-	set -- ninja -v ${NINJAOPTS} "$@"
-	echo "$@"
-	"$@"
 }
 
 src_compile() {
@@ -634,6 +610,9 @@ src_install() {
 
 	doins -r out/Release/locales
 	doins -r out/Release/resources
+
+	insinto "${CHROMIUM_HOME}/swiftshader"
+	doins out/Release/swiftshader/*.so
 
 	newman out/Release/chrome.1 inox.1
 	newman out/Release/chrome.1 inox-browser.1

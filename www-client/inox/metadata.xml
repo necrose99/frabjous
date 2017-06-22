@@ -16,6 +16,5 @@
 		<flag name="system-libvpx">Use system libvpx instead of the bundled one</flag>
 		<flag name="tcmalloc">Use bundled tcmalloc instead of system malloc</flag>
 		<flag name="widevine">Unsupported closed-source DRM capability (required by Netflix VOD)</flag>
-		<flag name="webrtc">Enable WebRTC support</flag>
 	</use>
 </pkgmetadata>
