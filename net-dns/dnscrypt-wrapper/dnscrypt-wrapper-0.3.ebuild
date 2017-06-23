@@ -12,7 +12,7 @@ SRC_URI="https://github.com/cofyc/dnscrypt-wrapper/archive/v${PV}.tar.gz -> ${P}
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+doc examples"
+IUSE="+examples"
 
 DEPEND="
 	dev-libs/libsodium
@@ -37,9 +37,7 @@ src_install() {
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	if use doc; then
-		dodoc -r {COPYING,README.md}
-	fi
+	dodoc -r {COPYING,README.md}
 
 	if use examples; then
 		docinto examples
