@@ -15,7 +15,6 @@ KEYWORDS="~amd64 ~x86"
 IUSE="caps +daemon dnstap doc +fastparser idn static-libs systemd +utils"
 
 RDEPEND=">=net-libs/gnutls-3.3:=
-	>=dev-libs/jansson-2.3
 	>=dev-db/lmdb-0.9.15
 	>=dev-libs/userspace-rcu-0.5.4
 	dev-libs/libedit
@@ -26,7 +25,7 @@ RDEPEND=">=net-libs/gnutls-3.3:=
 	)
 	idn? (
 		|| (
-			net-dns/libidn2
+			>=net-dns/libidn2-2.0.0
 			net-dns/libidn
 		)
 	)
