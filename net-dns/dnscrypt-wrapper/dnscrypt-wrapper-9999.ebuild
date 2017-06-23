@@ -12,7 +12,7 @@ EGIT_REPO_URI=( {https,git}://github.com/cofyc/dnscrypt-wrapper.git )
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE="+doc examples"
+IUSE="+examples"
 
 DEPEND="
 	dev-libs/libsodium
@@ -37,9 +37,7 @@ src_install() {
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	if use doc; then
-		dodoc -r {COPYING,README.md}
-	fi
+	dodoc -r {COPYING,README.md}
 
 	if use examples; then
 		docinto examples
