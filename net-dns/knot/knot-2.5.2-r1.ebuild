@@ -19,6 +19,7 @@ RDEPEND=">=net-libs/gnutls-3.3:=
 	>=dev-libs/userspace-rcu-0.5.4
 	dev-libs/libedit
 	caps? ( >=sys-libs/libcap-ng-0.6.4 )
+	daemon? ( dev-python/lmdb )
 	dnstap? (
 		dev-libs/fstrm
 		dev-libs/protobuf-c
