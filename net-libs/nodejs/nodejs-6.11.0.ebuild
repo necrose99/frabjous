@@ -9,12 +9,12 @@ PYTHON_REQ_USE="threads"
 inherit bash-completion-r1 eutils flag-o-matic pax-utils python-single-r1 toolchain-funcs
 
 DESCRIPTION="A JavaScript runtime built on Chrome's V8 JavaScript engine"
-HOMEPAGE="https://nodejs.org"
+HOMEPAGE="https://nodejs.org/"
 SRC_URI="https://nodejs.org/dist/v${PV}/node-v${PV}.tar.xz"
 
 LICENSE="Apache-1.1 Apache-2.0 BSD BSD-2 MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc64 ~x86 ~amd64-linux ~x64-macos"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x64-macos"
 IUSE="bundled-ssl cpu_flags_x86_sse2 debug doc icu libressl +npm +snapshot +ssl test"
 
 RDEPEND="icu? ( >=dev-libs/icu-56:= )
@@ -188,7 +188,7 @@ src_test() {
 pkg_postinst() {
 	einfo "The global npm config lives in /etc/npm. This deviates slightly"
 	einfo "from upstream which otherwise would have it live in /usr/etc/."
-	einfo
+	einfo ""
 	einfo "Protip: When using node-gyp to install native modules, you can"
 	einfo "avoid having to download extras by doing the following:"
 	einfo "$ node-gyp --nodedir /usr/include/node <command>"
