@@ -3,7 +3,9 @@
 
 EAPI=6
 
-inherit meson
+PYTHON_COMPAT=( python2_7 )
+
+inherit distutils-r1 meson
 
 DESCRIPTION="Nautilus extension to add important information about the current git directory"
 HOMEPAGE="https://github.com/bil-elmoussaoui/nautilus-git"
