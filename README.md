@@ -24,6 +24,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     ├── mail-filter
     │   └── imapfilter
     ├── media-video
+    │   ├── curlew
     │   ├── gnome-mpv
     │   └── peek
     ├── net-analyzer
