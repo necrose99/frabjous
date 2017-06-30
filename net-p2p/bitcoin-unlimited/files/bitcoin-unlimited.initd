@@ -1,7 +1,6 @@
 #!/sbin/openrc-run
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 : ${BITCOIND_DATADIR:="/var/lib/bitcoin/.bitcoin"}
 : ${BITCOIND_CONFIGFILE:="/etc/bitcoin/bitcoin.conf"}
