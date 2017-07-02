@@ -1,0 +1,50 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+extra_commands="configtest"
+extra_started_commands="reload"
+description="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
+description_configtest="Run Caddy' internal config check"
+description_reload="Reload the Caddy configuration or upgrade the binary without losing connections"
+
+name="Caddy webserver"
+pidfile="$PIDFILE"
+command="/usr/bin/caddy"
+command_args="$CADDY_OPTS"
+command_background=yes
+start_stop_daemon_args="--user $NAME --group $NAME"
+
+depend() {
+	use net
+	after dns
+}
+
+start_pre() {
+	if [ "${RC_CMD}" != "restart" ]; then
+		configtest || return 1
+	fi
+}
+
+stop_pre() {
+	if [ "${RC_CMD}" = "restart" ]; then
+		configtest || return 1
+	fi
+}
+
+reload() {
+	configtest || return 1
+	ebegin "Refreshing ${name} configuration"
+	kill -USR1 $(cat ${pidfile}) &>/dev/null
+	eend $? "Failed to reload ${name}"
+}
+
+configtest() {
+	ebegin "Checking ${name} configuration"
+
+	if ! ${command} -validate -conf="${CONFIGFILE}" &>/dev/null; then
+		${command} -validate -conf="${CONFIGFILE}"
+	fi
+
+	eend $? "Failed, please correct the errors above"
+}
