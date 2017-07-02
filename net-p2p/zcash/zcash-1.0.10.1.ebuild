@@ -4,20 +4,22 @@
 EAPI=6
 RESTRICT="mirror"
 
-inherit bash-completion-r1 systemd user
+inherit bash-completion-r1 systemd user versionator
 
+MY_PV=$(replace_version_separator 3 '-')
 DESCRIPTION="Cryptocurrency that offers privacy of transactions"
 HOMEPAGE="https://z.cash"
-SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="MIT"
+LICENSE="MIT openssl AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+examples +hardened mining test"
+IUSE="+examples mining proton rust test"
 
 DEPEND="app-arch/unzip
 	net-misc/wget"
-RDEPEND="${DEPEND}"
+
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
 	enewgroup "${PN}"
@@ -25,23 +27,19 @@ pkg_setup() {
 }
 
 src_prepare() {
+	unset ABI
+	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' depends/packages/boost.mk \
+		|| die "sed fix failed. Uh-oh..."
+
 	eapply_user
 }
 
 src_compile() {
-	unset ABI
-
-	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' depends/packages/boost.mk \
-		|| die "sed fix failed. Uh-oh..."
-
-	if ! use hardened ; then
-		sed -i 's/--enable-hardening/--disable-hardening/' zcutil/build.sh \
-			|| die "sed fix failed. Uh-oh..."
-	fi
-
 	./zcutil/build.sh \
 		$(usex !test "--disable-tests" "") \
 		$(usex !mining "--disable-mining" "") \
+		$(usex !rust "--disable-rust" "") \
+		$(usex proton "--enable-proton" "") \
 		|| die "Build failed!"
 }
 
@@ -60,7 +58,7 @@ src_install() {
 
 	insinto "${my_etc}"
 	doins "${FILESDIR}"/${PN}.conf
-	fowners zcash:zcash "${my_etc}"/${PN}.conf
+	fowners ${PN}:${PN} "${my_etc}"/${PN}.conf
 	fperms 0600 "${my_etc}"/${PN}.conf
 	use examples && newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
 
@@ -92,7 +90,7 @@ src_install() {
 
 pkg_postinst() {
 	chmod 0750 "${EROOT%/}"/var/lib/zcashd || die
-	chown -R zcash:zcash "${EROOT%/}"/var/lib/zcashd || die
+	chown -R ${PN}:${PN} "${EROOT%/}"/var/lib/zcashd || die
 
 	ewarn
 	ewarn "SECURITY WARNINGS:"

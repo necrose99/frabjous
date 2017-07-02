@@ -13,6 +13,8 @@
 	</longdescription>
 	<use>
 		<flag name="mining">Build mining code</flag>
+		<flag name="proton">Build the Apache Qpid Proton library required for AMQP support</flag>
+		<flag name="rust">Build Rust language assets</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">zcash/zcash</remote-id>
