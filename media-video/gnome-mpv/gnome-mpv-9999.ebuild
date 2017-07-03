@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools fdo-mime git-r3 gnome2-utils
+inherit git-r3 gnome2-utils meson
 
 DESCRIPTION="A simple GTK+ frontend for mpv"
 HOMEPAGE="https://github.com/gnome-mpv/gnome-mpv"
@@ -12,45 +12,23 @@ EGIT_REPO_URI=( {https,git}://github.com/gnome-mpv/gnome-mpv.git )
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
+IUSE=""
 
-COMMON_DEPEND=">=dev-libs/glib-2.30
-	>=x11-libs/gtk+-3.18:3
-	x11-libs/libX11"
-RDEPEND="${COMMON_DEPEND}
+CDEPEND=">=dev-libs/glib-2.44
+	>=x11-libs/gtk+-3.20:3"
+RDEPEND="${CDEPEND}
 	x11-themes/gnome-icon-theme-symbolic
 	>=media-video/mpv-0.21[libmpv]"
-DEPEND="${COMMON_DEPEND}
-	dev-libs/appstream-glib
-	sys-devel/gettext
-	virtual/pkgconfig"
-
-DOCS="README.md"
-
-src_prepare() {
-	sed -i '/$(UPDATE_DESKTOP)/d' Makefile.am || die
-	sed -i '/$(UPDATE_ICON)/d' Makefile.am || die
-	sed -i '/install-data-hook:/d' Makefile.am || die
-	sed -i '/uninstall-hook:/d' Makefile.am || die
-	mkdir m4
-	eapply_user
-	eautoreconf
-}
+DEPEND="${CDEPEND}
+	>=dev-util/meson-0.37.0
+	dev-libs/appstream-glib"
 
 pkg_preinst() {
 	gnome2_icon_savelist
 	gnome2_schemas_savelist
 }
 
-pkg_postinst() {
-	fdo-mime_desktop_database_update
-	fdo-mime_mime_database_update
-	gnome2_icon_cache_update
-	gnome2_schemas_update
-}
-
 pkg_postrm() {
-	fdo-mime_desktop_database_update
-	fdo-mime_mime_database_update
 	gnome2_icon_cache_update
 	gnome2_schemas_update
 }
