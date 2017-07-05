@@ -77,5 +77,5 @@ src_install() {
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/h2o.logrotate-r1 ${PN}
+	newins "${FILESDIR}"/h2o.logrotate-r2 ${PN}
 }
