@@ -66,7 +66,7 @@ src_configure() {
 src_install() {
 	cmake-utils_src_install
 
-	newinitd "${FILESDIR}"/h2o.initd-r1 h2o
+	newinitd "${FILESDIR}"/h2o.initd-r2 h2o
 	systemd_dounit "${FILESDIR}"/h2o.service
 
 	insinto /etc/h2o
