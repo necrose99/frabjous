@@ -5,7 +5,7 @@
                         "                               being emitted to STDERR\n"
                         "                     - master: invoked process becomes a master process (using\n"
 -                       "                               the `share/h2o/start_server` command) and spawns\n"
-+                       "                               the `/usr/share/h2o/start_server` command) and spawns\n"
++                       "                               the `/usr/libexec/h2o/start_server` command) and spawns\n"
                         "                               a worker process for handling incoming\n"
                         "                               connections. Users may send SIGHUP to the master\n"
                         "                               process to reconfigure or upgrade the server.\n"

@@ -37,7 +37,11 @@ REQUIRED_USE="bundled-ssl? ( !libressl )
 	libuv? ( libh2o )
 	websocket? ( libh2o )"
 
-PATCHES=( "${FILESDIR}"/${P}-fix_help.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.2.2-fix_help-r1.patch
+	"${FILESDIR}"/${PN}-2.2.2-fix_doc.patch
+	"${FILESDIR}"/${P}-libexec.patch
+)
 
 pkg_setup() {
 	enewgroup h2o
@@ -76,5 +80,5 @@ src_install() {
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/h2o.logrotate-r2 ${PN}
+	newins "${FILESDIR}"/h2o.logrotate-r2 h2o
 }
