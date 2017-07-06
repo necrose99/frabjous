@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		Sia is a new decentralized cloud storage platform that radically
+		alters the landscape of cloud storage. By leveraging smart contracts,
+		client-side encryption, and sophisticated redundancy, Sia allows users
+		to safely store their data with hosts that they do not know or trust.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">NebulousLabs/Sia</remote-id>
+	</upstream>
+</pkgmetadata>

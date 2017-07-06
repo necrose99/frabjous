@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Blockchain-based marketplace for file storage"
+
+name="Sia daemon"
+pidfile="$PIDFILE"
+command="/usr/bin/siad"
+command_args="$SIA_OPTS"
+command_background=yes
+start_stop_daemon_args="--user $NAME --group $NAME"
+
+depend() {
+	use net
+	after dns
+}
