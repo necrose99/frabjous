@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit cmake-utils systemd user
 
@@ -51,7 +50,7 @@ pkg_setup() {
 
 src_prepare() {
 	# Leave optimization level to user CFLAGS
-	sed -i "s/-O2 -g \${CC_WARNING_FLAGS} //g" ./CMakeLists.txt \
+	sed -i 's/-O2 -g ${CC_WARNING_FLAGS} //g' ./CMakeLists.txt \
 		|| die "sed fix failed!"
 
 	default
@@ -81,5 +80,5 @@ src_install() {
 	fperms 0700 /var/log/h2o
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/h2o.logrotate-r2 ${PN}
+	newins "${FILESDIR}"/h2o.logrotate-r2 h2o
 }
