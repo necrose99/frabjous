@@ -53,6 +53,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── drops
     │   ├── Sia
     │   └── zcash
+    ├── net-vpn
+    │   └── onioncat
     ├── www-client
     │   └── inox
     └── www-servers

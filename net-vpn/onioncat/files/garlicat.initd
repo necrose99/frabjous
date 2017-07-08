@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+name="GaliCat"
+pidfile="${PIDFILE}"
+command="/usr/bin/gcat"
+command_args="-P ${PIDFILE} ${GCAT_OPTS}"
+command_background=yes
+start_stop_daemon_args="--user $NAME --group $NAME"
+
+depend() {
+	use net
+	need i2p i2pd
+}
