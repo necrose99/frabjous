@@ -14,7 +14,7 @@ SRC_URI="https://www.cypherpunk.at/ocat/download/Source/current/${MY_P}.tar.gz -
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug +http log +queue relay +rtt i2p"
+IUSE="debug +http i2p log +queue relay +rtt"
 
 RDEPEND="net-vpn/tor
 	i2p? (
