@@ -3,25 +3,27 @@
 
 EAPI=6
 
-inherit eutils linux-info
+inherit linux-info
 
-DESCRIPTION="An iptables stateful packet filtering firewall for humans"
-HOMEPAGE="https://firehol.org"
-SRC_URI="https://github.com/firehol/firehol/releases/download/v${PV}/${P}.tar.xz"
+DESCRIPTION="A firewall for humans..."
+HOMEPAGE="https://github.com/firehol/firehol"
+SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="doc ipv6"
 KEYWORDS="~amd64 ~x86"
+IUSE="doc ipv6 ipset qos"
 
-RDEPEND="net-firewall/ipset
-	net-firewall/iptables
+RDEPEND="net-firewall/iptables
 	sys-apps/iproute2[-minimal,ipv6?]
 	net-misc/iputils[ipv6?]
 	net-misc/iprange
 	net-analyzer/traceroute
 	virtual/modutils
-	app-arch/gzip"
+	app-arch/gzip
+	ipset? (
+		net-firewall/ipset
+	)"
 DEPEND="${RDEPEND}"
 
 pkg_setup() {
@@ -42,14 +44,32 @@ pkg_setup() {
 		~NF_NAT_FTP \
 		~NF_NAT_IRC \
 	"
+
+	if use qos; then
+		KCONFIG_OPTS+=" \
+			~IFB \
+			~NET_SCH_HTB \
+			~NET_SCH_FQ_CODEL \
+			~NET_SCH_INGRESS \
+			~NET_CLS_U32 \
+			~NET_CLS_ACT \
+			~NET_ACT_MIRRED \
+			~NET_CLS_IND \
+			~NETFILTER_XT_TARGET_CLASSIFY \
+		"
+	fi
+
+	CONFIG_CHECK="${KCONFIG_OPTS}"
 	linux-info_pkg_setup
 }
 
 src_configure() {
 	econf \
 		--disable-vnetbuild \
+		$(use_enable ipset update-ipsets) \
 		$(use_enable doc) \
-		$(use_enable ipv6)
+		$(use_enable ipv6) \
+		$(use_enable qos fireqos)
 }
 
 src_install() {
@@ -57,6 +77,9 @@ src_install() {
 
 	newconfd "${FILESDIR}"/firehol.conf.d firehol
 	newinitd "${FILESDIR}"/firehol.initrd firehol
-	newconfd "${FILESDIR}"/fireqos.conf.d fireqos
-	newinitd "${FILESDIR}"/fireqos.initrd fireqos
+
+	if use qos; then
+		newconfd "${FILESDIR}"/fireqos.conf.d fireqos
+		newinitd "${FILESDIR}"/fireqos.initrd fireqos
+	fi
 }
