@@ -3,14 +3,14 @@
 
 EAPI=6
 
-inherit golang-build user
+inherit golang-build golang-vcs-snapshot systemd user
 
 EGO_PN="github.com/mholt/${PN}/..."
 EGIT_COMMIT="v${PV}"
 ARCHIVE_URI="https://${EGO_PN%/*}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
-HOMEPAGE="https://caddyserver.com/"
+HOMEPAGE="https://caddyserver.com"
 SRC_URI="${ARCHIVE_URI}"
 
 LICENSE="Apache-2.0"
@@ -28,23 +28,30 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${WORKDIR}/${P}" go install -ldflags "-X github.com/mholt/caddy/caddy/caddymain.gitTag=${PV}" ${EGO_PN%/*}/caddy || die
+	export GOPATH="${S}:$(get_golibdir_gopath)"
+	cd src/${EGO_PN%/*} || die
+
+	go install -ldflags "-X github.com/mholt/caddy/caddy/caddymain.gitTag=${PV}" ./caddy || die
 }
 
 src_install() {
 	dobin bin/*
-	dodoc src/${EGO_PN%/*}/README.md src/${EGO_PN%/*}/dist/CHANGES.txt
+	dodoc src/${EGO_PN%/*}/{dist/CHANGES.txt,README.md}
 
-	newinitd "${FILESDIR}"/caddy.initd ${PN}
-	newconfd "${FILESDIR}"/caddy.confd ${PN}
+	newinitd "${FILESDIR}"/caddy.initd-r1 caddy
+	newconfd "${FILESDIR}"/caddy.confd-r1 caddy
+	systemd_dounit "${FILESDIR}"/caddy.service
 
 	keepdir /var/log/caddy
-	fowners ${PN}:${PN} /var/log/caddy
+	fowners caddy:caddy /var/log/caddy
 
 	keepdir /etc/caddy/ssl
 	fperms 750 /etc/caddy/ssl
-	fowners ${PN}:${PN} /etc/caddy/ssl
+	fowners caddy:caddy /etc/caddy/ssl
 
 	insinto /etc/caddy
 	doins "${FILESDIR}"/Caddyfile.example
+
+	insinto /etc/logrotate.d
+	newins "${FILESDIR}"/caddy.logrotate caddy
 }

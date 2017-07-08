@@ -1,0 +1,8 @@
+/var/log/caddy/*.log {
+	missingok
+	delaycompress
+	sharedscripts
+	postrotate
+		test -r /run/caddy.pid && kill -USR1 $(pidof caddy)
+	endscript
+}

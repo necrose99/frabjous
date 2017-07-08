@@ -8,8 +8,8 @@ description="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
 description_configtest="Run Caddy' internal config check"
 description_reload="Reload the Caddy configuration or upgrade the binary without losing connections"
 
-name="Caddy webserver"
-pidfile="$PIDFILE"
+name="Caddy"
+pidfile="/run/$NAME.pid"
 command="/usr/bin/caddy"
 command_args="$CADDY_OPTS"
 command_background=yes
@@ -23,6 +23,7 @@ depend() {
 start_pre() {
 	if [ "${RC_CMD}" != "restart" ]; then
 		configtest || return 1
+		setcap cap_net_bind_service=+ep ${command}
 	fi
 }
 
