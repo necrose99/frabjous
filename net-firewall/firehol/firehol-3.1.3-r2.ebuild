@@ -6,7 +6,7 @@ EAPI=6
 inherit linux-info
 
 DESCRIPTION="A firewall for humans..."
-HOMEPAGE="https://github.com/firehol/firehol"
+HOMEPAGE="https://firehol.org"
 SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${PV}/${P}.tar.xz"
 
 LICENSE="GPL-2"
