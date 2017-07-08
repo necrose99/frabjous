@@ -50,6 +50,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── bitcoin-classic
     │   ├── bitcoin-unlimited
     │   ├── bitcoinxt
+    │   ├── drops
     │   ├── Sia
     │   └── zcash
     ├── www-client
