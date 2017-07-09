@@ -11,8 +11,8 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot
 
-EGO_PN="github.com/tsenart/${PN}/..."
-ARCHIVE_URI="https://${EGO_PN%/*}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+EGO_PN="github.com/tsenart/${PN}"
+ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="HTTP load testing tool and library. It's over 9000!"
 HOMEPAGE="https://github.com/tsenart/vegeta"
@@ -28,10 +28,10 @@ DEPEND=">=dev-lang/go-1.8"
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
 
-	go install -ldflags "-X main.Version=v${PV}" ${EGO_PN%/*} || die
+	go install -v -ldflags "-X main.Version=v${PV}" ${EGO_PN} || die
 }
 
 src_install() {
 	dobin bin/*
-	dodoc src/${EGO_PN%/*}/{README.md,CHANGELOG}
+	dodoc src/${EGO_PN}/{README.md,CHANGELOG}
 }
