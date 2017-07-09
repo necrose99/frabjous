@@ -24,11 +24,10 @@ EGO_VENDOR=(
 	"github.com/zyedidia/tcell 7095cc1c7f4173ae48314d80878e9985a0658889"
 )
 
-inherit golang-build golang-vcs-snapshot
+inherit golang-vcs-snapshot
 
 EGO_PN="github.com/zyedidia/${PN}/..."
-EGIT_COMMIT="v${PV}"
-ARCHIVE_URI="https://${EGO_PN%/*}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+ARCHIVE_URI="https://${EGO_PN%/*}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="A modern and intuitive terminal-based text editor"
 HOMEPAGE="https://micro-editor.github.io"
