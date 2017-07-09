@@ -12,6 +12,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 ## Repository tree
 ```
     .
+    ├── app-benchmarks
+    │   └── hey
     ├── app-crypt
     │   ├── minisign
     │   ├── opmsg
