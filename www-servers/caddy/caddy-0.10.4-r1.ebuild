@@ -58,8 +58,8 @@ src_install() {
 }
 
 pkg_postinst() {
-    # caddy currently does not support dropping privileges so we
-    # change attributes with setcap to allow access to priv ports
-    # https://caddyserver.com/docs/faq
-    setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/bin/caddy || die
+	# caddy currently does not support dropping privileges so we
+	# change attributes with setcap to allow access to priv ports
+	# https://caddyserver.com/docs/faq
+	setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/bin/caddy || die
 }
