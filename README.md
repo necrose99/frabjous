@@ -13,7 +13,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
 ```
     .
     ├── app-benchmarks
-    │   └── hey
+    │   ├── hey
+    │   └── vegeta
     ├── app-crypt
     │   ├── minisign
     │   ├── opmsg
