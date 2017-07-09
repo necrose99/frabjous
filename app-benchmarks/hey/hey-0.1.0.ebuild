@@ -10,8 +10,8 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot
 
-EGO_PN="github.com/rakyll/${PN}/..."
-ARCHIVE_URI="https://${EGO_PN%/*}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+EGO_PN="github.com/rakyll/${PN}"
+ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="HTTP load generator, ApacheBench (ab) replacement, formerly known as rakyll/boom"
 HOMEPAGE="https://github.com/rakyll/hey"
@@ -27,10 +27,10 @@ DEPEND=">=dev-lang/go-1.8"
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
 
-	go install ${EGO_PN%/*} || die
+	go install -v -work ${EGO_PN} || die
 }
 
 src_install() {
-	dobin bin/${PN}
-	dodoc src/${EGO_PN%/*}/README.md
+	dobin bin/hey
+	dodoc src/${EGO_PN}/README.md
 }
