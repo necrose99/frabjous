@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		A command line tool (cli) for creating encrypted
+		files “vaults” using ssh rsa keys for encrypt/decrypt.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">ssh-vault/ssh-vault</remote-id>
+	</upstream>
+</pkgmetadata>
