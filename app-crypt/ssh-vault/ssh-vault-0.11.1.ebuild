@@ -21,7 +21,7 @@ HOMEPAGE="https://ssh-vault.com"
 SRC_URI="${ARCHIVE_URI}
 	${EGO_VENDOR_URI}"
 
-LICENSE="BSD-3"
+LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
