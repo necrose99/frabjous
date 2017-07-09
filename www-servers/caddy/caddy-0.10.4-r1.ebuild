@@ -19,6 +19,7 @@ KEYWORDS="~amd64"
 IUSE=""
 
 DEPEND=">=dev-lang/go-1.8"
+RDEPEND="sys-libs/libcap"
 
 RESTRICT="test"
 
@@ -54,4 +55,11 @@ src_install() {
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/caddy.logrotate caddy
+}
+
+pkg_postinst() {
+    # caddy currently does not support dropping privileges so we
+    # change attributes with setcap to allow access to priv ports
+    # https://caddyserver.com/docs/faq
+    setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/bin/caddy || die
 }
