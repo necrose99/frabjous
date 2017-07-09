@@ -27,9 +27,8 @@ DEPEND=">=dev-lang/go-1.8"
 
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
-	cd src/${EGO_PN%/*} || die
 
-	go install -ldflags "-X main.Version=v${PV}" || die
+	go install -ldflags "-X main.Version=v${PV}" ${EGO_PN%/*} || die
 }
 
 src_install() {
