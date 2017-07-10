@@ -67,7 +67,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── h2o
     │   └── nginx
     └── x11-apps
-        └── radeon-profile
+        ├── radeon-profile
+        └── radeon-profile-daemon
 
 ```
 
