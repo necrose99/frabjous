@@ -12,22 +12,24 @@ SRC_URI="https://github.com/marazmista/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="+daemon"
 
-RDEPEND="dev-qt/qtcharts:5
+CDEPEND="dev-qt/qtcharts:5
 	dev-qt/qtnetwork:5
 	dev-qt/qtwidgets:5
+	dev-qt/qtprintsupport:5
+	x11-libs/libXrandr"
+RDEPEND="${CDEPEND}
 	x11-apps/mesa-progs
 	x11-apps/xdriinfo
 	x11-libs/libxkbcommon
-	x11-libs/libXrandr
 	|| (
 		x11-drivers/xf86-video-ati
 		x11-drivers/xf86-video-amdgpu
-	)"
-DEPEND="${RDEPEND}
-	dev-qt/linguist-tools:5
-	dev-qt/qtprintsupport:5"
+	)
+	daemon? ( x11-apss/radeon-profile-daemon )"
+DEPEND="${CDEPEND}
+	dev-qt/linguist-tools:5"
 
 src_configure() {
 	cd ${PN} || die

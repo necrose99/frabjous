@@ -5,6 +5,12 @@
 		<email>csmk@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<use>
+		<flag name="daemon">
+			Pull <pkg>x11-apps/radeon-profile-daemon</pkg> so
+			the GUI application can be run as normal user
+		</flag>
+	</use>
 	<upstream>
 		<remote-id type="github">marazmista/radeon-profile</remote-id>
 	</upstream>
