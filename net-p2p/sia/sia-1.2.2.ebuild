@@ -9,9 +9,9 @@ EGO_VENDOR=(
 	"github.com/NebulousLabs/merkletree 9aa7ce56e83cb5f244ff08807250866e5f04ce5a"
 	"github.com/NebulousLabs/bolt e9cf4fae01b5a8ff89d0ec6b32f0d9c9f79aefdd"
 
-	"golang.org/x/crypto b286ef4198388fdb0e4ae62be12820df5da9b4c2 github.com/golang/crypto"
+	"golang.org/x/crypto 3627ff35f31987174dbee61d9d1dcc1c643e7174 github.com/golang/crypto"
 	"golang.org/x/net 054b33e6527139ad5b1ec2f6232c3b175bd9a30c github.com/golang/net"
-	"golang.org/x/text 2bf8f2a19ec09c670e931282edfe6567f6be21c9 github.com/golang/text"
+	"golang.org/x/text cfdf022e86b4ecfb646e1efbd7db175dd623a8fa github.com/golang/text"
 
 	"github.com/NebulousLabs/entropy-mnemonics 7b01a644a63680b90de22bacfb11d832e944eaab"
 	"github.com/NebulousLabs/errors 98e1f05a42d03a706ec86baf52f0bb5a40923f0d"
@@ -28,13 +28,13 @@ EGO_VENDOR=(
 	"github.com/bgentry/speakeasy 4aabc24848ce5fd31929f7d1e4ea74d3709c14cd"
 	"github.com/spf13/cobra 8c6fa02d2225de0f9bdcb7ca912556f68d172d8c"
 	"github.com/spf13/pflag e57e3eeb33f795204c1ca35f56c44f83227c6e66"
-	"gopkg.in/yaml.v2 cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b github.com/go-yaml/yaml" )
+	"gopkg.in/yaml.v2 cd8b52f8269e0feb286dfeef29f8fe4d5b397e0b github.com/go-yaml/yaml"
+)
 
-inherit golang-build golang-vcs-snapshot systemd user
+inherit golang-vcs-snapshot systemd user
 
-EGO_PN="github.com/NebulousLabs/${PN}/..."
-EGIT_COMMIT="v${PV}"
-ARCHIVE_URI="https://${EGO_PN%/*}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+EGO_PN="github.com/NebulousLabs/Sia"
+ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="Blockchain-based marketplace for file storage"
 HOMEPAGE="https://sia.tech"
@@ -54,15 +54,20 @@ pkg_setup() {
 }
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-	cd src/${EGO_PN%/*} || die
+	local PKGS=( ./api ./build ./compatibility ./crypto ./encoding ./modules ./modules/consensus \
+		./modules/explorer ./modules/gateway ./modules/host ./modules/host/contractmanager \
+		./modules/renter ./modules/renter/contractor ./modules/renter/hostdb ./modules/renter/hostdb/hosttree \
+		./modules/renter/proto ./modules/miner ./modules/wallet ./modules/transactionpool ./persist ./siac \
+		./siad ./sync ./types )
 
-	emake release-std
+	cd src/${EGO_PN} || die
+
+	GOPATH="${S}:$(get_golibdir_gopath)" go install -v "${PKGS[@]}"
 }
 
 src_install() {
 	dobin bin/*
-	dodoc src/${EGO_PN%/*}/{README,CHANGELOG}.md
+	dodoc src/${EGO_PN}/{README,CHANGELOG}.md
 
 	newinitd "${FILESDIR}"/sia.initd sia
 	newconfd "${FILESDIR}"/sia.confd sia

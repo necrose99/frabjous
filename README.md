@@ -57,7 +57,7 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── bitcoin-unlimited
     │   ├── bitcoinxt
     │   ├── drops
-    │   ├── Sia
+    │   ├── sia
     │   └── zcash
     ├── net-vpn
     │   └── onioncat
