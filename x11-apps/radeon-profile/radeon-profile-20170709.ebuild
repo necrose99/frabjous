@@ -27,7 +27,7 @@ RDEPEND="${CDEPEND}
 		x11-drivers/xf86-video-ati
 		x11-drivers/xf86-video-amdgpu
 	)
-	daemon? ( x11-apss/radeon-profile-daemon )"
+	daemon? ( x11-apps/radeon-profile-daemon )"
 DEPEND="${CDEPEND}
 	dev-qt/linguist-tools:5"
 
