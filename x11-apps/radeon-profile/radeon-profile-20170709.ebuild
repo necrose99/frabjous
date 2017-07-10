@@ -6,7 +6,7 @@ EAPI=6
 inherit eutils qmake-utils
 
 DESCRIPTION="App for display info about radeon card"
-HOMEPAGE="http://github.com/marazmista/radeon-profile"
+HOMEPAGE="https://github.com/marazmista/radeon-profile"
 SRC_URI="https://github.com/marazmista/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
