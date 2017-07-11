@@ -69,9 +69,11 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   ├── caddy
     │   ├── h2o
     │   └── nginx
-    └── x11-apps
-        ├── radeon-profile
-        └── radeon-profile-daemon
+    ├── x11-apps
+    │   ├── radeon-profile
+    │   └── radeon-profile-daemon
+    └── x11-misc
+        └── noti
 
 ```
 

@@ -1,0 +1,35 @@
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=6
+
+inherit golang-vcs-snapshot
+
+EGO_PN="github.com/variadico/${PN}"
+ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+
+DESCRIPTION="Trigger notifications when a process completes"
+HOMEPAGE="https://github.com/variadico/noti"
+SRC_URI="${ARCHIVE_URI}"
+
+LICENSE="MIT"
+SLOT="0"
+KEYWORDS="~amd64 ~x86"
+
+DEPEND=">=dev-lang/go-1.8"
+RDEPEND="
+	|| (
+		x11-libs/libnotify
+		app-accessibility/espeak
+	)"
+
+src_compile() {
+	export GOPATH="${S}:$(get_golibdir_gopath)"
+
+	go install -v ${EGO_PN}/cmd/${PN} || die
+}
+
+src_install() {
+	dobin bin/*
+	dodoc src/${EGO_PN}/docs/*.md
+}
