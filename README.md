@@ -61,6 +61,8 @@ You must have both `dev-vcs/git` and `app-portage/layman` installed on your syst
     │   └── zcash
     ├── net-vpn
     │   └── onioncat
+    ├── sys-fs
+    │   └── gocryptfs
     ├── www-client
     │   └── inox
     ├── www-servers
