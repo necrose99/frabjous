@@ -21,7 +21,7 @@ for X in ${LANGS} ; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-DEPEND="dev-libs/boost:0[threads(+)]
+CDEPEND="dev-libs/boost:0[threads(+)]
 	dev-libs/libevent
 	net-misc/curl
 	gui? (
@@ -29,7 +29,6 @@ DEPEND="dev-libs/boost:0[threads(+)]
 		dev-qt/qtgui:5
 		dev-qt/qtnetwork:5
 		dev-qt/qtwidgets:5
-		dev-qt/linguist-tools
 		dbus? ( dev-qt/qtdbus:5 )
 		qrcode? ( media-gfx/qrencode )
 	)
@@ -38,7 +37,9 @@ DEPEND="dev-libs/boost:0[threads(+)]
 	upnp? ( net-libs/miniupnpc )
 	wallet? ( media-gfx/qrencode sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
-RDEPEND="${DEPEND}
+DEPEND="${CDEPEND}
+	gui? ( dev-qt/linguist-tools )"
+RDEPEND="${CDEPEND}
 	daemon? (
 		!net-p2p/bitcoind
 		!net-p2p/bitcoin-classic[daemon]
