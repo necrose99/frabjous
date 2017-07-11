@@ -2,10 +2,17 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<use>
+		<flag name="cors">Supports Cross Origin Resource Sharing headers</flag>
+		<flag name="expires">Allows you to set expiration header relative to the request time</flag>
+		<flag name="minify">Minify static assets on-the-fly. Supports CSS, HTML, JS, JSON, SVG and XML</flag>
+		<flag name="upload">Upload files using an API and HTTP method POST or PUT</flag>
+	</use>
 	<upstream>
 		<remote-id type="github">mholt/caddy</remote-id>
+		<doc>https://caddyserver.com/docs</doc>
 	</upstream>
 </pkgmetadata>
