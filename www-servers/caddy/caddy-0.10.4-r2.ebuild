@@ -21,6 +21,12 @@ HTTP_AUTHZ2_COMMIT="ecff4eed5a1b9d98d7f4795c732fb24ad55e6fc8" #Version: ecff4ee
 HTTP_AUTHZ2_URI="https://${HTTP_AUTHZ2_EGO_PN}/archive/${HTTP_AUTHZ2_COMMIT}.tar.gz"
 HTTP_AUTHZ2_P="${HTTP_AUTHZ2_EGO_PN//\//-}-${HTTP_AUTHZ2_COMMIT}"
 
+# cgi (https://github.com/jung-kurt/caddy-cgi, MIT license)
+HTTP_CGI_EGO_PN="github.com/jung-kurt/caddy-cgi"
+HTTP_CGI_COMMIT="9bba4602dab21fdb73c3dc70ffafed3a2f328aa0" #Version: 1.4
+HTTP_CGI_URI="https://${HTTP_CGI_EGO_PN}/archive/${HTTP_CGI_COMMIT}.tar.gz"
+HTTP_CGI_P="${HTTP_CGI_EGO_PN//\//-}-${HTTP_CGI_COMMIT}"
+
 # cors (https://github.com/captncraig/cors, ??? license)
 HTTP_CORS_EGO_PN="github.com/captncraig/cors"
 HTTP_CORS_COMMIT="153f484dcf3da8d204585836c3bc4b2ce326ab54" #Version: 153f484
@@ -32,6 +38,145 @@ HTTP_EXPIRES_EGO_PN="github.com/epicagency/caddy-expires"
 HTTP_EXPIRES_COMMIT="cb2ed464e061263893acfe4cdbcab6f54e244afc" #Version: 1.0.0
 HTTP_EXPIRES_URI="https://${HTTP_EXPIRES_EGO_PN}/archive/${HTTP_EXPIRES_COMMIT}.tar.gz"
 HTTP_EXPIRES_P="${HTTP_EXPIRES_EGO_PN//\//-}-${HTTP_EXPIRES_COMMIT}"
+
+# filemanager (https://github.com/hacdias/filemanager, Apache-2.0 license)
+HTTP_FMANAGER_EGO_PN="github.com/hacdias/filemanager"
+HTTP_FMANAGER_COMMIT="729064ffc8fb140d667ff39a04ddd122529a19cb" #Version: 729064f
+HTTP_FMANAGER_URI="https://${HTTP_FMANAGER_EGO_PN}/archive/${HTTP_FMANAGER_COMMIT}.tar.gz"
+HTTP_FMANAGER_P="${HTTP_FMANAGER_EGO_PN//\//-}-${HTTP_FMANAGER_COMMIT}"
+
+# filemanager's dependency 1 (https://github.com/GeertJohan/go.rice, BSD-2 license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER1_EGO_PN="github.com/GeertJohan/go.rice"
+HTTP_FMANAGER1_COMMIT="c02ca9a983da5807ddf7d796784928f5be4afd09" #Version: c02ca9a
+HTTP_FMANAGER1_URI="https://${HTTP_FMANAGER1_EGO_PN}/archive/${HTTP_FMANAGER1_COMMIT}.tar.gz"
+HTTP_FMANAGER1_P="${HTTP_FMANAGER1_EGO_PN//\//-}-${HTTP_FMANAGER1_COMMIT}"
+
+# filemanager's dependency 2 (https://github.com/daaku/go.zipexe, MIT license)
+# needed by github.com/GeertJohan/go.rice
+HTTP_FMANAGER2_EGO_PN="github.com/daaku/go.zipexe"
+HTTP_FMANAGER2_COMMIT="a5fe2436ffcb3236e175e5149162b41cd28bd27d" #Version: a5fe243
+HTTP_FMANAGER2_URI="https://${HTTP_FMANAGER2_EGO_PN}/archive/${HTTP_FMANAGER2_COMMIT}.tar.gz"
+HTTP_FMANAGER2_P="${HTTP_FMANAGER2_EGO_PN//\//-}-${HTTP_FMANAGER2_COMMIT}"
+
+# filemanager's dependency 3 (https://github.com/kardianos/osext, BSD license)
+# needed by github.com/GeertJohan/go.rice
+HTTP_FMANAGER3_EGO_PN="github.com/kardianos/osext"
+HTTP_FMANAGER3_COMMIT="ae77be60afb1dcacde03767a8c37337fad28ac14" #Version: ae77be6
+HTTP_FMANAGER3_URI="https://${HTTP_FMANAGER3_EGO_PN}/archive/${HTTP_FMANAGER3_COMMIT}.tar.gz"
+HTTP_FMANAGER3_P="${HTTP_FMANAGER3_EGO_PN//\//-}-${HTTP_FMANAGER3_COMMIT}"
+
+# filemanager's dependency 4 (https://github.com/asdine/storm, MIT license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER4_EGO_PN="github.com/asdine/storm"
+HTTP_FMANAGER4_COMMIT="2da548c16156b3197728372bff5614033084aff5" #Version: 0.8.1
+HTTP_FMANAGER4_URI="https://${HTTP_FMANAGER4_EGO_PN}/archive/${HTTP_FMANAGER4_COMMIT}.tar.gz"
+HTTP_FMANAGER4_P="${HTTP_FMANAGER4_EGO_PN//\//-}-${HTTP_FMANAGER4_COMMIT}"
+
+# filemanager's dependency 5 (https://github.com/boltdb/bolt, MIT license)
+# needed by github.com/asdine/storm
+HTTP_FMANAGER5_EGO_PN="github.com/boltdb/bolt"
+HTTP_FMANAGER5_COMMIT="e9cf4fae01b5a8ff89d0ec6b32f0d9c9f79aefdd" #Version: e9cf4fa
+HTTP_FMANAGER5_URI="https://${HTTP_FMANAGER5_EGO_PN}/archive/${HTTP_FMANAGER5_COMMIT}.tar.gz"
+HTTP_FMANAGER5_P="${HTTP_FMANAGER5_EGO_PN//\//-}-${HTTP_FMANAGER5_COMMIT}"
+
+# filemanager's dependency 6 (https://github.com/dgrijalva/jwt-go, MIT license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER6_EGO_PN="github.com/dgrijalva/jwt-go"
+HTTP_FMANAGER6_COMMIT="a539ee1a749a2b895533f979515ac7e6e0f5b650" #Version: a539ee1
+HTTP_FMANAGER6_URI="https://${HTTP_FMANAGER6_EGO_PN}/archive/${HTTP_FMANAGER6_COMMIT}.tar.gz"
+HTTP_FMANAGER6_P="${HTTP_FMANAGER6_EGO_PN//\//-}-${HTTP_FMANAGER6_COMMIT}"
+
+# filemanager's dependency 7 (https://github.com/mholt/archiver, MIT license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER7_EGO_PN="github.com/mholt/archiver"
+HTTP_FMANAGER7_COMMIT="3c9755ff45e1df13e5331d936c3ffab88233dccd" #Version: 3c9755f
+HTTP_FMANAGER7_URI="https://${HTTP_FMANAGER7_EGO_PN}/archive/${HTTP_FMANAGER7_COMMIT}.tar.gz"
+HTTP_FMANAGER7_P="${HTTP_FMANAGER7_EGO_PN//\//-}-${HTTP_FMANAGER7_COMMIT}"
+
+# filemanager's dependency 8 (https://github.com/dsnet/compress, BSD license)
+# needed by github.com/mholt/archiver
+HTTP_FMANAGER8_EGO_PN="github.com/dsnet/compress"
+HTTP_FMANAGER8_COMMIT="0ae8e136a5df9e3caf6c0f69983608b07438411b" #Version: 0ae8e13
+HTTP_FMANAGER8_URI="https://${HTTP_FMANAGER8_EGO_PN}/archive/${HTTP_FMANAGER8_COMMIT}.tar.gz"
+HTTP_FMANAGER8_P="${HTTP_FMANAGER8_EGO_PN//\//-}-${HTTP_FMANAGER8_COMMIT}"
+
+# filemanager's dependency 9 (https://github.com/golang/snappy, BSD license)
+# needed by github.com/mholt/archiver
+HTTP_FMANAGER9_EGO_PN="github.com/golang/snappy"
+HTTP_FMANAGER9_COMMIT="553a641470496b2327abcac10b36396bd98e45c9" #Version: 553a641
+HTTP_FMANAGER9_URI="https://${HTTP_FMANAGER9_EGO_PN}/archive/${HTTP_FMANAGER9_COMMIT}.tar.gz"
+HTTP_FMANAGER9_P="${HTTP_FMANAGER9_EGO_PN//\//-}-${HTTP_FMANAGER9_COMMIT}"
+
+# filemanager's dependency 10 (https://github.com/nwaples/rardecode, BSD license)
+# needed by github.com/mholt/archiver
+HTTP_FMANAGER10_EGO_PN="github.com/nwaples/rardecode"
+HTTP_FMANAGER10_COMMIT="f22b7ef81a0afac9ce1447d37e5ab8e99fbd2f73" #Version: f22b7ef
+HTTP_FMANAGER10_URI="https://${HTTP_FMANAGER10_EGO_PN}/archive/${HTTP_FMANAGER10_COMMIT}.tar.gz"
+HTTP_FMANAGER10_P="${HTTP_FMANAGER10_EGO_PN//\//-}-${HTTP_FMANAGER10_COMMIT}"
+
+# filemanager's dependency 11 (https://github.com/pierrec/lz4, BSD license)
+# needed by github.com/mholt/archiver
+HTTP_FMANAGER11_EGO_PN="github.com/pierrec/lz4"
+HTTP_FMANAGER11_COMMIT="5a3d2245f97fc249850e7802e3c01fad02a1c316" #Version: 5a3d224
+HTTP_FMANAGER11_URI="https://${HTTP_FMANAGER11_EGO_PN}/archive/${HTTP_FMANAGER11_COMMIT}.tar.gz"
+HTTP_FMANAGER11_P="${HTTP_FMANAGER11_EGO_PN//\//-}-${HTTP_FMANAGER11_COMMIT}"
+
+# filemanager's dependency 12 (https://github.com/pierrec/xxHash, BSD license)
+# needed by github.com/pierrec/lz4
+HTTP_FMANAGER12_EGO_PN="github.com/pierrec/xxHash"
+HTTP_FMANAGER12_COMMIT="5a004441f897722c627870a981d02b29924215fa" #Version: 5a00444
+HTTP_FMANAGER12_URI="https://${HTTP_FMANAGER12_EGO_PN}/archive/${HTTP_FMANAGER12_COMMIT}.tar.gz"
+HTTP_FMANAGER12_P="${HTTP_FMANAGER12_EGO_PN//\//-}-${HTTP_FMANAGER12_COMMIT}"
+
+# filemanager's dependency 13 (https://github.com/ulikunitz/xz, BSD license)
+# needed by github.com/mholt/archiver
+HTTP_FMANAGER13_EGO_PN="github.com/ulikunitz/xz"
+HTTP_FMANAGER13_COMMIT="0c6b41e72360850ca4f98dc341fd999726ea007f" #Version: 0.5.4
+HTTP_FMANAGER13_URI="https://${HTTP_FMANAGER13_EGO_PN}/archive/${HTTP_FMANAGER13_COMMIT}.tar.gz"
+HTTP_FMANAGER13_P="${HTTP_FMANAGER13_EGO_PN//\//-}-${HTTP_FMANAGER13_COMMIT}"
+
+# filemanager's dependency 14 (https://github.com/gohugoio/hugo, Apache-2.0 license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER14_EGO_PN="github.com/gohugoio/hugo"
+HTTP_FMANAGER14_COMMIT="bbd33dbf5d9575ab95c8e00aa97b71a600e429b6" #Version: 0.25.1
+HTTP_FMANAGER14_URI="https://${HTTP_FMANAGER14_EGO_PN}/archive/${HTTP_FMANAGER14_COMMIT}.tar.gz"
+HTTP_FMANAGER14_P="${HTTP_FMANAGER14_EGO_PN//\//-}-${HTTP_FMANAGER14_COMMIT}"
+
+# filemanager's dependency 15 (https://github.com/BurntSushi/toml, MIT license)
+# needed by github.com/gohugoio/hugo/parser
+HTTP_FMANAGER15_EGO_PN="github.com/BurntSushi/toml"
+HTTP_FMANAGER15_COMMIT="a368813c5e648fee92e5f6c30e3944ff9d5e8895" #Version: a368813
+HTTP_FMANAGER15_URI="https://${HTTP_FMANAGER15_EGO_PN}/archive/${HTTP_FMANAGER15_COMMIT}.tar.gz"
+HTTP_FMANAGER15_P="${HTTP_FMANAGER15_EGO_PN//\//-}-${HTTP_FMANAGER15_COMMIT}"
+
+# filemanager's dependency 16 (https://github.com/chaseadamsio/goorgeous, MIT license)
+# needed by github.com/gohugoio/hugo/parser
+HTTP_FMANAGER16_EGO_PN="github.com/chaseadamsio/goorgeous"
+HTTP_FMANAGER16_COMMIT="677defd0e024333503d8c946dd4ba3f32ad3e5d2" #Version: 677defd
+HTTP_FMANAGER16_URI="https://${HTTP_FMANAGER16_EGO_PN}/archive/${HTTP_FMANAGER16_COMMIT}.tar.gz"
+HTTP_FMANAGER16_P="${HTTP_FMANAGER16_EGO_PN//\//-}-${HTTP_FMANAGER16_COMMIT}"
+
+# filemanager's dependency 17 (https://github.com/shurcooL/sanitized_anchor_name, MIT license)
+# needed by github.com/chaseadamsio/goorgeous
+HTTP_FMANAGER17_EGO_PN="github.com/shurcooL/sanitized_anchor_name"
+HTTP_FMANAGER17_COMMIT="541ff5ee47f1dddf6a5281af78307d921524bcb5" #Version: 541ff5e
+HTTP_FMANAGER17_URI="https://${HTTP_FMANAGER17_EGO_PN}/archive/${HTTP_FMANAGER17_COMMIT}.tar.gz"
+HTTP_FMANAGER17_P="${HTTP_FMANAGER17_EGO_PN//\//-}-${HTTP_FMANAGER17_COMMIT}"
+
+# filemanager's dependency 18 (https://github.com/golang/crypto, BSD license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER18_EGO_PN="github.com/golang/crypto"
+HTTP_FMANAGER18_COMMIT="dd85ac7e6a88fc6ca420478e934de5f1a42dd3c6" #Version: dd85ac7
+HTTP_FMANAGER18_URI="https://${HTTP_FMANAGER18_EGO_PN}/archive/${HTTP_FMANAGER18_COMMIT}.tar.gz"
+HTTP_FMANAGER18_P="${HTTP_FMANAGER18_EGO_PN//\//-}-${HTTP_FMANAGER18_COMMIT}"
+
+# filemanager's dependency 19 (https://github.com/golang/net, BSD license)
+# needed by github.com/hacdias/filemanager
+HTTP_FMANAGER19_EGO_PN="github.com/golang/net"
+HTTP_FMANAGER19_COMMIT="f01ecb60fe3835d80d9a0b7b2bf24b228c89260e" #Version: f01ecb6
+HTTP_FMANAGER19_URI="https://${HTTP_FMANAGER19_EGO_PN}/archive/${HTTP_FMANAGER19_COMMIT}.tar.gz"
+HTTP_FMANAGER19_P="${HTTP_FMANAGER19_EGO_PN//\//-}-${HTTP_FMANAGER19_COMMIT}"
 
 # filter (https://github.com/echocat/caddy-filter, MIT license)
 HTTP_FILTER_EGO_PN="github.com/echocat/caddy-filter"
@@ -101,8 +246,31 @@ SRC_URI="${ARCHIVE_URI}
 		${HTTP_AUTHZ1_URI} -> ${HTTP_AUTHZ1_P}.tar.gz
 		${HTTP_AUTHZ2_URI} -> ${HTTP_AUTHZ2_P}.tar.gz
 	)
+	cgi? ( ${HTTP_CGI_URI} -> ${HTTP_CGI_P}.tar.gz )
 	cors? ( ${HTTP_CORS_URI} -> ${HTTP_CORS_P}.tar.gz )
 	expires? ( ${HTTP_EXPIRES_URI} -> ${HTTP_EXPIRES_P}.tar.gz )
+	filemanager? (
+		${HTTP_FMANAGER_URI} -> ${HTTP_FMANAGER_P}.tar.gz
+		${HTTP_FMANAGER1_URI} -> ${HTTP_FMANAGER1_P}.tar.gz
+		${HTTP_FMANAGER2_URI} -> ${HTTP_FMANAGER2_P}.tar.gz
+		${HTTP_FMANAGER3_URI} -> ${HTTP_FMANAGER3_P}.tar.gz
+		${HTTP_FMANAGER4_URI} -> ${HTTP_FMANAGER4_P}.tar.gz
+		${HTTP_FMANAGER5_URI} -> ${HTTP_FMANAGER5_P}.tar.gz
+		${HTTP_FMANAGER6_URI} -> ${HTTP_FMANAGER6_P}.tar.gz
+		${HTTP_FMANAGER7_URI} -> ${HTTP_FMANAGER7_P}.tar.gz
+		${HTTP_FMANAGER8_URI} -> ${HTTP_FMANAGER8_P}.tar.gz
+		${HTTP_FMANAGER9_URI} -> ${HTTP_FMANAGER9_P}.tar.gz
+		${HTTP_FMANAGER10_URI} -> ${HTTP_FMANAGER10_P}.tar.gz
+		${HTTP_FMANAGER11_URI} -> ${HTTP_FMANAGER11_P}.tar.gz
+		${HTTP_FMANAGER12_URI} -> ${HTTP_FMANAGER12_P}.tar.gz
+		${HTTP_FMANAGER13_URI} -> ${HTTP_FMANAGER13_P}.tar.gz
+		${HTTP_FMANAGER14_URI} -> ${HTTP_FMANAGER14_P}.tar.gz
+		${HTTP_FMANAGER15_URI} -> ${HTTP_FMANAGER15_P}.tar.gz
+		${HTTP_FMANAGER16_URI} -> ${HTTP_FMANAGER16_P}.tar.gz
+		${HTTP_FMANAGER17_URI} -> ${HTTP_FMANAGER17_P}.tar.gz
+		${HTTP_FMANAGER18_URI} -> ${HTTP_FMANAGER18_P}.tar.gz
+		${HTTP_FMANAGER19_URI} -> ${HTTP_FMANAGER19_P}.tar.gz
+	)
 	filter? ( ${HTTP_FILTER_URI} -> ${HTTP_FILTER_P}.tar.gz )
 	minify? (
 		${HTTP_MINIFY_URI} -> ${HTTP_MINIFY_P}.tar.gz
@@ -117,10 +285,10 @@ SRC_URI="${ARCHIVE_URI}
 		${HTTP_UPLOAD2_URI} -> ${HTTP_UPLOAD2_P}.tar.gz
 	)"
 
-LICENSE="Apache-2.0 MIT BSD BSD-2"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="authz cors expires filter minify upload"
+IUSE="authz cgi cors expires filemanager filter minify upload"
 
 DEPEND=">=dev-lang/go-1.8"
 RDEPEND="sys-libs/libcap"
@@ -141,8 +309,35 @@ src_unpack() {
 		)
 	fi
 
+	use cgi && EGO_VENDOR+=( "${HTTP_CGI_EGO_PN} ${HTTP_CGI_COMMIT}" )
 	use cors && EGO_VENDOR+=( "${HTTP_CORS_EGO_PN} ${HTTP_CORS_COMMIT}" )
 	use expires && EGO_VENDOR+=( "${HTTP_EXPIRES_EGO_PN} ${HTTP_EXPIRES_COMMIT}" )
+
+	if use filemanager; then
+		EGO_VENDOR+=(
+			"${HTTP_FMANAGER_EGO_PN} ${HTTP_FMANAGER_COMMIT}"
+			"${HTTP_FMANAGER1_EGO_PN} ${HTTP_FMANAGER1_COMMIT}"
+			"${HTTP_FMANAGER2_EGO_PN} ${HTTP_FMANAGER2_COMMIT}"
+			"${HTTP_FMANAGER3_EGO_PN} ${HTTP_FMANAGER3_COMMIT}"
+			"${HTTP_FMANAGER4_EGO_PN} ${HTTP_FMANAGER4_COMMIT}"
+			"${HTTP_FMANAGER5_EGO_PN} ${HTTP_FMANAGER5_COMMIT}"
+			"${HTTP_FMANAGER6_EGO_PN} ${HTTP_FMANAGER6_COMMIT}"
+			"${HTTP_FMANAGER7_EGO_PN} ${HTTP_FMANAGER7_COMMIT}"
+			"${HTTP_FMANAGER8_EGO_PN} ${HTTP_FMANAGER8_COMMIT}"
+			"${HTTP_FMANAGER9_EGO_PN} ${HTTP_FMANAGER9_COMMIT}"
+			"${HTTP_FMANAGER10_EGO_PN} ${HTTP_FMANAGER10_COMMIT}"
+			"${HTTP_FMANAGER11_EGO_PN} ${HTTP_FMANAGER11_COMMIT}"
+			"${HTTP_FMANAGER12_EGO_PN} ${HTTP_FMANAGER12_COMMIT}"
+			"${HTTP_FMANAGER13_EGO_PN} ${HTTP_FMANAGER13_COMMIT}"
+			"github.com/spf13/hugo ${HTTP_FMANAGER14_COMMIT} ${HTTP_FMANAGER14_EGO_PN}"
+			"${HTTP_FMANAGER15_EGO_PN} ${HTTP_FMANAGER15_COMMIT}"
+			"${HTTP_FMANAGER16_EGO_PN} ${HTTP_FMANAGER16_COMMIT}"
+			"${HTTP_FMANAGER17_EGO_PN} ${HTTP_FMANAGER17_COMMIT}"
+			"golang.org/x/crypto ${HTTP_FMANAGER18_COMMIT} ${HTTP_FMANAGER18_EGO_PN}"
+			"golang.org/x/net ${HTTP_FMANAGER19_COMMIT} ${HTTP_FMANAGER19_EGO_PN}"
+		)
+	fi
+
 	use filter && EGO_VENDOR+=( "${HTTP_FILTER_EGO_PN} ${HTTP_FILTER_COMMIT}" )
 
 	if use minify; then
@@ -172,6 +367,11 @@ src_prepare() {
 			src/${CADDYMAIN}/run.go || die
 	fi
 
+	if use cgi; then
+		sed -i -e "/caddymain/a import _ \"$HTTP_CGI_EGO_PN\"" \
+			src/${CADDYMAIN}/run.go || die
+	fi
+
 	if use cors; then
 		sed -i -e "/caddymain/a import _ \"$HTTP_CORS_EGO_PN/caddy\"" \
 			src/${CADDYMAIN}/run.go || die
@@ -179,6 +379,11 @@ src_prepare() {
 
 	if use expires; then
 		sed -i -e "/caddymain/a import _ \"$HTTP_EXPIRES_EGO_PN\"" \
+			src/${CADDYMAIN}/run.go || die
+	fi
+
+	if use filemanager; then
+		sed -i -e '/caddymain/a import _ "github.com/hacdias/filemanager/caddy/filemanager"' \
 			src/${CADDYMAIN}/run.go || die
 	fi
 
