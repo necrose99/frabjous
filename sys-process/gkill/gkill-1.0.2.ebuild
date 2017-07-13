@@ -4,10 +4,10 @@
 EAPI=6
 
 EGO_VENDOR=(
-	"github.com/fatih/color 62e9147c64a1ed519147b62a56a14e83e2be02c1"
-	"github.com/heppu/rawterm f84711c380fdfbaa529baff2605283945313a03c"
-	"github.com/k0kubun/go-ansi c49b5436b29d52b735097d449e59d9794833bafe"
-	"github.com/mitchellh/go-ps 4fdf99ab29366514c69ccccddab5dc58b8d84062"
+	"github.com/fatih/color 62e9147"
+	"github.com/heppu/rawterm f84711c"
+	"github.com/k0kubun/go-ansi c49b543"
+	"github.com/mitchellh/go-ps 4fdf99a"
 )
 
 inherit golang-vcs-snapshot
@@ -23,8 +23,6 @@ SRC_URI="${ARCHIVE_URI}
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-
-DEPEND=">=dev-lang/go-1.8"
 
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
