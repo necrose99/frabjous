@@ -9,14 +9,13 @@ inherit cmake-utils gnome2 vala
 CMAKE_MIN_VERSION="2.6"
 VALA_MIN_API_VERSION="0.26"
 
-DESCRIPTION="A modern desktop application designed to complement web-based RSS accounts."
+DESCRIPTION="A modern desktop application designed to complement web-based RSS accounts"
 HOMEPAGE="https://jangernert.github.io/FeedReader/"
 SRC_URI="https://github.com/jangernert/FeedReader/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND=">=x11-libs/gtk+-3.22:3
 	app-text/html2text
