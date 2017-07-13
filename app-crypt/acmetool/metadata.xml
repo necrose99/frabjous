@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		acmetool is an easy-to-use command line tool for automatically
+		acquiring certificates from ACME servers (such as Let's Encrypt).
+		Designed to flexibly integrate into your webserver setup to
+		enable automatic verification.
+	</longdescription>
+	<upstream>
+		<remote-id type="github">hlandau/acme</remote-id>
+		<doc>https://hlandau.github.io/acme/acmetool.8</doc>
+	</upstream>
+</pkgmetadata>

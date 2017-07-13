@@ -17,6 +17,7 @@ Package | Description
 app-benchmarks/**[bombardier](app-benchmarks/bombardier)** | Fast cross-platform HTTP benchmarking tool written in Go
 app-benchmarks/**[hey](app-benchmarks/hey)** | HTTP load generator, ApacheBench (ab) replacement
 app-benchmarks/**[vegeta](app-benchmarks/vegeta)** | HTTP load testing tool and library. It's over 9000!
+app-crypt/**[acmetool](app-crypt/acmetool)** | An automatic certificate acquisition tool for ACME (Let's Encrypt)
 app-crypt/**[minisign](app-crypt/minisign)** | A dead simple tool to sign files and verify digital signatures
 app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternative to GnuPG)
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
