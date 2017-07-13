@@ -1,13 +1,17 @@
 # Frabjous! Yet another personal Gentoo overlay
 
-[![Build Status](https://travis-ci.org/csmk/frabjous.svg?branch=master)](https://travis-ci.org/csmk/frabjous)
+[![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
-This overlay contain only ebuilds for packages that I'm interested in or have been requested. It also include support for the upcoming `libressl` USE flag.
+This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in _testing_ (~*) mode. As such, you should probably consider it to be _unsafe_ and treat it as such. Use at your own risk! However, I've been using these packages in a production environment without major problems.
+**Note**: As I don't own a machine with `systemd`, packages that use systemd unit files hasn't been tested. Although I try my best to follow the standards. If you find a bug, please report.
+
+**DISCLAIMER:** All ebuilds are permanently in _test_ (~*) mode. As such, you should probably consider it to be _unsafe_ and treat it as such. Use at your own risk! However, I've been using these packages in a production environment without major problems.
 
 ## How to install the overlay
-You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous` and you're ready to emerge the _goodies_.
+You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work.
+
+Just run **`layman -a frabjous`**. Then you'll be ready to emerge the _goodies_.
 
 ## Repository tree
 This is a list of packages and their associated description:
