@@ -16,8 +16,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=">=dev-lang/go-1.8"
-
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
 
