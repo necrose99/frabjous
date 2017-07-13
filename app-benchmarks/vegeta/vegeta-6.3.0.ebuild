@@ -4,9 +4,9 @@
 EAPI=6
 
 EGO_VENDOR=(
-	"github.com/streadway/quantile b0c588724d25ae13f5afb3d90efec0edc636432b"
-	"golang.org/x/net 054b33e6527139ad5b1ec2f6232c3b175bd9a30c github.com/golang/net"
-	"golang.org/x/text cfdf022e86b4ecfb646e1efbd7db175dd623a8fa github.com/golang/text"
+	"github.com/streadway/quantile b0c5887"
+	"golang.org/x/net f01ecb6 github.com/golang/net"
+	"golang.org/x/text cfdf022 github.com/golang/text"
 )
 
 inherit golang-vcs-snapshot
@@ -23,8 +23,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=">=dev-lang/go-1.8"
-
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
 
@@ -32,6 +30,6 @@ src_compile() {
 }
 
 src_install() {
-	dobin bin/*
+	dobin bin/${PN}
 	dodoc src/${EGO_PN}/{README.md,CHANGELOG}
 }
