@@ -287,7 +287,7 @@ SRC_URI="${ARCHIVE_URI}
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS=""
 IUSE="authz cgi cors expires filemanager filter minify upload"
 
 DEPEND=">=dev-lang/go-1.8"
