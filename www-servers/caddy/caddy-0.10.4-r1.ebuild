@@ -3,11 +3,11 @@
 
 EAPI=6
 
-inherit golang-build golang-vcs-snapshot systemd user
+inherit golang-vcs-snapshot systemd user
 
-EGO_PN="github.com/mholt/${PN}/..."
-EGIT_COMMIT="v${PV}"
-ARCHIVE_URI="https://${EGO_PN%/*}/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
+EGO_PN="github.com/mholt/${PN}"
+CADDYMAIN="${EGO_PN}/caddy/caddymain"
+ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 DESCRIPTION="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
 HOMEPAGE="https://caddyserver.com"
@@ -16,12 +16,8 @@ SRC_URI="${ARCHIVE_URI}"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
 
-DEPEND=">=dev-lang/go-1.8"
 RDEPEND="sys-libs/libcap"
-
-RESTRICT="test"
 
 pkg_setup() {
 	enewgroup ${PN}
@@ -30,14 +26,13 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
-	cd src/${EGO_PN%/*} || die
 
-	go install -ldflags "-X github.com/mholt/caddy/caddy/caddymain.gitTag=${PV}" ./caddy || die
+	go install -ldflags "-X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
 }
 
 src_install() {
-	dobin bin/*
-	dodoc src/${EGO_PN%/*}/{dist/CHANGES.txt,README.md}
+	dobin bin/caddy
+	dodoc src/${EGO_PN}/{dist/CHANGES.txt,README.md}
 
 	newinitd "${FILESDIR}"/caddy.initd-r1 caddy
 	newconfd "${FILESDIR}"/caddy.confd-r1 caddy
