@@ -13,9 +13,15 @@
 		<flag name="cgi">Implements the Common Gateway Interface (CGI) for Caddy</flag>
 		<flag name="cors">Supports Cross Origin Resource Sharing headers</flag>
 		<flag name="expires">Allows you to set expiration header relative to the request time</flag>
-		<flag name="filemanager">It provides a file managing interface within the specified directory</flag>
 		<flag name="filter">Provides a directive to filter response bodies</flag>
+		<flag name="git">The git plugin makes it possible to deploy your site with a simple git push</flag>
+		<flag name="grpc">Proxies gRPC calls from clients to gRPC services</flag>
+		<flag name="ipfilter">Adds the ability to allow or block requests based on the client's IP address</flag>
+		<flag name="jwt">An authorization layer based on JSON Web Tokens (JWT)</flag>
+		<flag name="login">Enable login checks against a backend and then returned as JWT token</flag>
+		<flag name="mailout">A SMTP client email middleware with PGP encryption</flag>
 		<flag name="minify">Minify static assets on-the-fly. Supports CSS, HTML, JS, JSON, SVG and XML</flag>
+		<flag name="prometheus">Enables prometheus metrics for Caddy</flag>
 		<flag name="upload">Upload files using an API and HTTP method POST or PUT</flag>
 	</use>
 	<upstream>
