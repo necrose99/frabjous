@@ -27,6 +27,7 @@ app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternativ
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
+dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
 dev-libs/**[libbrotli](dev-libs/libbrotli)** | Builds libraries out of the brotli decode and encode sources
 dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
