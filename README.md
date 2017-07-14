@@ -45,7 +45,6 @@ net-dns/**[unbound](net-dns/unbound)** | A validating, recursive and caching DNS
 net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
-net-misc/**[iprange](net-misc/iprange)** | iprange utility
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | Bitcoin Classic crypto-currency wallet for automated services
