@@ -59,11 +59,11 @@ net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's 
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
+net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | Bitcoin Classic crypto-currency wallet for automated services
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | Bitcoin Unlimited crypto-currency wallet for automated services
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | Bitcoin XT crypto-currency wallet for automated services
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
-net-p2p/**[sia](net-p2p/sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go

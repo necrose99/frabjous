@@ -31,14 +31,13 @@ EGO_VENDOR=(
 	"gopkg.in/yaml.v2 1be3d31 github.com/go-yaml/yaml" #v2
 )
 
-inherit golang-vcs-snapshot systemd user
-
 EGO_PN="github.com/NebulousLabs/Sia"
-ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+
+inherit golang-vcs-snapshot systemd user
 
 DESCRIPTION="Blockchain-based marketplace for file storage"
 HOMEPAGE="https://sia.tech"
-SRC_URI="${ARCHIVE_URI}
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
@@ -51,6 +50,7 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${S}:$(get_golibdir_gopath)"
 	local PKGS=( ./api ./build ./compatibility ./crypto ./encoding ./modules ./modules/consensus \
 		./modules/explorer ./modules/gateway ./modules/host ./modules/host/contractmanager \
 		./modules/renter ./modules/renter/contractor ./modules/renter/hostdb ./modules/renter/hostdb/hosttree \
@@ -59,11 +59,11 @@ src_compile() {
 
 	cd src/${EGO_PN} || die
 
-	GOPATH="${S}:$(get_golibdir_gopath)" go install -v "${PKGS[@]}"
+	go install -v "${PKGS[@]}" || die
 }
 
 src_install() {
-	dobin bin/*
+	dobin bin/sia*
 	dodoc src/${EGO_PN}/doc/*.md
 
 	newinitd "${FILESDIR}"/sia.initd sia
