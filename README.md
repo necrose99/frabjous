@@ -1,7 +1,6 @@
-# Frabjous! Yet another personal Gentoo overlay
+# Frabjous! Yet another personal Gentoo overlay [![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
-[![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
-
+### What the...
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
 
 **Note**: As I don't own a machine with `systemd`, packages that use systemd unit files hasn't been tested. Although I try my best to follow the standards. If you find a bug, please report.
@@ -25,7 +24,7 @@ auto-sync = Yes
 ```
 
 ## Repository tree
-This is a list of packages and their associated description:
+This is a list of packages available and their associated description:
 
 Package | Description
 --- | ---
@@ -83,7 +82,7 @@ All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint i
 Bitcoin donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
 
 ## Requests and Issues
-I do accept requests for new packages, but I do not promise to deliver, especially if the complexity of the package are far cry from my knowledge level. Bugs should always be filed in [github issues site](https://github.com/csmk/frabjous/issues).
+Yes, I do accept requests for new packages, but I do not promise to deliver, especially if the complexity of the package are far cry from my knowledge level. Bugs should always be filed in [github issues site](https://github.com/csmk/frabjous/issues).
 
 ## Contributing 
 Contributions are welcome. Fork and create a pull request.
