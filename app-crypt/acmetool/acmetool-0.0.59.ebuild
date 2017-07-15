@@ -22,7 +22,7 @@ EGO_VENDOR=(
 	"github.com/shiena/ansicolor a422bbe"
 	"golang.org/x/crypto dd85ac7 github.com/golang/crypto"
 	"golang.org/x/net f01ecb6 github.com/golang/net"
-	"golang.org/x/text cfdf022 github.com/golang/text"
+	"golang.org/x/text 836efe4 github.com/golang/text"
 	"gopkg.in/alecthomas/kingpin.v2 7f0871f github.com/alecthomas/kingpin" #v2.2.4
 	"gopkg.in/cheggaaa/pb.v1 f6ccf21 github.com/cheggaaa/pb" #v1.0.15
 	"gopkg.in/hlandau/configurable.v1 4149686 github.com/hlandau/configurable" #v1.0.1
@@ -33,15 +33,13 @@ EGO_VENDOR=(
 	"gopkg.in/tylerb/graceful.v1 4654dfb github.com/tylerb/graceful" #v1.2.15
 	"gopkg.in/yaml.v2 1be3d31 github.com/go-yaml/yaml" #v2
 )
+EGO_PN="github.com/hlandau/acme"
 
 inherit golang-vcs-snapshot
 
-EGO_PN="github.com/hlandau/acme"
-ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-
 DESCRIPTION="An automatic certificate acquisition tool for ACME (Let's Encrypt)"
 HOMEPAGE="https://hlandau.github.io/acme/"
-SRC_URI="${ARCHIVE_URI}
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
@@ -49,9 +47,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-
-	go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
