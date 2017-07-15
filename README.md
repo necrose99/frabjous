@@ -56,6 +56,7 @@ net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
 net-im/**[dino](net-im/dino)** | A modern Jabber/XMPP Client using GTK+/Vala
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
+net-misc/**[gotty-client](net-misc/gotty-client)** | A terminal client for GoTTY
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
