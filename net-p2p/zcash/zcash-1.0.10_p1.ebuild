@@ -4,9 +4,9 @@
 EAPI=6
 RESTRICT="mirror"
 
-inherit bash-completion-r1 systemd user versionator
+inherit bash-completion-r1 systemd user
 
-MY_PV=$(replace_version_separator 3 '-')
+MY_PV=${PV/_p/-}
 DESCRIPTION="Cryptocurrency that offers privacy of transactions"
 HOMEPAGE="https://z.cash"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
@@ -22,8 +22,8 @@ DEPEND="app-arch/unzip
 S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
-	enewgroup "${PN}"
-	enewuser "${PN}" -1 -1 /var/lib/zcashd "${PN}"
+	enewgroup ${PN}
+	enewuser ${PN} -1 -1 /var/lib/zcashd ${PN}
 }
 
 src_prepare() {
@@ -94,7 +94,7 @@ pkg_postinst() {
 
 	ewarn
 	ewarn "SECURITY WARNINGS:"
-	ewarn "Zcash is unfinished and highly experimental. Use at your own risk."
+	ewarn "Zcash is experimental and a work-in-progress. Use at your own risk."
 	ewarn
 	ewarn "Please, see important security warnings in"
 	ewarn "${EROOT}usr/share/doc/${P}/security-warnings.md.bz2"

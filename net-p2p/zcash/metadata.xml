@@ -2,18 +2,22 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
 	<longdescription lang="en">
 		Zcash is an implementation of the "Zerocash" protocol.
-		Based on Bitcoin's code, it intends to offer a far higher standard
-		of privacy through a sophisticated zero-knowledge proving scheme
-		that preserves confidentiality of transaction metadata. 
+		Based on Bitcoin's code, it intends to offer a far
+		higher standard of privacy through a sophisticated
+		zero-knowledge proving scheme that preserves
+		confidentiality of transaction metadata. 
 	</longdescription>
 	<use>
 		<flag name="mining">Build mining code</flag>
-		<flag name="proton">Build the Apache Qpid Proton library required for AMQP support</flag>
+		<flag name="proton">
+			Build the Apache Qpid Proton library required
+			for AMQP support
+		</flag>
 		<flag name="rust">Build Rust language assets</flag>
 	</use>
 	<upstream>
