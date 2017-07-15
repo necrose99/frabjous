@@ -19,6 +19,6 @@ src_compile() {
 }
 
 src_install() {
-	dobin bin/hey
+	dobin bin/gotty
 	dodoc src/${EGO_PN}/README.md
 }
