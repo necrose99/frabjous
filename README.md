@@ -43,6 +43,7 @@ net-dns/**[knot-resolver](net-dns/knot-resolver)** | A caching full DNS resolver
 net-dns/**[knot](net-dns/knot)** | High-performance authoritative-only DNS server
 net-dns/**[unbound](net-dns/unbound)** | A validating, recursive and caching DNS resolver
 net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
+net-im/**[dino](net-im/dino)** | A modern Jabber/XMPP Client using GTK+/Vala
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
