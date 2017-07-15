@@ -11,7 +11,18 @@ This overlay contain only ebuilds for packages that I'm interested in or that ha
 ## How to install the overlay
 You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work.
 
-Just run **`layman -a frabjous`**. Then you'll be ready to emerge the _goodies_.
+Just run **`layman -a frabjous`**, then you'll be ready to emerge the _goodies_.
+
+Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
+
+```ini
+[frabjous]
+priority = 50
+location = /usr/local/overlay/frabjous
+sync-type = git
+sync-uri = https://github.com/csmk/frabjous.git
+auto-sync = Yes
+```
 
 ## Repository tree
 This is a list of packages and their associated description:
