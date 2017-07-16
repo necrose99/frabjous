@@ -3,23 +3,20 @@
 
 EAPI=6
 
-inherit golang-vcs-snapshot
-
 EGO_PN="github.com/KyleBanks/${PN}"
-ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+
+inherit golang-vcs-snapshot
 
 DESCRIPTION="Retrieve and visualize Go source code dependency trees"
 HOMEPAGE="https://github.com/KyleBanks/depth"
-SRC_URI="${ARCHIVE_URI}"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-
-	go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
