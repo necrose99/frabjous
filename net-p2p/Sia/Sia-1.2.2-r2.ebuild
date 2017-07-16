@@ -11,7 +11,7 @@ EGO_VENDOR=(
 
 	"golang.org/x/crypto dd85ac7 github.com/golang/crypto"
 	"golang.org/x/net f01ecb6 github.com/golang/net"
-	"golang.org/x/text cfdf022 github.com/golang/text"
+	"golang.org/x/text 836efe4 github.com/golang/text"
 
 	"github.com/NebulousLabs/entropy-mnemonics 7b01a64"
 	"github.com/NebulousLabs/errors 98e1f05"
@@ -28,7 +28,7 @@ EGO_VENDOR=(
 	"github.com/bgentry/speakeasy 4aabc24"
 	"github.com/spf13/cobra c46add8"
 	"github.com/spf13/pflag e57e3ee"
-	"gopkg.in/yaml.v2 1be3d31 github.com/go-yaml/yaml" #v2
+	"gopkg.in/yaml.v2 3b4ad1d github.com/go-yaml/yaml" #v2
 )
 
 EGO_PN="github.com/NebulousLabs/Sia"
@@ -50,16 +50,15 @@ pkg_setup() {
 }
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
+	cd src/${EGO_PN} || die
+
 	local PKGS=( ./api ./build ./compatibility ./crypto ./encoding ./modules ./modules/consensus \
 		./modules/explorer ./modules/gateway ./modules/host ./modules/host/contractmanager \
 		./modules/renter ./modules/renter/contractor ./modules/renter/hostdb ./modules/renter/hostdb/hosttree \
 		./modules/renter/proto ./modules/miner ./modules/wallet ./modules/transactionpool ./persist ./siac \
 		./siad ./sync ./types )
 
-	cd src/${EGO_PN} || die
-
-	go install -v "${PKGS[@]}" || die
+	GOPATH="${S}" go install -v "${PKGS[@]}" || die
 }
 
 src_install() {
