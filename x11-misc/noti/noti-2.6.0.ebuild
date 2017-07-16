@@ -6,11 +6,9 @@ EAPI=6
 inherit golang-vcs-snapshot
 
 EGO_PN="github.com/variadico/${PN}"
-ARCHIVE_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-
 DESCRIPTION="Trigger notifications when a process completes"
 HOMEPAGE="https://github.com/variadico/noti"
-SRC_URI="${ARCHIVE_URI}"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -24,9 +22,7 @@ RDEPEND="
 	)"
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-
-	go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
