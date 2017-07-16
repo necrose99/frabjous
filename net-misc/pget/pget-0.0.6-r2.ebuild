@@ -7,7 +7,7 @@ EGO_VENDOR=(
 	"github.com/antonholmquist/jason 962e09b"
 	"github.com/asaskevich/govalidator aa5cce4"
 	"github.com/Code-Hex/updater c3f2786"
-	"github.com/jessevdk/go-flags 5695738"
+	"github.com/jessevdk/go-flags 75a96bc"
 	"github.com/mattn/go-runewidth 97311d9"
 	"github.com/mcuadros/go-version 257f7b9"
 	"github.com/pkg/errors c605e28"
@@ -16,15 +16,13 @@ EGO_VENDOR=(
 	"golang.org/x/sync f52d181 github.com/golang/sync"
 	"gopkg.in/cheggaaa/pb.v1 f6ccf21 github.com/cheggaaa/pb" #v1.0.15
 )
+EGO_PN="github.com/Code-Hex/${PN}"
 
 inherit golang-vcs-snapshot
 
-EGO_PN="github.com/Code-Hex/${PN}"
-ARCHIVE_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-
 DESCRIPTION="A parallel file download client in Go"
 HOMEPAGE="https://github.com/Code-Hex/pget"
-SRC_URI="${ARCHIVE_URI}
+SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
@@ -32,9 +30,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-
-	go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
