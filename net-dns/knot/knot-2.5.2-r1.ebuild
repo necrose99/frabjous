@@ -58,6 +58,7 @@ src_configure() {
 		$(use_enable daemon) \
 		$(use_enable fastparser) \
 		$(use_enable dnstap) \
+		$(use_with dnstap module-dnstap) \
 		$(use_enable doc documentation) \
 		$(use_with idn libidn) \
 		$(use_enable static-libs static) \
