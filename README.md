@@ -65,6 +65,7 @@ net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | Bitcoin Unlimited c
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | Bitcoin XT crypto-currency wallet for automated services
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
+net-vpn/**[govpn](net-vpn/govpn)** | A VPN daemon aimed to be reviewable, secure and DPI/censorship-resistant
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer

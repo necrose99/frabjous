@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<longdescription lang="en">
+		It uses strong passphrase authenticated key agreement protocol with
+		augmented zero-knowledge mutual peers authentication (PAKE DH A-EKE).
+		It features encrypted authenticated data transport that hides
+		message's length and timestamps, has the Perfect Forward Secrecy
+		property, is resistant to offline dictionary attacks, replay attacks,
+		client's passphrases compromising and dictionary attacks on the
+		server side, has built-in heartbeating, rehandshaking, real-time
+		statistics, the ability to work through UDP, TCP and HTTP proxies,
+		and IPv4/IPv6-compatibility.
+	</longdescription>
+</pkgmetadata>
