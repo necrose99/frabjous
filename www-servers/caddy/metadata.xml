@@ -10,8 +10,10 @@
 			It provides support for enforcing authorization
 			based on various models like ACL, RBAC, ABAC
 		</flag>
+		<flag name="cache">A simple middleware caching</flag>
 		<flag name="cgi">Implements the Common Gateway Interface (CGI) for Caddy</flag>
 		<flag name="cors">Supports Cross Origin Resource Sharing headers</flag>
+		<flag name="datadog">A plugin allow Caddy web server to send some metrics to Datadog</flag>
 		<flag name="expires">Allows you to set expiration header relative to the request time</flag>
 		<flag name="filter">Provides a directive to filter response bodies</flag>
 		<flag name="git">The git plugin makes it possible to deploy your site with a simple git push</flag>
@@ -21,8 +23,25 @@
 		<flag name="login">Enable login checks against a backend and then returned as JWT token</flag>
 		<flag name="mailout">A SMTP client email middleware with PGP encryption</flag>
 		<flag name="minify">Minify static assets on-the-fly. Supports CSS, HTML, JS, JSON, SVG and XML</flag>
+		<flag name="multipass">
+			Implements the idea to authenticate users based on
+			something they own instead of something they know
+		</flag>
+		<flag name="nobots">A plugin to protect your website against web crawlers and bots</flag>
 		<flag name="prometheus">Enables prometheus metrics for Caddy</flag>
+		<flag name="proxyprotocol">Enables PROXY protocol (v1) support</flag>
+		<flag name="ratelimit">Limit the request processing rate based on client's IP address</flag>
+		<flag name="realip">
+			Allows you to see the actual client IP from X-Forwarded-For
+			headers if you are running behind a CDN or Proxy
+		</flag>
+		<flag name="reauth">A common basis for authenticating with various and multiple authentication systems</flag>
+		<flag name="restic">
+			A plugin that serves a Restic repository at
+			a path, see https://restic.github.io for details
+		</flag>
 		<flag name="upload">Upload files using an API and HTTP method POST or PUT</flag>
+		<flag name="webdav">A plugin that implements WebDAV</flag>
 	</use>
 	<upstream>
 		<remote-id type="github">mholt/caddy</remote-id>
