@@ -6,15 +6,15 @@ RESTRICT="mirror"
 
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
-My_PV="${PV/\.0f/}F"
-DESCRIPTION="Bitcoin XT crypto-currency wallet for automated services"
+MY_PV="${PV/\.0f/}F"
+DESCRIPTION="An alternative full node Bitcoin implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinxt.software"
-SRC_URI="https://github.com/${PN}/${PN}/archive/v${My_PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="+daemon dbus examples gui +hardened kde libressl qrcode test upnp +utils +wallet +zeromq"
+IUSE="daemon +dbus examples +gui +hardened kde libressl +qrcode test upnp utils +wallet zeromq"
 LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl vi vi_VN zh_HK zh_CN zh_TW"
 
 for X in ${LANGS} ; do
@@ -63,7 +63,7 @@ REQUIRED_USE="
 	kde? ( gui )
 	qrcode? ( gui )"
 
-S="${WORKDIR}/bitcoinxt-${My_PV}"
+S="${WORKDIR}/${PN}-${MY_PV}"
 UG="${PN}"
 
 pkg_setup() {
@@ -112,7 +112,7 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=( --without-libs --enable-reduce-exports )
+	local myconf=
 	use daemon || myconf+=( --without-daemon )
 	use dbus && myconf+=( --with-qtdbus )
 	use gui && myconf+=( --with-gui=qt5 )
@@ -127,9 +127,11 @@ src_configure() {
 	use wallet || myconf+=( --disable-wallet )
 	use zeromq || myconf+=( --disable-zmq )
 	econf \
+		--without-libs \
 		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
+		--enable-reduce-exports \
 		"${myconf[@]}" || die
 }
 

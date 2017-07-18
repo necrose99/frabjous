@@ -62,7 +62,7 @@ net-news/**[feedreader](net-news/feedreader)** | A modern desktop application de
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
-net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | Bitcoin XT crypto-currency wallet for automated services
+net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-vpn/**[govpn](net-vpn/govpn)** | A VPN daemon aimed to be reviewable, secure and DPI/censorship-resistant
