@@ -13,7 +13,7 @@ SRC_URI="https://github.com/BitcoinUnlimited/BitcoinUnlimited/archive/v${PV}.tar
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="+daemon dbus examples gui +hardened kde libressl qrcode test upnp +utils +wallet +zeromq"
+IUSE="daemon +dbus examples +gui +hardened kde libressl +qrcode test upnp utils +wallet zeromq"
 LANGS="ach af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cmn cs cs_CZ cy da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl gu_IN he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mk_MK mn ms_MY nb nl pam pl pt_BR pt_PT ro ro_RO ru ru_RU sk sl_SI sq sr sv ta th_TH tr tr_TR uk ur_PK uz@Cyrl uz@Latn vi vi_VN zh zh_CN zh_HK zh_TW"
 
 for X in ${LANGS} ; do
