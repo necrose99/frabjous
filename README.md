@@ -70,6 +70,7 @@ net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service 
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
+www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
