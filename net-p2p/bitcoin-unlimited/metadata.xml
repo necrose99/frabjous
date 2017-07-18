@@ -2,9 +2,18 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">BitcoinUnlimited/BitcoinUnlimited</remote-id>
+		<bugs-to>https://github.com/BitcoinUnlimited/BitcoinUnlimited/issues</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		Bitcoin Unlimited is an implementation of the Bitcoin client software
+		that is based on Bitcoin Core. However, Bitcoin Unlimited has a very
+		different philosophy than Core.
+	</longdescription>
 	<use>
 		<flag name="daemon">Build the system daemon</flag>
 		<flag name="gui">Build the end-user Qt GUI for the Bitcoin crypto-currency</flag>
@@ -14,7 +23,4 @@
 		<flag name="wallet">Enable wallet support</flag>
 		<flag name="zeromq">Report blocks and transactions via zeromq</flag>
 	</use>
-	<upstream>
-		<remote-id type="github">BitcoinUnlimited/BitcoinUnlimited</remote-id>
-	</upstream>
 </pkgmetadata>
