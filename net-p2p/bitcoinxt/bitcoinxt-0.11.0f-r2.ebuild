@@ -14,8 +14,12 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon +dbus examples +gui +hardened kde libressl +qrcode test upnp utils +wallet zeromq"
-LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl vi vi_VN zh_HK zh_CN zh_TW"
+IUSE="daemon dbus +gui kde libressl +qrcode test upnp utils +wallet zeromq"
+LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en \
+	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he \
+	hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam \
+	pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl \
+	vi vi_VN zh_HK zh_CN zh_TW"
 
 for X in ${LANGS} ; do
 	IUSE="${IUSE} linguas_${X}"
@@ -35,24 +39,30 @@ CDEPEND="dev-libs/boost:0[threads(+)]
 	!libressl? ( dev-libs/openssl:0[-bindist] )
 	libressl? ( dev-libs/libressl )
 	upnp? ( net-libs/miniupnpc )
-	wallet? ( media-gfx/qrencode sys-libs/db:4.8[cxx] )
+	wallet? (
+		media-gfx/qrencode
+		sys-libs/db:4.8[cxx]
+	)
 	zeromq? ( net-libs/zeromq )"
 DEPEND="${CDEPEND}
 	gui? ( dev-qt/linguist-tools )"
 RDEPEND="${CDEPEND}
 	daemon? (
 		!net-p2p/bitcoind
+		!net-p2p/bitcoin-abc[daemon]
 		!net-p2p/bitcoin-classic[daemon]
 		!net-p2p/bitcoin-unlimited[daemon]
 	)
 	gui?  (
 		!net-p2p/bitcoin-qt
+		!net-p2p/bitcoin-abc[gui]
 		!net-p2p/bitcoin-classic[gui]
-		!net-p2p/bitcoin-unlimited[gui,qt4,qt5]
+		!net-p2p/bitcoin-unlimited[gui]
 	)
 	utils? (
 		!net-p2p/bitcoin-cli
 		!net-p2p/bitcoin-tx
+		!net-p2p/bitcoin-abc[utils]
 		!net-p2p/bitcoin-classic[utils]
 		!net-p2p/bitcoin-unlimited[utils]
 	)"
@@ -113,33 +123,31 @@ src_prepare() {
 
 src_configure() {
 	local myconf=
-	use daemon || myconf+=( --without-daemon )
-	use dbus && myconf+=( --with-qtdbus )
 	use gui && myconf+=( --with-gui=qt5 )
 	use gui || myconf+=( --without-gui )
-	use hardened || myconf+=( --disable-hardening )
 	use libressl && myconf+=( --with-libressl )
-	use qrcode && myconf+=( --with-qrencode )
-	use test || myconf+=( --disable-tests )
 	use upnp && myconf+=( --with-miniupnpc --enable-upnp-default )
 	use upnp || myconf+=( --without-miniupnpc --disable-upnp-default )
-	use utils || myconf+=( --without-utils )
-	use wallet || myconf+=( --disable-wallet )
-	use zeromq || myconf+=( --disable-zmq )
 	econf \
 		--without-libs \
 		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
+		--disable-tests \
 		--enable-reduce-exports \
+		$(use_with daemon) \
+		$(use_with qrcode qrencode) \
+		$(use_with utils) \
+		$(use_enable wallet) \
+		$(use_enable zeromq zmq) \
 		"${myconf[@]}" || die
 }
 
 src_install() {
+		default
+
 	if use daemon; then
 		local my_etc="/etc/bitcoinxt"
-
-		dobin src/bitcoind
 
 		insinto "${my_etc}"
 		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
@@ -155,16 +163,13 @@ src_install() {
 
 		dodoc doc/{assets-attribution.md,bips.md,tor.md}
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
-		newbashcomp contrib/bitcoind.bash-completion ${PN}
+		newbashcomp contrib/bitcoind.bash-completion bitcoin
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}"/${PN}.logrotate ${PN}
 	fi
 
 	if use gui; then
-		dobin src/qt/bitcoin-qt
-
-		# Install icons and desktop entry.
 		local size
 		for size in 16 32 64 128 256 ; do
 			newicon -s ${size} "share/pixmaps/bitcoin${size}.png" bitcoin.png
@@ -182,18 +187,12 @@ src_install() {
 		doman contrib/debian/manpages/bitcoin-qt.1
 	fi
 
-	if use examples; then
-		docinto examples
-		use daemon && dodoc -r contrib/{qos,spendfrom,tidy_datadir.sh}
-		use zeromq && dodoc -r contrib/zmq
-	fi
-
 	if use utils; then
 		dobin src/bitcoin-cli
 		dobin src/bitcoin-tx
 
 		doman contrib/debian/manpages/bitcoin-cli.1
-		use daemon || newbashcomp contrib/bitcoind.bash-completion ${PN}
+		use daemon || newbashcomp contrib/bitcoind.bash-completion bitcoin
 	fi
 }
 
