@@ -188,9 +188,6 @@ src_install() {
 	fi
 
 	if use utils; then
-		dobin src/bitcoin-cli
-		dobin src/bitcoin-tx
-
 		doman contrib/debian/manpages/bitcoin-cli.1
 		use daemon || newbashcomp contrib/bitcoind.bash-completion bitcoin
 	fi
