@@ -3,10 +3,10 @@
 <repositories xmlns="" version="1.0">
   <repo quality="experimental" status="unofficial">
     <name><![CDATA[frabjous]]></name>
-    <description lang="en"><![CDATA[Frabjous! Yet another personal Gentoo overlay]]></description>
+    <description lang="en"><![CDATA[The frabjous Gentoo overlay focused on crypto, server-side stuffs and some desktop apps]]></description>
     <homepage>https://github.com/csmk/frabjous</homepage>
     <owner type="person">
-      <email>csmk@chaoslab.org</email>
+      <email>csmk+frabjous@chaoslab.org</email>
       <name><![CDATA[Ian Moone]]></name>
     </owner>
     <source type="git">git@github.com:csmk/frabjous.git</source>
