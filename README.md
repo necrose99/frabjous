@@ -60,6 +60,7 @@ net-misc/**[gotty-client](net-misc/gotty-client)** | A terminal client for GoTTY
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
+net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
