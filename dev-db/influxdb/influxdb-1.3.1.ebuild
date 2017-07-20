@@ -28,16 +28,15 @@ EGO_VENDOR=(
 # github.com/davecgh/go-spew
 # github.com/paulbellamy/ratecounter
 
-PKG_COMMIT="e0a87cf"
+PKG_COMMIT="5887e92"
 EGO_PN="github.com/influxdata/influxdb"
 EGO_LDFLAGS="-X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
 inherit golang-vcs-snapshot systemd user
 
-MY_PV="${PV/_}"
 DESCRIPTION="Scalable datastore for metrics, events, and real-time analytics"
 HOMEPAGE="https://influxdata.com"
-SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
