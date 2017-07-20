@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">influxdata/influxdb</remote-id>
+		<bugs-to>https://github.com/influxdata/influxdb/issues</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		InfluxDB is an open source time series database with
+		no external dependencies. It's useful for recording
+		metrics, events, and performing analytics.
+	</longdescription>
+</pkgmetadata>

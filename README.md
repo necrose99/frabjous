@@ -36,6 +36,7 @@ app-crypt/**[minisign](app-crypt/minisign)** | A dead simple tool to sign files 
 app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternative to GnuPG)
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
+dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events, and real-time analytics
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
