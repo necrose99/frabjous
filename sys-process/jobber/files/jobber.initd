@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+name="Jobber daemon"
+command="/usr/sbin/jobberd"
+pidfile="/var/run/jobberd.pid"
+command_background=yes
+
+depend() {
+	need logger
+}
