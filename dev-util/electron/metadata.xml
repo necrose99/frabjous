@@ -11,7 +11,6 @@
 	</longdescription>
 	<use>
 		<flag name="bundled-ssl">Use bundled OpenSSL instead of system-wide (EXPERIMENTAL)</flag>
-		<flag name="bundled-openssl">Use bundled OpenSSL instead of system-wide (EXPERIMENTAL)</flag>
 		<flag name="gtk3">Build with GTK+3 instead of GTK+2</flag>
 		<flag name="hidpi">Enable support for high-resolution screens (high dots per inch)</flag>
 		<flag name="lto">Build with link time optimization enabled</flag>

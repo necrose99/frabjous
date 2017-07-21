@@ -55,7 +55,7 @@ LIBCC_S="${BRIGHTRAY_S}/vendor/libchromiumcontent"
 LICENSE="BSD"
 SLOT="$(get_version_component_range 1-2)"
 KEYWORDS="~amd64"
-IUSE="bundled-openssl cups custom-cflags gnome gnome-keyring hidpi kerberos lto +proprietary-codecs pulseaudio selinux +system-ffmpeg +tcmalloc"
+IUSE="bundled-ssl cups custom-cflags gnome gnome-keyring hidpi kerberos libressl lto +proprietary-codecs pulseaudio selinux +system-ffmpeg +tcmalloc"
 RESTRICT="!system-ffmpeg? ( proprietary-codecs? ( bindist ) )"
 
 # Native Client binaries are compiled with different set of flags, bug #452066.
@@ -122,7 +122,7 @@ RDEPEND="!<dev-util/electron-0.36.12-r4
 	kerberos? ( virtual/krb5 )
 	>=net-libs/http-parser-2.6.2:=
 	>=dev-libs/libuv-1.8.0:=
-	!bundled-openssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )"
+	!bundled-ssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )"
 DEPEND="${RDEPEND}
 	dev-lang/yasm
 	dev-lang/perl
@@ -133,6 +133,7 @@ DEPEND="${RDEPEND}
 	>=sys-devel/bison-2.4.3
 	sys-devel/flex
 	virtual/pkgconfig"
+REQUIRED_USE="libressl? ( bundled-ssl )"
 
 # For nvidia-drivers blocker, see bug #413637 .
 RDEPEND+="
@@ -616,7 +617,7 @@ src_configure() {
 	echo '#!/usr/bin/env python' > tools/gyp_node.py || die
 	# --shared-libuv cannot be used as electron's node fork
 	# patches uv_loop structure.
-	./configure --shared --without-bundled-v8 $(usex !bundled-openssl "--shared-openssl" "") \
+	./configure --shared --without-bundled-v8 $(usex !bundled-ssl "--shared-openssl" "") \
 		--shared-http-parser --shared-zlib --without-npm \
 		--with-intl=system-icu --without-dtrace \
 		--dest-cpu=${target_arch} --prefix="" || die
