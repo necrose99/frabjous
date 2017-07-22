@@ -14,7 +14,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT openssl AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+examples mining proton rust test"
+IUSE="+examples mining proton rust"
 
 DEPEND="app-arch/unzip
 	net-misc/wget"
@@ -35,8 +35,7 @@ src_prepare() {
 }
 
 src_compile() {
-	./zcutil/build.sh \
-		$(usex !test "--disable-tests" "") \
+	./zcutil/build.sh --disable-tests
 		$(usex !mining "--disable-mining" "") \
 		$(usex !rust "--disable-rust" "") \
 		$(usex proton "--enable-proton" "") \
