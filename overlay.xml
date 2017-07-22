@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
-  <repo quality="experimental" status="unofficial">
-    <name><![CDATA[frabjous]]></name>
-    <description lang="en"><![CDATA[The frabjous Gentoo overlay focused on crypto, server-side stuffs and some desktop apps]]></description>
-    <homepage>https://github.com/csmk/frabjous</homepage>
-    <owner type="person">
-      <email>csmk+frabjous@chaoslab.org</email>
-      <name><![CDATA[Ian Moone]]></name>
-    </owner>
-    <source type="git">git@github.com:csmk/frabjous.git</source>
-    <source type="git">https://github.com/csmk/frabjous.git</source>
-    <feed>https://github.com/csmk/frabjous/commits/master.atom</feed>
-  </repo>
+	<repo quality="experimental" status="unofficial">
+		<name><![CDATA[frabjous]]></name>
+		<description lang="en"><![CDATA[The frabjous Gentoo overlay focused on crypto, server-side stuffs and some desktop apps]]></description>
+		<homepage>https://github.com/csmk/frabjous</homepage>
+		<owner type="person">
+			<email>csmk+gentoo@chaoslab.org</email>
+			<name><![CDATA[Ian Moone]]></name>
+		</owner>
+		<source type="git">https://github.com/csmk/frabjous.git</source>
+		<source type="git">git://github.com/csmk/frabjous.git</source>
+		<source type="git">git@github.com:csmk/frabjous.git</source>
+		<feed>https://github.com/csmk/frabjous/commits/master.atom</feed>
+	</repo>
 </repositories>
