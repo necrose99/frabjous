@@ -7,5 +7,6 @@
 	</maintainer>
 	<upstream>
 		<remote-id type="github">yudai/gotty</remote-id>
+		<bugs-to>https://github.com/yudai/gotty/issues</bugs-to>
 	</upstream>
 </pkgmetadata>
