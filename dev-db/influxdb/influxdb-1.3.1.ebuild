@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 # Note: Keep EGO_VENDOR in sync with Godeps
 EGO_VENDOR=(
@@ -30,7 +31,7 @@ EGO_VENDOR=(
 
 PKG_COMMIT="5887e92"
 EGO_PN="github.com/influxdata/influxdb"
-EGO_LDFLAGS="-X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
+EGO_LDFLAGS="-s -w -X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
 inherit golang-vcs-snapshot systemd user
 
