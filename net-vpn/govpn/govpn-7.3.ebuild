@@ -2,11 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 inherit systemd
 
 EGO_PN="cypherpunks.ru/govpn"
-EGO_LDFLAGS="-X cypherpunks.ru/govpn.Version=${PV}"
+EGO_LDFLAGS="-s -w -X cypherpunks.ru/govpn.Version=${PV}"
 
 DESCRIPTION="A VPN daemon aimed to be reviewable, secure and DPI/censorship-resistant"
 HOMEPAGE="http://www.govpn.info"
