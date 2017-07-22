@@ -2,13 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/streadway/quantile b0c5887"
 	"golang.org/x/net f01ecb6 github.com/golang/net"
 	"golang.org/x/text 836efe4 github.com/golang/text" )
 EGO_PN="github.com/tsenart/${PN}"
-EGO_LDFLAGS="-X main.Version=v${PV}"
+EGO_LDFLAGS="-s -w -X main.Version=v${PV}"
 
 inherit golang-vcs-snapshot
 
