@@ -3,9 +3,9 @@
 ### What the...
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
 
-**Note**: As I don't own a machine with `systemd`, packages that use systemd unit files hasn't been tested. Although I try my best to follow the standards. If you find a bug, please report.
-
 **DISCLAIMER:** All ebuilds are permanently in _test_ (~*) mode. As such, you should probably consider it to be _unsafe_ and treat it as such. Use at your own risk! However, I've been using these packages in a production environment without major problems.
+
+> **Note**: As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been tested. Although I try my best to follow the standards.
 
 ## How to install the overlay
 You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work.
@@ -89,8 +89,10 @@ All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint i
 ## Tip Jar
 Bitcoin donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
 
-## Requests and Issues
-Yes, I do accept requests for new packages, but I do not promise to deliver, especially if the complexity of the package are far cry from my knowledge level. Bugs should always be filed in [github issues site](https://github.com/csmk/frabjous/issues).
+## Requests
+Yes, I do accept requests for new packages, but I do not promise to deliver, especially if the complexity of the package are far cry from my knowledge level.
 
 ## Contributing 
-Contributions are welcome. Fork and create a pull request.
+If you find any bugs, please report them! I am also happy to accept pull requests from anyone.
+
+You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report bugs, ask questions or suggest new features.
