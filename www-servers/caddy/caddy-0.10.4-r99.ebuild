@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 CADDY_PLUGINS=(
 	"AUTHZ1 github.com/casbin/caddy-authz e0ddc63" # Apache-2.0 license
@@ -473,7 +474,7 @@ src_prepare() {
 
 src_compile() {
 	GOPATH="${S}" go install -v -ldflags \
-		"-X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
+		"-s -w -X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
 }
 
 src_install() {

@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 inherit golang-vcs-snapshot systemd user
 
@@ -27,7 +28,7 @@ pkg_setup() {
 src_compile() {
 	export GOPATH="${S}:$(get_golibdir_gopath)"
 
-	go install -ldflags "-X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
+	go install -ldflags "-s -w -X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
 }
 
 src_install() {
