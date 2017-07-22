@@ -5,12 +5,13 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">tsenart/vegeta</remote-id>
+		<bugs-to>https://github.com/tsenart/vegeta/issues</bugs-to>
+	</upstream>
 	<longdescription lang="en">
 		Vegeta is a versatile HTTP load testing tool built out of
 		a need to drill HTTP services with a constant request rate.
 		It can be used both as a command line utility and a library.
 	</longdescription>
-	<upstream>
-		<remote-id type="github">tsenart/vegeta</remote-id>
-	</upstream>
 </pkgmetadata>
