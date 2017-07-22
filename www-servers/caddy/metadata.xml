@@ -5,6 +5,11 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">mholt/caddy</remote-id>
+		<bugs-to>https://github.com/mholt/caddy/issues</bugs-to>
+		<doc>https://caddyserver.com/docs</doc>
+	</upstream>
 	<use>
 		<flag name="authz">
 			It provides support for enforcing authorization
@@ -35,7 +40,10 @@
 			Allows you to see the actual client IP from X-Forwarded-For
 			headers if you are running behind a CDN or Proxy
 		</flag>
-		<flag name="reauth">A common basis for authenticating with various and multiple authentication systems</flag>
+		<flag name="reauth">
+			A common basis for authenticating with various
+			and multiple authentication systems
+		</flag>
 		<flag name="restic">
 			A plugin that serves a Restic repository at
 			a path, see https://restic.github.io for details
@@ -43,8 +51,4 @@
 		<flag name="upload">Upload files using an API and HTTP method POST or PUT</flag>
 		<flag name="webdav">A plugin that implements WebDAV</flag>
 	</use>
-	<upstream>
-		<remote-id type="github">mholt/caddy</remote-id>
-		<doc>https://caddyserver.com/docs</doc>
-	</upstream>
 </pkgmetadata>
