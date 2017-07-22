@@ -5,6 +5,10 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">zcash/zcash</remote-id>
+		<bugs-to>https://github.com/zcash/zcash/issues</bugs-to>
+	</upstream>
 	<longdescription lang="en">
 		Zcash is an implementation of the "Zerocash" protocol.
 		Based on Bitcoin's code, it intends to offer a far
@@ -20,7 +24,4 @@
 		</flag>
 		<flag name="rust">Build Rust language assets</flag>
 	</use>
-	<upstream>
-		<remote-id type="github">zcash/zcash</remote-id>
-	</upstream>
 </pkgmetadata>
