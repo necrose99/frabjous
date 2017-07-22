@@ -2,21 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 # Note: Keep EGO_VENDOR in sync with vendor/vendor.json
-
-# The pkgs commented were kept out because it was not needed.
-# github.com/stretchr/testify
-# github.com/davecgh/go-spew/spew
-# github.com/fortytw2/leaktest
-# github.com/inconshreveable/mousetrap
-# github.com/kr/fs
-# github.com/opennota/urlesc
-# github.com/pkg/errors
-# github.com/pkg/sftp
-# github.com/pmezard/go-difflib
-# golang.org/x/crypto
-
 EGO_VENDOR=(
 	"github.com/BurntSushi/toml a368813"
 	"github.com/PuerkitoBio/purell b938d81"
@@ -54,10 +42,22 @@ EGO_VENDOR=(
 	"golang.org/x/net 054b33e github.com/golang/net"
 	"golang.org/x/sys 6faef54 github.com/golang/sys"
 	"golang.org/x/text cfdf022 github.com/golang/text"
-	"gopkg.in/yaml.v2 cd8b52f github.com/go-yaml/yaml" )
+	"gopkg.in/yaml.v2 cd8b52f github.com/go-yaml/yaml"
+)
+# Deps that are not needed:
+# github.com/stretchr/testify
+# github.com/davecgh/go-spew/spew
+# github.com/fortytw2/leaktest
+# github.com/inconshreveable/mousetrap
+# github.com/kr/fs
+# github.com/opennota/urlesc
+# github.com/pkg/errors
+# github.com/pkg/sftp
+# github.com/pmezard/go-difflib
+# golang.org/x/crypto
 
 EGO_PN="github.com/gohugoio/${PN}"
-EGO_LDFLAGS="-X ${EGO_PN}/hugolib.BuildDate=$(date +%FT%T%z)"
+EGO_LDFLAGS="-s -w -X ${EGO_PN}/hugolib.BuildDate=$(date +%FT%T%z)"
 
 inherit golang-vcs-snapshot
 
