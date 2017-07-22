@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/NebulousLabs/demotemutex 235395f"
@@ -58,7 +59,7 @@ src_compile() {
 		./modules/renter/proto ./modules/miner ./modules/wallet ./modules/transactionpool ./persist ./siac \
 		./siad ./sync ./types )
 
-	GOPATH="${S}" go install -v "${PKGS[@]}" || die
+	GOPATH="${S}" go install -v -ldflags "-s -w" "${PKGS[@]}" || die
 }
 
 src_install() {
