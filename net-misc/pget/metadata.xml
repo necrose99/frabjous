@@ -7,5 +7,6 @@
 	</maintainer>
 	<upstream>
 		<remote-id type="github">Code-Hex/pget</remote-id>
+		<bugs-to>https://github.com/Code-Hex/pget/issues</bugs-to>
 	</upstream>
 </pkgmetadata>
