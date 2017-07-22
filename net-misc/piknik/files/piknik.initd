@@ -1,0 +1,17 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+: ${UG:="piknik:piknik"}
+: ${CONFIG:="/etc/piknik.toml"}
+
+name="Piknik server"
+command="/usr/bin/piknik"
+command_args="-config ${CONFIG} -server"
+command_background=yes
+pidfile="/run/piknik.pid"
+start_stop_daemon_args="-u ${UG}"
+
+depend() {
+	need net
+}
