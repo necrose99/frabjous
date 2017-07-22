@@ -4,12 +4,13 @@
 
 : ${UG:="piknik:piknik"}
 : ${CONFIG:="/etc/piknik.toml"}
+: ${PIDFILE:="/run/piknik.pid"}
 
 name="Piknik server"
 command="/usr/bin/piknik"
 command_args="-config ${CONFIG} -server"
 command_background=yes
-pidfile="/run/piknik.pid"
+pidfile="${PIDFILE}"
 start_stop_daemon_args="-u ${UG}"
 
 depend() {
