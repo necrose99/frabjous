@@ -35,7 +35,7 @@ src_prepare() {
 }
 
 src_compile() {
-	./zcutil/build.sh --disable-tests
+	./zcutil/build.sh --disable-tests \
 		$(usex !mining "--disable-mining" "") \
 		$(usex !rust "--disable-rust" "") \
 		$(usex proton "--enable-proton" "") \
