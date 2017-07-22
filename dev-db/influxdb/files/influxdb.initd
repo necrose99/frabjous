@@ -2,28 +2,20 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${logfile:="/var/log/influxdb/influxd.log"}
-: ${config:="/etc/influxdb/influxdb.conf"}
+: ${CONFIG:="/etc/influxdb/influxdb.conf"}
+: ${LOGFILE:="/var/log/influxdb/influxd.log"}
+: ${PIDFILE:="/run/influxdb.pid"}
+: ${UG:="influxdb:influxdb"}
 
 name="InfluxDB daemon"
 command="/usr/bin/influxd"
-command_args="-config ${config}"
-pidfile="/run/influxdb/influxdb.pid"
-required_files="$config"
+command_args="-config ${CONFIG}"
+command_background=yes
+pidfile="${PIDFILE}"
+start_stop_daemon_args="-u ${UG} \
+	-1 ${LOGFILE} -2 ${LOGFILE}"
 
 depend() {
 	need net
 	after bootmisc
-}
-
-start() {
-	ebegin "Starting ${name}"
-	start-stop-daemon --start -b \
-		--user influxdb:influxdb \
-		--make-pidfile \
-		--pidfile ${pidfile} \
-		--stdout ${logfile} \
-		--stderr ${logfile} \
-		--exec ${command} -- ${command_args}
-	eend $?
 }

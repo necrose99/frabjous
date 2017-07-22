@@ -1,3 +1,2 @@
-d /run/influxdb 0755 influxdb influxdb
 d /var/log/influxdb 0755 influxdb influxdb
 d /var/lib/influxdb 0755 influxdb influxdb
