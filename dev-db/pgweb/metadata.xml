@@ -5,6 +5,10 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">sosedoff/pgweb</remote-id>
+		<bugs-to>https://github.com/sosedoff/pgweb/issues</bugs-to>
+	</upstream>
 	<longdescription lang="en">
 		Main idea behind using Go for backend development is to utilize 
 		ability of the compiler to produce zero-dependency binaries for
@@ -12,7 +16,4 @@
 		very simple and portable application to work with local
 		or remote PostgreSQL databases.
 	</longdescription>
-	<upstream>
-		<remote-id type="github">sosedoff/pgweb</remote-id>
-	</upstream>
 </pkgmetadata>
