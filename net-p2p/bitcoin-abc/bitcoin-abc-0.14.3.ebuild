@@ -124,6 +124,7 @@ src_configure() {
 	use upnp || myconf+=( --without-miniupnpc --disable-upnp-default )
 	econf \
 		--without-libs \
+		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--disable-tests \
