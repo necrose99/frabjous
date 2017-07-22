@@ -2,13 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/ssh-vault/crypto ae180e0"
 	"github.com/ssh-vault/ssh2pem 02e6a01"
 	"golang.org/x/crypto dd85ac7 github.com/golang/crypto" )
 EGO_PN="github.com/${PN}/${PN}"
-EGO_LDFLAGS="-X main.version=${PV}"
+EGO_LDFLAGS="-s -w -X main.version=${PV}"
 
 inherit golang-vcs-snapshot
 
