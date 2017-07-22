@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 inherit golang-vcs-snapshot
 
@@ -14,7 +15,6 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-DEPEND=">=dev-lang/go-1.8"
 RDEPEND="
 	|| (
 		x11-libs/libnotify
@@ -22,7 +22,7 @@ RDEPEND="
 	)"
 
 src_compile() {
-	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v -ldflags "-s -w" ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
