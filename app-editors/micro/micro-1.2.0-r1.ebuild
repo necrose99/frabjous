@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/blang/semver 4a1e882"
@@ -26,7 +27,7 @@ EGO_VENDOR=(
 	"github.com/zyedidia/json5 2518f8b"
 	"github.com/zyedidia/tcell 7095cc1" )
 EGO_PN="github.com/zyedidia/${PN}"
-EGO_LDFLAGS="-X main.Version=${PV} -X main.CommitHash=be81241 -X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
+EGO_LDFLAGS="-s -w -X main.Version=${PV} -X main.CommitHash=be81241 -X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
 
 inherit golang-vcs-snapshot
 
