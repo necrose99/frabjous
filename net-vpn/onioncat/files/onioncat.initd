@@ -2,12 +2,15 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
+: ${UG:="onioncat:onioncat"}
+: ${PIDFILE:="/run/ocat.pid"}
+
 name="OnionCat"
-pidfile="${PIDFILE}"
 command="/usr/bin/ocat"
 command_args="-P ${PIDFILE} ${OCAT_OPTS}"
 command_background=yes
-start_stop_daemon_args="--user $NAME --group $NAME"
+pidfile="${PIDFILE}"
+start_stop_daemon_args="-u ${UG}"
 
 depend() {
 	use net

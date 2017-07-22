@@ -2,12 +2,15 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
+: ${UG:="onioncat:onioncat"}
+: ${PIDFILE:="/run/gcat.pid"}
+
 name="GaliCat"
-pidfile="${PIDFILE}"
 command="/usr/bin/gcat"
 command_args="-P ${PIDFILE} ${GCAT_OPTS}"
 command_background=yes
-start_stop_daemon_args="--user $NAME --group $NAME"
+pidfile="${PIDFILE}"
+start_stop_daemon_args="-u ${UG}"
 
 depend() {
 	use net
