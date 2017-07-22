@@ -2,14 +2,16 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-description="Blockchain-based marketplace for file storage"
+: ${UG:="sia:sia"}
+: ${OPTS:="-d /var/lib/sia"}
+: ${PIDFILE:="/run/siad.pid"}
 
 name="Sia daemon"
-pidfile="$PIDFILE"
 command="/usr/bin/siad"
-command_args="$SIA_OPTS"
+command_args="${OPTS}"
 command_background=yes
-start_stop_daemon_args="--user $NAME --group $NAME"
+pidfile="${PIDFILE}"
+start_stop_daemon_args="-u ${UG}"
 
 depend() {
 	use net

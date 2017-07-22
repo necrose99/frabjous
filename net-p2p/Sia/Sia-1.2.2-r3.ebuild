@@ -66,8 +66,7 @@ src_install() {
 	dobin bin/sia*
 	dodoc src/${EGO_PN}/doc/*.md
 
-	newinitd "${FILESDIR}"/sia.initd sia
-	newconfd "${FILESDIR}"/sia.confd sia
+	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
 
 	keepdir /var/lib/sia

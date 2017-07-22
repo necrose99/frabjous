@@ -1,4 +1,0 @@
-NAME=sia
-PIDFILE="/var/run/siad.pid"
-SIA_DIR="/var/lib/$NAME"
-SIA_OPTS="-d $SIA_DIR"
