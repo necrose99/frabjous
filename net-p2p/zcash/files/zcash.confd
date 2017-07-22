@@ -16,9 +16,6 @@
 #ZCASHD_USER="zcash"
 #ZCASHD_GROUP="${ZCASHD_USER}"
 
-# Path to zcashd executable
-#ZCASHD_BIN="/usr/bin/zcashd"
-
 # Nice value to run zcashd under
 ZCASHD_NICE=19
 

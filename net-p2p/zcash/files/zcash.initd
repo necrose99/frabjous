@@ -8,14 +8,13 @@
 : ${ZCASHD_PIDFILE:="${ZCASHD_PIDDIR}/zcashd.pid"}
 : ${ZCASHD_USER:="zcash"}
 : ${ZCASHD_GROUP:="${ZCASHD_USER}"}
-: ${ZCASHD_BIN:="/usr/bin/zcashd"}
 : ${ZCASHD_NICE:=0}
 : ${ZCASHD_SIGTERM_TIMEOUT:=60}
 
 name="Zcash Daemon"
 description="Zcash cryptocurrency P2P network daemon"
 
-command="${ZCASHD_BIN}"
+command="/usr/bin/zcashd"
 command_args="-pid=${ZCASHD_PIDFILE} \
 	-conf=${ZCASHD_CONFIGFILE} \
 	-datadir=${ZCASHD_DATADIR} \
@@ -23,12 +22,9 @@ command_args="-pid=${ZCASHD_PIDFILE} \
 
 required_files="${ZCASHD_CONFIGFILE}"
 start_stop_daemon_args="-u ${ZCASHD_USER} \
-	-N ${ZCASHD_NICE} -w 2000"
-pidfile="${ZCASHD_PIDFILE}"
+	-g ${ZCASHD_GROUP} -N ${ZCASHD_NICE} -w 2000"
 
-# The retry schedule to use when stopping the daemon. Could be either
-# a timeout in seconds or multiple signal/timeout pairs (like
-# "SIGKILL/180 SIGTERM/300")
+pidfile="${ZCASHD_PIDFILE}"
 retry="${ZCASHD_SIGTERM_TIMEOUT}"
 
 depend() {
@@ -36,11 +32,15 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${ZCASHD_DATADIR}" \
-		"${ZCASHD_PIDDIR}"
-	checkpath -f -m 0600 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${ZCASHD_CONFIGFILE}"
+	checkpath -d -m 0750 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" \
+		"${ZCASHD_DATADIR}" "${ZCASHD_PIDDIR}"
 
-	checkconfig || return 1
+	checkpath -f -m 0600 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" \
+		"${ZCASHD_CONFIGFILE}"
+
+	if [ "${RC_CMD}" != "restart" ]; then
+		checkconfig || return 1
+	fi
 }
 
 checkconfig()
