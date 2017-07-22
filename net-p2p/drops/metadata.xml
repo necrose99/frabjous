@@ -2,10 +2,11 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
 		<remote-id type="github">stealth/drops</remote-id>
+		<bugs-to>https://github.com/stealth/drops/issues</bugs-to>
 	</upstream>
 </pkgmetadata>
