@@ -25,7 +25,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 src_compile() {
-	GOPATH="${S}" go install -v -x -ldflags "-s -w" ${EGO_PN} || die
+	GOPATH="${S}" go install -v -ldflags "-s -w" ${EGO_PN} || die
 }
 
 src_install() {
