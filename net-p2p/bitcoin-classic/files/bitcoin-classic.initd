@@ -8,14 +8,13 @@
 : ${BITCOIND_PIDFILE:="${BITCOIND_PIDDIR}/bitcoind.pid"}
 : ${BITCOIND_USER:="bitcoin"}
 : ${BITCOIND_GROUP:="${BITCOIND_USER}"}
-: ${BITCOIND_BIN:="/usr/bin/bitcoind"}
 : ${BITCOIND_NICE:=0}
 : ${BITCOIND_SIGTERM_TIMEOUT:=60}
 
 name="Bitcoin Classic Daemon"
 description="Bitcoin cryptocurrency P2P network daemon"
 
-command="${BITCOIND_BIN}"
+command="/usr/bin/bitcoind"
 command_args="-pid=${BITCOIND_PIDFILE} \
 	-conf=${BITCOIND_CONFIGFILE} \
 	-datadir=${BITCOIND_DATADIR} \
@@ -23,12 +22,9 @@ command_args="-pid=${BITCOIND_PIDFILE} \
 
 required_files="${BITCOIND_CONFIGFILE}"
 start_stop_daemon_args="-u ${BITCOIND_USER} \
-	-N ${BITCOIND_NICE} -w 2000"
-pidfile="${BITCOIND_PIDFILE}"
+	-g ${BITCOIND_GROUP} -N ${BITCOIND_NICE} -w 2000"
 
-# The retry schedule to use when stopping the daemon. Could be either
-# a timeout in seconds or multiple signal/timeout pairs (like
-# "SIGKILL/180 SIGTERM/300")
+pidfile="${BITCOIND_PIDFILE}"
 retry="${BITCOIND_SIGTERM_TIMEOUT}"
 
 depend() {
@@ -36,12 +32,15 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" "${BITCOIND_DATADIR}" \
-		"${BITCOIND_PIDDIR}"
+	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+		"${BITCOIND_DATADIR}" "${BITCOIND_PIDDIR}"
 
-	checkpath -f -m 0600 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" ${BITCOIND_CONFIGFILE}
+	checkpath -f -m 0600 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" \
+		${BITCOIND_CONFIGFILE}
 
-	checkconfig || return 1
+	if [ "${RC_CMD}" != "restart" ]; then
+		checkconfig || return 1
+	fi
 }
 
 checkconfig() {
