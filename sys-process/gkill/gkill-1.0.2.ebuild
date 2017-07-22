@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/fatih/color 62e9147"
@@ -22,7 +23,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 src_compile() {
-	GOPATH="${S}" go install -v ${EGO_PN} || die
+	GOPATH="${S}" go install -v -ldflags "-s -w" ${EGO_PN} || die
 }
 
 src_install() {
