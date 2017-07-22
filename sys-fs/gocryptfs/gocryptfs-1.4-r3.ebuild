@@ -2,18 +2,20 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
-FUSE_COMMIT="68f32f6"
+FUSE_COMMIT="5690be4" #v20170619
 EGO_VENDOR=(
 	"github.com/hanwen/go-fuse ${FUSE_COMMIT}"
 	"github.com/jacobsa/crypto 293ce0c"
 	"github.com/rfjakob/eme da627cc"
-	"golang.org/x/crypto dd85ac7 github.com/golang/crypto"
+	"golang.org/x/crypto 6914964 github.com/golang/crypto"
 	"golang.org/x/sync f52d181 github.com/golang/sync"
+	"golang.org/x/sys c4489fa github.com/golang/sys"
 )
 
 EGO_PN="github.com/rfjakob/${PN}"
-PKG_LDFLAGS="-X main.GitVersion=${PV} -X main.GitVersionFuse=${FUSE_COMMIT} -X main.BuildTime=$(date +%s)"
+PKG_LDFLAGS="-s -w -X main.GitVersion=${PV} -X main.GitVersionFuse=${FUSE_COMMIT} -X main.BuildTime=$(date +%s)"
 
 inherit golang-vcs-snapshot
 
