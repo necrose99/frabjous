@@ -2,10 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
+
+EGO_PN="github.com/moul/gotty-client"
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
-EGO_PN="github.com/moul/gotty-client"
 DESCRIPTION="A terminal client for GoTTY"
 HOMEPAGE="https://github.com/moul/gotty-client"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
@@ -18,7 +20,8 @@ IUSE="zsh-completion"
 RDEPEND="zsh-completion? ( app-shells/zsh )"
 
 src_compile() {
-	GOPATH="${S}" go install -v ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${S}" go install -v \
+		-ldflags "-s -w" ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
