@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 inherit golang-vcs-snapshot
 
@@ -13,7 +14,7 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 DEPEND="dev-go/go-bindata"
 
@@ -25,11 +26,10 @@ src_prepare() {
 }
 
 src_compile() {
-	export GOPATH="${S}:$(get_golibdir_gopath)"
-
 	cd src/${EGO_PN} || die
 
-	emake assets && go install -v || die
+	emake assets && GOPATH="${S}" go install -v \
+		-ldflags "-s -w" || die
 }
 
 src_install() {
