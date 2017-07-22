@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 inherit golang-vcs-snapshot
 
@@ -18,7 +19,7 @@ KEYWORDS="~amd64 ~x86"
 
 src_compile() {
 	GOPATH="${S}" go install -v \
-		-ldflags "${EGO_LDFLAGS}" ${EGO_PN} || die
+		-ldflags "-s -w ${EGO_LDFLAGS}" ${EGO_PN} || die
 }
 
 src_install() {
