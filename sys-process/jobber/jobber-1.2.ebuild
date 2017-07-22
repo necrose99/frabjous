@@ -2,9 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+RESTRICT="mirror strip"
 
 EGO_PN="github.com/dshearer/${PN}"
-EGO_LDFLAGS="-X ${EGO_PN}/common.jobberVersion=${PV}"
+EGO_LDFLAGS="-s -w -X ${EGO_PN}/common.jobberVersion=${PV}"
 
 inherit golang-vcs-snapshot user systemd
 
