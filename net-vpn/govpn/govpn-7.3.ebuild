@@ -9,7 +9,7 @@ inherit systemd
 EGO_PN="cypherpunks.ru/govpn"
 EGO_LDFLAGS="-s -w -X cypherpunks.ru/govpn.Version=${PV}"
 
-DESCRIPTION="A VPN daemon aimed to be reviewable, secure and DPI/censorship-resistant"
+DESCRIPTION="Simple secure, DPI-resistant VPN daemon"
 HOMEPAGE="http://www.govpn.info"
 SRC_URI="http://www.govpn.info/download/${P}.tar.xz"
 
