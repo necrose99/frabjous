@@ -2,9 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
-inherit systemd
+inherit linux-info systemd
 
 EGO_PN="cypherpunks.ru/govpn"
 EGO_LDFLAGS="-s -w -X cypherpunks.ru/govpn.Version=${PV}"
@@ -18,6 +17,13 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND=">=dev-lang/go-1.8"
+
+RESTRICT="mirror strip"
+
+pkg_setup() {
+	CONFIG_CHECK="~CONFIG_TUN"
+	linux-info_pkg_setup
+}
 
 src_compile() {
 	GOPATH="${S}" go install -v -ldflags "${EGO_LDFLAGS}" \
