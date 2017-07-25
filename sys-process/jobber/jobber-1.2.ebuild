@@ -2,12 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 EGO_PN="github.com/dshearer/${PN}"
 EGO_LDFLAGS="-s -w -X ${EGO_PN}/common.jobberVersion=${PV}"
 
-inherit golang-vcs-snapshot user systemd
+inherit golang-vcs-snapshot systemd user
 
 DESCRIPTION="A replacement for the classic Unix utility cron"
 HOMEPAGE="https://dshearer.github.io/jobber/"
@@ -16,6 +15,8 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+
+RESTRICT="mirror strip"
 
 src_prepare() {
 	# Fix hardcoded path for the socket daemon
@@ -43,8 +44,8 @@ src_install() {
 }
 
 pkg_preinst() {
-    enewgroup ${PN}
-    enewuser ${PN} -1 -1 -1 ${PN}
+	enewgroup ${PN}
+	enewuser ${PN} -1 -1 -1 ${PN}
 }
 
 pkg_postinst() {
