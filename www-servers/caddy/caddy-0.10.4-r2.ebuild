@@ -193,7 +193,7 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64"
 IUSE="authz cache cgi cors datadog expires filter git grpc ipfilter jwt
 	login mailout minify multipass nobots prometheus proxyprotocol
 	ratelimit realip reauth restic upload webdav"
