@@ -40,6 +40,6 @@ src_install() {
 }
 
 pkg_preinst() {
-    enewgroup ${PN}
-    enewuser ${PN} -1 -1 -1 ${PN}
+	enewgroup ${PN}
+	enewuser ${PN} -1 -1 -1 ${PN}
 }
