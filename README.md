@@ -8,9 +8,7 @@ This overlay contain only ebuilds for packages that I'm interested in or that ha
 > **Note**: As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been tested. Although I try my best to follow the standards.
 
 ## How to install the overlay
-You must have both `dev-vcs/git` and `app-portage/layman` installed on your system for this to work.
-
-Just run **`layman -a frabjous`**, then you'll be ready to emerge the _goodies_.
+You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`, then you'll be ready to emerge the _goodies_.
 
 Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
 
