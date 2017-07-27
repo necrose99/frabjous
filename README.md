@@ -73,6 +73,7 @@ net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service 
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 sys-process/**[jobber](sys-process/jobber)** | A replacement for the classic Unix utility cron
+www-apps/**[gitea](www-apps/gitea)** | A painless self-hosted Git service, written in Go
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
 www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
