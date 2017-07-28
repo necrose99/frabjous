@@ -2,12 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 inherit golang-vcs-snapshot
 
 EGO_PN="github.com/codesenberg/${PN}"
-EGO_LDFLAGS="-X main.version=${PV}"
+EGO_LDFLAGS="-s -w -X main.version=${PV}"
 
 DESCRIPTION="Fast cross-platform HTTP benchmarking tool written in Go"
 HOMEPAGE="https://github.com/codesenberg/bombardier"
@@ -17,9 +16,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+RESTRICT="mirror strip"
+
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w ${EGO_LDFLAGS}" ${EGO_PN} || die
+	GOPATH="${S}" go install -v -ldflags "${EGO_LDFLAGS}" ${EGO_PN} || die
 }
 
 src_install() {
