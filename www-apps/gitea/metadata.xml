@@ -17,6 +17,7 @@
 		but we have forked it and named it Gitea.
 	</longdescription>
 	<use>
+		<flag name="openssh">Use OpenSSH instead of the builtin SSH server</flag>
 		<flag name="redis">Add support for redis sessions</flag>
 		<flag name="tidb">Enable TiDB database support</flag>
 	</use>

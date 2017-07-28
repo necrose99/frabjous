@@ -8,9 +8,8 @@ After=network.target
 #After=redis.service
 
 [Service]
-# Modify these two values and uncomment them if you have
-# repos with lots of files and get an HTTP error 500 because
-# of that
+# Modify these two values and uncomment them if you have repos
+# with lots of files and get an HTTP error 500 because of that
 ###
 #LimitMEMLOCK=infinity
 #LimitNOFILE=65535
@@ -20,7 +19,7 @@ Group=git
 WorkingDirectory=/var/lib/gitea
 ExecStart=/usr/bin/gitea web --config /var/lib/gitea/conf/app.ini
 Restart=always
-Environment=USER=git HOME=/var/lib/gitea/repos
+Environment=USER=git GITEA_CUSTOM=/var/lib/gitea
 
 [Install]
 WantedBy=multi-user.target

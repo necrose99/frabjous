@@ -13,12 +13,14 @@ SRC_URI="https://github.com/go-gitea/gitea/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="memcached mysql postgres redis sqlite tidb"
+IUSE="memcached mysql openssh pam postgres redis sqlite tidb"
 
 DEPEND="dev-go/go-bindata"
-RDEPEND="dev-vcs/git
+RDEPEND="dev-vcs/git[curl,threads]
 	memcached? ( net-misc/memcached )
 	mysql? ( virtual/mysql )
+	openssh? ( net-misc/openssh )
+	pam? ( virtual/pam )
 	postgres? ( dev-db/postgresql )
 	redis? ( dev-db/redis )
 	sqlite? ( dev-db/sqlite )
@@ -28,7 +30,7 @@ RESTRICT="strip"
 
 pkg_setup() {
 	enewgroup git
-	enewuser git -1 /bin/bash /var/lib/gitea git
+	enewuser git -1 /bin/bash /var/lib/${PN} git
 }
 
 src_prepare() {
@@ -39,7 +41,7 @@ src_prepare() {
 
 	sed -i -e "s:^ROOT =:ROOT = ${GITEA_PREFIX}/repos:" \
 		-e "s:^TEMP_PATH =.*:TEMP_PATH = ${GITEA_PREFIX}/data/tmp/uploads:" \
-		-e "s:^STATIC_ROOT_PATH =:STATIC_ROOT_PATH = ${GITEA_PREFIX}:" \
+		-e "s:^STATIC_ROOT_PATH =:STATIC_ROOT_PATH = ${EPREFIX}/usr/share/gitea:" \
 		-e "s:^APP_DATA_PATH =.*:APP_DATA_PATH = ${GITEA_PREFIX}/data:" \
 		-e "s:^PATH = data/gitea.db:PATH = ${GITEA_PREFIX}/data/gitea.db:" \
 		-e "s:^ISSUE_INDEXER_PATH =.*:ISSUE_INDEXER_PATH = ${GITEA_PREFIX}/indexers/issues.bleve:" \
@@ -47,38 +49,51 @@ src_prepare() {
 		-e "s:^AVATAR_UPLOAD_PATH =.*:AVATAR_UPLOAD_PATH = ${GITEA_PREFIX}/data/avatars:" \
 		-e "s:^PATH = data/attachments:PATH = ${GITEA_PREFIX}/data/attachments:" \
 		-e "s:^ROOT_PATH =:ROOT_PATH = ${EPREFIX}/var/log/gitea:" \
-		-e "s:^MODE = console:MODE = file:" \
-		-e "s:^LEVEL = Trace:LEVEL = Info:" \
 		src/${EGO_PN}/conf/app.ini || die
 
 	default
 }
 
 src_compile() {
-	GOPATH="${S}:$(get_golibdir_gopath)" TAGS="sqlite tidb pam" \
-		emake -C src/${EGO_PN} generate install
+	local TAGS_OPTS=
+
+	use pam && TAGS_OPTS+=" pam"
+	use sqlite && TAGS_OPTS+=" sqlite"
+	use tidb && TAGS_OPTS+=" tidb"
+
+	GOPATH="${S}" TAGS="${TAGS_OPTS/ /}" emake -C src/${EGO_PN} generate build
 }
 
 src_install() {
-	dobin bin/gitea
+	pushd src/${EGO_PN} > /dev/null || die
+	dobin ${PN}
 
-	insinto /var/lib/gitea/conf
-	newins src/${EGO_PN}/conf/app.ini app.ini.example
+	insinto /var/lib/${PN}/conf
+	newins conf/app.ini app.ini.example
+
+	insinto /var/lib/${PN}
+	doins -r options
+
+	insinto /usr/share/${PN}
+	insopts -m440
+	doins -r {public,templates}
+	popd > /dev/null || die
+
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/gitea.logrotate gitea
-
-	newinitd "${FILESDIR}"/gitea.initd gitea
-	systemd_dounit "${FILESDIR}"/gitea.service
+	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 
 	keepdir /var/log/gitea /var/lib/gitea/data
-	fowners -R git:git /var/log/gitea /var/lib/gitea/
+	fowners -R git:git /var/log/${PN} /var/lib/${PN}/ \
+		/usr/share/${PN}/
 }
 
 pkg_postinst() {
-	if [[ ! -e ${EROOT}/var/lib/gitea/conf/app.ini ]]; then
+	if [[ ! -e ${EROOT}/var/lib/${PN}/conf/app.ini ]]; then
 		elog "No app.ini found, copying the example over"
-		cp "${EROOT}"/var/lib/gitea/conf/app.ini{.example,} || die
+		cp "${EROOT}"/var/lib/${PN}/conf/app.ini{.example,} || die
 	else
 		elog "app.ini found, please check example file for possible changes"
 	fi
