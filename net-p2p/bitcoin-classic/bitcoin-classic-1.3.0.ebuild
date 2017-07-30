@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon dbus +gui kde libressl +qrcode system-univalue upnp utils +wallet zeromq"
+IUSE="daemon dbus +gui kde libressl +qrcode system-univalue uahf upnp utils +wallet zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cs cs_CZ cy \
 	da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX \
 	es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl he hi_IN hr hu \
@@ -145,6 +145,7 @@ src_configure() {
 		$(use_with qrcode qrencode) \
 		$(use_with system-univalue) \
 		$(use_with utils) \
+		$(use_enable uahf) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
 		"${myconf[@]}" || die
