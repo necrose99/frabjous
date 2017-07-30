@@ -15,6 +15,8 @@ KEYWORDS="~amd64 ~x86"
 
 RDEPEND="x11-apps/radeon-profile"
 
+RESTRICT="mirror"
+
 src_configure() {
 	cd ${PN} || die
 	eqmake5
