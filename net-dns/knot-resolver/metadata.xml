@@ -2,9 +2,12 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">CZ-NIC/knot-resolver</remote-id>
+	</upstream>
 	<longdescription lang="en">
 		The Knot DNS Resolver is a caching full resolver implementation
 		written in C and LuaJIT, including both a resolver library and
