@@ -31,6 +31,8 @@ RDEPEND="${CDEPEND}
 DEPEND="${CDEPEND}
 	dev-qt/linguist-tools:5"
 
+RESTRICT="mirror"
+
 src_configure() {
 	cd ${PN} || die
 	eqmake5
