@@ -91,7 +91,7 @@ pkg_setup() {
 src_prepare() {
 	if use gui; then
 		# Fix compatibility with LibreSSL
-		eapply "${FILESDIR}"/${P}-libressl.patch
+		eapply "${FILESDIR}"/${PN}-1.3.0-libressl.patch
 
 		local filt= yeslang= nolang= lan ts x
 
