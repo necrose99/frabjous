@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 # Note: Keep EGO_VENDOR in sync with Godeps
 EGO_VENDOR=(
@@ -46,6 +45,8 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="app-text/asciidoc
 	app-text/xmlto"
+
+RESTRICT="mirror strip"
 
 pkg_setup() {
 	enewgroup ${PN}

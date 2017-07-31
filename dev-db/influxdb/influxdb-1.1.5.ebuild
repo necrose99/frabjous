@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 # Note: Keep EGO_VENDOR in sync with Godeps
 EGO_VENDOR=(
@@ -22,7 +21,7 @@ EGO_VENDOR=(
 	"github.com/retailnext/hllpp 38a7bb7"
 	"golang.org/x/crypto c197bcf github.com/golang/crypto"
 )
-# Deps that's not needed:
+# Deps that are not needed:
 # collectd.org
 # github.com/davecgh/go-spew
 # github.com/paulbellamy/ratecounter
@@ -44,6 +43,8 @@ KEYWORDS="~amd64 ~x86"
 
 DEPEND="app-text/asciidoc
 	app-text/xmlto"
+
+RESTRICT="mirror strip"
 
 pkg_setup() {
 	enewgroup ${PN}
