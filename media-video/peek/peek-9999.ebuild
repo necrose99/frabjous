@@ -8,7 +8,7 @@ inherit cmake-utils git-r3 gnome2-utils vala
 
 DESCRIPTION="Simple animated Gif screen recorder"
 HOMEPAGE="https://github.com/phw/peek"
-EGIT_REPO_URI=( {https,git}://github.com/phw/peek.git )
+EGIT_REPO_URI="https://github.com/phw/peek.git"
 
 LICENSE="GPL-3+"
 SLOT="0"
