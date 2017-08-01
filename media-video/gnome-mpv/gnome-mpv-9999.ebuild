@@ -7,12 +7,11 @@ inherit git-r3 gnome2-utils meson
 
 DESCRIPTION="A simple GTK+ frontend for mpv"
 HOMEPAGE="https://github.com/gnome-mpv/gnome-mpv"
-EGIT_REPO_URI=( {https,git}://github.com/gnome-mpv/gnome-mpv.git )
+EGIT_REPO_URI="https://github.com/gnome-mpv/gnome-mpv.git"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
 
 CDEPEND=">=dev-libs/glib-2.44
 	>=x11-libs/gtk+-3.20:3"
