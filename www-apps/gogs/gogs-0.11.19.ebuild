@@ -95,7 +95,7 @@ src_install() {
 }
 
 pkg_preinst() {
-	rm -r ${D}/usr/share/${PN}/public/{less,config.codekit} || die
+	rm -r "${D}"/usr/share/${PN}/public/{less,config.codekit} || die
 }
 
 pkg_postinst() {
