@@ -7,7 +7,7 @@ inherit git-r3 systemd user
 
 DESCRIPTION="A server-side dnscrypt proxy"
 HOMEPAGE="https://github.com/cofyc/dnscrypt-wrapper"
-EGIT_REPO_URI=( {https,git}://github.com/cofyc/dnscrypt-wrapper.git )
+EGIT_REPO_URI="https://github.com/cofyc/dnscrypt-wrapper.git"
 
 LICENSE="BSD"
 SLOT="0"
