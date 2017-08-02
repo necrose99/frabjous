@@ -6,7 +6,7 @@ EAPI=6
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
 UG="bitcoin"
-DESCRIPTION="An alternative full node Bitcoin implementation with GUI, daemon and utils"
+DESCRIPTION="A full node Bitcoin implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoin.org"
 SRC_URI="https://github.com/${UG}/${UG}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
