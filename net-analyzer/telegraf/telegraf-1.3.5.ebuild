@@ -95,22 +95,26 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${S}" go build -v \
+	GOPATH="${S}" go install -v \
 		-ldflags "${EGO_LDFLAGS}" ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
-	dobin ${PN}
+	dobin bin/${PN}
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	systemd_dounit src/${EGO_PN}/scripts/${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+
+	pushd src/${EGO_PN} > /dev/null || die
+	systemd_dounit scripts/${PN}.service
 
 	insinto /etc/${PN}
-	doins src/${EGO_PN}/etc/${PN}.conf
+	doins etc/${PN}.conf
 
 	insinto /etc/logrotate.d
-	doins src/${EGO_PN}/etc/logrotate.d/${PN}
+	doins etc/logrotate.d/${PN}
+	popd > /dev/null || die
 
 	keepdir /etc/${PN}/${PN}.d /var/log/${PN}
 	fowners ${PN}:${PN} /var/log/${PN}
