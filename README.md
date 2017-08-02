@@ -70,7 +70,7 @@ net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | A full node Bitcoin Cash implem
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-core](net-p2p/bitcoin-core)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
-net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
+net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A lightweight tunnel proxy which can help you get through firewalls

@@ -6,7 +6,7 @@ EAPI=6
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
 #MY_PV="${PV/\.0g/}G"
-DESCRIPTION="An alternative full node Bitcoin implementation with GUI, daemon and utils"
+DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinxt.software"
 SRC_URI="https://github.com/${PN}/${PN}/archive/cash.tar.gz -> ${P}.tar.gz"
 
