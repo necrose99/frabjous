@@ -1,0 +1,34 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="A framework for processing, monitoring, and alerting on time series data"
+
+: ${KAPACITOR_USER:=kapacitor}
+: ${KAPACITOR_GROUP:=kapacitor}
+: ${KAPACITOR_CONFIGFILE:="/etc/kapacitor/kapacitor.conf"}
+
+name="Kapacitor server"
+command="/usr/bin/kapacitord"
+command_args="--config ${KAPACITOR_CONFIGFILE} ${KAPACITOR_OPTS}"
+command_background=yes
+pidfile="/run/${SVCNAME}/${SVCNAME}d.pid"
+start_stop_daemon_args="-u ${KAPACITOR_USER} \
+	-g ${KAPACITOR_GROUP}"
+
+depend() {
+	need net
+	after bootmisc
+}
+
+start_pre() {
+	if [ "${RC_CMD}" != "restart" ]; then
+		checkpath -d -m 0755 -o "${KAPACITOR_USER}":"${KAPACITOR_GROUP}" "${pidfile%/*}"
+	fi
+}
+
+stop_pre() {
+	if [ "${RC_CMD}" = "restart" ]; then
+		checkpath -d -m 0755 -o "${KAPACITOR_USER}":"${KAPACITOR_GROUP}" "${pidfile%/*}"
+	fi
+}
