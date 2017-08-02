@@ -66,7 +66,7 @@ net-misc/**[piknik](net-misc/piknik)** | Copy/paste anything over the network
 net-misc/**[tinyssh](net-misc/tinyssh)** | A small SSH server with state-of-the-art cryptography
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
-net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
+net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-core](net-p2p/bitcoin-core)** | An alternative full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | An alternative full node Bitcoin implementation with GUI, daemon and utils

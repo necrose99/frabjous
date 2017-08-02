@@ -5,7 +5,7 @@ EAPI=6
 
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
-DESCRIPTION="An alternative full node Bitcoin implementation with GUI, daemon and utils"
+DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinabc.org"
 SRC_URI="https://github.com/Bitcoin-ABC/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
