@@ -6,7 +6,7 @@ EAPI=6
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
 MY_PN="${PN/-/}"
-DESCRIPTION="An alternative full node Bitcoin implementation with GUI, daemon and utils"
+DESCRIPTION="A full node Bitcoin implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinclassic.com"
 SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
