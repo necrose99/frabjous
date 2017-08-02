@@ -3,9 +3,9 @@
 ### What the...
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in _test_ (~*) mode. As such, you should probably consider it to be _unsafe_ and treat it as such. Use at your own risk! However, I've been using these packages in a production environment without major problems.
+**DISCLAIMER:** All ebuilds are permanently in _test_ mode. Although I use many of these packages in a production environment without major problems, and try my best to follow the standards, you should use it with caution, especially crypto related stuff.
 
-> **Note**: As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been tested. Although I try my best to follow the standards.
+> **Note:** As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been thoroughly tested. If you have spare time, please, test them and report issues.
 
 ## How to install the overlay
 You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`, then you'll be ready to emerge the _goodies_.
@@ -94,10 +94,7 @@ x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process comple
 All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
 
 ## Tip Jar
-Bitcoin donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
-
-## Requests
-Yes, I do accept requests for new packages, but I do not promise to deliver, especially if the complexity of the package are far cry from my knowledge level.
+Bitcoin _Cash_ donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
 
 ## Contributing 
 If you find any bugs, please report them! I am also happy to accept pull requests from anyone.
