@@ -187,6 +187,7 @@ src_prepare() {
 		"${FILESDIR}/chromium-widevine-r1.patch"
 		"${FILESDIR}/chromium-FORTIFY_SOURCE-r1.patch"
 		"${FILESDIR}/chromium-gn-bootstrap-r8.patch"
+		"${FILESDIR}/chromium-major-minor.patch"
 
 		# Inox patches
 		"${FILESDIR}/inox-60/0001-fix-building-without-safebrowsing.patch"
