@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
+
+inherit golang-vcs-snapshot versionator
 
 COMMIT="db8ff90"
 EGO_PN="github.com/pingcap/tidb"
 TDB="${EGO_PN}/util/printer"
-EGO_LDFLAGS="-s -w -X '${TDB}.TiDBBuildTS=$(date -u '+%Y-%m-%d %I:%M:%S')' -X ${TDB}.TiDBGitHash=${COMMIT}"
-
-inherit golang-vcs-snapshot versionator
+EGO_LDFLAGS="-s -w -X '${TDB}.TiDBBuildTS=$(date -u '+%Y-%m-%d %I:%M:%S')' \
+	-X ${TDB}.TiDBGitHash=${COMMIT}"
 
 MY_PV=$(get_version_component_range 3)
 DESCRIPTION="A distributed NewSQL database compatible with MySQL protocol"
@@ -20,10 +20,14 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
+RESTRICT="mirror strip"
+
 src_prepare() {
 	ln -s _vendor/src src/${EGO_PN}/vendor || die
 
-	sed -i "s/\$(shell git rev-parse HEAD)//g" \
+	sed -i \
+		-e 's:LDFLAGS:GOLDFLAGS:' \
+		-e 's:$(shell git rev-parse HEAD)::g' \
 			src/${EGO_PN}/Makefile || die
 
 	default
@@ -32,7 +36,7 @@ src_prepare() {
 src_compile() {
 	cd src/${EGO_PN} || die
 
-	emake parser || die
+	emake parser
 
 	GOPATH="${S}" go build -v -ldflags "${EGO_LDFLAGS}" \
 		-o bin/tidb-server tidb-server/main.go || die
