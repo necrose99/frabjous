@@ -7,6 +7,7 @@ EGO_VENDOR=(
 	"github.com/ssh-vault/crypto ae180e0"
 	"github.com/ssh-vault/ssh2pem 02e6a01"
 	"golang.org/x/crypto 42ff06a github.com/golang/crypto"
+	"golang.org/x/sys d8f5ea2 github.com/golang/sys"
 )
 EGO_PN="github.com/${PN}/${PN}"
 EGO_LDFLAGS="-s -w -X main.version=${PV}"
