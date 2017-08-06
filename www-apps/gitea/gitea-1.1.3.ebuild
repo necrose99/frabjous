@@ -26,7 +26,7 @@ RDEPEND="dev-vcs/git[curl,threads]
 	sqlite? ( dev-db/sqlite )
 	tidb? ( dev-db/tidb )"
 
-RESTRICT="strip"
+RESTRICT="mirror strip"
 
 pkg_setup() {
 	enewgroup git
