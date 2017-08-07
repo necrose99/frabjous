@@ -3,7 +3,7 @@
 ### What the...
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in _test_ mode. Although I use many of these packages in a production environment without major problems, and try my best to follow the standards, you should use it with caution, especially crypto related stuff.
+**DISCLAIMER:** All ebuilds are permanently in _test_ mode. Although I use many of these packages in a production environment and try my best to follow the standards, you should use it with caution, especially crypto related stuff.
 
 > **Note:** As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been thoroughly tested. If you have spare time, please, test them and report issues.
 
