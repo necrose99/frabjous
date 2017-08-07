@@ -39,7 +39,6 @@ src_prepare() {
 	local GOGS_PREFIX=${EPREFIX}/var/lib/gogs
 
 	sed -i \
-		-e 's:LDFLAGS:GOLDFLAGS:' \
 		-e "s:BuildGitHash=.*:BuildGitHash=${GIT_COMMIT}\":g" \
 		-e "s:TAGS =.*::g" \
 		-e "s:-ldflags ':-ldflags '-s -w :" \
@@ -69,7 +68,7 @@ src_compile() {
 	use sqlite && TAGS_OPTS+=" sqlite"
 	use tidb && TAGS_OPTS+=" tidb"
 
-	GOPATH="${S}" TAGS="${TAGS_OPTS/ /}" emake -C src/${EGO_PN} build
+	LDFLAGS="" GOPATH="${S}" TAGS="${TAGS_OPTS/ /}" emake -C src/${EGO_PN} build
 }
 
 src_install() {
