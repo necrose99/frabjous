@@ -5,10 +5,10 @@ EAPI=6
 
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
-#MY_PV="${PV/\.0g/}G"
+MY_PV="${PV/\.0g/}G"
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinxt.software"
-SRC_URI="https://github.com/${PN}/${PN}/archive/cash.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -77,12 +77,12 @@ REQUIRED_USE="
 
 RESTRICT="mirror"
 
-S="${WORKDIR}/${PN}-cash"
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
 	if use daemon; then
 		enewgroup ${PN}
-		enewuser ${PN} -1 -1 /var/lib/bitcoinxt ${PN}
+		enewuser ${PN} -1 -1 /var/lib/${PN} ${PN}
 	fi
 }
 
@@ -150,7 +150,7 @@ src_configure() {
 }
 
 src_install() {
-		default
+	default
 
 	if use daemon; then
 
