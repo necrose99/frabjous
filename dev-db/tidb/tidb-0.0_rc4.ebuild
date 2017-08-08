@@ -34,15 +34,16 @@ src_prepare() {
 }
 
 src_compile() {
-	cd src/${EGO_PN} || die
+	emake -C src/${EGO_PN} parser
 
-	emake parser
-
-	GOPATH="${S}" go build -v -ldflags "${EGO_LDFLAGS}" \
-		-o bin/tidb-server tidb-server/main.go || die
+	GOPATH="${S}" go install -v -ldflags \
+		"${EGO_LDFLAGS}" ${EGO_PN}/tidb-server || die
 }
 
 src_install() {
-	dobin src/${EGO_PN}/bin/tidb-server
-	dodoc src/${EGO_PN}/README.md
+	dobin bin/tidb-server
+}
+
+pkg_postinst() {
+	einfo "See https://pingcap.com/docs for configuration guide."
 }
