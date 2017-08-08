@@ -5,7 +5,7 @@ EAPI=6
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
-EGO_PN="github.com/scaleway/scaleway-cli"
+EGO_PN="github.com/scaleway/${PN}"
 DESCRIPTION="Interact with Scaleway API from the command line"
 HOMEPAGE="https://www.scaleway.com"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
