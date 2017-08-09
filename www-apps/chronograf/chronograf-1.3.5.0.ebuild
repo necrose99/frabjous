@@ -28,7 +28,7 @@ pkg_setup() {
 
 src_prepare() {
 	if has network-sandbox $FEATURES; then
-		eerror "sys-apps/yarn require 'network-sandbox' to be disabled in FEATURES." && die
+		die "sys-apps/yarn require 'network-sandbox' to be disabled in FEATURES"
 	fi
 
 	sed -i \
