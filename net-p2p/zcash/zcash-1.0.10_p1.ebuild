@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit bash-completion-r1 systemd user
 
@@ -14,10 +13,12 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT openssl AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+examples mining proton rust"
+IUSE="examples mining proton rust"
 
 DEPEND="app-arch/unzip
 	net-misc/wget"
+
+RESTRICT="mirror"
 
 S="${WORKDIR}/${PN}-${MY_PV}"
 
@@ -27,14 +28,18 @@ pkg_setup() {
 }
 
 src_prepare() {
-	unset ABI
+	if has network-sandbox $FEATURES; then
+		die "net-p2p/zcash require 'network-sandbox' to be disabled in FEATURES"
+	fi
+
 	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' depends/packages/boost.mk \
 		|| die "sed fix failed. Uh-oh..."
 
-	eapply_user
+	default
 }
 
 src_compile() {
+	unset ABI
 	./zcutil/build.sh --disable-tests \
 		$(usex !mining "--disable-mining" "") \
 		$(usex !rust "--disable-rust" "") \
@@ -43,36 +48,30 @@ src_compile() {
 }
 
 src_install() {
-	dobin src/{zcashd,zcash-cli,zcash-tx}
+	dobin src/zcash{d,-cli,-tx}
 	dobin src/zcash/GenerateParams
 	newbin zcutil/fetch-params.sh ${PN}-fetch-params
-
 	dolib.so src/.libs/libzcashconsensus.so*
 
 	insinto /usr/include/${PN}
 	doins src/script/zcashconsensus.h
-
-	local my_etc="/etc/zcash"
-	local my_data="/var/lib/zcashd"
-
-	insinto "${my_etc}"
-	doins "${FILESDIR}"/${PN}.conf
-	fowners ${PN}:${PN} "${my_etc}"/${PN}.conf
-	fperms 0600 "${my_etc}"/${PN}.conf
-	use examples && newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
 
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
-	keepdir "${my_data}"
-	dosym ${my_etc}/${PN}.conf "${my_data}"/${PN}.conf
+	insinto /etc/zcash
+	doins "${FILESDIR}"/${PN}.conf
+	fowners ${PN}:${PN} /etc/zcash/${PN}.conf
+	fperms 0600 /etc/zcash/${PN}.conf
+	use examples && newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
+
+	keepdir /var/lib/zcashd
+	dosym /etc/zcash/${PN}.conf /var/lib/zcashd/
 
 	dodoc doc/{payment-api,security-warnings,tor}.md
-	doman doc/man/zcashd.1
-	doman doc/man/zcash-cli.1
-	doman doc/man/zcash-fetch-params.1
+	doman doc/man/zcash{d,-cli,-fetch-params}.1
 
 	newbashcomp contrib/bitcoind.bash-completion ${PN}d
 	newbashcomp contrib/bitcoin-cli.bash-completion ${PN}-cli
@@ -88,9 +87,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	chmod 0750 "${EROOT%/}"/var/lib/zcashd || die
-	chown -R ${PN}:${PN} "${EROOT%/}"/var/lib/zcashd || die
-
 	ewarn
 	ewarn "SECURITY WARNINGS:"
 	ewarn "Zcash is experimental and a work-in-progress. Use at your own risk."
