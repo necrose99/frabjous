@@ -78,6 +78,7 @@ net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of trans
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A lightweight tunnel proxy which can help you get through firewalls
 net-vpn/**[govpn](net-vpn/govpn)** | Simple secure, DPI-resistant VPN daemon
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
+net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 sys-process/**[jobber](sys-process/jobber)** | A replacement for the classic Unix utility cron
