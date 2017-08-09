@@ -7,6 +7,8 @@
 	</maintainer>
 	<upstream>
 		<remote-id type="github">CZ-NIC/knot-resolver</remote-id>
+		<bugs-to>https://github.com/CZ-NIC/knot-resolver/issues</bugs-to>
+		<doc>https://knot-resolver.readthedocs.io/en/stable/</doc>
 	</upstream>
 	<longdescription lang="en">
 		The Knot DNS Resolver is a caching full resolver implementation
