@@ -8,6 +8,7 @@
 	<upstream>
 		<remote-id type="github">influxdata/telegraf</remote-id>
 		<bugs-to>https://github.com/influxdata/telegraf/issues</bugs-to>
+		<doc>https://docs.influxdata.com/telegraf/</doc>
 	</upstream>
 	<longdescription lang="en">
 		Design goals are to have a minimal memory footprint with a
