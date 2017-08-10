@@ -15,11 +15,12 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-RDEPEND=">=x11-libs/gtk+-3.22:3
+DEPEND=">=x11-libs/gtk+-3.22:3
 	app-crypt/gpgme
 	dev-db/sqlite
 	dev-libs/libgcrypt
 	dev-libs/libgee:0.8
+	net-libs/libsoup
 	x11-libs/libnotify"
 
 src_prepare() {
