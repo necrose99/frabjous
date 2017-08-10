@@ -22,15 +22,15 @@ DEPEND="dev-go/go-bindata
 RESTRICT="mirror strip"
 
 pkg_setup() {
+	if has network-sandbox $FEATURES; then
+		die "www-apps/chronograf require 'network-sandbox' to be disabled in FEATURES"
+	fi
+
 	enewgroup ${PN}
 	enewuser ${PN} -1 -1 /var/lib/${PN} ${PN}
 }
 
 src_prepare() {
-	if has network-sandbox $FEATURES; then
-		die "sys-apps/yarn require 'network-sandbox' to be disabled in FEATURES"
-	fi
-
 	sed -i \
 		-e "s:VERSION ?=.*:VERSION ?= ${PV}:g" \
 		-e "s:COMMIT ?=.*:COMMIT ?= ${GIT_COMMIT}:g" \
