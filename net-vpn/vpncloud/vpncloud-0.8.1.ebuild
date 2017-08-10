@@ -62,7 +62,7 @@ xmltree-0.3.2
 yaml-rust-0.3.5
 "
 
-inherit cargo
+inherit cargo systemd
 
 MY_PN="${PN}.rs"
 Na_PV="70170c28c844a4786e75efc626e1aeebc93caebc"
@@ -89,8 +89,8 @@ S="${WORKDIR}/${MY_PN}-${PV}"
 
 src_prepare() {
 	if ! use system-libsodium; then
-		rm -rf ${S}/libsodium || die
-		ln -s ${WORKDIR}/${Na_P} ${S}/libsodium || die
+		rm -rf "${S}/libsodium" || die
+		ln -s "${WORKDIR}/${Na_P}" "${S}/libsodium" || die
 	fi
 
 	default
@@ -108,9 +108,15 @@ src_compile() {
 src_install() {
 	dobin target/release/${PN}
 
-	dodoc vpncloud.md
+	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newunit "${FILESDIR}"/${PN}_.service "${PN}@.service"
 
-	#TODO: Add example file, init script and systemd unit files
+	insinto /etc/${PN}
+	newins "${FILESDIR}"/${PN}.example example.net
+
+	dodoc vpncloud.md
 
 	if use man; then
 		ronn -r vpncloud.md || die
