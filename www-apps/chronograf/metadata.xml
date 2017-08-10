@@ -8,7 +8,7 @@
 	<upstream>
 		<remote-id type="github">influxdata/chronograf</remote-id>
 		<bugs-to>https://github.com/influxdata/chronograf/issues</bugs-to>
-		<doc>https://docs.influxdata.com/chronograf/v1.3/</doc>
+		<doc>https://docs.influxdata.com/chronograf/</doc>
 	</upstream>
 	<longdescription lang="en">
 		Chronograf is InfluxData’s open source web application.
