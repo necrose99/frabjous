@@ -8,5 +8,10 @@
 	<upstream>
 		<remote-id type="github">influxdata/kapacitor</remote-id>
 		<bugs-to>https://github.com/influxdata/kapacitor/issues</bugs-to>
+		<doc>https://docs.influxdata.com/kapacitor/</doc>
 	</upstream>
+	<longdescription lang="en">
+		Kapacitor is a data processing engine. It can process both
+		stream and batch data.
+	</longdescription>
 </pkgmetadata>
