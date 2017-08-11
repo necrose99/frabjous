@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">mmstick/tv-renamer</remote-id>
+		<bugs-to>https://github.com/mmstick/tv-renamer/issues</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		A TV series renaming application written in the Rust
+		programming language that supports adding titles to episodes
+		using TVDB and with both a CLI and GTK3 interface
+	</longdescription>
+</pkgmetadata>
