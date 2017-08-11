@@ -22,6 +22,7 @@ DEPEND=">=x11-libs/gtk+-3.22:3
 	dev-libs/libgee:0.8
 	net-libs/libsoup
 	x11-libs/libnotify"
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	default
