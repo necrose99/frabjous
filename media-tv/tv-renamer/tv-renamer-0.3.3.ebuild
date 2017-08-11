@@ -89,9 +89,9 @@ DEPEND=">=x11-libs/gtk+-3.16:3
 RESTRICT="mirror"
 
 src_prepare() {
-		# Fix .desktop to pass QA
-		sed -i 's:Utiliy:X-Utiliy:' \
-			assets/${PN}.desktop || die
+	# Fix .desktop to pass QA
+	sed -i 's:Utiliy:X-Utiliy:' \
+		assets/${PN}.desktop || die
 
 	default
 }
