@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
 
@@ -75,6 +74,8 @@ REQUIRED_USE="
 	kde? ( gui )
 	qrcode? ( gui )"
 
+RESTRICT="mirror"
+
 UG="bitcoin"
 
 pkg_setup() {
@@ -117,11 +118,6 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=
-	use gui && myconf+=( --with-gui=qt5 )
-	use gui || myconf+=( --without-gui )
-	use upnp && myconf+=( --with-miniupnpc --enable-upnp-default )
-	use upnp || myconf+=( --without-miniupnpc --disable-upnp-default )
 	econf \
 		--without-libs \
 		--disable-bench \
@@ -129,25 +125,25 @@ src_configure() {
 		--disable-maintainer-mode \
 		--disable-tests \
 		--enable-reduce-exports \
+		$(usex gui "--with-gui=qt5" "--without-gui")
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with system-univalue) \
+		$(use_with upnp miniupnpc)
 		$(use_with utils) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
-		"${myconf[@]}" || die
+		|| die
 }
 
 src_install() {
 	default
 
 	if use daemon; then
-		local my_etc="/etc/bitcoin"
-
-		insinto "${my_etc}"
+		insinto /etc/bitcoin
 		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
-		fowners ${UG}:${UG} "${my_etc}"/bitcoin.conf
-		fperms 600 "${my_etc}"/bitcoin.conf
+		fowners ${UG}:${UG} /etc/bitcoin/bitcoin.conf
+		fperms 600 /etc/bitcoin/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
 
@@ -200,11 +196,6 @@ update_caches() {
 
 pkg_postinst() {
 	use gui && update_caches
-
-	if use daemon; then
-		chmod 0750 "${EROOT%/}"/var/lib/bitcoin || die
-		chown -R ${UG}:${UG} "${EROOT%/}"/var/lib/bitcoin || die
-	fi
 }
 
 pkg_postrm() {
