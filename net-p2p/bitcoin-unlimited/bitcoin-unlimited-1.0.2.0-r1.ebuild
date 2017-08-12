@@ -138,7 +138,7 @@ src_configure() {
 		$(usex gui "--with-gui=qt5" "--without-gui") \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
-		$(use_with system-univalue) \
+		$(use_with upnp miniupnpc) \
 		$(use_with utils) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
