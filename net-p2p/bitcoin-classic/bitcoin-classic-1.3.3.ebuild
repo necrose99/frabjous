@@ -130,25 +130,22 @@ src_prepare() {
 }
 
 src_configure() {
-	local myconf=
-	use gui && myconf+=( --with-gui=qt5 )
-	use gui || myconf+=( --without-gui )
-	use upnp && myconf+=( --with-miniupnpc --enable-upnp-default )
-	use upnp || myconf+=( --without-miniupnpc --disable-upnp-default )
 	econf \
 		--without-libs \
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--disable-tests \
 		--enable-reduce-exports \
+		$(usex gui "--with-gui=qt5" "--without-gui") \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with system-univalue) \
+		$(use_with upnp miniupnpc) \
 		$(use_with utils) \
 		$(use_enable uahf) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
-		"${myconf[@]}" || die
+		|| die
 }
 
 src_install() {
