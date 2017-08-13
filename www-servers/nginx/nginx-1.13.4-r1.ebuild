@@ -102,7 +102,7 @@ HTTP_ECHO_MODULE_WD="${WORKDIR}/echo-nginx-module-${HTTP_ECHO_MODULE_PV}"
 
 # mod_security for nginx (https://modsecurity.org/, Apache-2.0)
 # keep the MODULE_P here consistent with upstream to avoid tarball duplication
-HTTP_SECURITY_MODULE_PV="2.9.1"
+HTTP_SECURITY_MODULE_PV="2.9.2"
 HTTP_SECURITY_MODULE_P="modsecurity-${HTTP_SECURITY_MODULE_PV}"
 HTTP_SECURITY_MODULE_URI="https://www.modsecurity.org/tarball/${HTTP_SECURITY_MODULE_PV}/${HTTP_SECURITY_MODULE_P}.tar.gz"
 HTTP_SECURITY_MODULE_WD="${WORKDIR}/${HTTP_SECURITY_MODULE_P}"
@@ -200,9 +200,10 @@ KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux"
 RESTRICT="test"
 
 NGINX_MODULES_STD="access auth_basic autoindex browser charset empty_gif
-	fastcgi geo gzip limit_req limit_conn map memcached proxy referer
-	rewrite scgi ssi split_clients upstream_hash upstream_ip_hash
-	upstream_keepalive upstream_least_conn upstream_zone userid uwsgi"
+	fastcgi geo gzip limit_req limit_conn map memcached mirror proxy
+	referer rewrite scgi ssi split_clients upstream_hash
+	upstream_ip_hash upstream_keepalive upstream_least_conn
+	upstream_zone userid uwsgi"
 NGINX_MODULES_OPT="addition auth_request dav degradation flv geoip gunzip
 	gzip_static image_filter mp4 perl random_index realip secure_link
 	slice stub_status sub xslt"
@@ -370,9 +371,6 @@ src_prepare() {
 
 	if use nginx_modules_http_security; then
 		cd "${HTTP_SECURITY_MODULE_WD}" || die
-
-		eapply "${FILESDIR}"/http_security-pr_1158.patch
-		eapply "${FILESDIR}"/http_security-pr_1373.patch
 
 		eautoreconf
 
@@ -768,7 +766,7 @@ src_install() {
 
 	if use nginx_modules_http_dav_ext; then
 		docinto ${HTTP_DAV_EXT_MODULE_P}
-		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README
+		dodoc "${HTTP_DAV_EXT_MODULE_WD}"/README.rst
 	fi
 
 	if use nginx_modules_http_echo; then
