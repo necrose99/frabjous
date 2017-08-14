@@ -27,6 +27,7 @@ This is a list of packages available and their associated description:
 Package | Description
 --- | ---
 app-admin/**[doctl](app-admin/doctl)** | A command line tool for DigitalOcean services
+app-admin/**[pick](app-admin/pick)** | A minimal password manager written in Go
 app-admin/**[scaleway-cli](app-admin/scaleway-cli)** | Interact with Scaleway API from the command line
 app-benchmarks/**[bombardier](app-benchmarks/bombardier)** | Fast cross-platform HTTP benchmarking tool written in Go
 app-benchmarks/**[hey](app-benchmarks/hey)** | HTTP load generator, ApacheBench (ab) replacement
@@ -76,6 +77,7 @@ net-p2p/**[bitcoin-core](net-p2p/bitcoin-core)** | A full node Bitcoin implement
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
+net-p2p/**[monero-core](net-p2p/monero-core)** | Monero: the secure, private and untraceable cryptocurrency
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A lightweight tunnel proxy which can help you get through firewalls
 net-vpn/**[govpn](net-vpn/govpn)** | Simple secure, DPI-resistant VPN daemon
