@@ -32,8 +32,8 @@ src_prepare() {
 		die "net-p2p/zcash require 'network-sandbox' to be disabled in FEATURES"
 	fi
 
-	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' depends/packages/boost.mk \
-		|| die "sed fix failed. Uh-oh..."
+	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' \
+		depends/packages/boost.mk || die "sed fix failed"
 
 	default
 }
@@ -41,9 +41,9 @@ src_prepare() {
 src_compile() {
 	unset ABI
 	./zcutil/build.sh --disable-tests \
-		$(usex !mining "--disable-mining" "") \
-		$(usex !rust "--disable-rust" "") \
-		$(usex proton "--enable-proton" "") \
+		$(usex mining '' --disable-mining) \
+		$(usex rust '' --disable-rust) \
+		$(usex !proton '' --enable-proton) \
 		|| die "Build failed!"
 }
 
