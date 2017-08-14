@@ -89,8 +89,8 @@ S="${WORKDIR}/${MY_PN}-${PV}"
 
 src_prepare() {
 	if ! use system-libsodium; then
-		rm -rf "${S}/libsodium" || die
-		ln -s "${WORKDIR}/${Na_P}" "${S}/libsodium" || die
+		rmdir "${S}/libsodium" || die
+		mv "${WORKDIR}/${Na_P}" "${S}/libsodium" || die
 	fi
 
 	default
