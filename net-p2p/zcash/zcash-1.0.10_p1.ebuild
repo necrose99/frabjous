@@ -13,25 +13,29 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT openssl AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples mining proton rust"
+IUSE="examples libs mining proton rust test"
 
 DEPEND="app-arch/unzip
 	net-misc/wget"
 
 RESTRICT="mirror"
 
+QA_TEXTRELS="usr/bin/GenerateParams
+	usr/bin/zcash-tx
+	usr/bin/zcashd"
+
 S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
+	if has network-sandbox $FEATURES; then
+		die "net-p2p/zcash require 'network-sandbox' to be disabled in FEATURES"
+	fi
+
 	enewgroup ${PN}
 	enewuser ${PN} -1 -1 /var/lib/zcashd ${PN}
 }
 
 src_prepare() {
-	if has network-sandbox $FEATURES; then
-		die "net-p2p/zcash require 'network-sandbox' to be disabled in FEATURES"
-	fi
-
 	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' \
 		depends/packages/boost.mk || die "sed fix failed"
 
@@ -40,10 +44,12 @@ src_prepare() {
 
 src_compile() {
 	unset ABI
-	./zcutil/build.sh --disable-tests \
+	./zcutil/build.sh \
+		$(usex test '' --disable-tests) \
 		$(usex mining '' --disable-mining) \
 		$(usex rust '' --disable-rust) \
 		$(usex !proton '' --enable-proton) \
+		$(usex libs '' --disable-libs) \
 		|| die "Build failed!"
 }
 
@@ -51,7 +57,10 @@ src_install() {
 	dobin src/zcash{d,-cli,-tx}
 	dobin src/zcash/GenerateParams
 	newbin zcutil/fetch-params.sh ${PN}-fetch-params
-	dolib.so src/.libs/libzcashconsensus.so*
+
+	if use libs; then
+		dolib.so src/.libs/libzcashconsensus.so*
+	fi
 
 	insinto /usr/include/${PN}
 	doins src/script/zcashconsensus.h
@@ -65,13 +74,13 @@ src_install() {
 	doins "${FILESDIR}"/${PN}.conf
 	fowners ${PN}:${PN} /etc/zcash/${PN}.conf
 	fperms 0600 /etc/zcash/${PN}.conf
-	use examples && newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
+	newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
 
 	keepdir /var/lib/zcashd
-	dosym /etc/zcash/${PN}.conf /var/lib/zcashd/
+	dosym /etc/zcash/${PN}.conf /var/lib/zcashd/${PN}.conf
 
 	dodoc doc/{payment-api,security-warnings,tor}.md
-	doman doc/man/zcash{d,-cli,-fetch-params}.1
+	doman doc/man/zcash{d,-cli,-tx,-fetch-params}.1
 
 	newbashcomp contrib/bitcoind.bash-completion ${PN}d
 	newbashcomp contrib/bitcoin-cli.bash-completion ${PN}-cli
@@ -83,6 +92,7 @@ src_install() {
 	if use examples; then
 		docinto examples
 		dodoc -r contrib/{bitrpc,qos,spendfrom,tidy_datadir.sh}
+		docompress -x /usr/share/doc/${PF}/examples
 	fi
 }
 
