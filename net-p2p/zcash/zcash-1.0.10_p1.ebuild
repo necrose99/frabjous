@@ -36,7 +36,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	sed -i 's/\.\/b2/\.\/b2 --ignore-site-config/g' \
+	sed -i 's:./b2:./b2 --ignore-site-config:g' \
 		depends/packages/boost.mk || die "sed fix failed"
 
 	default
