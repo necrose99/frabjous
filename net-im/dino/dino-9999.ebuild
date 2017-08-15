@@ -18,7 +18,7 @@ KEYWORDS=""
 DEPEND=">=x11-libs/gtk+-3.22:3
 	app-crypt/gpgme
 	dev-db/sqlite
-	dev-libs/libgcrypt
+	dev-libs/libgcrypt:0=
 	dev-libs/libgee:0.8
 	net-libs/libsoup
 	x11-libs/libnotify"
