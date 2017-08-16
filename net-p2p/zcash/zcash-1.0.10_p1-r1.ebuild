@@ -110,7 +110,7 @@ ZEROMQ_HASH="27d1e82a099228ee85a7ddb2260f40830212402c605a4a10b5e5498a7e0e9d03"
 ZEROMQ_URI="https://github.com/zeromq/libzmq/releases/download/v${ZEROMQ_PV}/${ZEROMQ_ARCH}"
 ZEROMQ_STAMP=".stamp_fetched-zeromq-${ZEROMQ_ARCH}.hash"
 
-# cargo dependency for librustzcash
+# crate dependency for librustzcash
 CRATES="libc-0.2.21"
 cargo_crate_uris() {
 	local crate
@@ -319,15 +319,15 @@ pkg_postinst() {
 	ewarn "${EROOT}usr/share/doc/${P}/security-warnings.md.bz2"
 	ewarn
 
-	elog
-	elog "You should manually fetch the parameters for all users:"
-	elog "$ ${PN}-fetch-params"
-	elog
-	elog "This script will fetch the Zcash zkSNARK parameters and verify"
-	elog "their integrity with sha256sum."
-	elog
-	elog "The parameters are currently just under 911MB in size, so plan accordingly"
-	elog "for your bandwidth constraints. If the files are already present and"
-	elog "have the correct sha256sum, no networking is used."
-	elog
+	einfo
+	einfo "You should manually fetch the parameters for all users:"
+	einfo "$ ${PN}-fetch-params"
+	einfo
+	einfo "This script will fetch the Zcash zkSNARK parameters and verify"
+	einfo "their integrity with sha256sum."
+	einfo
+	einfo "The parameters are currently just under 911MB in size, so plan accordingly"
+	einfo "for your bandwidth constraints. If the files are already present and"
+	einfo "have the correct sha256sum, no networking is used."
+	einfo
 }
