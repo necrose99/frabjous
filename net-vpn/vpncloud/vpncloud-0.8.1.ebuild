@@ -81,7 +81,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="man system-libsodium"
 
 DEPEND="man? ( app-text/ronn )
-	system-libsodium? ( dev-libs/libsodium[static-libs] )"
+	system-libsodium? ( >=dev-libs/libsodium-1.0.12[static-libs] )"
 
 RESTRICT="mirror"
 
