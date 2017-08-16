@@ -14,10 +14,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
 IUSE="daemon dbus +gui kde libressl +qrcode test upnp utils +wallet zeromq"
-LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en \
-	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he \
-	hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam \
-	pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl \
+LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en
+	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he
+	hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam
+	pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl
 	vi vi_VN zh_HK zh_CN zh_TW"
 
 for X in ${LANGS} ; do
@@ -49,14 +49,12 @@ RDEPEND="${CDEPEND}
 	daemon? (
 		!net-p2p/bitcoind
 		!net-p2p/bitcoin-abc[daemon]
-		!net-p2p/bitcoin-core[daemon]
 		!net-p2p/bitcoin-classic[daemon]
 		!net-p2p/bitcoin-unlimited[daemon]
 	)
 	gui?  (
 		!net-p2p/bitcoin-qt
 		!net-p2p/bitcoin-abc[gui]
-		!net-p2p/bitcoin-core[gui]
 		!net-p2p/bitcoin-classic[gui]
 		!net-p2p/bitcoin-unlimited[gui]
 	)
@@ -64,14 +62,11 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bitcoin-cli
 		!net-p2p/bitcoin-tx
 		!net-p2p/bitcoin-abc[utils]
-		!net-p2p/bitcoin-core[utils]
 		!net-p2p/bitcoin-classic[utils]
 		!net-p2p/bitcoin-unlimited[utils]
 	)"
 
-REQUIRED_USE="
-	|| ( daemon gui utils )
-	dbus? ( gui )
+REQUIRED_USE="dbus? ( gui )
 	kde? ( gui )
 	qrcode? ( gui )"
 
