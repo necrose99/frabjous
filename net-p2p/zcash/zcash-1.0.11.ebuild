@@ -132,10 +132,9 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples +hardened libs mining rust"
+IUSE="examples hardened libs mining rust"
 
-QA_TEXTRELS="usr/bin/GenerateParams
-	usr/bin/zcash-tx
+QA_TEXTRELS="usr/bin/zcash-tx
 	usr/bin/zcashd"
 
 #S="${WORKDIR}/${PN}-${MY_PV}"
@@ -243,16 +242,8 @@ src_compile() {
 }
 
 src_install() {
-	dobin src/zcash{d,-cli,-tx}
-	dobin src/zcash/GenerateParams
-	newbin zcutil/fetch-params.sh ${PN}-fetch-params
-
-	if use libs; then
-		dolib.so src/.libs/libzcashconsensus.so*
-	fi
-
-	insinto /usr/include/${PN}
-	doins src/script/zcashconsensus.h
+	emake prefix="${D}/usr" install \
+		|| die "emake install failed"
 
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
@@ -269,7 +260,6 @@ src_install() {
 	dosym /etc/zcash/${PN}.conf /var/lib/zcashd/${PN}.conf
 
 	dodoc doc/{payment-api,security-warnings,tor}.md
-	doman doc/man/zcash{d,-cli,-tx,-fetch-params}.1
 
 	newbashcomp contrib/bitcoind.bash-completion ${PN}d
 	newbashcomp contrib/bitcoin-cli.bash-completion ${PN}-cli
@@ -280,7 +270,7 @@ src_install() {
 
 	if use examples; then
 		docinto examples
-		dodoc -r contrib/{bitrpc,qos,spendfrom,tidy_datadir.sh}
+		dodoc -r contrib/{bitrpc,qos,spendfrom}
 		docompress -x /usr/share/doc/${PF}/examples
 	fi
 }
