@@ -19,7 +19,7 @@ EGO_LDFLAGS="-s -w -X main.version=${PV}"
 
 inherit golang-vcs-snapshot
 
-DESCRIPTION="A minimal password manager"
+DESCRIPTION="A minimal password manager written in Go"
 HOMEPAGE="https://bndw.github.io/pick/"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
