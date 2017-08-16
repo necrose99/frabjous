@@ -75,13 +75,6 @@ OPENSSL_HASH="7d5ebb9e89756545c156ff9c13cf2aa6214193b010a468a3bc789c3c28fe60df"
 OPENSSL_URI="https://www.openssl.org/source/${OPENSSL_ARCH}"
 OPENSSL_STAMP=".stamp_fetched-openssl-${OPENSSL_ARCH}.hash"
 
-# depends/packages/proton.mk (https://qpid.apache.org/proton/, Apache 2.0 license)
-PROTON_PV="0.17.0"
-PROTON_ARCH="qpid-proton-${PROTON_PV}.tar.gz"
-PROTON_HASH="6ffd26d3d0e495bfdb5d9fefc5349954e6105ea18cc4bb191161d27742c5a01a"
-PROTON_URI="mirror://apache/qpid/proton/${PROTON_PV}/${PROTON_ARCH}"
-PROTON_STAMP=".stamp_fetched-proton-${PROTON_ARCH}.hash"
-
 # depends/packages/rust.mk (http://www.rust-lang.org, Apache 2.0 / MIT license)
 RUST_PV="1.16.0"
 RUST_ARCH="rust-${RUST_PV}-x86_64-unknown-linux-gnu.tar.gz"
@@ -131,7 +124,6 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${LIBNa_URI}
 	${OPENSSL_URI}
 	${ZEROMQ_URI}
-	proton? ( ${PROTON_URI} )
 	rust? ( ${RUST_URI}
 		${RUSTZCASH_URI} -> ${RUSTZCASH_ARCH}
 		$(cargo_crate_uris ${CRATES})
@@ -140,7 +132,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples +hardened libs mining proton rust test"
+IUSE="examples +hardened libs mining rust test"
 
 QA_TEXTRELS="usr/bin/GenerateParams
 	usr/bin/zcash-tx
@@ -223,11 +215,6 @@ src_prepare() {
 	ln -s "${DISTDIR}"/${OPENSSL_ARCH} "${DEP_SRC}" || die
 	ln -s "${DISTDIR}"/${ZEROMQ_ARCH} "${DEP_SRC}" || die
 
-	if use proton; then
-		echo "${PROTON_HASH} ${PROTON_ARCH}" > "${STAMP_DIR}/${PROTON_STAMP}" || die
-		ln -s "${DISTDIR}"/${PROTON_ARCH} "${DEP_SRC}" || die
-	fi
-
 	if use rust; then
 		echo "${RUST_HASH} ${RUST_ARCH}" > "${STAMP_DIR}/${RUST_STAMP}" || die
 		echo "${RUSTZCASH_HASH} ${RUSTZCASH_ARCH}" > "${STAMP_DIR}/${RUSTZCASH_STAMP}" || die
@@ -252,7 +239,6 @@ src_compile() {
 		$(usex test '' --disable-tests) \
 		$(usex mining '' --disable-mining) \
 		$(usex rust '' --disable-rust) \
-		$(usex !proton '' --enable-proton) \
 		$(usex libs '' --disable-libs) \
 		-j$(nproc) || die "Build failed!"
 }
