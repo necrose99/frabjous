@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT openssl AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples libs mining rust test"
+IUSE="examples libs mining rust"
 
 DEPEND="app-arch/unzip
 	net-misc/wget"
@@ -44,8 +44,7 @@ src_prepare() {
 
 src_compile() {
 	unset ABI
-	./zcutil/build.sh \
-		$(usex test '' --disable-tests) \
+	./zcutil/build.sh --disable-tests \
 		$(usex mining '' --disable-mining) \
 		$(usex rust '' --disable-rust) \
 		$(usex libs '' --disable-libs) \

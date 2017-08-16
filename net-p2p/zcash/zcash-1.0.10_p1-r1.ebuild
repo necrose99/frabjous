@@ -140,7 +140,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples +hardened libs mining rust test"
+IUSE="examples +hardened libs mining rust"
 
 QA_TEXTRELS="usr/bin/GenerateParams
 	usr/bin/zcash-tx
@@ -245,8 +245,7 @@ src_prepare() {
 
 src_compile() {
 	unset ABI
-	./zcutil/build.sh \
-		$(usex test '' --disable-tests) \
+	./zcutil/build.sh --disable-tests \
 		$(usex mining '' --disable-mining) \
 		$(usex rust '' --disable-rust) \
 		$(usex libs '' --disable-libs) \
