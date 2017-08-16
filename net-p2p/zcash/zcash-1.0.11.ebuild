@@ -257,7 +257,7 @@ src_install() {
 	newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
 
 	keepdir /var/lib/zcashd
-	dosym /etc/zcash/${PN}.conf /var/lib/zcashd/${PN}.conf
+	dosym ../../../etc/zcash/${PN}.conf /var/lib/zcashd/${PN}.conf
 
 	dodoc doc/{payment-api,security-warnings,tor}.md
 
