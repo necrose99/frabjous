@@ -1,14 +1,20 @@
-# Frabjous! [![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
+# Welcome to the frabjous Gentoo overlay!
 
-### What the...
-This overlay contain only ebuilds for packages that I'm interested in or that have been requested. It also include support for the upcoming `libressl` USE flag.
+[![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
-**DISCLAIMER:** All ebuilds are permanently in _test_ mode. Although I use many of these packages in a production environment and try my best to follow the standards, you should use it with caution, especially crypto related stuff.
+This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
+It also include support for the upcoming `libressl` USE flag.
 
-> **Note:** As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been thoroughly tested. If you have spare time, please, test them and report issues.
+**DISCLAIMER:** All ebuilds are permanently in _test_ (~*) mode. As such, you should probably consider it to be
+_unsafe_ and treat it as such, especially crypto related stuff. Although I use many of these packages in a production
+environment without major problems and try my best to follow Gentoo's QA standards, please use it with caution.
+
+> **Note:** As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been
+thoroughly tested. If you have spare time, please, test them and report issues.
 
 ## How to install the overlay
-You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`, then you'll be ready to emerge the _goodies_.
+You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`,
+then you'll be ready to emerge the _goodies_.
 
 Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
 
@@ -98,7 +104,8 @@ x11-apps/**[radeon-profile](x11-apps/radeon-profile)** | App for display info ab
 x11-apps/**[radeon-profile-daemon](x11-apps/radeon-profile-daemon)** | Daemon for radeon-profile GUI
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
 
-All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
+All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is
+[`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
 
 ## Tip Jar
 Bitcoin _Cash_ donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
