@@ -78,7 +78,7 @@ net-misc/**[tinyssh](net-misc/tinyssh)** | A small SSH server with state-of-the-
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
-net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | A full node Bitcoin implementation with GUI, daemon and utils
+net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | A full node Bitcoin (or Bitcoin Cash) implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[bucash](net-p2p/bucash)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
