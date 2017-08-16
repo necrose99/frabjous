@@ -50,12 +50,14 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bitcoinxt[daemon]
 		!net-p2p/bitcoin-classic[daemon]
 		!net-p2p/bitcoin-unlimited[daemon]
+		!net-p2p/bucash[daemon]
 	)
 	gui?  (
 		!net-p2p/bitcoin-qt
 		!net-p2p/bitcoinxt[gui]
 		!net-p2p/bitcoin-classic[gui]
 		!net-p2p/bitcoin-unlimited[gui]
+		!net-p2p/bucash[gui]
 	)
 	utils? (
 		!net-p2p/bitcoin-cli
@@ -63,6 +65,7 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bitcoinxt[utils]
 		!net-p2p/bitcoin-classic[utils]
 		!net-p2p/bitcoin-unlimited[utils]
+		!net-p2p/bucash[utils]
 	)"
 REQUIRED_USE="
 	|| ( daemon gui utils )
