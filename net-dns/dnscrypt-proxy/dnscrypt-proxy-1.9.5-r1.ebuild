@@ -13,7 +13,7 @@ SRC_URI="https://download.dnscrypt.org/${PN}/${P}.tar.gz
 
 LICENSE="ISC"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE="hardened libressl +plugins ssl systemd verify-minisign"
 
 RDEPEND="
