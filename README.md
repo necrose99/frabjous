@@ -5,16 +5,18 @@
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
 It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in _test_ (~*) mode. As such, you should probably consider it to be
-_unsafe_ and treat it as such, especially crypto related stuff. Although I use many of these packages in a production
-environment without major problems and try my best to follow Gentoo's QA standards, please use it with caution.
+**DISCLAIMER:** All ebuilds are permanently in the _testing¹_ (~*) branch. As such, you should probably consider
+it to be _unsafe_ and treat it as such. Although I use many of these packages in a production environment without major
+problems and try my best to follow Gentoo's QA standards, please use it with caution, especially crypto related stuff.
 
-> **Note:** As I don't own a machine with `systemd`, packages that use systemd unit files **has not** been
-thoroughly tested. If you have spare time, please, test them and report issues.
+> ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not been thoroughly
+tested. Users using the testing branch might very well be the first to discover a bug in the package in which case
+they should file a bug report to let the developers know about it.* —
+[Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
 You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`,
-then you'll be ready to emerge the _goodies_.
+then you will be _almost¹_ ready to emerge the goodies.
 
 Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
 
@@ -26,6 +28,10 @@ sync-type = git
 sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
 ```
+
+> ¹ To use the testing branch for particular packages, you must add the package category and name (e.g., foo-bar/xyz)
+in `/etc/portage/package.accept_keywords`. It is also possible to create a directory (with the same name) and list
+the package in the files under that directory. ↩
 
 ## Repository tree
 This is a list of packages available and their associated description:
@@ -114,4 +120,5 @@ Bitcoin _Cash_ donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
 ## Contributing 
 If you find any bugs, please report them! I am also happy to accept pull requests from anyone.
 
-You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report bugs, ask questions or suggest new features.
+You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report bugs,
+ask questions or suggest new features.
