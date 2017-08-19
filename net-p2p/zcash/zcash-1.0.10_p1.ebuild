@@ -18,8 +18,6 @@ IUSE="examples libs mining rust"
 DEPEND="app-arch/unzip
 	net-misc/wget"
 
-RESTRICT="mirror"
-
 QA_TEXTRELS="usr/bin/zcash-tx
 	usr/bin/zcashd"
 
