@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit eutils flag-o-matic systemd user
 
@@ -13,7 +12,7 @@ SRC_URI="https://secure.nic.cz/files/knot-resolver/${P}.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="go hardened memcached redis static-libs systemd test"
+IUSE="go hardened memcached redis systemd test"
 
 RDEPEND="
 	>=net-dns/knot-2.3.1:=
@@ -39,7 +38,7 @@ src_prepare() {
 	sed -i 's/ -D_FORTIFY_SOURCE=2//g' ./config.mk \
 		|| die "sed fix failed. Uh-oh..."
 
-	eapply_user
+	default
 }
 
 src_compile() {
@@ -52,9 +51,7 @@ src_compile() {
 		HAS_hiredis=$(usex redis) \
 		HAS_libsystemd=$(usex systemd) \
 		HAS_cmocka=$(usex test) \
-		HARDENING=$(usex hardened) \
-		BUILDMODE=$(usex static-libs static dynamic) \
-		|| die 'emake failed'
+		HARDENING=$(usex hardened)
 }
 
 src_test() {
@@ -65,8 +62,7 @@ src_install() {
 	emake \
 		PREFIX="${EPREFIX}/usr" \
 		ETCDIR="${EPREFIX}/etc/kresd" \
-		DESTDIR="${D}" install \
-		|| die 'emake install failed'
+		DESTDIR="${D}" install
 
 	newconfd "${FILESDIR}"/kresd.confd kresd
 	newinitd "${FILESDIR}"/kresd.initd kresd
