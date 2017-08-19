@@ -56,6 +56,8 @@ src_install() {
 	dobashcomp usr/share/bash-completion/completions/${PN}
 	popd > /dev/null || die
 
-	keepdir /var/{lib,log}/${PN}
-	fowners ${PN}:${PN} /var/{lib,log}/${PN}
+	diropts -o ${PN} -g ${PN} -m 0750
+	keepdir /var/lib/${PN}
+	diropts -o ${PN} -g ${PN} -m 0700
+	keepdir /var/log/${PN}
 }
