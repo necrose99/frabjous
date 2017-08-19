@@ -242,8 +242,7 @@ src_compile() {
 }
 
 src_install() {
-	emake prefix="${D}/usr" install \
-		|| die "emake install failed"
+	emake prefix="${D}/usr" install
 
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
@@ -252,7 +251,7 @@ src_install() {
 
 	insinto /etc/zcash
 	doins "${FILESDIR}"/${PN}.conf
-	fowners ${PN}:${PN} /etc/zcash/${PN}.conf
+	fowners zcash:zcash /etc/zcash/${PN}.conf
 	fperms 0600 /etc/zcash/${PN}.conf
 	newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
 
@@ -286,7 +285,7 @@ pkg_postinst() {
 
 	einfo
 	einfo "You should manually fetch the parameters for all users:"
-	einfo "$ ${PN}-fetch-params"
+	einfo "$ zcash-fetch-params"
 	einfo
 	einfo "This script will fetch the Zcash zkSNARK parameters and verify"
 	einfo "their integrity with sha256sum."
