@@ -89,6 +89,6 @@ src_install() {
 
 	doman ${SRC}/man/*.1
 
+	diropts -o ${PN} -g ${PN} -m 0750
 	keepdir /var/log/${PN}
-	fowners -R ${PN}:${PN} /var/log/${PN}
 }
