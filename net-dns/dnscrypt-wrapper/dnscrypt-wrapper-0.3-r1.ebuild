@@ -3,15 +3,15 @@
 
 EAPI=6
 
-inherit git-r3 systemd user
+inherit systemd user
 
 DESCRIPTION="A server-side DNSCrypt proxy"
 HOMEPAGE="https://github.com/cofyc/dnscrypt-wrapper"
-EGIT_REPO_URI="https://github.com/cofyc/${PN}.git"
+SRC_URI="https://github.com/cofyc/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="examples"
 
 DEPEND="dev-libs/libsodium[-minimal]

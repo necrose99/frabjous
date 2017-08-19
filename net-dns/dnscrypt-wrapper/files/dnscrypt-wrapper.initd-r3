@@ -1,0 +1,29 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+: ${DNSCRYPT_USER:="dnscrypt"}
+: ${DNSCRYPT_PIDFILE:="/run/${SVCNAME}.pid"}
+
+name="DNSCrypt wrapper"
+command="/usr/sbin/dnscrypt-wrapper"
+command_args="-d -p '${DNSCRYPT_PIDFILE}' \
+	-l '${DNSCRYPT_LOGFILE}' -u ${DNSCRYPT_USER} \
+	-a ${DNSCRYPT_LISTENIP}:${DNSCRYPT_LISTENPORT} \
+	-r ${DNSCRYPT_RESOLVERIP}:${DNSCRYPT_RESOLVERPORT} \
+	--provider-name='${DNSCRYPT_PROVIDER_NAME}' \
+	--crypt-secretkey-file='${DNSCRYPT_SECRET_KEY}' \
+	--provider-cert-file='${DNSCRYPT_PROVIDER_CERT}' \
+	${DNSCRYPT_OPTS}"
+pidfile="${DNSCRYPT_PIDFILE}"
+
+depend() {
+	need net
+	use dns
+}
+
+start_pre() {
+	if [ "${RC_CMD}" != "restart" ]; then
+		checkpath -f -m 0400 -o root:root "${DNSCRYPT_SECRET_KEY}"
+	fi
+}
