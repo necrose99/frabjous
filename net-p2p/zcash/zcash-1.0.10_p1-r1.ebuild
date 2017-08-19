@@ -142,6 +142,8 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="examples hardened libs mining rust"
 
+RESTRICT="mirror"
+
 QA_TEXTRELS="usr/bin/zcash-tx
 	usr/bin/zcashd"
 
