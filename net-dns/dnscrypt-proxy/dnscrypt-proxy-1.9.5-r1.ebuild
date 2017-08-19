@@ -56,7 +56,7 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.socket
 
 	insinto /etc
-	doins "${FILESDIR}"/${PN}.conf /etc
+	doins "${FILESDIR}"/${PN}.conf
 }
 
 pkg_preinst() {
