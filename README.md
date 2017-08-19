@@ -41,6 +41,8 @@ Package | Description
 app-admin/**[doctl](app-admin/doctl)** | A command line tool for DigitalOcean services
 app-admin/**[pick](app-admin/pick)** | A minimal password manager written in Go
 app-admin/**[scaleway-cli](app-admin/scaleway-cli)** | Interact with Scaleway API from the command line
+app-arch/**[squash](app-arch/squash)** | Compression abstraction library and utilities
+app-backup/**[zvault](app-backup/zvault)** | A highly efficient deduplicating backup solution
 app-benchmarks/**[bombardier](app-benchmarks/bombardier)** | Fast cross-platform HTTP benchmarking tool written in Go
 app-benchmarks/**[hey](app-benchmarks/hey)** | HTTP load generator, ApacheBench (ab) replacement
 app-benchmarks/**[vegeta](app-benchmarks/vegeta)** | HTTP load testing tool and library. It's over 9000!
@@ -68,7 +70,7 @@ net-analyzer/**[kapacitor](net-analyzer/kapacitor)** | A framework for processin
 net-analyzer/**[telegraf](net-analyzer/telegraf)** | An agent for collecting, processing, aggregating, and writing metrics
 net-analyzer/**[wuzz](net-analyzer/wuzz)** | Interactive cli tool for HTTP inspection
 net-dns/**[dnscrypt-proxy](net-dns/dnscrypt-proxy)** | A tool for securing communications between a client and a DNS resolver
-net-dns/**[dnscrypt-wrapper](net-dns/dnscrypt-wrapper)** | A server-side dnscrypt proxy
+net-dns/**[dnscrypt-wrapper](net-dns/dnscrypt-wrapper)** | A server-side DNSCrypt proxy
 net-dns/**[knot-resolver](net-dns/knot-resolver)** | A caching full DNS resolver implementation written in C and LuaJIT
 net-dns/**[knot](net-dns/knot)** | High-performance authoritative-only DNS server
 net-dns/**[unbound](net-dns/unbound)** | A validating, recursive and caching DNS resolver
