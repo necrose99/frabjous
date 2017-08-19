@@ -83,7 +83,7 @@ IUSE="man"
 
 RDEPEND=">=app-arch/squash-0.8.0_pre20170601
 	dev-libs/libsodium
-	sys-fs/fuse"
+	sys-fs/fuse:0"
 DEPEND="${RDEPEND}
 	man? ( app-text/ronn )"
 
