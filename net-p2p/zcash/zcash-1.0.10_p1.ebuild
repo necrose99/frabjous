@@ -49,6 +49,7 @@ src_compile() {
 }
 
 src_install() {
+	local X
 	emake prefix="${D}/usr" install
 
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
@@ -67,9 +68,9 @@ src_install() {
 
 	dodoc doc/{payment-api,security-warnings,tor}.md
 
-	newbashcomp contrib/bitcoind.bash-completion ${PN}d
-	newbashcomp contrib/bitcoin-cli.bash-completion ${PN}-cli
-	newbashcomp contrib/bitcoin-tx.bash-completion ${PN}-tx
+	for X in '-cli' '-tx' 'd'; do
+		newbashcomp contrib/bitcoin${X}.bash-completion ${PN}${X}
+	done
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
@@ -89,16 +90,17 @@ pkg_postinst() {
 	ewarn "Please, see important security warnings in"
 	ewarn "${EROOT}usr/share/doc/${P}/security-warnings.md.bz2"
 	ewarn
-
-	einfo
-	einfo "You should manually fetch the parameters for all users:"
-	einfo "$ zcash-fetch-params"
-	einfo
-	einfo "This script will fetch the Zcash zkSNARK parameters and verify"
-	einfo "their integrity with sha256sum."
-	einfo
-	einfo "The parameters are currently just under 911MB in size, so plan accordingly"
-	einfo "for your bandwidth constraints. If the files are already present and"
-	einfo "have the correct sha256sum, no networking is used."
-	einfo
+	if [ -z "${REPLACING_VERSIONS}" ]; then
+		einfo
+		elog "You should manually fetch the parameters for all users:"
+		elog "$ zcash-fetch-params"
+		elog
+		elog "This script will fetch the Zcash zkSNARK parameters and verify"
+		elog "their integrity with sha256sum."
+		elog
+		elog "The parameters are currently just under 911MB in size, so plan accordingly"
+		elog "for your bandwidth constraints. If the files are already present and"
+		elog "have the correct sha256sum, no networking is used."
+		einfo
+	fi
 }
