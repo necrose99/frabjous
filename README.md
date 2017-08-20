@@ -94,6 +94,7 @@ net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end e
 net-p2p/**[monero-core](net-p2p/monero-core)** | Monero: the secure, private and untraceable cryptocurrency
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A lightweight tunnel proxy which can help you get through firewalls
+net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-vpn/**[govpn](net-vpn/govpn)** | Simple secure, DPI-resistant VPN daemon
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
