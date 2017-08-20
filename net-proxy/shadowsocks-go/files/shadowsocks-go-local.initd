@@ -4,12 +4,12 @@
 
 : ${SHADOWSOCKS_USER:=shadowsocks}
 : ${SHADOWSOCKS_GROUP:=shadowsocks}
-: ${SHADOWSOCKS_OPTS:="-c /etc/shadowsocks/local.json"}
-: ${SHADOWSOCKS_LOG:="/var/log/shadowsocks/${SVCNAME}.log"}
+: ${SHADOWSOCKS_OPTS:="-c /etc/shadowsocks-go/local.json"}
+: ${SHADOWSOCKS_LOG:="/var/log/shadowsocks-go/${SVCNAME}.log"}
 : ${SSD_OPTS:="-1 ${SHADOWSOCKS_LOG} -2 ${SHADOWSOCKS_LOG}"}
 
 extra_started_commands="reload"
-description="A lightweight local tunnel proxy"
+description="A lightweight local socks5 proxy"
 description_reload="Reload the ${SVCNAME} configuration"
 
 command="/usr/bin/shadowsocks-local"

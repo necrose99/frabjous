@@ -11,7 +11,7 @@ EGO_PN="github.com/shadowsocks/shadowsocks-go"
 
 inherit golang-vcs-snapshot user
 
-DESCRIPTION="A lightweight tunnel proxy which can help you get through firewalls"
+DESCRIPTION="A Go port of Shadowsocks"
 HOMEPAGE="https://shadowsocks.org"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
@@ -38,14 +38,15 @@ src_install() {
 	dobin bin/${SS}-{httpget,local,server}
 	dodoc src/${EGO_PN}/{CHANGELOG,README.md}
 
-	newinitd "${FILESDIR}"/${PN}-local.initd ${SS}-local
-	newinitd "${FILESDIR}"/${PN}-server.initd ${SS}-server
+	newinitd "${FILESDIR}"/${PN}-local.initd ${PN}-local
+	newinitd "${FILESDIR}"/${PN}-server.initd ${PN}-server
 
-	insinto /etc/${SS}
+	insinto /etc/${PN}
 	newins "${FILESDIR}"/${PN}-local.conf local.json
 	newins "${FILESDIR}"/${PN}-server.conf server.json
 
-	keepdir /var/log/${SS}
-	fperms 750 /{etc,var/log}/${SS}
-	fowners ${SS}:${SS} /{etc,var/log}/${SS}
+	diropts -o ${SS} -g ${SS} -m 0750
+	keepdir /var/log/${PN}
+	diropts -o ${SS} -g ${SS} -m 0750
+	keepdir /etc/${PN}
 }
