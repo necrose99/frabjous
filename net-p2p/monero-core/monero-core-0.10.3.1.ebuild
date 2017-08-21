@@ -3,10 +3,6 @@
 
 EAPI=6
 
-CMAKE_BUILD_TYPE=Release
-CMAKE_USE_DIR="${S}/monero"
-BUILD_DIR="${CMAKE_USE_DIR}/build/release"
-
 inherit cmake-utils gnome2-utils qmake-utils
 
 # TODO: Finish the daemon part;
@@ -51,14 +47,12 @@ DEPEND="${CDEPEND}
 	gui? ( dev-qt/linguist-tools )"
 RDEPEND="${CDEPEND}"
 
-REQUIRED_USE="dot? ( doc )
-	scanner? ( gui )"
-
+REQUIRED_USE="dot? ( doc ) scanner? ( gui )"
 RESTRICT="mirror"
 
-QA_EXECSTACK="usr/bin/monerod
-	usr/bin/monero-blockchain-import
-	usr/bin/monero-blockchain-export"
+CMAKE_BUILD_TYPE=Release
+CMAKE_USE_DIR="${S}/monero"
+BUILD_DIR="${CMAKE_USE_DIR}/build/release"
 
 src_prepare() {
 	rmdir "${CMAKE_USE_DIR}" || die
@@ -74,8 +68,7 @@ src_prepare() {
 }
 
 src_configure() {
-	# Reduce some harmless noises
-	append-cxxflags -Wno-unused-but-set-variable
+	append-ldflags -Wl,-z,noexecstack
 
 	if use gui; then
 		echo "var GUI_VERSION = \"${MO_CORE_COMMIT}\"" > version.js || die
