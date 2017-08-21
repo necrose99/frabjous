@@ -12,11 +12,11 @@ SRC_URI="https://github.com/Bitcoin-ABC/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon dbus +gui kde libressl +qrcode system-univalue upnp utils +wallet zeromq"
-LANGS="af af_ZA ar be_BY bg bg_BG ca ca@valencia ca_ES cs cy da de el el_GR en en_GB \
-	eo es es_AR es_CL es_CO es_DO es_ES es_MX es_UY es_VE et et_EE eu_ES fa fa_IR fi \
-	fr fr_CA fr_FR gl he hi_IN hr hu id_ID it it_IT ja ka kk_KZ ko_KR ku_IQ ky la lt \
-	lv_LV mk_MK mn ms_MY nb ne nl pam pl pt_BR pt_PT ro ro_RO ru ru_RU sk sl_SI sq sr \
+IUSE="daemon dbus +gui hardened kde libressl +qrcode reduce-exports system-univalue upnp utils +wallet zeromq"
+LANGS="af af_ZA ar be_BY bg bg_BG ca ca@valencia ca_ES cs cy da de el el_GR en en_GB
+	eo es es_AR es_CL es_CO es_DO es_ES es_MX es_UY es_VE et et_EE eu_ES fa fa_IR fi
+	fr fr_CA fr_FR gl he hi_IN hr hu id_ID it it_IT ja ka kk_KZ ko_KR ku_IQ ky la lt
+	lv_LV mk_MK mn ms_MY nb ne nl pam pl pt_BR pt_PT ro ro_RO ru ru_RU sk sl_SI sq sr
 	sr@latin sv ta th_TH tr tr_TR uk ur_PK uz@Cyrl vi vi_VN zh zh_CN zh_HK zh_TW"
 
 for X in ${LANGS} ; do
@@ -67,11 +67,7 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bitcoin-unlimited[utils]
 		!net-p2p/bucash[utils]
 	)"
-REQUIRED_USE="
-	|| ( daemon gui utils )
-	dbus? ( gui )
-	kde? ( gui )
-	qrcode? ( gui )"
+REQUIRED_USE="dbus? ( gui ) kde? ( gui ) qrcode? ( gui )"
 
 RESTRICT="mirror"
 
@@ -112,7 +108,7 @@ src_prepare() {
 		einfo "Languages -- Enabled:$yeslang -- Disabled:$nolang"
 	fi
 
-	eapply_user
+	default
 	eautoreconf
 }
 
@@ -123,16 +119,17 @@ src_configure() {
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--disable-tests \
-		--enable-reduce-exports \
-		$(usex gui "--with-gui=qt5" "--without-gui") \
+		$(usex gui "--with-gui=qt5" --without-gui) \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with system-univalue) \
 		$(use_with upnp miniupnpc) \
 		$(use_with utils) \
+		$(use_enable hardened hardening) \
+		$(use_enable reduce-exports) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
-		|| die
+		|| die "econf failed"
 }
 
 src_install() {
@@ -141,7 +138,7 @@ src_install() {
 	if use daemon; then
 		insinto /etc/bitcoin
 		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
-		fowners ${UG}:${UG} /etc/bitcoin/bitcoin.conf
+		fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
 		fperms 600 /etc/bitcoin/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
