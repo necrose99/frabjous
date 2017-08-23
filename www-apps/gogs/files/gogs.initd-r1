@@ -11,6 +11,7 @@ description="Gogs, a self-hosted Git service"
 : ${GOGS_OPTS:="--config ${GOGS_HOME}/conf/app.ini"}
 : ${SSD_OPTS:="-1 ${GOGS_LOG} -2 ${GOGS_LOG}"}
 
+name="Gogs"
 command="/usr/bin/gogs"
 command_args="web ${GOGS_OPTS}"
 command_background=yes
