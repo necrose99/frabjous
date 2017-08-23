@@ -4,8 +4,8 @@
 
 description="Gogs, a self-hosted Git service"
 
-: ${GOGS_USER:=git}
-: ${GOGS_GROUP:=git}
+: ${GOGS_USER:=gogs}
+: ${GOGS_GROUP:=gogs}
 : ${GOGS_LOG:="/var/log/${SVCNAME}/${SVCNAME}.log"}
 : ${GOGS_OPTS:="--config /var/lib/gogs/conf/app.ini"}
 
