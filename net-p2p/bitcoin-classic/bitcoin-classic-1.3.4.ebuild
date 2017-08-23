@@ -12,8 +12,8 @@ SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon dbus +gui kde libressl +qrcode system-univalue uahf upnp utils +wallet zeromq"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+IUSE="daemon dbus +gui hardened kde libressl +qrcode reduce-exports system-univalue uahf upnp utils +wallet zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cs cs_CZ cy
 	da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX
 	es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl he hi_IN hr hu
@@ -70,10 +70,7 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bucash[utils]
 	)"
 
-REQUIRED_USE="dbus? ( gui )
-	kde? ( gui )
-	qrcode? ( gui )"
-
+REQUIRED_USE="dbus? ( gui ) kde? ( gui ) qrcode? ( gui )"
 RESTRICT="mirror"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
@@ -133,17 +130,18 @@ src_configure() {
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--disable-tests \
-		--enable-reduce-exports \
-		$(usex gui "--with-gui=qt5" "--without-gui") \
+		$(usex gui "--with-gui=qt5" --without-gui) \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with system-univalue) \
 		$(use_with upnp miniupnpc) \
 		$(use_with utils) \
+		$(use_enable hardened hardening) \
 		$(use_enable uahf) \
+		$(use_enable reduce-exports) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
-		|| die
+		|| die "econf failed"
 }
 
 src_install() {
@@ -162,7 +160,8 @@ src_install() {
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
-		keepdir "/var/lib/bitcoin/.bitcoin"
+		diropts -o ${UG} -g ${UG} -m 0750
+		keepdir /var/lib/bitcoin
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion ${UG}
