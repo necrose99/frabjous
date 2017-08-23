@@ -28,7 +28,7 @@ EGO_VENDOR=(
 # github.com/davecgh/go-spew
 # github.com/paulbellamy/ratecounter
 
-PKG_COMMIT="22c97f5"
+PKG_COMMIT="0ac2605"
 EGO_PN="github.com/influxdata/influxdb"
 EGO_LDFLAGS="-s -w -X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
