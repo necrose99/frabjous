@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
+inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
 
 MY_PN="${PN/-/}"
 DESCRIPTION="A full node Bitcoin (or Bitcoin Cash) implementation with GUI, daemon and utils"
@@ -13,7 +13,7 @@ SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
-IUSE="daemon dbus +gui hardened kde libressl +qrcode reduce-exports system-univalue uahf upnp utils +wallet zeromq"
+IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports system-univalue uahf upnp utils +wallet zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cs cs_CZ cy
 	da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX
 	es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl he hi_IN hr hu
@@ -70,7 +70,7 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bucash[utils]
 	)"
 
-REQUIRED_USE="dbus? ( gui ) kde? ( gui ) qrcode? ( gui )"
+REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
 RESTRICT="mirror"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
@@ -178,12 +178,6 @@ src_install() {
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin Classic" "bitcoin" \
 			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
 
-		if use kde; then
-			insinto /usr/share/kde4/services
-			doins contrib/debian/bitcoin-qt.protocol
-			dosym "../kde4/services/bitcoin-qt.protocol" "/usr/share/kservices5/bitcoin-qt.protocol"
-		fi
-
 		doman contrib/debian/manpages/bitcoin-qt.1
 	fi
 
@@ -200,7 +194,6 @@ pkg_preinst() {
 update_caches() {
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
-	buildsycoca
 }
 
 pkg_postinst() {
