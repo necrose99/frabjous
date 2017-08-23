@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
+inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
 
 MY_PV="${PV/\.0g_p/G}"
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
@@ -12,15 +12,15 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon dbus +gui kde libressl +qrcode reduce-exports test upnp utils +wallet zeromq"
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+IUSE="daemon dbus +gui libressl +qrcode reduce-exports test upnp utils +wallet zeromq"
 LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en
 	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he
 	hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam
 	pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl
 	vi vi_VN zh_HK zh_CN zh_TW"
 
-for X in ${LANGS} ; do
+for X in ${LANGS}; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
@@ -69,7 +69,7 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bucash[utils]
 	)"
 
-REQUIRED_USE="dbus? ( gui ) kde? ( gui ) qrcode? ( gui )"
+REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
 RESTRICT="mirror"
 
 DOCS=( doc/{assets-attribution,bips,tor}.md )
@@ -157,7 +157,8 @@ src_install() {
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
-		keepdir "/var/lib/bitcoinxt/.bitcoin"
+		diropts -o ${PN} -g ${PN} -m 0750
+		keepdir /var/lib/bitcoinxt
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin
@@ -173,12 +174,6 @@ src_install() {
 		done
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin XT" "bitcoin" \
 			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
-
-		if use kde; then
-			insinto /usr/share/kde4/services
-			doins contrib/debian/bitcoin-qt.protocol
-			dosym "../kde4/services/bitcoin-qt.protocol" "/usr/share/kservices5/bitcoin-qt.protocol"
-		fi
 
 		doman contrib/debian/manpages/bitcoin-qt.1
 	fi
@@ -196,7 +191,6 @@ pkg_preinst() {
 update_caches() {
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
-	buildsycoca
 }
 
 pkg_postinst() {
