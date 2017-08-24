@@ -99,9 +99,10 @@ EGO_VENDOR=(
 # gopkg.in/tomb.v1
 
 MY_PV=${PV/_/-}
-PKG_COMMIT="a4f5c6f"
+PKG_COMMIT="67e693e"
 EGO_PN="github.com/influxdata/telegraf"
-EGO_LDFLAGS="-s -w -X main.version=${MY_PV} -X main.branch=${MY_PV} -X main.commit=${PKG_COMMIT}"
+EGO_LDFLAGS="-s -w -X main.version=${MY_PV}
+	-X main.branch=${MY_PV} -X main.commit=${PKG_COMMIT}"
 
 inherit golang-vcs-snapshot systemd user
 
@@ -129,7 +130,7 @@ src_compile() {
 src_install() {
 	dobin bin/${PN}
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
@@ -143,6 +144,7 @@ src_install() {
 	doins etc/logrotate.d/${PN}
 	popd > /dev/null || die
 
-	keepdir /etc/${PN}/${PN}.d /var/log/${PN}
-	fowners ${PN}:${PN} /var/log/${PN}
+	dodir /etc/${PN}/${PN}.d
+	diropts -o ${PN} -g ${PN} -m 0700
+	dodir /var/log/${PN}
 }
