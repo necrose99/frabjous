@@ -30,7 +30,7 @@ RESTRICT="mirror strip"
 
 pkg_setup() {
 	enewgroup git
-	enewuser git -1 /bin/bash /var/lib/${PN} git
+	enewuser git -1 /bin/bash /var/lib/gitea git
 }
 
 src_prepare() {
@@ -66,32 +66,35 @@ src_compile() {
 
 src_install() {
 	pushd src/${EGO_PN} > /dev/null || die
-	dobin ${PN}
+	dobin gitea
 
-	insinto /var/lib/${PN}/conf
+	insinto /var/lib/gitea/conf
 	newins conf/app.ini app.ini.example
 
-	insinto /var/lib/${PN}
+	insinto /var/lib/gitea
 	doins -r options
 
-	insinto /usr/share/${PN}
-	insopts -m440
+	insinto /usr/share/gitea
+	insopts -o root -g gogs -m640
 	doins -r {public,templates}
 	popd > /dev/null || die
 
-	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+
+	diropts -m 0750
+	dodir /var/lib/gitea/data
+	diropts -m 0700
+	dodir /var/log/gitea
+	fowners -R git:git /var/{lib,log}/gitea
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
-
-	keepdir /var/log/gitea /var/lib/gitea/data
-	fowners -R git:git /var/log/${PN} /var/lib/${PN}/ \
-		/usr/share/${PN}/
 }
 
 pkg_postinst() {
-	if [[ ! -e ${EROOT}/var/lib/${PN}/conf/app.ini ]]; then
+	if [ ! -e ${EROOT}/var/lib/${PN}/conf/app.ini ]; then
 		elog "No app.ini found, copying the example over"
 		cp "${EROOT}"/var/lib/${PN}/conf/app.ini{.example,} || die
 	else
