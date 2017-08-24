@@ -48,10 +48,6 @@ src_compile() {
 }
 
 src_install() {
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
-
 	pushd src/${EGO_PN} > /dev/null || die
 	dobin ${PN}
 
@@ -64,6 +60,12 @@ src_install() {
 	newins etc/scripts/logrotate ${PN}
 	popd > /dev/null || die
 
-	keepdir /var/{lib,log}/${PN}
-	fowners ${PN}:${PN} /var/{lib,log}/${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+
+	diropts -o ${PN} -g ${PN} -m 0750
+	dodir /var/lib/${PN}
+	diropts -o ${PN} -g ${PN} -m 0700
+	dodir /var/log/${PN}
 }
