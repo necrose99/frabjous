@@ -7,7 +7,7 @@ description="Gogs, a self-hosted Git service"
 : ${GOGS_USER:=gogs}
 : ${GOGS_GROUP:=gogs}
 : ${GOGS_HOME:="/var/lib/gogs"}
-: ${GOGS_LOG:="/var/log/${SVCNAME}/${SVCNAME}.log"}
+: ${GOGS_LOG:="/var/log/gogs/${SVCNAME}.log"}
 : ${GOGS_OPTS:="--config ${GOGS_HOME}/conf/app.ini"}
 : ${SSD_OPTS:="-1 ${GOGS_LOG} -2 ${GOGS_LOG}"}
 

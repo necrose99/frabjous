@@ -87,8 +87,10 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
+	diropts -m 0750
 	dodir /var/lib/gogs/data
-	keepdir /var/{lib,log}/gogs
+	diropts -m 0700
+	dodir /var/log/gogs
 	fowners -R gogs:gogs /var/{lib,log}/gogs
 
 	insinto /etc/logrotate.d
