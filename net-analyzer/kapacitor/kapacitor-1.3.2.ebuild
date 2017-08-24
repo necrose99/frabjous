@@ -7,7 +7,8 @@ inherit bash-completion-r1 golang-vcs-snapshot systemd user
 
 PKG_COMMIT="2b6a049"
 EGO_PN="github.com/influxdata/kapacitor"
-EGO_LDFLAGS="-s -w -X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
+EGO_LDFLAGS="-s -w -X main.version=${PV}
+	-X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
 DESCRIPTION="A framework for processing, monitoring, and alerting on time series data"
 HOMEPAGE="https://influxdata.com"
@@ -34,7 +35,7 @@ src_compile() {
 src_install() {
 	dobin bin/${PN}{,d}
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
@@ -57,7 +58,7 @@ src_install() {
 	popd > /dev/null || die
 
 	diropts -o ${PN} -g ${PN} -m 0750
-	keepdir /var/lib/${PN}
+	dodir /var/lib/${PN}
 	diropts -o ${PN} -g ${PN} -m 0700
-	keepdir /var/log/${PN}
+	dodir /var/log/${PN}
 }
