@@ -76,7 +76,7 @@ src_install() {
 	doins -r options
 
 	insinto /usr/share/gitea
-	insopts -o root -g gogs -m640
+	insopts -o root -g git -m640
 	doins -r {public,templates}
 	popd > /dev/null || die
 
