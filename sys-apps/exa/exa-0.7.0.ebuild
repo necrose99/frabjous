@@ -67,7 +67,7 @@ RDEPEND="${DEPEND}
 RESTRICT="mirror"
 
 pkg_setup() {
-	# Unfortunately, I didn't figure out how to import/extract
+	# Unfortunately, I couldn't figure out how to import/extract
 	# the dependency 'zoneinfo_compiled' from GitHub and force
 	# Cargo to use it before compile phase. So let's block
 	# 'network-sandbox' for now.
