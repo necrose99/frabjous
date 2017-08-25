@@ -158,7 +158,7 @@ src_install() {
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
 		diropts -o ${PN} -g ${PN} -m 0750
-		keepdir /var/lib/bitcoinxt
+		dodir /var/lib/bitcoinxt
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin
