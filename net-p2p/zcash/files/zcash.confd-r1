@@ -3,11 +3,8 @@
 # Config file location
 #ZCASHD_CONFIGFILE="/etc/zcash/zcash.conf"
 
-# What directory to write pidfile to?  (created and owned by $ZCASHD_USER)
-#ZCASHD_PIDDIR="/var/run/zcashd"
-
-# What filename to give the pidfile
-#ZCASHD_PIDFILE="${ZCASHD_PIDDIR}/zcashd.pid"
+# What filename to give the pidfile (created and owned by $ZCASHD_USER)
+#ZCASHD_PIDFILE="/run/zcashd/zcashd.pid"
 
 # Where to write zcashd data (be mindful that the blockchain is large)
 #ZCASHD_DATADIR="/var/lib/zcashd"

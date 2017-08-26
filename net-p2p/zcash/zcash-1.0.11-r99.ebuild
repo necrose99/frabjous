@@ -211,19 +211,16 @@ src_configure() {
 src_install() {
 	default
 
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /etc/zcash
 	doins "${FILESDIR}"/${PN}.conf
 	fowners zcash:zcash /etc/zcash/${PN}.conf
 	fperms 0600 /etc/zcash/${PN}.conf
 	newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
-
-	keepdir /var/lib/zcashd
-	dosym ../../../etc/zcash/${PN}.conf /var/lib/zcashd/${PN}.conf
 
 	local X
 	for X in '-cli' '-tx' 'd'; do

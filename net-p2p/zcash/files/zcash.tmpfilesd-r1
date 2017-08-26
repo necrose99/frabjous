@@ -1,0 +1,2 @@
+d /var/lib/zcashd 0750 zcash zcash -
+f /etc/zcash/zcash.conf 0600 zcash zcash -

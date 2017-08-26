@@ -4,8 +4,7 @@
 
 : ${ZCASHD_DATADIR:="/var/lib/zcashd"}
 : ${ZCASHD_CONFIGFILE:="/etc/zcash/zcash.conf"}
-: ${ZCASHD_PIDDIR:="/var/run/zcashd"}
-: ${ZCASHD_PIDFILE:="${ZCASHD_PIDDIR}/zcashd.pid"}
+: ${ZCASHD_PIDFILE:="/run/zcashd/zcashd.pid"}
 : ${ZCASHD_USER:="zcash"}
 : ${ZCASHD_GROUP:="${ZCASHD_USER}"}
 : ${ZCASHD_NICE:=0}
@@ -32,11 +31,7 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" \
-		"${ZCASHD_DATADIR}" "${ZCASHD_PIDDIR}"
-
-	checkpath -f -m 0600 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" \
-		"${ZCASHD_CONFIGFILE}"
+	checkpath -d -m 0750 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${pidfile%/*}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1
@@ -45,7 +40,7 @@ start_pre() {
 
 checkconfig()
 {
-	if ! grep -qs '^rpcpassword=' "${ZCASHD_CONFIGFILE}" ; then
+	if ! grep -qs '^rpcpassword=' "${ZCASHD_CONFIGFILE}"; then
 		eerror
 		eerror "ERROR: You must set a secure rpcpassword to run zcashd."
 		eerror "The setting must appear in ${ZCASHD_CONFIGFILE}"
