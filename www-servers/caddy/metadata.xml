@@ -15,12 +15,15 @@
 			It provides support for enforcing authorization
 			based on various models like ACL, RBAC, ABAC
 		</flag>
+		<flag name="awses">A plugin for signing and proxying requests to AWS Elasticsearch</flag>
+		<flag name="awslambda">Gateways requests to AWS Lambda functions</flag>
 		<flag name="cache">A simple middleware caching</flag>
 		<flag name="cgi">Implements the Common Gateway Interface (CGI) for Caddy</flag>
 		<flag name="cors">Supports Cross Origin Resource Sharing headers</flag>
-		<flag name="datadog">A plugin allow Caddy web server to send some metrics to Datadog</flag>
+		<flag name="datadog">Allows Caddy to send some metrics to Datadog</flag>
 		<flag name="expires">Allows you to set expiration header relative to the request time</flag>
 		<flag name="filter">Provides a directive to filter response bodies</flag>
+		<flag name="forwardproxy">Enables Caddy to act as a ForwardProxy for http/2.0 and http/1.1 requests</flag>
 		<flag name="git">The git plugin makes it possible to deploy your site with a simple git push</flag>
 		<flag name="grpc">Proxies gRPC calls from clients to gRPC services</flag>
 		<flag name="ipfilter">Adds the ability to allow or block requests based on the client's IP address</flag>
