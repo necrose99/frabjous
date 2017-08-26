@@ -12,7 +12,7 @@ SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports system-univalue uahf upnp utils +wallet zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cs cs_CZ cy
 	da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES es_MX
@@ -39,10 +39,7 @@ CDEPEND="dev-libs/boost:0[threads(+)]
 	libressl? ( dev-libs/libressl )
 	system-univalue? ( dev-libs/univalue )
 	upnp? ( net-libs/miniupnpc )
-	wallet? (
-		media-gfx/qrencode
-		sys-libs/db:4.8[cxx]
-	)
+	wallet? ( sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
 DEPEND="${CDEPEND}
 	gui? ( dev-qt/linguist-tools )"
@@ -74,12 +71,11 @@ REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
 RESTRICT="mirror"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
-UG="bitcoin"
 
 pkg_setup() {
 	if use daemon; then
-		enewgroup ${UG}
-		enewuser ${UG} -1 -1 /var/lib/bitcoin ${UG}
+		enewgroup bitcoin
+		enewuser bitcoin -1 -1 /var/lib/bitcoin bitcoin
 	fi
 }
 
@@ -148,23 +144,24 @@ src_install() {
 	default
 
 	if use daemon; then
-		newbin share/rpcuser/rpcuser.py ${UG}-rpcuser
+		newbin share/rpcuser/rpcuser.py bitcoin-rpcuser
+
+		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+		systemd_dounit "${FILESDIR}"/${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
 		insinto /etc/bitcoin
 		newins "${FILESDIR}"/${PN}.conf-r1 bitcoin.conf
-		fowners ${UG}:${UG} /etc/bitcoin/bitcoin.conf
+		fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
 		fperms 600 /etc/bitcoin/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
-		newconfd "${FILESDIR}"/${PN}.confd ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd ${PN}
-		systemd_dounit "${FILESDIR}"/${PN}.service
-
-		diropts -o ${UG} -g ${UG} -m 0750
-		keepdir /var/lib/bitcoin
+		diropts -o bitcoin -g bitcoin -m 0750
+		keepdir /var/lib/bitcoin/.bitcoin
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
-		newbashcomp contrib/bitcoind.bash-completion ${UG}
+		newbashcomp contrib/bitcoind.bash-completion bitcoin
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}"/${PN}.logrotate ${PN}
@@ -183,7 +180,7 @@ src_install() {
 
 	if use utils; then
 		doman contrib/debian/manpages/bitcoin-cli.1
-		use daemon || newbashcomp contrib/bitcoind.bash-completion ${UG}
+		use daemon || newbashcomp contrib/bitcoind.bash-completion bitcoin
 	fi
 }
 

@@ -1,0 +1,2 @@
+d /var/lib/bitcoin 0750 bitcoin bitcoin -
+f /etc/bitcoin/bitcoin.conf 0600 bitcoin bitcoin -
