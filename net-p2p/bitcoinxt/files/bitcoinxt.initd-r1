@@ -4,8 +4,7 @@
 
 : ${BITCOIND_DATADIR:="/var/lib/bitcoinxt/.bitcoin"}
 : ${BITCOIND_CONFIGFILE:="/etc/bitcoinxt/bitcoin.conf"}
-: ${BITCOIND_PIDDIR:="/var/run/bitcoind"}
-: ${BITCOIND_PIDFILE:="${BITCOIND_PIDDIR}/bitcoind.pid"}
+: ${BITCOIND_PIDFILE:="/run/bitcoind/bitcoind.pid"}
 : ${BITCOIND_USER:="bitcoinxt"}
 : ${BITCOIND_GROUP:="${BITCOIND_USER}"}
 : ${BITCOIND_NICE:=0}
@@ -32,11 +31,7 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" \
-		"${BITCOIND_DATADIR}" "${BITCOIND_PIDDIR}"
-
-	checkpath -f -m 0600 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" \
-		${BITCOIND_CONFIGFILE}
+	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" "${pidfile%/*}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1
@@ -44,7 +39,7 @@ start_pre() {
 }
 
 checkconfig() {
-	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}" ; then
+	if ! grep -qs '^rpcpassword=' "${BITCOIND_CONFIGFILE}"; then
 		eerror
 		eerror "ERROR: You must set a secure rpcpassword to run bitcoind."
 		eerror "The setting must appear in ${BITCOIND_CONFIGFILE}"

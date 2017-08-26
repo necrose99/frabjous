@@ -12,7 +12,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="daemon dbus +gui libressl +qrcode reduce-exports test upnp utils +wallet zeromq"
 LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en
 	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he
@@ -38,10 +38,7 @@ CDEPEND="dev-libs/boost:0[threads(+)]
 	!libressl? ( dev-libs/openssl:0[-bindist] )
 	libressl? ( dev-libs/libressl )
 	upnp? ( net-libs/miniupnpc )
-	wallet? (
-		media-gfx/qrencode
-		sys-libs/db:4.8[cxx]
-	)
+	wallet? ( sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
 DEPEND="${CDEPEND}
 	gui? ( dev-qt/linguist-tools )"
@@ -131,7 +128,6 @@ src_configure() {
 		--disable-ccache \
 		--disable-maintainer-mode \
 		$(usex gui "--with-gui=qt5" --without-gui) \
-		$(usex libressl --with-libressl '') \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with upnp miniupnpc) \
@@ -153,12 +149,13 @@ src_install() {
 		fperms 600 /etc/bitcoinxt/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
-		newconfd "${FILESDIR}"/${PN}.confd ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
-		diropts -o ${PN} -g ${PN} -m 0750
-		dodir /var/lib/bitcoinxt
+		diropts -o bitcoinxt -g bitcoinxt -m 0750
+		dodir /var/lib/bitcoinxt/.bitcoin
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin
@@ -169,7 +166,7 @@ src_install() {
 
 	if use gui; then
 		local X
-		for X in 16 32 64 128 256 ; do
+		for X in 16 32 64 128 256; do
 			newicon -s ${X} "share/pixmaps/bitcoin${X}.png" bitcoin.png
 		done
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin XT" "bitcoin" \

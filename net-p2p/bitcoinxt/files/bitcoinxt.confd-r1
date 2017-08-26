@@ -3,11 +3,8 @@
 # Config file location
 #BITCOIND_CONFIGFILE="/etc/bitcoinxt/bitcoin.conf"
 
-# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
-#BITCOIND_PIDDIR="/var/run/bitcoind"
-
-# What filename to give the pidfile
-#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/bitcoind.pid"
+# What filename to give the pidfile (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDFILE="/run/bitcoind/bitcoind.pid"
 
 # Where to write bitcoind data (be mindful that the blockchain is large)
 #BITCOIND_DATADIR="/var/lib/bitcoinxt/.bitcoin"
