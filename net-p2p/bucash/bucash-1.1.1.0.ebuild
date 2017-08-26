@@ -3,8 +3,9 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 fdo-mime gnome2-utils kde4-functions systemd user
+inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
 
+UG="bitcoin"
 MY_PN="BitcoinUnlimited"
 MY_PV="bucash${PV}"
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
@@ -13,8 +14,8 @@ SRC_URI="https://github.com/${MY_PN}/${MY_PN}/archive/${MY_PV}.tar.gz -> ${P}.ta
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~mips ~ppc ~x86 ~amd64-linux ~x86-linux"
-IUSE="daemon dbus +gui kde libressl +qrcode upnp utils +wallet zeromq"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports upnp utils +wallet zeromq"
 LANGS="ach af af_ZA ar be_BY bg bg_BG bs ca ca@valencia ca_ES cmn cs
 	cs_CZ cy da de el el_GR en en_GB eo es es_AR es_CL es_CO es_DO es_ES
 	es_MX es_UY es_VE et eu_ES fa fa_IR fi fr fr_CA fr_FR gl gu_IN he hi_IN
@@ -39,10 +40,7 @@ CDEPEND="dev-libs/boost:0[threads(+)]
 	!libressl? ( dev-libs/openssl:0[-bindist] )
 	libressl? ( dev-libs/libressl )
 	upnp? ( net-libs/miniupnpc )
-	wallet? (
-		media-gfx/qrencode
-		sys-libs/db:4.8[cxx]
-	)
+	wallet? ( sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
 DEPEND="${CDEPEND}
 	gui? ( dev-qt/linguist-tools )"
@@ -70,12 +68,10 @@ RDEPEND="${CDEPEND}
 		!net-p2p/bitcoin-unlimited[utils]
 	)"
 
-REQUIRED_USE="dbus? ( gui )
-	kde? ( gui )
-	qrcode? ( gui )"
+REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
+RESTRICT="mirror"
 
 S="${WORKDIR}/${MY_PN}-${MY_PV}"
-UG="bitcoin"
 
 pkg_setup() {
 	if use daemon; then
@@ -118,7 +114,7 @@ src_prepare() {
 	use utils || sed -i 's/have bitcoind &&//;s/^\(complete -F _bitcoind bitcoind\) bitcoin-cli$/\1/' \
 		contrib/bitcoind.bash-completion || die
 
-	eapply_user
+	default
 	eautoreconf
 }
 
@@ -129,15 +125,16 @@ src_configure() {
 		--disable-ccache \
 		--disable-maintainer-mode \
 		--disable-tests \
-		--enable-reduce-exports \
-		$(usex gui "--with-gui=qt5" "--without-gui") \
+		$(usex gui "--with-gui=qt5" --without-gui) \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
 		$(use_with upnp miniupnpc) \
 		$(use_with utils) \
+		$(use_enable hardened hardening) \
+		$(use_enable reduce-exports) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
-		|| die
+		|| die "econf failed"
 }
 
 src_install() {
@@ -155,9 +152,7 @@ src_install() {
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
-		keepdir "/var/lib/bitcoin/.bitcoin"
-
-		dodoc doc/{bips.md,tor.md}
+		dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion ${UG}
 
@@ -166,20 +161,14 @@ src_install() {
 	fi
 
 	if use gui; then
-		local size
-		for size in 16 24 32 64 128 256 512 ; do
-			newicon -s ${size} "share/pixmaps/bitcoin${size}.png" bitcoin.png
+		local X
+		for X in 16 24 32 64 128 256 512 ; do
+			newicon -s ${X} "share/pixmaps/bitcoin${X}.png" bitcoin.png
 		done
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin Unlimited Cash" "bitcoin" \
 			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
 
-		if use kde; then
-			insinto /usr/share/kde4/services
-			doins contrib/debian/bitcoin-qt.protocol
-			dosym "../kde4/services/bitcoin-qt.protocol" "/usr/share/kservices5/bitcoin-qt.protocol"
-		fi
-
-		use daemon || dodoc doc/{bips.md,tor.md}
+		use daemon || dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/bitcoin-qt.1
 	fi
 
@@ -196,7 +185,6 @@ pkg_preinst() {
 update_caches() {
 	gnome2_icon_cache_update
 	fdo-mime_desktop_database_update
-	buildsycoca
 }
 
 pkg_postinst() {
