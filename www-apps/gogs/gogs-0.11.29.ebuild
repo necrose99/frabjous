@@ -99,7 +99,7 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	if [[ ! -e ${EROOT}/var/lib/${PN}/conf/app.ini ]]; then
+	if [[ ! -e "${EROOT}"/var/lib/${PN}/conf/app.ini ]]; then
 		elog "No app.ini found, copying the example over"
 		cp "${EROOT}"/var/lib/${PN}/conf/app.ini{.example,} || die
 	else
