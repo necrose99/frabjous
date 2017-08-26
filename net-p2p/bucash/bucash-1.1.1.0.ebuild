@@ -148,9 +148,10 @@ src_install() {
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
 
-		newconfd "${FILESDIR}"/${PN}.confd ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
 		dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
