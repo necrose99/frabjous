@@ -141,17 +141,20 @@ src_install() {
 	default
 
 	if use daemon; then
-		insinto /etc/bitcoin
-		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
-		fowners ${UG}:${UG} /etc/bitcoin/bitcoin.conf
-		fperms 600 /etc/bitcoin/bitcoin.conf
-		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
-		doins share/rpcuser/rpcuser.py
-
 		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
 		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+
+		insinto /etc/bitcoin
+		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
+		fowners bitcoin:bitcoin /etc/bitcoin/bitcoin.conf
+		fperms 600 /etc/bitcoin/bitcoin.conf
+		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
+		doins share/rpcuser/rpcuser.py
+
+		diropts -o bitcoin -g bitcoin -m 0750
+		dodir /var/lib/bitcoin/.bitcoin
 
 		dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
@@ -163,7 +166,7 @@ src_install() {
 
 	if use gui; then
 		local X
-		for X in 16 24 32 64 128 256 512 ; do
+		for X in 16 24 32 64 128 256 512; do
 			newicon -s ${X} "share/pixmaps/bitcoin${X}.png" bitcoin.png
 		done
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin Unlimited Cash" "bitcoin" \
