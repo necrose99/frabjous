@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">pydio/pydio-booster</remote-id>
+		<bugs-to>https://github.com/pydio/pydio-booster/issues</bugs-to>
+		<doc>https://pydio.com/en/docs/knowledge-base</doc>
+	</upstream>
+	<longdescription lang="en">
+		Pydio Booster is a unique tool developed to easily boost your
+		installation performance, by overriding inherent limitation
+		of the PHP language: it is written in Go and runs as a
+		standalone server application that will communicate
+		with the core pydio layer
+	</longdescription>
+</pkgmetadata>
