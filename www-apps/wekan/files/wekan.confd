@@ -1,0 +1,7 @@
+# config file for /etc/init.d/wekan
+
+WEKAN_MONGO_URL="mongodb://localhost:27017/wekan"
+WEKAN_ROOT_URL="http://localhost:8080/"
+WEKAN_PORT="8080"
+WEKAN_MAIL_URL="smtp://user:pass@mailserver.examples.com:25/"
+WEKAN_MAIL_FROM="wekan-admin@example.com"
