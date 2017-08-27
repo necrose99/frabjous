@@ -1,0 +1,2 @@
+d /var/lib/dash 0750 dash dash -
+f /etc/dash/dash.conf 0600 dash dash -
