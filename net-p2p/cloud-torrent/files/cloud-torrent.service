@@ -1,0 +1,10 @@
+[Unit]
+Description=cloud-torrent
+
+[Service]
+ExecStart=/usr/bin/cloud-torrent -h 127.0.0.1 -p 8080 -c /etc/cloud-torrent.json
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
