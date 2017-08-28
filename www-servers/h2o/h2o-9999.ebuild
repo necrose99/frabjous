@@ -3,7 +3,9 @@
 
 EAPI=6
 
-inherit cmake-utils git-r3 systemd user
+USE_RUBY="ruby22 ruby23 ruby24"
+
+inherit cmake-utils git-r3 ruby-single systemd user
 
 DESCRIPTION="An optimized HTTP server with support for HTTP/1.x and HTTP/2"
 HOMEPAGE="https://h2o.examp1e.net"
@@ -26,11 +28,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	mruby? (
 		sys-devel/bison
-		|| (
-			dev-lang/ruby:2.4
-			dev-lang/ruby:2.3
-			dev-lang/ruby:2.2
-		)
+		${RUBY_DEPS}
 	)"
 REQUIRED_USE="bundled-ssl? ( !libressl )
 	libuv? ( libh2o )
@@ -75,8 +73,8 @@ src_install() {
 	insinto /etc/h2o
 	doins "${FILESDIR}"/h2o.conf
 
-	keepdir /var/log/h2o
-	fperms 0700 /var/log/h2o
+	diropts -o h2o -g h2o -m 0700
+	dodir /var/log/h2o
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/h2o.logrotate-r2 h2o
