@@ -20,7 +20,7 @@ DEPEND="${RDEPEND}"
 
 RESTRICT="mirror"
 
-QA_PRESTRIPPED="/usr/share/wekan/programs/server/npm/node_modules/meteor/rajit_bootstrap3-datepicker/lib/bootstrap-datepicker/node_modules/phantomjs/lib/phantom/bin/phantomjs"
+QA_PRESTRIPPED="usr/share/wekan/programs/server/npm/node_modules/meteor/rajit_bootstrap3-datepicker/lib/bootstrap-datepicker/node_modules/phantomjs/lib/phantom/bin/phantomjs"
 QA_TEXTRELS="
 	usr/share/wekan/programs/server/node_modules/fibers/bin/linux-ia32-48/fibers.node
 	usr/share/wekan/programs/server/node_modules/fibers/bin/linux-ia32-46/fibers.node"
@@ -57,5 +57,5 @@ src_install() {
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 
 	diropts -o wekan -g wekan -m 0750
-	keepdir /var/log/wekan
+	dodir /var/log/wekan
 }
