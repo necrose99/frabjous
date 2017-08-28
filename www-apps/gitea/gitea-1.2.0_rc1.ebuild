@@ -7,7 +7,7 @@ inherit golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/-}"
 EGO_PN="code.gitea.io/gitea"
-DESCRIPTION="A painless self-hosted Git service, written in Go"
+DESCRIPTION="Gitea - Git with a cup of tea"
 HOMEPAGE="https://gitea.io"
 SRC_URI="https://github.com/go-gitea/gitea/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 

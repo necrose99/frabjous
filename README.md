@@ -105,7 +105,7 @@ sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written 
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 sys-process/**[jobber](sys-process/jobber)** | A replacement for the classic Unix utility cron
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
-www-apps/**[gitea](www-apps/gitea)** | A painless self-hosted Git service, written in Go
+www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
 www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
