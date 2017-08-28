@@ -90,6 +90,7 @@ net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | A full node Bitcoin (or
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[bucash](net-p2p/bucash)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
+net-p2p/**[cloud-torrent](net-p2p/cloud-torrent)** | A self-hosted remote torrent client, written in Go
 net-p2p/**[dash-core](net-p2p/dash-core)** | A peer-to-peer privacy-centric digital currency
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[monero-core](net-p2p/monero-core)** | Monero: the secure, private and untraceable cryptocurrency
@@ -109,6 +110,7 @@ www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
 www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
 www-apps/**[pydio-booster](www-apps/pydio-booster)** | Empower your Pydio server with this golang-based dedicated tool
+www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
