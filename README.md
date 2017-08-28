@@ -112,6 +112,7 @@ www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator b
 www-apps/**[pydio-booster](www-apps/pydio-booster)** | Empower your Pydio server with this golang-based dedicated tool
 www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
+www-servers/**[algernon](www-servers/algernon)** | Pure Go web server with built-in Lua, Markdown, HyperApp and Pongo2 support
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
 www-servers/**[nginx](www-servers/nginx)** | Robust, small and high performance http and reverse proxy server
