@@ -81,7 +81,7 @@ src_compile() {
 src_install() {
 	dobin bin/${PN/db}*
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
