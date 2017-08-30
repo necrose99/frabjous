@@ -18,4 +18,7 @@
 		of timestamped data, including DevOps monitoring, application
 		metrics, IoT sensor data, and real-time analytics.
 	</longdescription>
+	<use>
+		<flag name="man">Build and install man pages</flag>
+</use>
 </pkgmetadata>
