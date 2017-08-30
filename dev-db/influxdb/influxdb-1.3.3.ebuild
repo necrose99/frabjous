@@ -30,7 +30,8 @@ EGO_VENDOR=(
 
 PKG_COMMIT="e37afaf"
 EGO_PN="github.com/influxdata/influxdb"
-EGO_LDFLAGS="-s -w -X main.version=${PV} -X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
+EGO_LDFLAGS="-s -w -X main.version=${PV} \
+	-X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
 inherit golang-vcs-snapshot systemd user
 
@@ -42,15 +43,16 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE="man"
 
-DEPEND="app-text/asciidoc
-	app-text/xmlto"
+DEPEND="man? ( app-text/asciidoc
+	app-text/xmlto )"
 
 RESTRICT="mirror strip"
 
 pkg_setup() {
-	enewgroup ${PN}
-	enewuser ${PN} -1 -1 "/var/lib/${PN}" ${PN}
+	enewgroup influxdb
+	enewuser influxdb -1 -1 /var/lib/influxdb influxdb
 }
 
 src_prepare() {
@@ -63,32 +65,37 @@ src_prepare() {
 }
 
 src_compile() {
-	cd src/${EGO_PN} || die
-
 	local PKGS=( ./cmd/influx ./cmd/influxd ./cmd/influx_stress
 		./cmd/influx_inspect ./cmd/influx_tsm )
 
+	pushd src/${EGO_PN} > /dev/null || die
 	GOPATH="${S}" go install -v \
 		-ldflags "${EGO_LDFLAGS}" "${PKGS[@]}" || die
 
-	emake -C man
+	if use man; then
+		emake -C man
+	fi
+	popd > /dev/null || die
 }
 
 src_install() {
-	local SRC="src/${EGO_PN}"
-
 	dobin bin/${PN/db}*
 
-	insinto /etc/${PN}
-	newins ${SRC}/etc/config.sample.toml ${PN}.conf
-
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
-	systemd_dounit ${SRC}/scripts/${PN}.service
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
-	doman ${SRC}/man/*.1
+	pushd src/${EGO_PN} > /dev/null || die
+	systemd_dounit scripts/${PN}.service
 
-	diropts -o ${PN} -g ${PN} -m 0750
-	keepdir /var/log/${PN}
+	insinto /etc/influxdb
+	newins etc/config.sample.toml ${PN}.conf
+
+	if use man; then
+		doman man/*.1
+	fi
+	popd > /dev/null || die
+
+	diropts -o influxdb -g influxdb -m 0750
+	dodir /var/log/influxdb
 }
