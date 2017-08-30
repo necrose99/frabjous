@@ -2,36 +2,34 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${ZCASHD_DATADIR:="/var/lib/zcashd"}
-: ${ZCASHD_CONFIGFILE:="/etc/zcash/zcash.conf"}
-: ${ZCASHD_PIDFILE:="/run/zcashd/zcashd.pid"}
 : ${ZCASHD_USER:="zcash"}
 : ${ZCASHD_GROUP:="${ZCASHD_USER}"}
+: ${ZCASHD_DATADIR:="/var/lib/zcashd"}
+: ${ZCASHD_CONFIGFILE:="/etc/zcash/zcash.conf"}
 : ${ZCASHD_NICE:=0}
 : ${ZCASHD_SIGTERM_TIMEOUT:=60}
 
-name="Zcash Daemon"
+name="Zcash daemon"
 description="Zcash cryptocurrency P2P network daemon"
-
+pidfile="/run/${SVCNAME}/zcashd.pid"
 command="/usr/bin/zcashd"
-command_args="-pid=${ZCASHD_PIDFILE} \
+command_args="-pid=${pidfile} \
 	-conf=${ZCASHD_CONFIGFILE} \
 	-datadir=${ZCASHD_DATADIR} \
 	-daemon ${ZCASHD_OPTS}"
 
+retry="${ZCASHD_SIGTERM_TIMEOUT}"
 required_files="${ZCASHD_CONFIGFILE}"
 start_stop_daemon_args="-u ${ZCASHD_USER} \
 	-g ${ZCASHD_GROUP} -N ${ZCASHD_NICE} -w 2000"
-
-pidfile="${ZCASHD_PIDFILE}"
-retry="${ZCASHD_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${pidfile%/*}"
+	checkpath -d -m 0755 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${pidfile%/*}"
+	checkpath -f -m 0600 -o "${ZCASHD_USER}:${ZCASHD_GROUP}" "${ZCASHD_CONFIGFILE}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1

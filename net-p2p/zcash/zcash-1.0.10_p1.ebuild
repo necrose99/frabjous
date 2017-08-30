@@ -52,10 +52,10 @@ src_install() {
 	local X
 	emake prefix="${D}/usr" install
 
-	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
-	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-	systemd_dounit "${FILESDIR}"/${PN}.service
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+	systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r2 ${PN}.conf
 
 	insinto /etc/zcash
 	doins "${FILESDIR}"/${PN}.conf
