@@ -99,8 +99,8 @@ EGO_VENDOR=(
 # gopkg.in/tomb.v1
 
 MY_PV=${PV/_/-}
-PKG_COMMIT="67e693e"
-EGO_PN="github.com/influxdata/telegraf"
+PKG_COMMIT="b2b2bd8"
+EGO_PN="github.com/influxdata/${PN}"
 EGO_LDFLAGS="-s -w -X main.version=${MY_PV}
 	-X main.branch=${MY_PV} -X main.commit=${PKG_COMMIT}"
 
@@ -118,8 +118,8 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror strip"
 
 pkg_setup() {
-	enewgroup ${PN}
-	enewuser ${PN} -1 -1 -1 ${PN}
+	enewgroup telegraf
+	enewuser telegraf -1 -1 -1 telegraf
 }
 
 src_compile() {
@@ -137,14 +137,14 @@ src_install() {
 	pushd src/${EGO_PN} > /dev/null || die
 	systemd_dounit scripts/${PN}.service
 
-	insinto /etc/${PN}
+	insinto /etc/telegraf
 	doins etc/${PN}.conf
 
 	insinto /etc/logrotate.d
 	doins etc/logrotate.d/${PN}
 	popd > /dev/null || die
 
-	dodir /etc/${PN}/${PN}.d
-	diropts -o ${PN} -g ${PN} -m 0700
-	dodir /var/log/${PN}
+	dodir /etc/telegraf/telegraf.d
+	diropts -o telegraf -g telegraf -m 0700
+	dodir /var/log/telegraf
 }
