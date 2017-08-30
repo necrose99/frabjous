@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 EGO_VENDOR=(
 	"github.com/NebulousLabs/demotemutex 235395f"
@@ -31,7 +30,6 @@ EGO_VENDOR=(
 	"github.com/spf13/pflag e57e3ee"
 	"gopkg.in/yaml.v2 3b4ad1d github.com/go-yaml/yaml" #v2
 )
-
 EGO_PN="github.com/NebulousLabs/Sia"
 
 inherit golang-vcs-snapshot systemd user
@@ -44,6 +42,8 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+
+RESTRICT="mirror strip"
 
 pkg_setup() {
 	enewgroup sia
@@ -69,7 +69,6 @@ src_install() {
 	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
 
-	keepdir /var/lib/sia
-	fperms 750 /var/lib/sia
-	fowners sia:sia /var/lib/sia
+	diropts -o sia -g sia -m 0750
+	dodir /var/lib/sia
 }

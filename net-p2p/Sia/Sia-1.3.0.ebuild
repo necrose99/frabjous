@@ -28,7 +28,8 @@ EGO_VENDOR=(
 	"github.com/bgentry/speakeasy 4aabc24"
 	"github.com/spf13/cobra 34594c7"
 	"github.com/spf13/pflag e57e3ee"
-	"gopkg.in/yaml.v2 25c4ec8 github.com/go-yaml/yaml")
+	"gopkg.in/yaml.v2 25c4ec8 github.com/go-yaml/yaml"
+)
 EGO_PN="github.com/NebulousLabs/Sia"
 
 inherit golang-vcs-snapshot systemd user
@@ -68,7 +69,6 @@ src_install() {
 	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
 
-	keepdir /var/lib/sia
-	fperms 750 /var/lib/sia
-	fowners sia:sia /var/lib/sia
+	diropts -o sia -g sia -m 0750
+	dodir /var/lib/sia
 }
