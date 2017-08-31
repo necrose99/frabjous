@@ -146,10 +146,10 @@ src_install() {
 	if use daemon; then
 		newbin share/rpcuser/rpcuser.py bitcoin-rpcuser
 
-		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-		systemd_dounit "${FILESDIR}"/${PN}.service
-		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 		insinto /etc/bitcoin
 		newins "${FILESDIR}"/${PN}.conf-r1 bitcoin.conf
@@ -158,7 +158,7 @@ src_install() {
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
 		diropts -o bitcoin -g bitcoin -m 0750
-		keepdir /var/lib/bitcoin/.bitcoin
+		dodir /var/lib/bitcoin/.bitcoin
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin

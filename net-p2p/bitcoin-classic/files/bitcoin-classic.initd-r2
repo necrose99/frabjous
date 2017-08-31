@@ -2,29 +2,26 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${BITCOIND_DATADIR:="/var/lib/bitcoin/.bitcoin"}
-: ${BITCOIND_CONFIGFILE:="/etc/bitcoin/bitcoin.conf"}
-: ${BITCOIND_PIDFILE:="/run/bitcoind/bitcoind.pid"}
 : ${BITCOIND_USER:="bitcoin"}
 : ${BITCOIND_GROUP:="${BITCOIND_USER}"}
+: ${BITCOIND_DATADIR:="/var/lib/bitcoin/.bitcoin"}
+: ${BITCOIND_CONFIGFILE:="/etc/bitcoin/bitcoin.conf"}
 : ${BITCOIND_NICE:=0}
 : ${BITCOIND_SIGTERM_TIMEOUT:=60}
 
-name="Bitcoin Classic Daemon"
+name="Bitcoin Classic daemon"
 description="Bitcoin cryptocurrency P2P network daemon"
-
+pidfile="/run/${SVCNAME}/bitcoind.pid"
 command="/usr/bin/bitcoind"
-command_args="-pid=${BITCOIND_PIDFILE} \
+command_args="-pid=${pidfile} \
 	-conf=${BITCOIND_CONFIGFILE} \
 	-datadir=${BITCOIND_DATADIR} \
 	-daemon ${BITCOIND_OPTS}"
 
+retry="${BITCOIND_SIGTERM_TIMEOUT}"
 required_files="${BITCOIND_CONFIGFILE}"
 start_stop_daemon_args="-u ${BITCOIND_USER} \
 	-g ${BITCOIND_GROUP} -N ${BITCOIND_NICE} -w 2000"
-
-pidfile="${BITCOIND_PIDFILE}"
-retry="${BITCOIND_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -32,6 +29,7 @@ depend() {
 
 start_pre() {
 	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" "${pidfile%/*}"
+	checkpath -f -m 0600 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" "${BITCOIND_CONFIGFILE}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1
