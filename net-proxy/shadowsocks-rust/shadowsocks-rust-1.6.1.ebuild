@@ -118,11 +118,9 @@ DEPEND="dev-libs/libsodium
 	libressl? ( dev-libs/libressl:= )"
 RDEPEND="${DEPEND}"
 
-SS="${PN/-rust}"
-
 pkg_setup() {
-	enewgroup ${SS}
-	enewuser ${SS} -1 -1 -1 ${SS}
+	enewgroup shadowsocks
+	enewuser shadowsocks -1 -1 -1 shadowsocks
 }
 
 src_install() {
@@ -131,12 +129,11 @@ src_install() {
 	newinitd "${FILESDIR}"/${PN}-local.initd ${PN}-local
 	newinitd "${FILESDIR}"/${PN}-server.initd ${PN}-server
 
-	insinto /etc/${PN}
+	diropts -o shadowsocks -g shadowsocks -m 0700
+	dodir /etc/shadowsocks-rust
+	dodir /var/log/shadowsocks-rust
+
+	insinto /etc/shadowsocks-rust
 	newins "${FILESDIR}"/${PN}-local.conf local.json
 	newins "${FILESDIR}"/${PN}-server.conf server.json
-
-	diropts -o ${SS} -g ${SS} -m 0750
-	keepdir /var/log/${PN}
-	diropts -o ${SS} -g ${SS} -m 0750
-	keepdir /etc/${PN}
 }
