@@ -5,7 +5,6 @@ EAPI=6
 
 inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
 
-UG="bitcoin"
 MY_PN="BitcoinUnlimited"
 MY_PV="bucash${PV}"
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
@@ -75,8 +74,8 @@ S="${WORKDIR}/${MY_PN}-${MY_PV}"
 
 pkg_setup() {
 	if use daemon; then
-		enewgroup ${UG}
-		enewuser ${UG} -1 -1 /var/lib/bitcoin ${UG}
+		enewgroup bitcoin
+		enewuser bitcoin -1 -1 /var/lib/bitcoin bitcoin
 	fi
 }
 
@@ -141,10 +140,10 @@ src_install() {
 	default
 
 	if use daemon; then
-		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-		systemd_dounit "${FILESDIR}"/${PN}.service
-		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 		insinto /etc/bitcoin
 		newins "${FILESDIR}"/${PN}.conf bitcoin.conf
@@ -158,7 +157,7 @@ src_install() {
 
 		dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
-		newbashcomp contrib/bitcoind.bash-completion ${UG}
+		newbashcomp contrib/bitcoind.bash-completion bitcoin
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}"/${PN}.logrotate ${PN}
@@ -178,7 +177,7 @@ src_install() {
 
 	if use utils; then
 		doman contrib/debian/manpages/bitcoin-cli.1
-		use daemon || newbashcomp contrib/bitcoind.bash-completion ${UG}
+		use daemon || newbashcomp contrib/bitcoind.bash-completion bitcoin
 	fi
 }
 
