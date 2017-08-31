@@ -2,12 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit cmake-utils gnome2 vala
-
-CMAKE_MIN_VERSION="2.6"
-VALA_MIN_API_VERSION="0.26"
 
 DESCRIPTION="A modern desktop application designed to complement web-based RSS accounts"
 HOMEPAGE="https://jangernert.github.io/FeedReader/"
@@ -35,23 +31,24 @@ RDEPEND=">=x11-libs/gtk+-3.22:3
 	net-libs/gnome-online-accounts
 	media-libs/gst-plugins-base:1.0
 	>=net-libs/webkit-gtk-2.10:4"
-
 DEPEND="${RDEPEND}
 	dev-util/intltool
 	virtual/pkgconfig"
+
+PATCHES=( "${FILESDIR}"/${P}-fix_vala.patch )
+RESTRICT="mirror"
 
 S="${WORKDIR}/FeedReader-${PV}"
 
 src_prepare() {
 	vala_src_prepare
-	eapply_user
+	default
 }
 
 src_configure() {
 	local mycmakeargs=(
-		-DWITH_LIBUNITY=OFF
 		-DVALA_EXECUTABLE="${VALAC}"
-		-DCMAKE_INSTALL_PREFIX="${PREFIX}"
+		-DCMAKE_INSTALL_PREFIX="${PREFIX}/usr"
 		-DGSETTINGS_LOCALINSTALL=OFF
 	)
 	cmake-utils_src_configure
