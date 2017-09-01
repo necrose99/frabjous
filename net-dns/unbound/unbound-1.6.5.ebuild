@@ -90,7 +90,7 @@ src_install() {
 	prune_libtool_files --modules
 	use python && python_optimize
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 
 	systemd_dounit "${FILESDIR}"/${PN}.service
