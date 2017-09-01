@@ -57,7 +57,6 @@ dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events,
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
-dev-libs/**[libbrotli](dev-libs/libbrotli)** | Builds libraries out of the brotli decode and encode sources
 dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
 mail-filter/**[imapfilter](mail-filter/imapfilter)** | An IMAP mail filtering utility
