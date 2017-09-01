@@ -14,26 +14,18 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND=">=x11-libs/gtk+-3.22:3
+	app-crypt/libsecret[vala(+)]
 	app-text/html2text
-	$(vala_depend)
-	dev-libs/json-glib
+	dev-db/sqlite:3
 	dev-libs/libgee:0.8
 	dev-libs/libpeas
-	net-libs/libsoup:2.4
-	dev-db/sqlite:3
-	app-crypt/libsecret[vala(+)]
-	x11-libs/libnotify
-	dev-libs/libxml2
-	net-libs/rest:0.7
 	net-misc/curl
-	dev-libs/gobject-introspection
 	gnome-base/gnome-keyring
-	net-libs/gnome-online-accounts
+	net-libs/gnome-online-accounts[introspection]
 	media-libs/gst-plugins-base:1.0
-	>=net-libs/webkit-gtk-2.10:4"
-DEPEND="${RDEPEND}
-	dev-util/intltool
-	virtual/pkgconfig"
+	x11-libs/libnotify
+	$(vala_depend)"
+DEPEND="${RDEPEND}"
 
 PATCHES=( "${FILESDIR}"/${P}-fix_vala.patch )
 RESTRICT="mirror"
