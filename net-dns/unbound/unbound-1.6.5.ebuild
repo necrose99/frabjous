@@ -53,6 +53,11 @@ pkg_setup() {
 	use python && python-single-r1_pkg_setup
 }
 
+src_prepare() {
+	default
+	eautoreconf
+}
+
 src_configure() {
 	append-ldflags -Wl,-z,noexecstack
 	econf \
