@@ -1,13 +1,14 @@
 # /etc/conf.d/dash-core: config file for /etc/init.d/dash-core
 
-# Config file location
+# Config file location (-conf option)
 #DASHD_CONFIGFILE="/etc/dash/dash.conf"
 
-# What filename to give the pidfile (created and owned by $DASHD_USER)
-#DASHD_PIDFILE="/run/dashd/dashd.pid"
-
-# Where to write dashd data (be mindful that the blockchain is large)
+# Where to write dashd data (-datadir option)
+# Be mindful that the blockchain is large
 #DASHD_DATADIR="/var/lib/dash"
+
+# Additional options (avoid -conf and -datadir, use flags above)
+DASHD_OPTS="-disablewallet"
 
 # User and group to own dashd process
 #DASHD_USER="dash"
@@ -15,9 +16,6 @@
 
 # Nice value to run dashd under
 DASHD_NICE=19
-
-# Additional options (avoid -conf and -datadir, use flags above)
-DASHD_OPTS="-disablewallet"
 
 # The timeout in seconds OpenRC will wait for dashd to terminate
 # after a SIGTERM has been raised.

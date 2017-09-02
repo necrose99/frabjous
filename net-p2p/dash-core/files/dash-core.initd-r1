@@ -2,29 +2,26 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${DASHD_DATADIR:="/var/lib/dash"}
-: ${DASHD_CONFIGFILE:="/etc/dash/dash.conf"}
-: ${DASHD_PIDFILE:="/run/dashd/dashd.pid"}
 : ${DASHD_USER:="dash"}
 : ${DASHD_GROUP:="${DASHD_USER}"}
+: ${DASHD_DATADIR:="/var/lib/dash"}
+: ${DASHD_CONFIGFILE:="/etc/dash/dash.conf"}
 : ${DASHD_NICE:=0}
 : ${DASHD_SIGTERM_TIMEOUT:=60}
 
-name="Dash Core Daemon"
+name="Dash Core daemon"
 description="Dash cryptocurrency P2P network daemon"
-
+pidfile="/run/${SVCNAME}/dashd.pid"
 command="/usr/bin/dashd"
-command_args="-pid=${DASHD_PIDFILE} \
+command_args="-pid=${pidfile} \
 	-conf=${DASHD_CONFIGFILE} \
 	-datadir=${DASHD_DATADIR} \
 	-daemon ${DASHD_OPTS}"
 
+retry="${DASHD_SIGTERM_TIMEOUT}"
 required_files="${DASHD_CONFIGFILE}"
 start_stop_daemon_args="-u ${DASHD_USER} \
 	-g ${DASHD_GROUP} -N ${DASHD_NICE} -w 2000"
-
-pidfile="${DASHD_PIDFILE}"
-retry="${DASHD_SIGTERM_TIMEOUT}"
 
 depend() {
 	need localmount net
@@ -32,6 +29,7 @@ depend() {
 
 start_pre() {
 	checkpath -d -m 0750 -o "${DASHD_USER}:${DASHD_GROUP}" "${pidfile%/*}"
+	checkpath -f -m 0600 -o "${DASHD_USER}:${DASHD_GROUP}" "${DASHD_CONFIGFILE}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1

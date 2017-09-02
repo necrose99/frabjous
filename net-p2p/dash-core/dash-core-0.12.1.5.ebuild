@@ -108,10 +108,10 @@ src_install() {
 	default
 
 	if use daemon; then
-		newconfd "${FILESDIR}"/${PN}.confd ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd ${PN}
-		systemd_dounit "${FILESDIR}"/${PN}.service
-		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 		insinto /etc/dash
 		newins "${FILESDIR}"/${PN}.conf dash.conf
@@ -120,8 +120,7 @@ src_install() {
 		newins contrib/debian/examples/dash.conf dash.conf.example
 		doins share/rpcuser/rpcuser.py
 
-		doman contrib/debian/manpages/dashd.1
-		doman contrib/debian/manpages/dash.conf.5
+		doman contrib/debian/manpages/{dashd.1,dash.conf.5}
 		newbashcomp contrib/dashd.bash-completion dashd
 
 		insinto /etc/logrotate.d
@@ -140,9 +139,8 @@ src_install() {
 		use daemon || doman contrib/debian/manpages/dash.conf.5
 	fi
 
-	if use utils; then
+	use utils && \
 		doman contrib/debian/manpages/dash-cli.1
-	fi
 }
 
 pkg_preinst() {
