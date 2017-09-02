@@ -82,7 +82,7 @@ src_install() {
 	if use daemon; then
 		keepdir /var/lib/${PN}
 
-		newinitd "${FILESDIR}"/knot.initd knot
+		newinitd "${FILESDIR}"/knot.initd-r2 knot
 		systemd_dounit "${FILESDIR}"/knot.service
 		systemd_newtmpfilesd "${FILESDIR}"/knot.tmpfilesd knot.conf
 	fi
