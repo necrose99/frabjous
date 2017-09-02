@@ -88,6 +88,6 @@ src_install() {
 
 		newinitd "${FILESDIR}"/knot.initd-r2 knot
 		systemd_dounit "${FILESDIR}"/knot.service
-		systemd_newtmpfilesd "${FILESDIR}"/knot.tmpfilesd knot.conf
+		systemd_newtmpfilesd "${FILESDIR}"/knot.tmpfilesd-r1 knot.conf
 	fi
 }
