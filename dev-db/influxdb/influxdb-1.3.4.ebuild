@@ -73,9 +73,7 @@ src_compile() {
 	GOPATH="${S}" go install -v \
 		-ldflags "${EGO_LDFLAGS}" "${PKGS[@]}" || die
 
-	if use man; then
-		emake -C man
-	fi
+	use man && emake -C man
 	popd > /dev/null || die
 }
 
@@ -92,9 +90,7 @@ src_install() {
 	insinto /etc/influxdb
 	newins etc/config.sample.toml ${PN}.conf
 
-	if use man; then
-		doman man/*.1
-	fi
+	use man && doman man/*.1
 	popd > /dev/null || die
 
 	diropts -o influxdb -g influxdb -m 0750
