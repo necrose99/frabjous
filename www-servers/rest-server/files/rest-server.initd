@@ -1,0 +1,21 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="A high performance HTTP server that implements restic's REST backend API"
+
+: ${REST-SERVER_USER:=rest-server}
+: ${REST-SERVER_GROUP:=rest-server}
+: ${REST-SERVER_PATH:="/tmp/restic"}
+
+name="Rest Server"
+command="/usr/bin/rest-server"
+command_args="--path ${REST-SERVER_PATH} ${REST-SERVER_OPTS}"
+command_background=yes
+pidfile="/run/${SVCNAME}.pid"
+start_stop_daemon_args="-u ${REST-SERVER_USER} \
+	-g ${REST-SERVER_GROUP}"
+
+depend() {
+	need localmount net
+}
