@@ -53,6 +53,7 @@ app-crypt/**[minisign](app-crypt/minisign)** | A dead simple tool to sign files 
 app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternative to GnuPG)
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
+app-app-eselect/**[eselect-electron](app-app-eselect/eselect-electron)** | Utility to select the default Electron slot
 app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
 dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events, and real-time analytics
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
@@ -116,6 +117,7 @@ www-servers/**[algernon](www-servers/algernon)** | Pure Go web server with built
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
 www-servers/**[nginx](www-servers/nginx)** | Robust, small and high performance http and reverse proxy server
+www-servers/**[rest-server](www-servers/rest-server)** | A high performance HTTP server that implements restic's REST backend API
 x11-apps/**[radeon-profile](x11-apps/radeon-profile)** | App for display info about radeon card
 x11-apps/**[radeon-profile-daemon](x11-apps/radeon-profile-daemon)** | Daemon for radeon-profile GUI
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
