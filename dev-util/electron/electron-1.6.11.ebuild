@@ -90,7 +90,7 @@ QA_PRESTRIPPED=".*\.nexe"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
-	>=app-eselect/eselect-electron-1.0.0
+	>=app-eselect/eselect-electron-2.0
 	cups? ( >=net-print/cups-1.3.11:= )
 	>=dev-libs/elfutils-0.149
 	dev-libs/expat:=
@@ -224,7 +224,7 @@ pre_build_checks() {
 
 	# Check build requirements, bug #541816 and bug #471810 .
 	CHECKREQS_MEMORY="3G"
-	use lto && CHECKREQS_MEMORY="5G"
+	use lto && CHECKREQS_MEMORY="7G"
 	CHECKREQS_DISK_BUILD="5G"
 	eshopts_push -s extglob
 	if is-flagq '-g?(gdb)?([1-9])'; then
@@ -336,6 +336,9 @@ src_prepare() {
 	sed -i -e "s/|| 'python'/|| '${EPYTHON}'/" \
 		deps/npm/node_modules/node-gyp/lib/configure.js || die
 
+	python_fix_shebang "${CHROMIUM_S}/build/gyp_chromium"
+	python_fix_shebang "${S}/tools/"
+
 	# less verbose install output (stating the same as portage, basically)
 	sed -i -e "/print/d" tools/install.py || die
 
@@ -364,7 +367,7 @@ src_prepare() {
 	eapply "${FILESDIR}/chromium-disable-widevine.patch"
 	eapply "${FILESDIR}/chromium-remove-gardiner-mod-font-r1.patch"
 	eapply "${FILESDIR}/chromium-shared-v8-r2.patch"
-	#eapply "${FILESDIR}/chromium-lto-fixes-r2.patch"
+	eapply "${FILESDIR}/chromium-lto-fixes-r3.patch"
 
 	# libcc chromium patches
 	_unnest_patches "${LIBCC_S}/patches"
@@ -631,6 +634,8 @@ src_configure() {
 	# Define a custom toolchain for GN
 	myconf_gn+=" custom_toolchain=\"${FILESDIR}/toolchain:default\""
 
+	use lto && myconf_gn+=" allow_posix_link_time_opt=true"
+
 	# Tools for building programs to be executed on the build system, bug #410883.
 	if tc-is-cross-compiler; then
 		export AR_host=$(tc-getBUILD_AR)
@@ -669,7 +674,7 @@ src_configure() {
 	echo '#!/usr/bin/env python' > tools/gyp_node.py || die
 	# --shared-libuv cannot be used as electron's node fork
 	# patches uv_loop structure.
-	./configure --shared --without-bundled-v8 $(usex !bundled-ssl "--shared-openssl" "") \
+	./configure --shared --without-bundled-v8 $(usex bundled-ssl '' --shared-openssl) \
 		--shared-http-parser --shared-zlib --without-npm \
 		--with-intl=system-icu --without-dtrace \
 		--dest-cpu=${target_arch} --prefix="" || die
@@ -722,6 +727,8 @@ src_compile() {
 	local libcc_output_shared="${libcc_output}-shared"
 	local target_arch=$(_get_target_arch)
 
+	tc-export AR CC CXX NM
+
 	mkdir -p "${compile_target}" || die
 
 	cd "${CHROMIUM_S}" || die
@@ -751,7 +758,7 @@ src_compile() {
 	mkdir -p "${libcc_dist_shared_path}" || die
 	cp "${chromium_target}/libv8.so" "${libcc_dist_shared_path}" || die
 
-	"${libcc_path}"/tools/generate_filenames_gypi.py \
+	python2 "${libcc_path}"/tools/generate_filenames_gypi.py \
 		"${libcc_dist_path}/filenames.gypi" \
 		"${CHROMIUM_S}" \
 		"${libcc_dist_shared_path}" \
@@ -762,7 +769,8 @@ src_compile() {
 		$(gyp_use cups)
 		$(gyp_use gnome use_gconf)
 		$(gyp_use gnome-keyring use_gnome_keyring)
-		$(gyp_use gnome-keyring linux_link_gnome_keyring)"
+		$(gyp_use gnome-keyring linux_link_gnome_keyring)
+		$(gyp_use lto)"
 
 	if [[ $(tc-getCC) == *clang* ]]; then
 		myconf_gyp+=" -Dclang=1"
@@ -872,9 +880,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	eselect electron update
+	electron-config update
 }
 
-pkg_prerm() {
-	eselect electron update
+pkg_postrm() {
+	electron-config update
 }
