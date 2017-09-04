@@ -84,6 +84,7 @@ net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-misc/**[ssh-chat](net-misc/ssh-chat)** | A chat over SSH server written in Go
 net-misc/**[piknik](net-misc/piknik)** | Copy/paste anything over the network
 net-misc/**[tinyssh](net-misc/tinyssh)** | A small SSH server with state-of-the-art cryptography
+net-misc/**[udp2raw-tunnel](net-misc/udp2raw-tunnel)** | An Encrpyted, Anti-Replay, Multiplexed UDP tunnel
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
