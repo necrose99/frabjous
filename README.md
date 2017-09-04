@@ -105,7 +105,6 @@ net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
-sys-process/**[jobber](sys-process/jobber)** | A replacement for the classic Unix utility cron
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
