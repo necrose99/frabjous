@@ -92,7 +92,6 @@ net-p2p/**[bitcoin-classic](net-p2p/bitcoin-classic)** | A full node Bitcoin (or
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
 net-p2p/**[bitcoinxt](net-p2p/bitcoinxt)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[bucash](net-p2p/bucash)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
-net-p2p/**[cloud-torrent](net-p2p/cloud-torrent)** | A self-hosted remote torrent client, written in Go
 net-p2p/**[dash-core](net-p2p/dash-core)** | A peer-to-peer privacy-centric digital currency
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[monero-core](net-p2p/monero-core)** | Monero: the secure, private and untraceable cryptocurrency
