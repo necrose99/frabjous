@@ -125,14 +125,13 @@ pkg_setup() {
 src_install() {
 	dobin target/release/ss{local,server,url}
 
-	newinitd "${FILESDIR}"/${PN}-local.initd ${PN}-local
-	newinitd "${FILESDIR}"/${PN}-server.initd ${PN}-server
+	newinitd "${FILESDIR}"/${PN}-local.initd-r1 ss-local
+	newinitd "${FILESDIR}"/${PN}-server.initd-r1 ss-server
 
 	diropts -o shadowsocks -g shadowsocks -m 0700
-	dodir /etc/shadowsocks-rust
-	dodir /var/log/shadowsocks-rust
+	dodir /etc/shadowsocks-rust /var/log/shadowsocks-rust
 
 	insinto /etc/shadowsocks-rust
-	newins "${FILESDIR}"/${PN}-local.conf local.json
-	newins "${FILESDIR}"/${PN}-server.conf server.json
+	newins "${FILESDIR}"/${PN}-local.conf local.json.example
+	newins "${FILESDIR}"/${PN}-server.conf server.json.example
 }
