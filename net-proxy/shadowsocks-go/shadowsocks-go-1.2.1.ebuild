@@ -22,31 +22,27 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
-SS="shadowsocks"
-
 pkg_setup() {
-	enewgroup ${SS}
-	enewuser ${SS} -1 -1 -1 ${SS}
+	enewgroup shadowsocks
+	enewuser shadowsocks -1 -1 -1 shadowsocks
 }
 
 src_compile() {
 	GOPATH="${S}" go install -v -ldflags "-s -w" \
-		${EGO_PN}/cmd/${SS}-{httpget,local,server} || die
+		${EGO_PN}/cmd/shadowsocks-{httpget,local,server} || die
 }
 
 src_install() {
-	dobin bin/${SS}-{httpget,local,server}
+	dobin bin/shadowsocks-{httpget,local,server}
 	dodoc src/${EGO_PN}/{CHANGELOG,README.md}
 
-	newinitd "${FILESDIR}"/${PN}-local.initd ${PN}-local
-	newinitd "${FILESDIR}"/${PN}-server.initd ${PN}-server
+	newinitd "${FILESDIR}"/${PN}-local.initd-r1 ssgo-local
+	newinitd "${FILESDIR}"/${PN}-server.initd-r1 ssgo-server
 
-	insinto /etc/${PN}
-	newins "${FILESDIR}"/${PN}-local.conf local.json
-	newins "${FILESDIR}"/${PN}-server.conf server.json
+	diropts -o shadowsocks -g shadowsocks -m 0700
+	dodir /etc/shadowsocks-go /var/log/shadowsocks-go
 
-	diropts -o ${SS} -g ${SS} -m 0750
-	keepdir /var/log/${PN}
-	diropts -o ${SS} -g ${SS} -m 0750
-	keepdir /etc/${PN}
+	insinto /etc/shadowsocks-go
+	newins "${FILESDIR}"/${PN}-local.conf local.json.example
+	newins "${FILESDIR}"/${PN}-server.conf server.json.example
 }

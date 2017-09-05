@@ -2,29 +2,30 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${SHADOWSOCKS_USER:=shadowsocks}
-: ${SHADOWSOCKS_GROUP:=shadowsocks}
-: ${SHADOWSOCKS_OPTS:="-c /etc/shadowsocks-go/server.json"}
-: ${SHADOWSOCKS_LOG:="/var/log/shadowsocks-go/${SVCNAME}.log"}
-: ${SSD_OPTS:="-1 ${SHADOWSOCKS_LOG} -2 ${SHADOWSOCKS_LOG}"}
+: ${SS_USER:=shadowsocks}
+: ${SS_GROUP:=shadowsocks}
+: ${SS_CONFIG:="/etc/shadowsocks-go/server.json"}
+: ${SS_LOG:="/var/log/shadowsocks-go/${SVCNAME}.log"}
+: ${SSD_OPTS:="-1 ${SS_LOG} -2 ${SS_LOG}"}
 
 extra_started_commands="reload"
 description="A lightweight server socks5 proxy"
 description_reload="Reload the ${SVCNAME} configuration"
 
 command="/usr/bin/shadowsocks-server"
-command_args="${SHADOWSOCKS_OPTS}"
+command_args="-c ${SS_CONFIG} ${SS_OPTS}"
 command_background="yes"
-pidfile="/run/${SVCNAME}/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${SHADOWSOCKS_USER} \
-	-g ${SHADOWSOCKS_GROUP} ${SSD_OPTS}"
+pidfile="/run/${SVCNAME}.pid"
+required_files="${SS_CONFIG}"
+start_stop_daemon_args="-u ${SS_USER} \
+	-g ${SS_GROUP} ${SSD_OPTS}"
 
 depend() {
 	need net
 }
 
 start_pre() {
-	checkpath -d -m 0755 -o "${SHADOWSOCKS_USER}":"${SHADOWSOCKS_GROUP}" "${pidfile%/*}"
+	checkpath -d -m 0700 -o "${SS_USER}":"${SS_GROUP}" "${SS_LOG%/*}"
 }
 
 reload() {
