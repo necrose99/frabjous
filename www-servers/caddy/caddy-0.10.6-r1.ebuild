@@ -471,19 +471,15 @@ src_install() {
 	dobin bin/caddy
 	dodoc src/${EGO_PN}/{dist/CHANGES.txt,README.md}
 
-	newinitd "${FILESDIR}"/caddy.initd-r1 caddy
-	newconfd "${FILESDIR}"/caddy.confd-r1 caddy
+	newinitd "${FILESDIR}"/caddy.initd-r2 caddy
+	newconfd "${FILESDIR}"/caddy.confd-r2 caddy
 	systemd_dounit "${FILESDIR}"/caddy.service
-
-	keepdir /var/log/caddy
-	fowners caddy:caddy /var/log/caddy
-
-	keepdir /etc/caddy/ssl
-	fperms 750 /etc/caddy/ssl
-	fowners caddy:caddy /etc/caddy/ssl
 
 	insinto /etc/caddy
 	doins "${FILESDIR}"/Caddyfile.example
+
+	diropts -o caddy -g caddy -m 0750
+	dodir /etc/caddy/cert /var/log/caddy
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/caddy.logrotate caddy

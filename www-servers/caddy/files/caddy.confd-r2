@@ -1,0 +1,16 @@
+# /etc/conf.d/caddy: config file for /etc/init.d/caddy
+
+# Config file location (-conf option)
+#CADDY_CONFIG="/etc/caddy/Caddyfile
+
+# Main log file location (-log option)
+CADDY_LOG="/var/log/caddy/caddy.log"
+
+# Additional options (avoid -conf, use the variable above)
+CADDY_OPTS="-agree=true -log=\"$CADDY_LOG\""
+
+# Let's Encrypt certificates will be written to this directory.
+CADDY_CERTPATH="/etc/caddy/cert"
+
+# Set the ulimits
+ulimit -n 8192
