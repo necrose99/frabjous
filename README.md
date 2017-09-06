@@ -62,7 +62,6 @@ dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code depende
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
-mail-filter/**[imapfilter](mail-filter/imapfilter)** | An IMAP mail filtering utility
 media-tv/**[tv-renamer](media-tv/tv-renamer)** | A TV series renaming application written in Rust
 media-video/**[curlew](media-video/curlew)** | Easy to use and Free Multimedia Converter for Linux
 media-video/**[gnome-mpv](media-video/gnome-mpv)** | A simple GTK+ frontend for mpv
