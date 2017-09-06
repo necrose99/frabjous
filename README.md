@@ -59,6 +59,7 @@ dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events,
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
+dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
 mail-filter/**[imapfilter](mail-filter/imapfilter)** | An IMAP mail filtering utility
@@ -109,6 +110,7 @@ www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
 www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
+www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
 www-apps/**[pydio-booster](www-apps/pydio-booster)** | Empower your Pydio server with this golang-based dedicated tool
 www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
