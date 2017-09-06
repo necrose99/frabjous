@@ -84,13 +84,13 @@ src_install() {
 	doins -r webapp/dist
 	popd > /dev/null || die
 
-	diropts -o mattermost -g mattermost -m 0750
-	dodir /var/{lib,log}/${PN}
-
 	dosym ../../../../etc/${PN}/config.json /usr/libexec/${PN}/config/config.json
 	dosym ../../share/${PN}/fonts /usr/libexec/${PN}/fonts
 	dosym ../../share/${PN}/i18n /usr/libexec/${PN}/i18n
-	dosym ../../../var/log/${PN} /usr/libexec/${PN}/logs
 	dosym ../../share/${PN}/templates /usr/libexec/${PN}/templates
 	dosym ../../share/${PN}/webapp /usr/libexec/${PN}/webapp
+
+	diropts -o mattermost -g mattermost -m 0750
+	dodir /var/{lib,log}/${PN}
+	dosym ../../../var/log/${PN} /usr/libexec/${PN}/logs
 }
