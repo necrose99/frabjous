@@ -98,17 +98,16 @@ EGO_VENDOR=(
 # gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1
 
-MY_PV=${PV/_/-}
 PKG_COMMIT="34b7a4c"
 EGO_PN="github.com/influxdata/${PN}"
-EGO_LDFLAGS="-s -w -X main.version=${MY_PV} \
-	-X main.branch=${MY_PV} -X main.commit=${PKG_COMMIT}"
+EGO_LDFLAGS="-s -w -X main.version=${PV} \
+	-X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
 
 inherit golang-vcs-snapshot systemd user
 
 DESCRIPTION="An agent for collecting, processing, aggregating, and writing metrics"
 HOMEPAGE="https://influxdata.com"
-SRC_URI="https://${EGO_PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
