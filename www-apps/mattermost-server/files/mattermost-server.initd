@@ -1,0 +1,21 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Open source Slack-alternative in Golang and React"
+
+: ${MATTERMOST_USER:=mattermost}
+: ${MATTERMOST_WORKDIR:="/usr/libexec/mattermost-server"}
+
+name="Mattermost Server"
+command="/usr/libexec/mattermost-server/bin/platform"
+command_args="${MATTERMOST_OPTS}"
+command_user="${MATTERMOST_USER}"
+pidfile="/run/${SVCNAME}.pid"
+retry=${MATTERMOST_TERMTIMEOUT:-"TERM/60/KILL/5"}
+start_stop_daemon_args="-b -d ${MATTERMOST_WORKDIR} \
+	${SSD_OPTS:-"--wait 1000"}"
+
+depend() {
+	need localmount net
+}
