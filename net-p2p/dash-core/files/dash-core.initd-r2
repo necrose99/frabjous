@@ -3,7 +3,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 : ${DASHD_USER:="dash"}
-: ${DASHD_GROUP:="${DASHD_USER}"}
 : ${DASHD_DATADIR:="/var/lib/dash"}
 : ${DASHD_CONFIGFILE:="/etc/dash/dash.conf"}
 : ${DASHD_NICE:=0}
@@ -17,19 +16,18 @@ command_args="-pid=${pidfile} \
 	-conf=${DASHD_CONFIGFILE} \
 	-datadir=${DASHD_DATADIR} \
 	-daemon ${DASHD_OPTS}"
-
+command_user="${ZCASHD_USER}"
 retry="${DASHD_SIGTERM_TIMEOUT}"
 required_files="${DASHD_CONFIGFILE}"
-start_stop_daemon_args="-u ${DASHD_USER} \
-	-g ${DASHD_GROUP} -N ${DASHD_NICE} -w 2000"
+start_stop_daemon_args="-N ${DASHD_NICE} -w 2000"
 
 depend() {
 	need localmount net
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${DASHD_USER}:${DASHD_GROUP}" "${pidfile%/*}"
-	checkpath -f -m 0600 -o "${DASHD_USER}:${DASHD_GROUP}" "${DASHD_CONFIGFILE}"
+	checkpath -d -m 0750 -o ${DASHD_USER} "${pidfile%/*}"
+	checkpath -f -m 0600 -o ${DASHD_USER} "${DASHD_CONFIGFILE}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1

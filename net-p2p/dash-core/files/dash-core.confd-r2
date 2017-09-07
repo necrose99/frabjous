@@ -10,9 +10,8 @@
 # Additional options (avoid -conf and -datadir, use flags above)
 DASHD_OPTS="-disablewallet"
 
-# User and group to own dashd process
+# User to own dashd process
 #DASHD_USER="dash"
-#DASHD_GROUP="${DASHD_USER}"
 
 # Nice value to run dashd under
 DASHD_NICE=19
