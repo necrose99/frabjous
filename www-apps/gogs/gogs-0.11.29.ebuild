@@ -73,24 +73,26 @@ src_compile() {
 
 src_install() {
 	pushd src/${EGO_PN} > /dev/null || die
-	dobin ${PN}
+	dobin gogs
 
-	insinto /var/lib/${PN}/conf
+	insinto /var/lib/gogs/conf
 	newins conf/app.ini app.ini.example
 
-	insinto /usr/share/${PN}
-	insopts -m440
+	insinto /usr/share/gogs
+	insopts -o root -g gogs -m640
 	doins -r {conf,public,templates}
 	popd > /dev/null || die
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 
-	keepdir /var/log/gogs /var/lib/gogs/data
-	fowners -R gogs:gogs /var/{lib,log}/${PN} /usr/share/${PN}/
+	diropts -m 0750
+	dodir /var/lib/gogs/data /var/log/gogs
+	fowners -R gogs:gogs /var/{lib,log}/gogs
 }
 
 pkg_preinst() {

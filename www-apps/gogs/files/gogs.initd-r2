@@ -1,0 +1,32 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Gogs, a self-hosted Git service"
+
+: ${GOGS_USER:=gogs}
+: ${GOGS_HOME:="/var/lib/gogs"}
+: ${GOGS_LOG:="/var/log/gogs/${SVCNAME}.log"}
+: ${GOGS_CONFIG:="${GOGS_HOME}/conf/app.ini"}
+: ${SSD_OPTS:="--wait 1000 -1 ${GOGS_LOG} -2 ${GOGS_LOG}"}
+
+name="Gogs"
+command="/usr/bin/gogs"
+command_args="web --config ${GOGS_CONFIG} ${GOGS_OPTS}"
+command_user="${GOGS_USER}"
+pidfile="/run/${SVCNAME}.pid"
+required_files="${GOGS_CONFIG}"
+retry=${GOGS_TERMTIMEOUT:-"TERM/60/KILL/5"}
+start_stop_daemon_args="-b \
+	-e \"GOGS_CUSTOM=${GOGS_HOME}\" \
+	-e \"USER=${GOGS_USER}\" \
+	${SSD_OPTS}"
+
+depend() {
+	need localmount net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${GOGS_USER} "${GOGS_HOME}" "${GOGS_LOG%/*}"
+	checkpath -f -m 0600 -o ${GOGS_USER} "${GOGS_CONFIG}"
+}
