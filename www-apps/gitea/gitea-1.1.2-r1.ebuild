@@ -79,18 +79,16 @@ src_install() {
 	doins -r {public,templates}
 	popd > /dev/null || die
 
-	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
-
-	diropts -m 0750
-	dodir /var/lib/gitea/data
-	diropts -m 0700
-	dodir /var/log/gitea
-	fowners -R git:git /var/{lib,log}/gitea
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
+
+	diropts -m 0750
+	dodir /var/lib/gitea/data /var/log/gitea
+	fowners -R git:git /var/{lib,log}/gitea
 }
 
 pkg_postinst() {
