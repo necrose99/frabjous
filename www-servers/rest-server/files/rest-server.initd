@@ -5,16 +5,14 @@
 description="A high performance HTTP server that implements restic's REST backend API"
 
 : ${REST_SERVER_USER:=rest-server}
-: ${REST_SERVER_GROUP:=rest-server}
 : ${REST_SERVER_PATH:="/tmp/restic"}
 
 name="Rest Server"
 command="/usr/bin/rest-server"
 command_args="--path ${REST_SERVER_PATH} ${REST_SERVER_OPTS}"
 command_background=yes
+command_user="${REST_SERVER_USER}"
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${REST_SERVER_USER} \
-	-g ${REST_SERVER_GROUP}"
 
 depend() {
 	need localmount net
