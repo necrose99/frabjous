@@ -5,16 +5,14 @@
 extra_started_commands="reload"
 description_reload="Reload the Pydio Booster configuration"
 
-: ${PYDIO_USER:=nobody}
-: ${PYDIO_GROUP:=nobody}
 : ${PYDIO_OPTS:="-conf /etc/pydio-booster/pydio.conf"}
 
 name="Pydio Booster"
 command="/usr/bin/pydio"
 command_args="${PYDIO_OPTS}"
 command_background=yes
+command_user="${PYDIO_USER:-nobody}"
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${PYDIO_USER} -g ${PYDIO_GROUP}"
 
 depend() {
 	use net
