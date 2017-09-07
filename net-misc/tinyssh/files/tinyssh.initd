@@ -10,12 +10,6 @@ description="A small SSH server with state-of-the-art cryptography"
 : ${TINYSSH_KEYDIR:="${TINYSSH_CONFDIR}/keys"}
 : ${TINYSSH_OPTS:="-l -v"}
 
-if [ "${SVCNAME}" = "tinyssh" ]; then
-	pidfile="/run/${SVCNAME}.pid"
-else
-	pidfile="/run/tinyssh_${SVCNAME#*.}.pid"
-fi
-
 name="TinySSH server"
 daemon="/usr/sbin/tinysshd"
 makekey="${daemon}-makekey"
@@ -24,6 +18,7 @@ command="/usr/bin/tcpserver"
 command_args="-HRDl0 ${TINYSSH_IP} ${TINYSSH_PORT} \
 	${daemon} ${TINYSSH_OPTS} ${TINYSSH_KEYDIR}"
 command_background="yes"
+pidfile="/run/${SVCNAME}.pid"
 
 depend() {
 	use net
