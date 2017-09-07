@@ -3,23 +3,22 @@
 # Distributed under the terms of the GNU General Public License v2
 
 : ${WEKAN_USER:=wekan}
-: ${WEKAN_GROUP:=wekan}
 : ${WEKAN_LOG_DIR:="/var/log/wekan"}
 : ${WEKAN_LOG_APP:="${WEKAN_LOG_DIR}/app.log"}
 : ${WEKAN_LOG_ERR:="${WEKAN_LOG_DIR}/err.log"}
+: ${SSD_OPTS:="--wait 1000 -1 ${WEKAN_LOG_APP} -2 ${WEKAN_LOG_ERR}"}
 
 command="/usr/bin/node"
 command_args="/usr/share/wekan/main.js"
-command_background=yes
+command_user="${WEKAN_USER}"
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${WEKAN_USER} -g ${WEKAN_GROUP}
-	-1 ${WEKAN_LOG_APP} -2 ${WEKAN_LOG_ERR}
-	-e \"MONGO_URL=${WEKAN_MONGO_URL}\"
-	-e \"ROOT_URL=${WEKAN_ROOT_URL}\"
-	-e \"PORT=${WEKAN_PORT}\"
-	-e \"MAIL_URL=${WEKAN_MAIL_URL}\"
-	-e \"MAIL_FROM=${WEKAN_MAIL_FROM}\"
-"
+retry=${WEKAN_TERMTIMEOUT:-"TERM/60/KILL/5"}
+start_stop_daemon_args="-b ${SSD_OPTS} \
+	-e \"MONGO_URL=${WEKAN_MONGO_URL}\" \
+	-e \"ROOT_URL=${WEKAN_ROOT_URL}\" \
+	-e \"PORT=${WEKAN_PORT}\" \
+	-e \"MAIL_URL=${WEKAN_MAIL_URL}\" \
+	-e \"MAIL_FROM=${WEKAN_MAIL_FROM}\""
 
 depend() {
 	need net
@@ -27,9 +26,5 @@ depend() {
 }
 
 start_pre() {
-	# For a restart, give the node process some time
-	# to properly terminate.
-	if [ "$RC_CMD" = restart ]; then
-		sleep 1
-	fi
+	checkpath -d -m 0750 -o ${WEKAN_USER} "${WEKAN_LOG_DIR}"
 }
