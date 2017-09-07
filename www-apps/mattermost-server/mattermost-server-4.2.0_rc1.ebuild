@@ -23,7 +23,8 @@ LICENSE="AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
-DEPEND="sys-apps/yarn"
+DEPEND="sys-apps/yarn
+	>=net-libs/nodejs-6.0.0"
 
 RESTRICT="mirror strip"
 
