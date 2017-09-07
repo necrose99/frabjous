@@ -10,8 +10,6 @@
 			<name><![CDATA[Ian Moone]]></name>
 		</owner>
 		<source type="git">https://github.com/csmk/frabjous.git</source>
-		<source type="git">git://github.com/csmk/frabjous.git</source>
-		<source type="git">git@github.com:csmk/frabjous.git</source>
 		<feed>https://github.com/csmk/frabjous/commits/master.atom</feed>
 	</repo>
 </repositories>
