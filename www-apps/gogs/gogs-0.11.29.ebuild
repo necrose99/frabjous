@@ -88,7 +88,7 @@ src_install() {
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/${PN}.logrotate ${PN}
+	newins "${FILESDIR}"/${PN}.logrotate-r1 ${PN}
 
 	diropts -m 0750
 	dodir /var/lib/gogs/data /var/log/gogs
