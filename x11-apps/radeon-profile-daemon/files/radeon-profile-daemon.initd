@@ -2,11 +2,11 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-pidfile="/run/radeon-profile-daemon.pid"
 command="/usr/sbin/radeon-profile-daemon"
 command_background=yes
+pidfile="/run/${SVCNAME}.pid"
 
 depend() {
-    need localmount
-    after bootmisc
+	need localmount
+	after bootmisc
 }

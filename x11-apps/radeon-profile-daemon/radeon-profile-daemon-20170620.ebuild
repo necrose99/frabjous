@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit qmake-utils
+inherit qmake-utils systemd
 
 DESCRIPTION="Daemon for radeon-profile GUI"
 HOMEPAGE="https://github.com/marazmista/radeon-profile-daemon"
@@ -20,9 +20,15 @@ RESTRICT="mirror"
 src_configure() {
 	cd ${PN} || die
 	eqmake5
-	emake
+}
+
+src_compile() {
+	emake -C ${PN}
 }
 
 src_install(){
-	emake INSTALL_ROOT="${D}" install
+	dosbin ${PN}/${PN}
+
+	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	systemd_dounit "${FILESDIR}"/${PN}.service
 }
