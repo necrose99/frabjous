@@ -15,4 +15,7 @@
 		(or unstable UDP environment). It defends against Replay-Attack
 		and supports multiplexing. It aslo acts as a connection stablizer.  
 	</longdescription>
+	<use>
+		<flag name="hwaes">Enable support for AES hardware acceleration</flag>
+	</use>
 </pkgmetadata>
