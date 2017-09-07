@@ -10,9 +10,8 @@
 # Additional options (avoid -conf and -datadir, use flags above)
 ZCASHD_OPTS="-disablewallet"
 
-# User and group to own zcashd process
+# User to own zcashd process
 #ZCASHD_USER="zcash"
-#ZCASHD_GROUP="${ZCASHD_USER}"
 
 # Nice value to run zcashd under
 ZCASHD_NICE=19
