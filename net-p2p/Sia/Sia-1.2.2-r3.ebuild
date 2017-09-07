@@ -66,7 +66,7 @@ src_install() {
 	dobin bin/sia*
 	dodoc src/${EGO_PN}/doc/*.md
 
-	newinitd "${FILESDIR}"/sia.initd-r1 sia
+	newinitd "${FILESDIR}"/sia.initd-r2 sia
 	systemd_dounit "${FILESDIR}"/sia.service
 
 	diropts -o sia -g sia -m 0750

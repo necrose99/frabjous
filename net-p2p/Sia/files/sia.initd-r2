@@ -2,16 +2,12 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${UG:="sia:sia"}
-: ${OPTS:="-d /var/lib/sia"}
-: ${PIDFILE:="/run/siad.pid"}
-
 name="Sia daemon"
 command="/usr/bin/siad"
-command_args="${OPTS}"
+command_args="${SIA_OPTS:-"-d /var/lib/sia"}"
 command_background=yes
-pidfile="${PIDFILE}"
-start_stop_daemon_args="-u ${UG}"
+command_user="${SIA_USER:-"sia"}"
+pidfile="/run/${SVCNAME}.pid"
 
 depend() {
 	use net
