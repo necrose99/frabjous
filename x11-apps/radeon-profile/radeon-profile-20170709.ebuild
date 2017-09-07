@@ -36,7 +36,10 @@ RESTRICT="mirror"
 src_configure() {
 	cd ${PN} || die
 	eqmake5
-	emake
+}
+
+src_compile() {
+	emake -C ${PN}
 }
 
 src_install() {
