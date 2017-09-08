@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 # Note: Keep EGO_VENDOR in sync with vendor/vendor.json
 EGO_VENDOR=(
@@ -56,11 +55,9 @@ EGO_VENDOR=(
 # github.com/pmezard/go-difflib
 # golang.org/x/crypto
 
-EGO_PN="github.com/gohugoio/${PN}"
-EGO_LDFLAGS="-s -w -X ${EGO_PN}/hugolib.BuildDate=$(date +%FT%T%z)"
-
 inherit golang-vcs-snapshot
 
+EGO_PN="github.com/gohugoio/hugo"
 DESCRIPTION="A Fast and Flexible Static Site Generator built with love in GoLang"
 HOMEPAGE="https://gohugo.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -73,14 +70,19 @@ IUSE="pygments"
 
 RDEPEND="pygments? ( >=dev-python/pygments-2.1.3 )"
 
+RESTRICT="mirror strip"
+
 src_compile() {
+	local GOLDFLAGS="-s -w \
+		-X ${EGO_PN}/hugolib.BuildDate=$(date +%FT%T%z)"
+
 	GOPATH="${S}" go install -v \
-		-ldflags "${EGO_LDFLAGS}" ${EGO_PN} || die
+		-ldflags "${GOLDFLAGS}" ${EGO_PN} || die
 }
 
 src_install() {
-	dobin bin/${PN}
+	dobin bin/hugo
 
-	bin/${PN} gen man --dir="${T}"/man || die
+	bin/hugo gen man --dir="${T}"/man || die
 	doman "${T}"/man/*
 }
