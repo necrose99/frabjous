@@ -16,7 +16,7 @@ RDEPEND="app-admin/eselect"
 src_install() {
 	insinto /usr/share/eselect/modules
 	doins electron.eselect
-	dosym /usr/bin/eselect /usr/bin/electron-config
+	dosym eselect /usr/bin/electron-config
 }
 
 pkg_postinst() {
