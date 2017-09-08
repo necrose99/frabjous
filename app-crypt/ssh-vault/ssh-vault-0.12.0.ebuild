@@ -11,11 +11,10 @@ EGO_VENDOR=(
 	"golang.org/x/crypto eb71ad9 github.com/golang/crypto"
 	"golang.org/x/sys 2d6f6f8 github.com/golang/sys"
 )
-EGO_PN="github.com/${PN}/${PN}"
-EGO_LDFLAGS="-s -w -X main.version=${PV}"
 
 inherit golang-vcs-snapshot
 
+EGO_PN="github.com/${PN}/${PN}"
 DESCRIPTION="Encrypt/Decrypt using SSH private keys"
 HOMEPAGE="https://ssh-vault.com"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
@@ -28,12 +27,14 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror strip"
 
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags "${EGO_LDFLAGS}" \
+	local GOLDFLAGS="-s -w -X main.version=${PV}"
+
+	GOPATH="${S}" go build -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
-	dobin bin/${PN}
+	dobin ssh-vault
 }
 
 pkg_postinst() {
