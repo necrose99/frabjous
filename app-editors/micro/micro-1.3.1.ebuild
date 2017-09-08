@@ -29,8 +29,6 @@ EGO_VENDOR=(
 
 GIT_COMMIT="dd5afc0"
 EGO_PN="github.com/zyedidia/${PN}"
-EGO_LDFLAGS="-s -w -X main.Version=${PV} -X main.CommitHash=${GIT_COMMIT} \
-	-X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
 
 inherit golang-vcs-snapshot
 
@@ -46,8 +44,13 @@ KEYWORDS="~amd64 ~x86"
 RESTRICT="mirror strip"
 
 src_compile() {
+	local GOLDFLAGS="-s -w \
+		-X main.Version=${PV} \
+		-X main.CommitHash=${GIT_COMMIT} \
+		-X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
+
 	GOPATH="${S}" go install -v -ldflags \
-		"${EGO_LDFLAGS}" ${EGO_PN}/cmd/${PN} || die
+		"${GOLDFLAGS}" ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
