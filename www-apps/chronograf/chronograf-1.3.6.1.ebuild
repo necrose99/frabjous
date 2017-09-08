@@ -62,9 +62,9 @@ src_install() {
 	newins etc/scripts/logrotate ${PN}
 	popd > /dev/null || die
 
-	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	diropts -o ${PN} -g ${PN} -m 0750
 	dodir /var/lib/${PN}

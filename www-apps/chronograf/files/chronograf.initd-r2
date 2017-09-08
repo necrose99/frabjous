@@ -5,18 +5,21 @@
 description="Open source monitoring and visualization UI for the entire TICK stack"
 
 : ${CHRONOGRAF_USER:=chronograf}
-: ${CHRONOGRAF_GROUP:=chronograf}
-: ${CHRONOGRAF_LOGFILE:="/var/log/chronograf/chronograf.log"}
-: ${SSD_OPTS:="-1 ${CHRONOGRAF_LOGFILE} -2 ${CHRONOGRAF_LOGFILE}"}
+: ${CHRONOGRAF_LOG:="/var/log/${SVCNAME}/chronograf.log"}
+: ${SSD_OPTS:="-1 ${CHRONOGRAF_LOG} -2 ${CHRONOGRAF_LOG}"}
 
 command="/usr/bin/chronograf"
 command_args="${CHRONOGRAF_OPTS}"
-command_background=yes
+command_user="${CHRONOGRAF_USER}"
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${CHRONOGRAF_USER} \
-	-g ${CHRONOGRAF_GROUP} ${SSD_OPTS}"
+start_stop_daemon_args="-b ${SSD_OPTS}"
 
 depend() {
 	need net
 	after bootmisc
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${CHRONOGRAF_USER} \
+		"${CHRONOGRAF_DATADIR}" "${CHRONOGRAF_LOG%/*}"
 }
