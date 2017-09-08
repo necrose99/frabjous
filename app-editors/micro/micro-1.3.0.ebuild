@@ -27,11 +27,10 @@ EGO_VENDOR=(
 # Deps that are not needed:
 # github.com/zyedidia/poller
 
-GIT_COMMIT="fad95c0"
-EGO_PN="github.com/zyedidia/${PN}"
-
 inherit golang-vcs-snapshot
 
+GIT_COMMIT="fad95c0"
+EGO_PN="github.com/zyedidia/micro"
 DESCRIPTION="A modern and intuitive terminal-based text editor"
 HOMEPAGE="https://micro-editor.github.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -50,10 +49,10 @@ src_compile() {
 		-X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
 
 	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/cmd/${PN} || die
+		"${GOLDFLAGS}" ${EGO_PN}/cmd/micro || die
 }
 
 src_install() {
-	dobin bin/${PN}
+	dobin bin/micro
 	dodoc src/${EGO_PN}/runtime/help/*.md
 }
