@@ -107,7 +107,7 @@ www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visu
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
-www-apps/**[hugo](www-apps/hugo)** | A Fast and Flexible Static Site Generator built with love in GoLang
+www-apps/**[hugo](www-apps/hugo)** | A static HTML and CSS website generator written in Go
 www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
 www-apps/**[pydio-booster](www-apps/pydio-booster)** | Empower your Pydio server with this golang-based dedicated tool
 www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban

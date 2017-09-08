@@ -55,7 +55,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot
 
 EGO_PN="github.com/gohugoio/hugo"
-DESCRIPTION="A Fast and Flexible Static Site Generator built with love in GoLang"
+DESCRIPTION="A static HTML and CSS website generator written in Go"
 HOMEPAGE="https://gohugo.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
