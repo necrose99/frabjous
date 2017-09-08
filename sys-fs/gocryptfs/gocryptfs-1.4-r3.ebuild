@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror strip"
 
 FUSE_COMMIT="5690be4" #v20170619
 EGO_VENDOR=(
@@ -14,11 +13,9 @@ EGO_VENDOR=(
 	"golang.org/x/sys c4489fa github.com/golang/sys"
 )
 
-EGO_PN="github.com/rfjakob/${PN}"
-PKG_LDFLAGS="-s -w -X main.GitVersion=${PV} -X main.GitVersionFuse=${FUSE_COMMIT} -X main.BuildTime=$(date +%s)"
-
 inherit golang-vcs-snapshot
 
+EGO_PN="github.com/rfjakob/${PN}"
 DESCRIPTION="Encrypted overlay filesystem written in Go"
 HOMEPAGE="https://nuetzlich.net/gocryptfs"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -29,21 +26,29 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="libressl +ssl"
 
-RDEPEND="sys-fs/fuse
+RDEPEND="sys-fs/fuse:0
 	ssl? (
 		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl:0= )
 	)"
 
+RESTRICT="mirror strip"
+
 src_compile() {
-	local usessl=
+	local GOLDFLAGS usessl
+
+	GOLDFLAGS="-s -w \
+		-X main.GitVersion=${PV} \
+		-X main.GitVersionFuse=${FUSE_COMMIT} \
+		-X main.BuildTime=$(date +%s)"
+
 	use ssl || usessl="-tags without_openssl"
 
-	GOPATH="${S}" go install -v \
-		-ldflags "${PKG_LDFLAGS}" ${usessl} ${EGO_PN} || die
+	GOPATH="${S}" go install -v -ldflags \
+		"${GOLDFLAGS}" ${usessl} ${EGO_PN} || die
 }
 
 src_install() {
-	dobin bin/${PN}
-	doman "${FILESDIR}"/${PN}.1
+	dobin bin/gocryptfs
+	doman "${FILESDIR}"/gocryptfs.1
 }
