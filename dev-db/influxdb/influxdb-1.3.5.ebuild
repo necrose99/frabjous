@@ -28,13 +28,10 @@ EGO_VENDOR=(
 # github.com/davecgh/go-spew
 # github.com/paulbellamy/ratecounter
 
-PKG_COMMIT="9d90010"
-EGO_PN="github.com/influxdata/${PN}"
-EGO_LDFLAGS="-s -w -X main.version=${PV} \
-	-X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
-
 inherit golang-vcs-snapshot systemd user
 
+PKG_COMMIT="9d90010"
+EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Scalable datastore for metrics, events, and real-time analytics"
 HOMEPAGE="https://influxdata.com"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -65,29 +62,36 @@ src_prepare() {
 }
 
 src_compile() {
-	local PKGS=( ./cmd/influx ./cmd/influxd ./cmd/influx_stress
+	local GOLDFLAGS PKGS
+
+	GOLDFLAGS="-s -w \
+		-X main.version=${PV} \
+		-X main.branch=${PV} \
+		-X main.commit=${PKG_COMMIT}"
+
+	PKGS=( ./cmd/influx ./cmd/influxd ./cmd/influx_stress
 		./cmd/influx_inspect ./cmd/influx_tsm )
 
 	pushd src/${EGO_PN} > /dev/null || die
-	GOPATH="${S}" go install -v \
-		-ldflags "${EGO_LDFLAGS}" "${PKGS[@]}" || die
+	GOPATH="${S}" go install -v -ldflags \
+		"${GOLDFLAGS}" "${PKGS[@]}" || die
 
 	use man && emake -C man
 	popd > /dev/null || die
 }
 
 src_install() {
-	dobin bin/${PN/db}*
+	dobin bin/influx*
 
-	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	pushd src/${EGO_PN} > /dev/null || die
-	systemd_dounit scripts/${PN}.service
+	systemd_dounit scripts/influxdb.service
 
 	insinto /etc/influxdb
-	newins etc/config.sample.toml ${PN}.conf
+	newins etc/config.sample.toml influxdb.conf
 
 	use man && doman man/*.1
 	popd > /dev/null || die
