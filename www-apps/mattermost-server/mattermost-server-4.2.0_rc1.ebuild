@@ -8,13 +8,6 @@ inherit golang-vcs-snapshot systemd user
 MY_PV="${PV/_/-}"
 PKG_COMMIT="f968c56"
 EGO_PN="github.com/mattermost/platform"
-GOLDFLAGS="-s -w
-	-X github.com/mattermost/platform/model.BuildNumber=${MY_PV}
-	-X 'github.com/mattermost/platform/model.BuildDate=$(date -u)'
-	-X github.com/mattermost/platform/model.BuildHash=${PKG_COMMIT}
-	-X github.com/mattermost/platform/model.BuildHashEnterprise=none
-	-X github.com/mattermost/platform/model.BuildEnterpriseReady=false"
-
 DESCRIPTION="Open source Slack-alternative in Golang and React"
 HOMEPAGE="https://mattermost.com"
 SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
@@ -58,6 +51,13 @@ src_prepare() {
 }
 
 src_compile() {
+	local GOLDFLAGS="-s -w \
+	-X github.com/mattermost/platform/model.BuildNumber=${MY_PV} \
+	-X 'github.com/mattermost/platform/model.BuildDate=$(date -u)' \
+	-X github.com/mattermost/platform/model.BuildHash=${PKG_COMMIT} \
+	-X github.com/mattermost/platform/model.BuildHashEnterprise=none \
+	-X github.com/mattermost/platform/model.BuildEnterpriseReady=false"
+
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because sys-apps/yarn fetch dependencies here:
 	emake -C src/${EGO_PN}/webapp build
