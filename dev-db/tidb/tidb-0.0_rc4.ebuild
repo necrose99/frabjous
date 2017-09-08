@@ -3,15 +3,11 @@
 
 EAPI=6
 
-inherit golang-vcs-snapshot versionator
+inherit golang-vcs-snapshot
 
+MY_PV="${PV/0.0_}"
 COMMIT="6e0ff81"
 EGO_PN="github.com/pingcap/tidb"
-TDB="${EGO_PN}/util/printer"
-EGO_LDFLAGS="-s -w -X '${TDB}.TiDBBuildTS=$(date -u '+%Y-%m-%d %I:%M:%S')' \
-	-X ${TDB}.TiDBGitHash=${COMMIT}"
-
-MY_PV=$(get_version_component_range 3)
 DESCRIPTION="A distributed NewSQL database compatible with MySQL protocol"
 HOMEPAGE="https://github.com/pingcap/tidb"
 SRC_URI="https://${EGO_PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
@@ -26,7 +22,7 @@ src_prepare() {
 	ln -s _vendor/src src/${EGO_PN}/vendor || die
 
 	sed -i \
-		-e 's:LDFLAGS:GOLDFLAGS:' \
+		-e 's:LDFLAGS:GO_LDFLAGS:' \
 		-e 's:$(shell git rev-parse HEAD)::g' \
 			src/${EGO_PN}/Makefile || die
 
@@ -34,10 +30,14 @@ src_prepare() {
 }
 
 src_compile() {
+	local GOLDFLAGS="-s -w \
+		-X '${EGO_PN}/util/printer.TiDBBuildTS=$(date -u '+%Y-%m-%d %I:%M:%S')' \
+		-X ${EGO_PN}/util/printer.TiDBGitHash=${COMMIT}"
+
 	emake -C src/${EGO_PN} parser
 
 	GOPATH="${S}" go install -v -ldflags \
-		"${EGO_LDFLAGS}" ${EGO_PN}/tidb-server || die
+		"${GOLDFLAGS}" ${EGO_PN}/tidb-server || die
 }
 
 src_install() {
