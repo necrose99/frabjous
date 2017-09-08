@@ -66,8 +66,6 @@ src_install() {
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
-	diropts -o ${PN} -g ${PN} -m 0750
-	dodir /var/lib/${PN}
-	diropts -o ${PN} -g ${PN} -m 0700
-	dodir /var/log/${PN}
+	diropts -o chronograf -g chronograf -m 0750
+	dodir /var/{lib,log}/chronograf
 }
