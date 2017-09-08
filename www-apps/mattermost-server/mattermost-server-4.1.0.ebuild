@@ -9,7 +9,7 @@ PKG_COMMIT="0033e3e"
 EGO_PN="github.com/mattermost/platform"
 DESCRIPTION="Open source Slack-alternative in Golang and React"
 HOMEPAGE="https://mattermost.com"
-SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/mattermost/mattermost-server/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="AGPL-3"
 SLOT="0"
