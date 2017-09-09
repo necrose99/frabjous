@@ -14,7 +14,7 @@ MO_PV="c9063c0b8f78a1fca4c2306d5b1df5f664c030c2"
 MO_URI="https://github.com/${MO}-project/${MO}/archive/${MO_PV}.tar.gz"
 MO_P="${MO}-${MO_PV}"
 
-DESCRIPTION="Monero: the secure, private and untraceable cryptocurrency"
+DESCRIPTION="The secure, private and untraceable cryptocurrency (with GUI wallet)"
 HOMEPAGE="https://getmonero.org"
 SRC_URI="https://github.com/${MO}-project/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${MO_URI} -> ${MO_P}.tar.gz"
@@ -45,7 +45,10 @@ CDEPEND="app-arch/xz-utils
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot=] )
 	gui? ( dev-qt/linguist-tools )"
-RDEPEND="${CDEPEND}"
+RDEPEND="${CDEPEND}
+	daemon? ( !net-p2p/monero[daemon] )
+	simplewallet? ( !net-p2p/monero[simplewallet] )
+	utils? ( !net-p2p/monero[utils] )"
 
 REQUIRED_USE="dot? ( doc ) scanner? ( gui )"
 RESTRICT="mirror"
