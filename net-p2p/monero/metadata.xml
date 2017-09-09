@@ -18,8 +18,6 @@
 	<use>
 		<flag name="daemon">Build the system daemon</flag>
 		<flag name="dot">Allow to create dot graphs using <pkg>media-gfx/graphviz</pkg></flag>
-		<flag name="gui">Build the end-user Qt GUI wallet for the Monero cryptocurrency</flag>
-		<flag name="scanner">Enable support for reading QR Codes</flag>
 		<flag name="simplewallet">Build the CLI wallet</flag>
 		<flag name="stacktrace">Enable support for stack trace</flag>
 		<flag name="utils">Enable command-line tools</flag>
