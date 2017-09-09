@@ -7,24 +7,25 @@ description="The plugin-driven server agent for collecting and reporting metrics
 description_reload="Reload the ${name} configuration"
 
 : ${TELEGRAF_USER:=telegraf}
-: ${TELEGRAF_GROUP:=telegraf}
-: ${TELEGRAF_CONFIGFILE:="/etc/telegraf/telegraf.conf"}
-: ${TELEGRAF_CONFIDIR:="/etc/telegraf/telegraf.d"}
-: ${TELEGRAF_LOGFILE:="/var/log/telegraf/telegraf.log"}
-: ${SSD_OPTS:="-1 ${TELEGRAF_LOGFILE} -2 ${TELEGRAF_LOGFILE}"}
+: ${TELEGRAF_CONFIG:="/etc/telegraf/telegraf.conf"}
+: ${TELEGRAF_LOG:="/var/log/telegraf/telegraf.log"}
+: ${SSD_OPTS:="-w 1000 -1 ${TELEGRAF_LOG} -2 ${TELEGRAF_LOG}"}
 
 name="Telegraf server"
 command="/usr/bin/telegraf"
-command_args="--config ${TELEGRAF_CONFIGFILE}
-	-config-directory ${TELEGRAF_CONFIDIR} ${TELEGRAF_OPTS}"
-command_background=yes
+command_args="--config ${TELEGRAF_CONFIG} \
+	${TELEGRAF_OPTS}"
+command_user="${TELEGRAF_USER}"
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${TELEGRAF_USER}
-	-g ${TELEGRAF_GROUP} ${SSD_OPTS}"
+start_stop_daemon_args="-b ${SSD_OPTS}"
 
 depend() {
 	need net
 	after bootmisc
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${TELEGRAF_USER} "${TELEGRAF_LOG%/*}"
 }
 
 reload() {

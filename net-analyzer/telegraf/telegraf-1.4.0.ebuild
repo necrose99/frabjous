@@ -98,13 +98,10 @@ EGO_VENDOR=(
 # gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1
 
-PKG_COMMIT="34b7a4c"
-EGO_PN="github.com/influxdata/${PN}"
-EGO_LDFLAGS="-s -w -X main.version=${PV} \
-	-X main.branch=${PV} -X main.commit=${PKG_COMMIT}"
-
 inherit golang-vcs-snapshot systemd user
 
+PKG_COMMIT="34b7a4c"
+EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="An agent for collecting, processing, aggregating, and writing metrics"
 HOMEPAGE="https://influxdata.com"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
@@ -122,16 +119,21 @@ pkg_setup() {
 }
 
 src_compile() {
+	local GOLDFLAGS="-s -w \
+		-X main.version=${PV} \
+		-X main.branch=${PV} \
+		-X main.commit=${PKG_COMMIT}"
+
 	GOPATH="${S}" go install -v \
-		-ldflags "${EGO_LDFLAGS}" ${EGO_PN}/cmd/${PN} || die
+		-ldflags "${GOLDFLAGS}" ${EGO_PN}/cmd/${PN} || die
 }
 
 src_install() {
 	dobin bin/telegraf
 
-	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	pushd src/${EGO_PN} > /dev/null || die
 	systemd_dounit scripts/telegraf.service
@@ -144,6 +146,6 @@ src_install() {
 	popd > /dev/null || die
 
 	dodir /etc/telegraf/telegraf.d
-	diropts -o telegraf -g telegraf -m 0700
+	diropts -o telegraf -g telegraf -m 0750
 	dodir /var/log/telegraf
 }
