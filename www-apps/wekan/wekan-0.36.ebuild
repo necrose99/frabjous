@@ -13,10 +13,10 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 
-RDEPEND=">=dev-db/mongodb-3.2
-	<dev-db/mongodb-3.4
-	<net-libs/nodejs-6.0[npm]"
-DEPEND="${RDEPEND}"
+DEPEND="<net-libs/nodejs-6.0[npm]"
+RDEPEND="${DEPEND}
+	>=dev-db/mongodb-3.2
+	<dev-db/mongodb-3.4"
 
 RESTRICT="mirror"
 
