@@ -439,14 +439,17 @@ src_configure() {
 	build/linux/unbundle/replace_gn_files.py --system-libraries "${gn_system_libraries[@]}" || die
 
 	# Inox
-	myconf_gn+=" enable_hangout_services_extension=false"
+	myconf_gn+=" symbol_level=0"
+	myconf_gn+=" remove_webcore_debug_symbols=true"
 	myconf_gn+=" exclude_unwind_tables=true"
+	myconf_gn+=" enable_hangout_services_extension=false"
+	myconf_gn+=" enable_nacl_nonsfi=false"
 	myconf_gn+=" enable_remoting=false"
 	myconf_gn+=" enable_google_now=false"
 	myconf_gn+=" safe_browsing_mode=0"
 	myconf_gn+=" enable_hotwording=false"
 	myconf_gn+=" enable_print_preview=false"
-	myconf_gn+=" enable_mdns=false"
+	#myconf_gn+=" enable_mdns=false" # (linker error)
 
 	# Optional dependencies.
 	myconf_gn+=" enable_widevine=$(usex widevine true false)"
