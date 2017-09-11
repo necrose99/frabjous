@@ -146,8 +146,8 @@ src_install() {
 	if use daemon; then
 		newbin share/rpcuser/rpcuser.py bitcoin-rpcuser
 
-		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
-		newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r3 ${PN}
 		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
 		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
