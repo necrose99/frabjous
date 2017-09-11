@@ -5,7 +5,7 @@ EAPI=6
 
 inherit flag-o-matic
 
-GIT_COMMIT="cf5774d2f49ed400d2cb657f775d5f3873d9cf92"
+GIT_COMMIT="1c831f2911967fd5b26eed4c9ab2284cfd001ee2"
 DESCRIPTION="An Encrpyted, Anti-Replay, Multiplexed UDP tunnel"
 HOMEPAGE="https://github.com/wangyu-/udp2raw-tunnel"
 SRC_URI="https://github.com/wangyu-/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
