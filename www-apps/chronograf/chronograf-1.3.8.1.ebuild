@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="e89e8d1"
+PKG_COMMIT="5668593"
 EGO_PN="github.com/influxdata/${PN}"
 
 DESCRIPTION="Open source monitoring and visualization UI for the TICK stack"
