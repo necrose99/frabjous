@@ -6,8 +6,8 @@
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="github">mattermost/platform</remote-id>
-		<bugs-to>https://github.com/mattermost/platform/issues</bugs-to>
+		<remote-id type="github">mattermost/mattermost-server</remote-id>
+		<bugs-to>https://github.com/mattermost/mattermost-server/issues</bugs-to>
 		<doc>https://docs.mattermost.com/administration/config-settings.html</doc>
 	</upstream>
 	<longdescription lang="en">
