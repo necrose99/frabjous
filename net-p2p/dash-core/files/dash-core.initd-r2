@@ -16,7 +16,7 @@ command_args="-pid=${pidfile} \
 	-conf=${DASHD_CONFIGFILE} \
 	-datadir=${DASHD_DATADIR} \
 	-daemon ${DASHD_OPTS}"
-command_user="${ZCASHD_USER}"
+command_user="${DASHD_USER}"
 retry="${DASHD_SIGTERM_TIMEOUT}"
 required_files="${DASHD_CONFIGFILE}"
 start_stop_daemon_args="-N ${DASHD_NICE} -w 2000"
