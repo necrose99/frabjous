@@ -57,6 +57,7 @@ app-app-eselect/**[eselect-electron](app-app-eselect/eselect-electron)** | Utili
 app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
 dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events, and real-time analytics
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
+dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and replication management tool
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
@@ -111,6 +112,7 @@ www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns you
 www-apps/**[hugo](www-apps/hugo)** | A static HTML and CSS website generator written in Go
 www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
 www-apps/**[pydio-booster](www-apps/pydio-booster)** | Empower your Pydio server with this golang-based dedicated tool
+www-apps/**[spreed-webrtc](www-apps/spreed-webrtc)** | A WebRTC audio/video call and conferencing server and web client
 www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
 www-servers/**[algernon](www-servers/algernon)** | Pure Go web server with built-in Lua, Markdown, HyperApp and Pongo2 support
