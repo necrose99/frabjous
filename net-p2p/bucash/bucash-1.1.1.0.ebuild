@@ -140,8 +140,8 @@ src_install() {
 	default
 
 	if use daemon; then
-		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
-		newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+		newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r3 ${PN}
 		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
 		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
@@ -152,15 +152,15 @@ src_install() {
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
 
-		diropts -o bitcoin -g bitcoin -m 0750
-		dodir /var/lib/bitcoin/.bitcoin
-
 		dodoc doc/{bips,bu-xthin,tor}.md
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}"/${PN}.logrotate ${PN}
+
+		diropts -o bitcoin -g bitcoin -m 0750
+		dodir /var/lib/bitcoin/.bitcoin
 	fi
 
 	if use gui; then
