@@ -43,7 +43,7 @@ CDEPEND="app-arch/xz-utils
 	libressl? ( dev-libs/libressl )
 	stacktrace? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
-	doc? ( app-doc/doxygen[dot=] )
+	doc? ( app-doc/doxygen[dot?] )
 	gui? ( dev-qt/linguist-tools )"
 RDEPEND="${CDEPEND}
 	daemon? ( !net-p2p/monero[daemon] )
