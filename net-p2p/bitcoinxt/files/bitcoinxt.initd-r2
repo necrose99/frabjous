@@ -2,36 +2,32 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${BITCOIND_DATADIR:="/var/lib/bitcoinxt/.bitcoin"}
-: ${BITCOIND_CONFIGFILE:="/etc/bitcoinxt/bitcoin.conf"}
-: ${BITCOIND_PIDFILE:="/run/bitcoind/bitcoind.pid"}
 : ${BITCOIND_USER:="bitcoinxt"}
-: ${BITCOIND_GROUP:="${BITCOIND_USER}"}
+: ${BITCOIND_DATADIR:="/var/lib/bitcoinxt"}
+: ${BITCOIND_CONFIGFILE:="/etc/bitcoinxt/bitcoin.conf"}
 : ${BITCOIND_NICE:=0}
 : ${BITCOIND_SIGTERM_TIMEOUT:=60}
 
-name="Bitcoin XT Daemon"
+name="Bitcoin XT daemon"
 description="Bitcoin cryptocurrency P2P network daemon"
-
+pidfile="/run/${SVCNAME}/bitcoind.pid"
 command="/usr/bin/bitcoind"
-command_args="-pid=${BITCOIND_PIDFILE} \
+command_args="-pid=${pidfile} \
 	-conf=${BITCOIND_CONFIGFILE} \
 	-datadir=${BITCOIND_DATADIR} \
 	-daemon ${BITCOIND_OPTS}"
-
-required_files="${BITCOIND_CONFIGFILE}"
-start_stop_daemon_args="-u ${BITCOIND_USER} \
-	-g ${BITCOIND_GROUP} -N ${BITCOIND_NICE} -w 2000"
-
-pidfile="${BITCOIND_PIDFILE}"
+command_user="${BITCOIND_USER}"
 retry="${BITCOIND_SIGTERM_TIMEOUT}"
+required_files="${BITCOIND_CONFIGFILE}"
+start_stop_daemon_args="-N ${BITCOIND_NICE} -w 2000"
 
 depend() {
 	need localmount net
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o "${BITCOIND_USER}:${BITCOIND_GROUP}" "${pidfile%/*}"
+	checkpath -d -m 0750 -o ${BITCOIND_USER} "${pidfile%/*}"
+	checkpath -f -m 0600 -o ${BITCOIND_USER} "${BITCOIND_CONFIGFILE}"
 
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkconfig || return 1

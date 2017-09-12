@@ -75,8 +75,8 @@ S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
 	if use daemon; then
-		enewgroup ${PN}
-		enewuser ${PN} -1 -1 /var/lib/${PN} ${PN}
+		enewgroup bitcoinxt
+		enewuser bitcoinxt -1 -1 /var/lib/bitcoinxt bitcoinxt
 	fi
 }
 
@@ -149,19 +149,16 @@ src_install() {
 		fperms 600 /etc/bitcoinxt/bitcoin.conf
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 
-		newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
-		newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-		systemd_dounit "${FILESDIR}"/${PN}.service
-		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
-
-		diropts -o bitcoinxt -g bitcoinxt -m 0750
-		dodir /var/lib/bitcoinxt/.bitcoin
+		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
+		newconfd "${FILESDIR}"/${PN}.confd-r2 ${PN}
+		systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
+		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 		doman contrib/debian/manpages/{bitcoind.1,bitcoin.conf.5}
 		newbashcomp contrib/bitcoind.bash-completion bitcoin
 
 		insinto /etc/logrotate.d
-		newins "${FILESDIR}"/${PN}.logrotate ${PN}
+		newins "${FILESDIR}"/${PN}.logrotate-r1 ${PN}
 	fi
 
 	if use gui; then

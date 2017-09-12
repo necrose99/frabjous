@@ -1,2 +1,0 @@
-d /var/lib/bitcoinxt 0750 bitcoinxt bitcoinxt -
-f /etc/bitcoinxt/bitcoin.conf 0600 bitcoinxt bitcoinxt -
