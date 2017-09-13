@@ -69,6 +69,7 @@ media-video/**[gnome-mpv](media-video/gnome-mpv)** | A simple GTK+ frontend for 
 media-video/**[peek](media-video/peek)** | Simple animated GIF screen recorder with an easy to use interface
 net-analyzer/**[goaccess](net-analyzer/goaccess)** | A real-time web log analyzer and interactive viewer that runs in a terminal
 net-analyzer/**[kapacitor](net-analyzer/kapacitor)** | A framework for processing, monitoring, and alerting on time series data
+net-analyzer/**[prometheus](net-analyzer/prometheus)** | The Prometheus monitoring system and time series database
 net-analyzer/**[telegraf](net-analyzer/telegraf)** | An agent for collecting, processing, aggregating, and writing metrics
 net-analyzer/**[wuzz](net-analyzer/wuzz)** | Interactive cli tool for HTTP inspection
 net-dns/**[dnscrypt-proxy](net-dns/dnscrypt-proxy)** | A tool for securing communications between a client and a DNS resolver
