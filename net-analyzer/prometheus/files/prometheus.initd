@@ -1,0 +1,28 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="The Prometheus monitoring system and time series database"
+
+: ${PROMETHEUS_USER:=prometheus}
+: ${PROMETHEUS_CONFIG:="/etc/prometheus/prometheus.yml"}
+: ${PROMETHEUS_LOG:="/var/log/${SVCNAME}/prometheus.log"}
+: ${SSD_OPTS:="-w 1000 -1 ${PROMETHEUS_LOG} -2 ${PROMETHEUS_LOG}"}
+
+name="${PROMETHEUS_NAME:-Prometheus}"
+command="/usr/bin/prometheus"
+command_args="--config.file=${PROMETHEUS_CONFIG} ${PROMETHEUS_OPTS}"
+command_user="${PROMETHEUS_USER}"
+pidfile="/run/${SVCNAME}.pid"
+required_files="${PROMETHEUS_CONFIG}"
+start_stop_daemon_args="-b ${SSD_OPTS}"
+
+depend() {
+	need net
+	after bootmisc
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${PROMETHEUS_USER} \
+	"${PROMETHEUS_DATADIR}" "${PROMETHEUS_LOG%/*}"
+}
