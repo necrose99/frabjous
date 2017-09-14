@@ -38,6 +38,7 @@
 		<flag name="nginx_modules_http_set_misc">Enable various set_xxx directives added to nginx's rewrite module (md5/sha1, sql/json quoting, and many more)</flag>
 		<flag name="nginx_modules_http_slowfs_cache">This module adds the ability to cache static files</flag>
 		<flag name="nginx_modules_http_sticky">Add a sticky cookie to be always forwarded to the same upstream server</flag>
+		<flag name="nginx_modules_http_vts">This is a module that provides access to virtual host status information</flag>
 		<flag name="nginx_modules_stream_geo"></flag>
 		<flag name="nginx_modules_stream_geoip"></flag>
 		<flag name="nginx_modules_stream_split_clients"></flag>

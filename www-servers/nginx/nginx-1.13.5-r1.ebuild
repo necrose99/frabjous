@@ -156,6 +156,12 @@ HTTP_SET_MISC_MODULE_P="set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
 HTTP_SET_MISC_MODULE_URI="https://github.com/openresty/set-misc-nginx-module/archive/v${HTTP_SET_MISC_MODULE_PV}.tar.gz"
 HTTP_SET_MISC_MODULE_WD="${WORKDIR}/set-misc-nginx-module-${HTTP_SET_MISC_MODULE_PV}"
 
+# nginx-module-vts (https://github.com/vozlt/nginx-module-vts, BSD-2)
+HTTP_VTS_MODULE_PV="0.1.15"
+HTTP_VTS_MODULE_P="nginx-module-vts-${HTTP_VTS_MODULE_PV}"
+HTTP_VTS_MODULE_URI="https://github.com/vozlt/nginx-module-vts/archive/v${HTTP_VTS_MODULE_PV}.tar.gz"
+HTTP_VTS_MODULE_WD="${WORKDIR}/${HTTP_VTS_MODULE_P}"
+
 # We handle deps below ourselves
 SSL_DEPS_SKIP=1
 AUTOTOOLS_AUTO_DEPEND="no"
@@ -187,7 +193,8 @@ SRC_URI="https://nginx.org/download/${P}.tar.gz
 	nginx_modules_http_auth_ldap? ( ${HTTP_LDAP_MODULE_URI} -> ${HTTP_LDAP_MODULE_P}.tar.gz )
 	nginx_modules_http_brotli? ( ${HTTP_BROTLI_MODULE_URI} -> ${HTTP_BROTLI_MODULE_P}.tar.gz
 		${HTTP_BROTLI_URI} -> ${HTTP_BROTLI_P}.tar.gz )
-	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )"
+	nginx_modules_http_set_misc? ( ${HTTP_SET_MISC_MODULE_URI} -> ${HTTP_SET_MISC_MODULE_P}.tar.gz )
+	nginx_modules_http_vts? ( ${HTTP_VTS_MODULE_URI} -> ${HTTP_VTS_MODULE_P}.tar.gz )"
 
 LICENSE="BSD-2 BSD SSLeay MIT GPL-2 GPL-2+
 	nginx_modules_http_security? ( Apache-2.0 )
@@ -232,7 +239,8 @@ NGINX_MODULES_3RD="
 	http_memc
 	http_auth_ldap
 	http_brotli
-	http_set_misc"
+	http_set_misc
+	http_vts"
 
 IUSE="aio debug +http +http2 +http-cache +ipv6 libatomic libressl luajit +pcre
 	pcre-jit perftools rtmp selinux ssl threads userland_GNU vim-syntax"
@@ -404,7 +412,7 @@ src_prepare() {
 	done
 
 	if use nginx_modules_http_brotli; then
-		rm -r "${HTTP_BROTLI_MODULE_WD}/deps/brotli" &&
+		rmdir "${HTTP_BROTLI_MODULE_WD}/deps/brotli" || die
 		mv "${HTTP_BROTLI_WD}" "${HTTP_BROTLI_MODULE_WD}/deps/brotli" || die
 	fi
 
@@ -573,6 +581,11 @@ src_configure() {
 	if use nginx_modules_http_set_misc; then
 		http_enabled=1
 		myconf+=( --add-module=${HTTP_SET_MISC_MODULE_WD} )
+	fi
+
+	if use nginx_modules_http_vts; then
+		http_enabled=1
+		myconf+=( --add-module=${HTTP_VTS_MODULE_WD} )
 	fi
 
 	if use http || use http-cache || use http2; then
@@ -807,6 +820,11 @@ src_install() {
 	if use nginx_modules_http_set_misc; then
 		docinto ${HTTP_SET_MISC_MODULE_P}
 		dodoc "${HTTP_SET_MISC_MODULE_WD}"/README.markdown
+	fi
+
+	if use nginx_modules_http_vts; then
+		docinto ${HTTP_VTS_MODULE_P}
+		dodoc "${HTTP_VTS_MODULE_WD}"/{Changes,README.md}
 	fi
 }
 
