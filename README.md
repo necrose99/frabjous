@@ -62,6 +62,7 @@ dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with M
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
+dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
 media-tv/**[tv-renamer](media-tv/tv-renamer)** | A TV series renaming application written in Rust
 media-video/**[curlew](media-video/curlew)** | Easy to use and Free Multimedia Converter for Linux
