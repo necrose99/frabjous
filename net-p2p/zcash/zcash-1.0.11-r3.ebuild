@@ -9,7 +9,7 @@ inherit autotools bash-completion-r1 flag-o-matic systemd user
 BDB_PV="6.2.23"
 BDB_PKG="db-${BDB_PV}.tar.gz"
 BDB_HASH="47612c8991aa9ac2f6be721267c8d3cdccf5ac83105df8e50809daea24e95dc7"
-BDB_URI="http://download.oracle.com/berkeley-db/${BDB_PKG}"
+BDB_URI="https://z.cash/depends-sources/${BDB_PKG}"
 BDB_STAMP=".stamp_fetched-bdb-${BDB_PKG}.hash"
 
 # depends/packages/googlemock.mk (https://github.com/google/googlemock, ??? license)
@@ -30,21 +30,21 @@ GTEST_STAMP=".stamp_fetched-googletest-${GTEST_PKG}.hash"
 LIBSNARK_PV="9ada3f84ab484c57b2247c2f41091fd6a0916573"
 LIBSNARK_PKG="libsnark-${LIBSNARK_PV}.tar.gz"
 LIBSNARK_HASH="dad153fe46e2e1f33557a195cbe7d69aed8b19ed9befc08ddcb8c6d3c025941f"
-LIBSNARK_URI="https://github.com/zcash/libsnark/archive/${LIBSNARK_PV}.tar.gz"
+LIBSNARK_URI="https://z.cash/depends-sources/${LIBSNARK_PKG}"
 LIBSNARK_STAMP=".stamp_fetched-libsnark-${LIBSNARK_PKG}.hash"
 
 # depends/packages/proton.mk (https://qpid.apache.org/proton/, Apache 2.0 license)
 PROTON_PV="0.17.0"
-PROTON_ARCH="qpid-proton-${PROTON_PV}.tar.gz"
+PROTON_PKG="qpid-proton-${PROTON_PV}.tar.gz"
 PROTON_HASH="6ffd26d3d0e495bfdb5d9fefc5349954e6105ea18cc4bb191161d27742c5a01a"
-PROTON_URI="mirror://apache/qpid/proton/${PROTON_PV}/${PROTON_ARCH}"
-PROTON_STAMP=".stamp_fetched-proton-${PROTON_ARCH}.hash"
+PROTON_URI="https://z.cash/depends-sources/${PROTON_PKG}"
+PROTON_STAMP=".stamp_fetched-proton-${PROTON_PKG}.hash"
 
 # depends/packages/librustzcash.mk (https://github.com/zcash/librustzcash, Apache 2.0 / MIT license)
 RUSTZCASH_PV="91348647a86201a9482ad4ad68398152dc3d635e"
 RUSTZCASH_PKG="librustzcash-${RUSTZCASH_PV}.tar.gz"
 RUSTZCASH_HASH="a5760a90d4a1045c8944204f29fa2a3cf2f800afee400f88bf89bbfe2cce1279"
-RUSTZCASH_URI="https://github.com/zcash/librustzcash/archive/${RUSTZCASH_PV}.tar.gz"
+RUSTZCASH_URI="https://z.cash/depends-sources/${RUSTZCASH_PKG}"
 RUSTZCASH_STAMP=".stamp_fetched-librustzcash-${RUSTZCASH_PKG}.hash"
 
 # crate dependency for librustzcash
@@ -85,6 +85,8 @@ DEPEND="dev-libs/boost:0=[threads(+)]
 	rust? ( >=dev-util/cargo-0.16.0 )
 	zeromq? ( >=net-libs/zeromq-4.2.1 )"
 RDEPEND="${DEPEND}"
+
+RESTRICT="mirror"
 
 DOCS=( doc/{payment-api,security-warnings,tor}.md )
 
@@ -152,8 +154,8 @@ src_prepare() {
 	ln -s "${DISTDIR}"/${LIBSNARK_PKG} "${DEP_SRC}" || die
 
 	if use proton; then
-		echo "${PROTON_HASH} ${PROTON_ARCH}" > "${STAMP_DIR}/${PROTON_STAMP}" || die
-		ln -s "${DISTDIR}"/${PROTON_ARCH} "${DEP_SRC}" || die
+		echo "${PROTON_HASH} ${PROTON_PKG}" > "${STAMP_DIR}/${PROTON_STAMP}" || die
+		ln -s "${DISTDIR}"/${PROTON_PKG} "${DEP_SRC}" || die
 	fi
 
 	if use rust; then
@@ -211,24 +213,24 @@ src_configure() {
 src_install() {
 	default
 
-	newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd-r3 ${PN}
-	systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r2 ${PN}.conf
+	newinitd "${FILESDIR}"/zcash.initd-r3 zcash
+	newconfd "${FILESDIR}"/zcash.confd-r3 zcash
+	systemd_newunit "${FILESDIR}"/zcash.service-r1 zcash.service
+	systemd_newtmpfilesd "${FILESDIR}"/zcash.tmpfilesd-r2 zcash.conf
 
 	insinto /etc/zcash
-	doins "${FILESDIR}"/${PN}.conf
-	fowners zcash:zcash /etc/zcash/${PN}.conf
-	fperms 0600 /etc/zcash/${PN}.conf
-	newins contrib/debian/examples/${PN}.conf ${PN}.conf.example
+	doins "${FILESDIR}"/zcash.conf
+	fowners zcash:zcash /etc/zcash/zcash.conf
+	fperms 0600 /etc/zcash/zcash.conf
+	newins contrib/debian/examples/zcash.conf zcash.conf.example
 
 	local X
 	for X in '-cli' '-tx' 'd'; do
-		newbashcomp contrib/bitcoin${X}.bash-completion ${PN}${X}
+		newbashcomp contrib/bitcoin${X}.bash-completion zcash${X}
 	done
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/${PN}.logrotate ${PN}
+	newins "${FILESDIR}"/zcash.logrotate zcash
 
 	if use examples; then
 		docinto examples
