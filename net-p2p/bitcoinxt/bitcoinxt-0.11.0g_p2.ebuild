@@ -24,7 +24,7 @@ for X in ${LANGS}; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-CDEPEND="dev-libs/boost:0[threads(+)]
+CDEPEND="dev-libs/boost:0=[threads(+)]
 	dev-libs/libevent
 	net-misc/curl
 	gui? (

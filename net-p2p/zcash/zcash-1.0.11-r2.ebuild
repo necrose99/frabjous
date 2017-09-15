@@ -78,7 +78,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="examples hardened libs mining proton reduce-exports rust zeromq"
 
-DEPEND="dev-libs/boost:0[threads(+)]
+DEPEND="dev-libs/boost:0=[threads(+)]
 	>=dev-libs/gmp-6.1.0
 	>=dev-libs/libevent-2.1.8
 	dev-libs/libsodium[-minimal]

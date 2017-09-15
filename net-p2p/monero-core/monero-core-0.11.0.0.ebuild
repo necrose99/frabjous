@@ -24,7 +24,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+daemon doc dot +gui libressl scanner simplewallet stacktrace utils"
 
 CDEPEND="app-arch/xz-utils
-	dev-libs/boost:0[threads(+)]
+	dev-libs/boost:0=[threads(+)]
 	dev-libs/expat
 	net-dns/unbound
 	net-libs/ldns

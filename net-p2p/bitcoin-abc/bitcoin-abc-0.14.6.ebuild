@@ -23,7 +23,7 @@ for X in ${LANGS}; do
 	IUSE="${IUSE} linguas_${X}"
 done
 
-CDEPEND="dev-libs/boost:0[threads(+)]
+CDEPEND="dev-libs/boost:0=[threads(+)]
 	dev-libs/libevent
 	gui? (
 		dev-libs/protobuf
