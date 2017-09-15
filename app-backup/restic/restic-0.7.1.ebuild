@@ -10,10 +10,11 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc test"
+IUSE="doc"
 
 RDEPEND="sys-fs/fuse:0"
 DEPEND="${RDEPEND}
+	>=dev-lang/go-1.8.0
 	doc? ( dev-python/sphinx )"
 
 RESTRICT="strip"
