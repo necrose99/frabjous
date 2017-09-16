@@ -1,0 +1,25 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="Prometheus exporter for hardware and OS metrics exposed by *NIX kernels"
+
+: ${NODE_EXPORTER_USER:=node_exporter}
+: ${NODE_EXPORTER_LOG:="/var/log/node_exporter/node_exporter.log"}
+: ${SSD_OPTS:="-1 ${NODE_EXPORTER_LOG} -2 ${NODE_EXPORTER_LOG}"}
+
+name="${NODE_EXPORTER_NAME:-"Node Exporter"}"
+command="/usr/bin/node_exporter"
+command_args="${NODE_EXPORTER_OPTS}"
+command_user="${NODE_EXPORTER_USER}"
+pidfile="/run/${SVCNAME}.pid"
+start_stop_daemon_args="-b ${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${NODE_EXPORTER_USER} \
+		"${NODE_EXPORTER_DATADIR}" "${NODE_EXPORTER_LOG%/*}"
+}

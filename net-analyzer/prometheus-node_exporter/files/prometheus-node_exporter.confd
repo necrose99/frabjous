@@ -1,0 +1,4 @@
+# config file for /etc/init.d/prometheus-node_exporter
+
+NODE_EXPORTER_DATADIR="/var/lib/node_exporter"
+NODE_EXPORTER_OPTS="--collector.textfile.directory=${NODE_EXPORTER_DATADIR}"
