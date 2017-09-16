@@ -74,5 +74,12 @@ pkg_postinst() {
 		ewarn "Be aware that the old data currently cannot be accessed with prometheus 2.0"
 		ewarn "It's generally advised to start with a clean storage directory"
 		ewarn
+	else
+		if has_version '>=net-analyzer/prometheus-2.0.0_beta0'; then
+			ewarn
+			ewarn "This release requires a clean storage directory and is not compatible"
+			ewarn "with files created by previous beta releases."
+			ewarn
+		fi
 	fi
 }
