@@ -53,11 +53,11 @@ src_prepare() {
 
 src_compile() {
 	local GOLDFLAGS="-s -w \
-	-X github.com/mattermost/platform/model.BuildNumber=${MY_PV} \
-	-X 'github.com/mattermost/platform/model.BuildDate=$(date -u)' \
-	-X github.com/mattermost/platform/model.BuildHash=${PKG_COMMIT} \
-	-X github.com/mattermost/platform/model.BuildHashEnterprise=none \
-	-X github.com/mattermost/platform/model.BuildEnterpriseReady=false"
+	-X ${EGO_PN}/model.BuildNumber=${MY_PV} \
+	-X '${EGO_PN}/model.BuildDate=$(date -u)' \
+	-X ${EGO_PN}/model.BuildHash=${PKG_COMMIT} \
+	-X ${EGO_PN}/model.BuildHashEnterprise=none \
+	-X ${EGO_PN}/model.BuildEnterpriseReady=false"
 
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because sys-apps/yarn fetch dependencies here:
