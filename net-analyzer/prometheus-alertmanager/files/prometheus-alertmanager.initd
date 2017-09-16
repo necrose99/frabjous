@@ -1,0 +1,29 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="The Alertmanager handles alerts sent by client applications such as the Prometheus server"
+
+: ${ALERTMANAGER_USER:=prometheus}
+: ${ALERTMANAGER_CONFIG:="/etc/alertmanager/alertmanager.yml"}
+: ${ALERTMANAGER_LOG:="/var/log/prometheus/alertmanager.log"}
+: ${SSD_OPTS:="-w 1000 -1 ${ALERTMANAGER_LOG} -2 ${ALERTMANAGER_LOG}"}
+
+name="${ALERTMANAGER_NAME:-Prometheus Alertmanager}"
+command="/usr/bin/alertmanager"
+command_args="-config.file=${ALERTMANAGER_CONFIG} ${ALERTMANAGER_OPTS}"
+command_user="${ALERTMANAGER_USER}"
+pidfile="/run/${SVCNAME}.pid"
+required_files="${ALERTMANAGER_CONFIG}"
+start_stop_daemon_args="-b ${SSD_OPTS} \
+	-d ${ALERTMANAGER_DATADIR}"
+
+depend() {
+	need net
+	after bootmisc
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${ALERTMANAGER_USER} \
+		"${ALERTMANAGER_DATADIR}" "${ALERTMANAGER_LOG%/*}"
+}

@@ -1,0 +1,4 @@
+# config file for /etc/init.d/prometheus-alertmanager
+
+ALERTMANAGER_DATADIR="/var/lib/prometheus/alertmanager"
+ALERTMANAGER_OPTS=""
