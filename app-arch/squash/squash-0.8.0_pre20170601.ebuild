@@ -89,6 +89,8 @@ DEPEND="app-arch/lz4
 	app-arch/zstd
 	dev-util/ragel"
 
+RESTRIC="mirror"
+
 DOCS=( AUTHORS NEWS README )
 
 S="${WORKDIR}/${PN}-${GIT_COMMIT}"
