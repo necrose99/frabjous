@@ -6,13 +6,14 @@ description="Open source monitoring and visualization UI for the entire TICK sta
 
 : ${CHRONOGRAF_USER:=chronograf}
 : ${CHRONOGRAF_LOG:="/var/log/${SVCNAME}/chronograf.log"}
-: ${SSD_OPTS:="-1 ${CHRONOGRAF_LOG} -2 ${CHRONOGRAF_LOG}"}
+: ${SSD_OPTS:="-w 1000 -1 ${CHRONOGRAF_LOG} -2 ${CHRONOGRAF_LOG}"}
 
 command="/usr/bin/chronograf"
 command_args="${CHRONOGRAF_OPTS}"
 command_user="${CHRONOGRAF_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-b ${SSD_OPTS}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	need net

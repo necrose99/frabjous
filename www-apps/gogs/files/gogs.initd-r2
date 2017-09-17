@@ -14,13 +14,13 @@ name="Gogs"
 command="/usr/bin/gogs"
 command_args="web --config ${GOGS_CONFIG} ${GOGS_OPTS}"
 command_user="${GOGS_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${GOGS_CONFIG}"
 retry=${GOGS_TERMTIMEOUT:-"TERM/60/KILL/5"}
-start_stop_daemon_args="-b \
+start_stop_daemon_args="${SSD_OPTS} \
 	-e \"GOGS_CUSTOM=${GOGS_HOME}\" \
-	-e \"USER=${GOGS_USER}\" \
-	${SSD_OPTS}"
+	-e \"USER=${GOGS_USER}\""
 
 depend() {
 	need localmount net

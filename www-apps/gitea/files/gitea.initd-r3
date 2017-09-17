@@ -14,13 +14,13 @@ name="Gitea"
 command="/usr/bin/gitea"
 command_args="web --config ${GITEA_CONFIG} ${GITEA_OPTS}"
 command_user="${GITEA_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${GITEA_CONFIG}"
 retry=${GITEA_TERMTIMEOUT:-"TERM/60/KILL/5"}
-start_stop_daemon_args="-b \
+start_stop_daemon_args="${SSD_OPTS} \
 	-e \"GITEA_CUSTOM=${GITEA_HOME}\" \
-	-e \"USER=${GITEA_USER}\" \
-	${SSD_OPTS}"
+	-e \"USER=${GITEA_USER}\""
 
 depend() {
 	need localmount net

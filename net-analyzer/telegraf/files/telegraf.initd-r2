@@ -13,11 +13,11 @@ description_reload="Reload the ${name} configuration"
 
 name="Telegraf server"
 command="/usr/bin/telegraf"
-command_args="--config ${TELEGRAF_CONFIG} \
-	${TELEGRAF_OPTS}"
+command_args="--config ${TELEGRAF_CONFIG} ${TELEGRAF_OPTS}"
 command_user="${TELEGRAF_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-b ${SSD_OPTS}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	need net

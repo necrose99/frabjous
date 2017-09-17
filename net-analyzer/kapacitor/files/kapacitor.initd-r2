@@ -10,7 +10,7 @@ description="A framework for processing, monitoring, and alerting on time series
 
 command="/usr/bin/kapacitord"
 command_args="--config ${KAPACITOR_CONFIG} ${KAPACITOR_OPTS}"
-command_background=yes
+command_background=true
 command_user="${KAPACITOR_USER}"
 pidfile="/run/${SVCNAME}d.pid"
 required_files="${KAPACITOR_CONFIG}"

@@ -13,9 +13,10 @@ name="${ALERTMANAGER_NAME:-Prometheus Alertmanager}"
 command="/usr/bin/alertmanager"
 command_args="-config.file=${ALERTMANAGER_CONFIG} ${ALERTMANAGER_OPTS}"
 command_user="${ALERTMANAGER_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${ALERTMANAGER_CONFIG}"
-start_stop_daemon_args="-b ${SSD_OPTS} \
+start_stop_daemon_args="${SSD_OPTS} \
 	-d ${ALERTMANAGER_DATADIR}"
 
 depend() {

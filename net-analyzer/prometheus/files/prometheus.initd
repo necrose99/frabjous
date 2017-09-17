@@ -13,9 +13,10 @@ name="${PROMETHEUS_NAME:-Prometheus}"
 command="/usr/bin/prometheus"
 command_args="--config.file=${PROMETHEUS_CONFIG} ${PROMETHEUS_OPTS}"
 command_user="${PROMETHEUS_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${PROMETHEUS_CONFIG}"
-start_stop_daemon_args="-b ${SSD_OPTS}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	need net

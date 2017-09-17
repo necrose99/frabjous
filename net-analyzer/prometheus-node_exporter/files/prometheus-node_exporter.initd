@@ -12,8 +12,9 @@ name="${NODE_EXPORTER_NAME:-"Node Exporter"}"
 command="/usr/sbin/node_exporter"
 command_args="${NODE_EXPORTER_OPTS}"
 command_user="${NODE_EXPORTER_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-b ${SSD_OPTS}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	need net

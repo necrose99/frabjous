@@ -9,7 +9,7 @@
 name="${SPREED_NAME:-"Spreed WebRTC Server"}"
 command="/usr/sbin/spreed-webrtc-server"
 command_args="-c ${SPREED_CONF} ${SPREED_OPTS}"
-command_background=yes
+command_background=true
 command_user="${SPREED_USER}"
 pidfile="/run/${SVCNAME}.pid"
 required_files="${SPREED_CONF}"

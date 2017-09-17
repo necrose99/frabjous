@@ -15,10 +15,11 @@ description_reload="Reload Caddy configuration"
 command="/usr/sbin/caddy"
 command_args="-conf=\"${CADDY_CONFIG}\" ${CADDY_OPTS}"
 command_user="${CADDY_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${CADDY_CONFIG}"
 retry=${CADDY_TERMTIMEOUT:-"TERM/60/KILL/5"}
-start_stop_daemon_args="-b -e \"CADDYPATH=${CADDY_CERTPATH}\" \
+start_stop_daemon_args="-e \"CADDYPATH=${CADDY_CERTPATH}\" \
 	${SSD_OPTS:-"--wait 1000"}"
 
 depend() {

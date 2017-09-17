@@ -11,9 +11,10 @@
 command="/usr/bin/node"
 command_args="/usr/share/wekan/main.js"
 command_user="${WEKAN_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 retry=${WEKAN_TERMTIMEOUT:-"TERM/60/KILL/5"}
-start_stop_daemon_args="-b ${SSD_OPTS} \
+start_stop_daemon_args="${SSD_OPTS} \
 	-e \"MONGO_URL=${WEKAN_MONGO_URL}\" \
 	-e \"ROOT_URL=${WEKAN_ROOT_URL}\" \
 	-e \"PORT=${WEKAN_PORT}\" \
