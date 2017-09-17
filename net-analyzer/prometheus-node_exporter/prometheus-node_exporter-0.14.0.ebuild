@@ -41,7 +41,7 @@ src_test() {
 }
 
 src_install() {
-	dobin bin/node_exporter
+	dosbin bin/node_exporter
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}

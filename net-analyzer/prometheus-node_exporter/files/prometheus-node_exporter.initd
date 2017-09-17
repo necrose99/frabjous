@@ -9,7 +9,7 @@ description="Prometheus exporter for hardware and OS metrics exposed by *NIX ker
 : ${SSD_OPTS:="-1 ${NODE_EXPORTER_LOG} -2 ${NODE_EXPORTER_LOG}"}
 
 name="${NODE_EXPORTER_NAME:-"Node Exporter"}"
-command="/usr/bin/node_exporter"
+command="/usr/sbin/node_exporter"
 command_args="${NODE_EXPORTER_OPTS}"
 command_user="${NODE_EXPORTER_USER}"
 pidfile="/run/${SVCNAME}.pid"
