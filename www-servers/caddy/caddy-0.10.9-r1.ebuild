@@ -216,6 +216,8 @@ RDEPEND="sys-libs/libcap"
 REQUIRED_USE="login? ( jwt )"
 RESTRICT="mirror strip"
 
+PATCHES=( "${FILESDIR}"/${P}-rm_sponsors_header.patch ) 
+
 pkg_setup() {
 	enewgroup caddy
 	enewuser caddy -1 -1 -1 caddy
@@ -508,26 +510,26 @@ src_compile() {
 }
 
 src_install() {
-	dobin bin/caddy
+	dosbin bin/caddy
 	dodoc src/${EGO_PN}/{dist/CHANGES.txt,README.md}
 
-	newinitd "${FILESDIR}"/caddy.initd-r2 caddy
+	newinitd "${FILESDIR}"/caddy.initd-r3 caddy
 	newconfd "${FILESDIR}"/caddy.confd-r2 caddy
-	systemd_dounit "${FILESDIR}"/caddy.service
+	systemd_newunit "${FILESDIR}"/caddy.service-r1 caddy.service
 
 	insinto /etc/caddy
 	doins "${FILESDIR}"/Caddyfile.example
 
-	diropts -o caddy -g caddy -m 0750
-	dodir /etc/caddy/cert /var/log/caddy
-
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/caddy.logrotate caddy
+
+	diropts -o caddy -g caddy -m 0750
+	dodir /etc/caddy/cert /var/log/caddy
 }
 
 pkg_postinst() {
 	# Caddy currently does not support dropping privileges so we
 	# change attributes with setcap to allow access to priv ports
 	# https://caddyserver.com/docs/faq
-	setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/bin/caddy || die
+	setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/sbin/caddy || die
 }
