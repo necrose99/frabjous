@@ -1,6 +1,0 @@
-# /etc/conf.d/pydio-booster: config file for /etc/init.d/pydio-booster
-
-#PYDIO_USER=nobody
-#PYDIO_GROUP=nobody
-
-#PYDIO_OPTS="-conf /etc/pydio-booster/pydio.conf"
