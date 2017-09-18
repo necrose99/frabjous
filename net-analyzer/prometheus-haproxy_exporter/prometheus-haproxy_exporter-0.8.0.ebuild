@@ -15,8 +15,6 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
-RDEPEND="net-proxy/haproxy"
-
 RESTRICT="mirror strip"
 
 pkg_setup() {
