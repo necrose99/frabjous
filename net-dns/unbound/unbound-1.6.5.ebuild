@@ -18,8 +18,8 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 CDEPEND=">=dev-libs/expat-2.1.0-r3
 	>=dev-libs/libevent-2.0.21:0=
-	libressl? ( >=dev-libs/libressl-2.2.4:0 )
-	!libressl? ( >=dev-libs/openssl-1.0.1h-r2:0 )
+	libressl? ( dev-libs/libressl:0= )
+	!libressl? ( >=dev-libs/openssl-1.0.1h-r2:0= )
 	dnscrypt? ( dev-libs/libsodium )
 	dnstap? (
 		dev-libs/fstrm
