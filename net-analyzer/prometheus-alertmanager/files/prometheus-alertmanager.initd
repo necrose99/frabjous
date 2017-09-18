@@ -2,7 +2,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-description="The Alertmanager handles alerts sent by client applications such as the Prometheus server"
+description="Handles alerts sent by client applications such as the Prometheus"
 
 : ${ALERTMANAGER_USER:=prometheus}
 : ${ALERTMANAGER_CONFIG:="/etc/alertmanager/alertmanager.yml"}
