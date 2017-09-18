@@ -216,7 +216,7 @@ RDEPEND="sys-libs/libcap"
 REQUIRED_USE="login? ( jwt )"
 RESTRICT="mirror strip"
 
-PATCHES=( "${FILESDIR}"/${P}-rm_sponsors_header.patch ) 
+PATCHES=( "${FILESDIR}"/${P}-rm_sponsors_header.patch )
 
 pkg_setup() {
 	enewgroup caddy
