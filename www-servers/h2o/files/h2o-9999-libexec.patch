@@ -1,6 +1,6 @@
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -509,13 +509,13 @@
+@@ -512,13 +512,13 @@
      INSTALL(FILES "${CMAKE_BINARY_DIR}/libh2o-evloop.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
  ENDIF ()
  
@@ -18,7 +18,7 @@
  # tests
 --- a/lib/handler/mruby.c
 +++ b/lib/handler/mruby.c
-@@ -73,17 +73,17 @@
+@@ -75,17 +75,17 @@
          root = H2O_TO_STR(H2O_ROOT);
      mrb_gv_set(mrb, mrb_intern_lit(mrb, "$H2O_ROOT"), mrb_str_new(mrb, root, strlen(root)));
  
@@ -35,11 +35,11 @@
 -                    "share/h2o/mruby/preloads.rb");
 +                    "libexec/h2o/mruby/preloads.rb");
          } else {
--            fprintf(stderr, "an error occurred while loading %s/%s: %s", root, "share/h2o/mruby/preloads.rb", RSTRING_PTR(mrb_inspect(mrb, mrb_obj_value(mrb->exc))));
-+            fprintf(stderr, "an error occurred while loading %s/%s: %s", root, "libexec/h2o/mruby/preloads.rb", RSTRING_PTR(mrb_inspect(mrb, mrb_obj_value(mrb->exc))));
+-            fprintf(stderr, "an error occurred while loading %s/%s: %s", root, "share/h2o/mruby/preloads.rb",
++            fprintf(stderr, "an error occurred while loading %s/%s: %s", root, "libexec/h2o/mruby/preloads.rb",
+                     RSTRING_PTR(mrb_inspect(mrb, mrb_obj_value(mrb->exc))));
          }
          abort();
-     }
 --- a/lib/handler/configurator/fastcgi.c
 +++ b/lib/handler/configurator/fastcgi.c
 @@ -284,12 +284,12 @@
@@ -97,3 +97,23 @@
  
      /* error-log and pid-file are the directives that are handled by server-starter */
      if (conf.pid_file != NULL) {
+@@ -2027,7 +2027,7 @@
+                        "                               the errors are logged to the file instead of\n"
+                        "                               being emitted to STDERR\n"
+                        "                     - master: invoked process becomes a master process (using\n"
+-                       "                               the `share/h2o/start_server` command) and spawns\n"
++                       "                               the `/usr/libexec/h2o/start_server` command) and spawns\n"
+                        "                               a worker process for handling incoming\n"
+                        "                               connections. Users may send SIGHUP to the master\n"
+                        "                               process to reconfigure or upgrade the server.\n"
+@@ -2036,8 +2036,8 @@
+                        "  -v, --version      prints the version number\n"
+                        "  -h, --help         print this help\n"
+                        "\n"
+-                       "Please refer to the documentation under `share/doc/h2o` (or available online at\n"
+-                       "http://h2o.examp1e.net/) for how to configure the server.\n"
++                       "Please refer to the documentation under `/usr/share/doc/h2o` (or available online at\n"
++                       "https://h2o.examp1e.net/) for how to configure the server.\n"
+                        "\n",
+                        H2O_TO_STR(H2O_CONFIG_PATH));
+                 exit(0);
