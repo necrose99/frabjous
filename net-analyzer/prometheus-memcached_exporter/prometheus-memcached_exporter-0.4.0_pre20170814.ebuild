@@ -16,8 +16,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-RDEPEND="net-misc/memcached"
-
 RESTRICT="mirror strip"
 
 pkg_setup() {
