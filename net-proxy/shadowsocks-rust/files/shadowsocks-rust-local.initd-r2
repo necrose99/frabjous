@@ -3,29 +3,28 @@
 # Distributed under the terms of the GNU General Public License v2
 
 : ${SS_USER:=shadowsocks}
-: ${SS_GROUP:=shadowsocks}
-: ${SS_CONFIG:="/etc/shadowsocks-rust/server.json"}
+: ${SS_CONFIG:="/etc/shadowsocks-rust/local.json"}
 : ${SS_LOG:="/var/log/shadowsocks-rust/${SVCNAME}.log"}
 : ${SSD_OPTS:="-1 ${SS_LOG} -2 ${SS_LOG}"}
 
 extra_started_commands="reload"
-description="A lightweight server socks5 proxy"
+description="A lightweight local socks5 proxy"
 description_reload="Reload the ${SVCNAME} configuration"
 
-command="/usr/bin/ssserver"
+command="/usr/bin/sslocal"
 command_args="-c ${SS_CONFIG} ${SS_OPTS}"
-command_background="yes"
+command_user="${SS_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
 required_files="${SS_CONFIG}"
-start_stop_daemon_args="-u ${SS_USER} \
-	-g ${SS_GROUP} ${SSD_OPTS}"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	need net
 }
 
 start_pre() {
-	checkpath -d -m 0700 -o "${SS_USER}":"${SS_GROUP}" "${SS_LOG%/*}"
+	checkpath -d -m 0700 -o ${SS_USER} "${SS_LOG%/*}"
 }
 
 reload() {
