@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit flag-o-matic
 
@@ -22,6 +21,8 @@ DEPEND="
 RDEPEND="${DEPEND}
 	app-crypt/opmsg"
 
+RESTRICT="mirror"
+
 S="${WORKDIR}/${PN}-${MY_PV}"
 
 src_prepare() {
@@ -29,14 +30,14 @@ src_prepare() {
 		-e "/^CXXFLAGS/s/-O2 //" \
 		src/Makefile || die
 
-	eapply_user
+	default
 }
 
 src_compile() {
-	cd src/ || die
 	use libressl && append-cxxflags -DHAVE_LIBRESSL
 
-	emake CXX="$(tc-getCXX)" LDFLAGS="${LDFLAGS}"
+	CXX="$(tc-getCXX)" LDFLAGS="${LDFLAGS}" \
+		emake -C src
 }
 
 src_install() {
@@ -45,8 +46,10 @@ src_install() {
 }
 
 pkg_postinst() {
+	ewarn
 	ewarn "Note: drops is in the beta testing phase."
-	ewarn ""
+	ewarn
 	ewarn "There are easier things than to get a p2p network flying and tested."
 	ewarn "For this reason, expect some changes to the commandline/config options."
+	ewarn
 }
