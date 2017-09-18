@@ -21,7 +21,7 @@ inherit golang-vcs-snapshot systemd user
 GIT_COMMIT="01ace8c5ffded06c5484fd52334e333a5235e4c4"
 EGO_PN="github.com/oliver006/redis_exporter"
 DESCRIPTION="A server that export Redis metrics for Prometheus consumption"
-HOMEPAGE="github.com/oliver006/redis_exporter"
+HOMEPAGE="https://github.com/oliver006/redis_exporter"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
