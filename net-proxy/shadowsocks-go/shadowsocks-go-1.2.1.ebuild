@@ -36,8 +36,8 @@ src_install() {
 	dobin bin/shadowsocks-{httpget,local,server}
 	dodoc src/${EGO_PN}/{CHANGELOG,README.md}
 
-	newinitd "${FILESDIR}"/${PN}-local.initd-r1 ssgo-local
-	newinitd "${FILESDIR}"/${PN}-server.initd-r1 ssgo-server
+	newinitd "${FILESDIR}"/${PN}-local.initd-r2 ${PN}-local
+	newinitd "${FILESDIR}"/${PN}-server.initd-r2 ${PN}-server
 
 	diropts -o shadowsocks -g shadowsocks -m 0700
 	dodir /etc/shadowsocks-go /var/log/shadowsocks-go
