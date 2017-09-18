@@ -6,7 +6,7 @@ EAPI=6
 inherit golang-vcs-snapshot systemd user
 
 GIT_COMMIT="74e7e48"
-EGO_PN="github.com/prometheus/alertmanager"
+EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="The Alertmanager handles alerts sent by client applications such as the Prometheus server"
 HOMEPAGE="https://prometheus.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
