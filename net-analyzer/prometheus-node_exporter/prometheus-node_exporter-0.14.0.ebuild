@@ -6,7 +6,7 @@ EAPI=6
 inherit golang-vcs-snapshot systemd user
 
 GIT_COMMIT="840ba5d"
-EGO_PN="github.com/prometheus/node_exporter"
+EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="Prometheus exporter for hardware and OS metrics exposed by *NIX kernels"
 HOMEPAGE="https://prometheus.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
