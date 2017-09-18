@@ -29,7 +29,7 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-RDEPEND="test? ( dev-db/redis )"
+DEPEND="test? ( dev-db/redis )"
 
 RESTRICT="mirror strip"
 
