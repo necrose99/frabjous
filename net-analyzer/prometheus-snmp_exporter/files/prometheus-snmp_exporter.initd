@@ -1,0 +1,26 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="An exporter that exposes information gathered from SNMP for Prometheus"
+
+: ${SNMP_EXPORTER_USER:=snmp_exporter}
+: ${SNMP_EXPORTER_LOG:="/var/log/snmp_exporter/snmp_exporter.log"}
+: ${SSD_OPTS:="-1 ${SNMP_EXPORTER_LOG} -2 ${SNMP_EXPORTER_LOG}"}
+
+name="${SNMP_EXPORTER_NAME:-"SNMP Exporter"}"
+command="/usr/bin/snmp_exporter"
+command_args="${SNMP_EXPORTER_OPTS}"
+command_user="${SNMP_EXPORTER_USER}"
+command_background=true
+pidfile="/run/${SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${SNMP_EXPORTER_USER} \
+		"${SNMP_EXPORTER_LOG%/*}"
+}
