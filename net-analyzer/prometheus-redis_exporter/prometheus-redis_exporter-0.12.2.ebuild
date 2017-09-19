@@ -22,7 +22,8 @@ GIT_COMMIT="01ace8c5ffded06c5484fd52334e333a5235e4c4"
 EGO_PN="github.com/oliver006/redis_exporter"
 DESCRIPTION="A server that export Redis metrics for Prometheus consumption"
 HOMEPAGE="https://github.com/oliver006/redis_exporter"
-SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
+	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
 SLOT="0"
