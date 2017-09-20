@@ -3,7 +3,6 @@
 
 EAPI=6
 
-# Note: Keep EGO_VENDOR in sync with glide.lock
 EGO_VENDOR=(
 	"github.com/beorn7/perks 4c0e845"
 	"github.com/golang/protobuf 2402d76"
@@ -23,7 +22,7 @@ HOMEPAGE="https://github.com/kumina/postfix_exporter"
 SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
-LICENSE="MIT"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
