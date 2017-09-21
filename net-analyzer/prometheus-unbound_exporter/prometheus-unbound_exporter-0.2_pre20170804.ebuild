@@ -3,7 +3,6 @@
 
 EAPI=6
 
-# Note: Keep EGO_VENDOR in sync with glide.lock
 EGO_VENDOR=(
 	"github.com/beorn7/perks 4c0e845"
 	"github.com/golang/protobuf 2402d76"
@@ -24,7 +23,7 @@ HOMEPAGE="https://github.com/kumina/unbound_exporter"
 SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
-LICENSE="MIT"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
@@ -38,12 +37,6 @@ pkg_setup() {
 src_compile() {
 	GOPATH="${S}" go install -v \
 		-ldflags "-s -w" ${EGO_PN} || die
-}
-
-src_test() {
-	export GOPATH="${S}"
-	local PKGS=( $(go list ./... | grep -v -E '/vendor/') )
-	go test -short ${PKGS[@]} || die
 }
 
 src_install() {
