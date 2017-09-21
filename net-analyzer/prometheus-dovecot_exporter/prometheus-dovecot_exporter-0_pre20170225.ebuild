@@ -15,7 +15,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="f21fd88"
+GIT_COMMIT="f21fd8850b255e9a893a166e04af04eafdad4a7a"
 EGO_PN="github.com/kumina/dovecot_exporter"
 DESCRIPTION="A Prometheus metrics exporter for the Dovecot mail server"
 HOMEPAGE="https://github.com/kumina/dovecot_exporter"
