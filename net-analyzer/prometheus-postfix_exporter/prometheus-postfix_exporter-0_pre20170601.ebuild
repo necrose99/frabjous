@@ -15,7 +15,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="a8b4bed"
+GIT_COMMIT="a8b4bed735a03f234fcfffba85302f51025e6b1d"
 EGO_PN="github.com/kumina/postfix_exporter"
 DESCRIPTION="A Prometheus metrics exporter for the Postfix mail server"
 HOMEPAGE="https://github.com/kumina/postfix_exporter"
