@@ -76,12 +76,14 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="examples hardened libs mining proton reduce-exports rust zeromq"
+IUSE="examples hardened libressl libs mining proton reduce-exports rust zeromq"
 
 DEPEND="dev-libs/boost:0=[threads(+)]
 	>=dev-libs/gmp-6.1.0
 	>=dev-libs/libevent-2.1.8
 	dev-libs/libsodium[-minimal]
+	!libressl? ( dev-libs/openssl:0=[-bindist] )
+	libressl? ( dev-libs/libressl:0= )
 	rust? ( >=dev-util/cargo-0.16.0 )
 	zeromq? ( >=net-libs/zeromq-4.2.1 )"
 RDEPEND="${DEPEND}"
