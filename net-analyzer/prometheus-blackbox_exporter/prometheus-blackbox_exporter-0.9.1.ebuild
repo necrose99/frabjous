@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="97d988e"
+GIT_COMMIT="2272b4e"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="Allows blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP and ICMP"
 HOMEPAGE="https://prometheus.io"
