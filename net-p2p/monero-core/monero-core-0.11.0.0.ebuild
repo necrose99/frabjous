@@ -38,8 +38,8 @@ CDEPEND="app-arch/xz-utils
 			media-gfx/zbar
 		)
 	)
-	!libressl? ( dev-libs/openssl:0[-bindist] )
-	libressl? ( dev-libs/libressl )
+	!libressl? ( dev-libs/openssl:0=[-bindist] )
+	libressl? ( dev-libs/libressl:0= )
 	stacktrace? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )

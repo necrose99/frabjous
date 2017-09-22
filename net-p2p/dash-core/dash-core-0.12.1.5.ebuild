@@ -29,8 +29,8 @@ CDEPEND="dev-libs/boost:0=[threads(+)]
 		dbus? ( dev-qt/qtdbus:5 )
 		qrcode? ( media-gfx/qrencode )
 	)
-	!libressl? ( dev-libs/openssl:0[-bindist] )
-	libressl? ( dev-libs/libressl )
+	!libressl? ( dev-libs/openssl:0=[-bindist] )
+	libressl? ( dev-libs/libressl:0= )
 	upnp? ( net-libs/miniupnpc )
 	wallet? ( sys-libs/db:4.8[cxx] )
 	zeromq? ( net-libs/zeromq )"
@@ -41,7 +41,7 @@ RDEPEND="${CDEPEND}"
 REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
 RESTRICT="mirror"
 
-S=${WORKDIR}/dash-${PV}
+S="${WORKDIR}/dash-${PV}"
 
 pkg_setup() {
 	if use daemon; then
