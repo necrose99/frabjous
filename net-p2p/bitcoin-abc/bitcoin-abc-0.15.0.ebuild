@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
+inherit autotools bash-completion-r1 gnome2-utils systemd user xdg-utils
 
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinabc.org"
@@ -177,7 +177,7 @@ pkg_preinst() {
 
 update_caches() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postinst() {

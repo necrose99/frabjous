@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit autotools bash-completion-r1 fdo-mime gnome2-utils systemd user
+inherit autotools bash-completion-r1 gnome2-utils systemd user xdg-utils
 
 MY_PN="BitcoinUnlimited"
 MY_PV="bucash${PV}"
@@ -187,7 +187,7 @@ pkg_preinst() {
 
 update_caches() {
 	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 }
 
 pkg_postinst() {
