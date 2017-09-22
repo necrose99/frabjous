@@ -4,7 +4,7 @@
 EAPI=6
 PYTHON_COMPAT=( python2_7 )
 
-inherit autotools eutils flag-o-matic python-single-r1 systemd user
+inherit eutils flag-o-matic python-single-r1 systemd user
 
 DESCRIPTION="A validating, recursive and caching DNS resolver"
 HOMEPAGE="https://unbound.net"
