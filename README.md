@@ -111,6 +111,7 @@ www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visu
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
+www-apps/**[grafana](www-apps/grafana)** | Grafana is an open source metric analytics & visualization suite
 www-apps/**[hugo](www-apps/hugo)** | A static HTML and CSS website generator written in Go
 www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
 www-apps/**[spreed-webrtc](www-apps/spreed-webrtc)** | A WebRTC audio/video call and conferencing server and web client
