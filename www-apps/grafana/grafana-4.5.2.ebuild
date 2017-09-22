@@ -51,7 +51,7 @@ src_compile() {
 	local GOLDFLAGS="-s -w \
 	-X main.version=${PV} \
 	-X main.commit=${PKG_COMMIT} \
-	-X main.buildstamp=$(date +%s)"
+	-X main.buildstamp=$(date -u '+%s')"
 
 	GOPATH="${S}" go install -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/pkg/cmd/grafana-{cli,server} || die
