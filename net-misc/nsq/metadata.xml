@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">nsqio/nsq</remote-id>
+		<bugs-to>https://github.com/nsqio/nsq/issues</bugs-to>
+		<doc>http://nsq.io/overview/design.html</doc>
+	</upstream>
+	<longdescription lang="en">
+		NSQ promotes distributed and decentralized topologies
+		without single points of failure, enabling fault
+		tolerance and high availability coupled with
+		a reliable message delivery guarantee.
+	</longdescription>
+</pkgmetadata>
