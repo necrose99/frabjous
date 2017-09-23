@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit eutils flag-o-matic systemd user
+inherit flag-o-matic systemd user
 
 DESCRIPTION="A caching full DNS resolver implementation written in C and LuaJIT"
 HOMEPAGE="https://www.knot-resolver.cz"
@@ -22,11 +22,12 @@ RDEPEND="
 	dev-lua/luasec
 	go? ( >=dev-lang/go-1.5.0 )
 	memcached? ( dev-libs/libmemcached )
-	redis? ( >=dev-libs/hiredis-0.11.0 )
-	systemd? ( sys-apps/systemd )"
+	redis? ( >=dev-libs/hiredis-0.11.0 )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 	test? ( dev-util/cmocka )"
+
+RESTRICT="mirror"
 
 pkg_setup() {
 	enewgroup kresd
@@ -60,8 +61,9 @@ src_test() {
 
 src_install() {
 	emake \
-		PREFIX="${EPREFIX}/usr" \
-		ETCDIR="${EPREFIX}/etc/kresd" \
+		PREFIX=/usr \
+		ETCDIR=/etc/kresd \
+		LIBDIR="$(get_libdir)" \
 		DESTDIR="${D}" install
 
 	newconfd "${FILESDIR}"/kresd.confd kresd
