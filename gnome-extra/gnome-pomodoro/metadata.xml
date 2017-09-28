@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">codito/gnome-pomodoro</remote-id>
+		<bugs-to>https://github.com/codito/gnome-pomodoro/issues</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		This GNOME app helps to manage time according to Pomodoro
+		Technique. It intends to improve productivity and quality
+		of work by reminding you to take short breaks.
+	</longdescription>
+	<use>
+		<flag name="appindicator">Add support for AppIndicator</flag>
+	</use>
+</pkgmetadata>
