@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<bugs-to>mailto:hugo@leisink.net</bugs-to>
+	</upstream>
+	<longdescription lang="en">
+		The Hiawatha Monitor is a monitoring tool for the Hiawatha
+		webserver. It can be used to keep track of the performance
+		and security of all your Hiawatha webservers via one single
+		interface. It's not a replacement for analytics software or
+		the local logfiles, but it gives you a quick and easy overview
+		of how your webservers are performing and which ones require
+		some attention.
+	</longdescription>
+</pkgmetadata>
