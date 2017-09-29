@@ -112,6 +112,7 @@ www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
 www-apps/**[grafana](www-apps/grafana)** | Grafana is an open source metric analytics & visualization suite
+www-apps/**[hiawatha-monitor](www-apps/hiawatha-monitor)** | Monitoring application for www-servers/hiawatha
 www-apps/**[hugo](www-apps/hugo)** | A static HTML and CSS website generator written in Go
 www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
 www-apps/**[spreed-webrtc](www-apps/spreed-webrtc)** | A WebRTC audio/video call and conferencing server and web client
@@ -120,6 +121,7 @@ www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by
 www-servers/**[algernon](www-servers/algernon)** | Pure Go web server with built-in Lua, Markdown, HyperApp and Pongo2 support
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
+www-servers/**[hiawatha](www-servers/hiawatha)** | Advanced and secure webserver
 www-servers/**[nginx](www-servers/nginx)** | Robust, small and high performance http and reverse proxy server
 www-servers/**[rest-server](www-servers/rest-server)** | A high performance HTTP server that implements restic's REST backend API
 x11-apps/**[radeon-profile](x11-apps/radeon-profile)** | App for display info about radeon card
