@@ -6,7 +6,8 @@
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
-		<bugs-to>mailto:hugo@leisink.net</bugs-to>
+		<remote-id type="github">hsleisink/monitor</remote-id>
+		<bugs-to>https://github.com/hsleisink/monitor/issues</bugs-to>
 	</upstream>
 	<longdescription lang="en">
 		The Hiawatha Monitor is a monitoring tool for the Hiawatha
