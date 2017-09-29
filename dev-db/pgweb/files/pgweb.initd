@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+: ${PGWEB_USER:=pgweb}
+: ${PGWEB_OPTS:="--bind=127.0.0.1 --listen=8081"}
+: ${PGWEB_LOG:="/var/log/pgweb/pgweb.log"}
+: ${SSD_OPTS:="-w 1000 -1 ${PGWEB_LOG} -2 ${PGWEB_LOG}"}
+
+command="/usr/bin/pgweb"
+command_args="${PGWEB_OPTS}"
+command_user="${PGWEB_USER}"
+command_background=true
+pidfile="/run/${SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${PGWEB_USER} "${PGWEB_LOG%/*}"
+}
