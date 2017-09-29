@@ -52,6 +52,10 @@ src_compile() {
 		"${GOLDFLAGS}" ${EGO_PN}/cmd/micro || die
 }
 
+src_test() {
+	GOPATH="${S}" go test ${EGO_PN}/cmd/micro || die
+}
+
 src_install() {
 	dobin bin/micro
 
