@@ -73,9 +73,9 @@ src_install() {
 	insinto /etc/h2o
 	doins "${FILESDIR}"/h2o.conf
 
-	diropts -o h2o -g h2o -m 0700
-	dodir /var/log/h2o
-
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/h2o.logrotate-r2 h2o
+
+	diropts -o h2o -g h2o -m 0700
+	dodir /var/log/h2o
 }
