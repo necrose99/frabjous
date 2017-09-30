@@ -1,0 +1,24 @@
+# It's not recommended to modify this file in-place, because
+# it will be overwritten during package upgrades.
+# If you want to customize, the best way is to create file 
+# "/etc/systemd/system/wekan.service.d/*.conf"
+# containing your changes
+
+[Unit]
+Description=Wekan server
+
+[Service]
+User=wekan
+Group=wekan
+ExecStart=/usr/libexec/wekan/npm/bin/node /usr/share/wekan/main.js
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=wekan
+Environment=MONGO_URL=mongodb://localhost:27017/wekan \
+ROOT_URL=http://localhost:8080/ PORT=8080
+
+[Install]
+WantedBy=multi-user.target
+
