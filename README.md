@@ -1,13 +1,13 @@
-# Welcome to the frabjous Gentoo overlay!
+# _Welcome to the frabjous Gentoo overlay!_
 
 [![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
 It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in the _testing¹_ (~*) branch. As such, you should probably consider
-it to be _unsafe_ and treat it as such. Although I use many of these packages in a production environment without major
-problems and try my best to follow Gentoo's QA standards, please use it with caution, especially crypto related stuff.
+**DISCLAIMER:** All ebuilds are permanently in the _testing¹_ (~*) branch.
+Although I use many of these packages in a production environment without major problems and try my best to
+follow Gentoo's QA standards, please use it with caution, especially crypto related stuff.
 
 > ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not been thoroughly
 tested. Users using the testing branch might very well be the first to discover a bug in the package in which case
@@ -108,6 +108,7 @@ sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
+www-apps/**[filemanager](www-apps/filemanager)** | A stylish web file manager
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
@@ -131,8 +132,18 @@ x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process comple
 All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is
 [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
 
-## Tip Jar
-Bitcoin _Cash_ donations are welcome: **`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`**
+## Tip Jar - Donations are welcome!
+Bitcoin _Cash_ donation address:
+`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
+
+Dash donation address:
+`Xg8AVx7YLSpTagR5DSzHk9Na1oDMUwb2hk`
+
+Monero donation address:
+`4KseVC8hDgP27ata3RuhyFbr1YMYn24hKDQixKTiQTufGX6Fn9vYTsvNY3uaZwivEQXXeewBk6d8eFymEGCU8pArN5m8JxkAcAu5CQRwat`
+
+Zcash donation z-address:
+`zcX1qbN2YJKARPmFcrU3HgpQfYbWe9yy4YsogDA4gpwJ6NGk2bXZ6nyNDo3HLBkAKizRPkASSEduGeVtzj3VfixFey9y1Yx`
 
 ## Contributing 
 If you find any bugs, please report them! I am also happy to accept pull requests from anyone.
