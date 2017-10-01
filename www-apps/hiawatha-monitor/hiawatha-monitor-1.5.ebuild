@@ -23,7 +23,7 @@ S="${WORKDIR}/monitor"
 src_install () {
 	default
 
-	rm -f ChangeLog README LICENSE
+	rm -f ChangeLog README LICENSE || die
 
 	insinto /usr/share/${PN}
 	doins -r *
