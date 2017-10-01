@@ -26,12 +26,12 @@ RESTRICT="mirror strip"
 src_setup() {
 	if use man; then
 		has network-sandbox $FEATURES && \
-			die "dev-vcs/hub require 'network-sandbox' to be disabled in FEATURES"
+			die "dev-vcs/hub[man] require 'network-sandbox' to be disabled in FEATURES"
 	fi
 }
 
 src_compile() {
-	local GOLDFLAGS="-s -w -X ${EGO_PN}/version.Version=${PV}"
+	local GOLDFLAGS="-s -w -X ${EGO_PN}/version.Version=${MY_PV}"
 
 	GOPATH="${S}" go install -v -ldflags \
 		"${GOLDFLAGS}" ${EGO_PN} || die
@@ -59,8 +59,6 @@ src_install() {
 		newins etc/hub.zsh_completion _hub
 	fi
 
-	if use man; then
-		doman share/man/man1/*.1
-	fi
+	use man && doman share/man/man1/*.1
 	popd > /dev/null || die
 }
