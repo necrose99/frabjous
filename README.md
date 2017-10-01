@@ -107,6 +107,7 @@ net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Sh
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
+sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
 www-apps/**[filemanager](www-apps/filemanager)** | A stylish web file manager
