@@ -68,7 +68,7 @@ src_configure() {
 		--enable-systemd=$(usex systemd) \
 		$(use_enable daemon) \
 		$(use_enable fastparser) \
-		$(use_enable dnstap) \
+		$(use_enable module-dnstap dnstap) \
 		$(use_enable doc documentation) \
 		$(use_enable static-libs static) \
 		$(use_enable utils utilities) \
