@@ -5,9 +5,10 @@
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
 It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** All ebuilds are permanently in the _testing¹_ (~*) branch.
-Although I use many of these packages in a production environment without major problems and try my best to
-follow Gentoo's QA standards, please use it with caution, especially crypto related stuff.
+**DISCLAIMER:** As I don't have time, nor the resources to make stable ebuilds in the same way Gentoo developers does,
+all ebuilds are permanently kept in the _testing¹_ branch. As such, you should probably consider it to be _unsafe_
+and treat it as such. Nevertheless, I try my best to follow Gentoo's QA standards and keep everything updated,
+as I use many of these packages in a production environment.
 
 > ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not been thoroughly
 tested. Users using the testing branch might very well be the first to discover a bug in the package in which case
