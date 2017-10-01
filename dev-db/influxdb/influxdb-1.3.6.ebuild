@@ -95,9 +95,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	if [ ! -e "${EROOT}"/etc/${PN}/influxdb.conf ]; then
+	if [ ! -e "${EROOT%/}"/etc/${PN}/influxdb.conf ]; then
 		elog "No influxdb.conf found, copying the example over"
-		cp "${EROOT}"/etc/${PN}/influxdb.conf{.example,} || die
+		cp "${EROOT%/}"/etc/${PN}/influxdb.conf{.example,} || die
 	else
 		elog "influxdb.conf found, please check example file for possible changes"
 	fi
