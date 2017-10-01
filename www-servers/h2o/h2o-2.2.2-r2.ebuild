@@ -16,7 +16,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bundled-ssl libh2o libressl libuv +mruby websocket"
 
-RDEPEND="
+CDEPEND="
 	libh2o? (
 		libuv? ( >=dev-libs/libuv-1.0.0 )
 		websocket? ( net-libs/wslay )
@@ -25,11 +25,12 @@ RDEPEND="
 		!libressl? ( dev-libs/openssl:0= )
 		libressl? ( dev-libs/libressl:0= )
 	)"
-DEPEND="${RDEPEND}
+DEPEND="${CDEPEND}
 	mruby? (
 		sys-devel/bison
 		${RUBY_DEPS}
 	)"
+RDEPEND="app-misc/ca-certificates"
 REQUIRED_USE="bundled-ssl? ( !libressl )
 	libuv? ( libh2o )
 	websocket? ( libh2o )"
