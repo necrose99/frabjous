@@ -5,15 +5,15 @@ EAPI=6
 
 USE_RUBY="ruby22 ruby23 ruby24"
 
-inherit cmake-utils git-r3 ruby-single systemd user
+inherit cmake-utils ruby-single systemd user
 
 DESCRIPTION="An optimized HTTP server with support for HTTP/1.x and HTTP/2"
 HOMEPAGE="https://h2o.examp1e.net"
-EGIT_REPO_URI="https://github.com/${PN}/${PN}.git"
+SRC_URI="https://github.com/h2o/h2o/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="bundled-ssl libh2o libressl libuv +mruby websocket"
 
 RDEPEND="
@@ -36,7 +36,7 @@ REQUIRED_USE="bundled-ssl? ( !libressl )
 
 PATCHES=(
 	"${FILESDIR}"/${P}-libexec.patch
-	"${FILESDIR}"/${PN}-2.2.2-libexec_doc.patch
+	"${FILESDIR}"/${P}-libexec_doc.patch
 	"${FILESDIR}"/${P}-system_ca.patch
 )
 
