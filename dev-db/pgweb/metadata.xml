@@ -16,4 +16,10 @@
 		very simple and portable application to work with local
 		or remote PostgreSQL databases.
 	</longdescription>
+	<use>
+		<flag name="daemon">
+			Allow pgweb to run as a system-wide service. Installs
+			an init script and creates a pgweb user:group.
+		</flag>
+	</use>
 </pkgmetadata>
