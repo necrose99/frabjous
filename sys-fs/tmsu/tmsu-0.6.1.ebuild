@@ -23,6 +23,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="zsh-completion"
 
+RDEPEND="zsh-completion? ( app-shells/zsh )"
+
 RESTRICT="mirror strip"
 
 src_prepare() {
