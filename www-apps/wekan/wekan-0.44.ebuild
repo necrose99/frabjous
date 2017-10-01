@@ -59,12 +59,12 @@ src_prepare() {
 src_install() {
 	local PHANTON_DIR="programs/server/npm/node_modules/meteor/rajit_bootstrap3-datepicker/lib/bootstrap-datepicker/node_modules/phantomjs/lib/phantom/bin"
 
-	mkdir -p "${D}"/usr/{libexec,share}/wekan || die
-	mv "${S}"/${PHANTON_DIR}/phantomjs "${D}"/usr/libexec/wekan || die
+	mkdir -p "${D%/}"/usr/{libexec,share}/wekan || die
+	mv "${S}"/${PHANTON_DIR}/phantomjs "${D%/}"/usr/libexec/wekan || die
 	dosym /usr/libexec/wekan/phantomjs /usr/share/wekan/${PHANTON_DIR}/phantomjs
 
-	cp -a "${N_PREFIX}" "${D}"/usr/libexec/wekan || die
-	cp -a "${S}"/* "${D}"/usr/share/wekan || die
+	cp -a "${N_PREFIX}" "${D%/}"/usr/libexec/wekan || die
+	cp -a "${S}"/* "${D%/}"/usr/share/wekan || die
 
 	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
