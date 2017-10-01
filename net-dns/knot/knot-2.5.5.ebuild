@@ -94,7 +94,7 @@ src_install() {
 		systemd_dounit "${FILESDIR}"/${PN}.service
 		systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
-		rmdir "${D}"/var/run/knot "${D}"/var/run/ || die
+		rmdir "${D%/}"/var/run/knot "${D%/}"/var/run/ || die
 		diropts -o knot -g knot -m750
 		dodir /var/lib/knot
 	fi
