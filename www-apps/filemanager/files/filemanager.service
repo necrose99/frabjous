@@ -1,0 +1,14 @@
+[Unit]
+Description=Filemanager Service
+
+[Service]
+Type=simple
+User=filemanager
+Group=filemanager
+ExecStart=/usr/bin/filemanager -c /etc/filemanager/filemanager.yaml
+
+Restart=on-failure
+PrivateTmp=false
+
+[Install]
+WantedBy=multi-user.target
