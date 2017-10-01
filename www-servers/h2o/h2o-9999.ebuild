@@ -35,8 +35,8 @@ REQUIRED_USE="bundled-ssl? ( !libressl )
 	websocket? ( libh2o )"
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-2.2.2-fix_doc.patch
 	"${FILESDIR}"/${P}-libexec.patch
+	"${FILESDIR}"/${PN}-2.2.2-libexec_doc.patch
 )
 
 pkg_setup() {

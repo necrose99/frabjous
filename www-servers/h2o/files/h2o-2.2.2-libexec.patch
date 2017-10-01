@@ -99,3 +99,23 @@
  
      /* error-log and pid-file are the directives that are handled by server-starter */
      if (conf.pid_file != NULL) {
+@@ -2015,7 +2015,7 @@
+                        "                               the errors are logged to the file instead of\n"
+                        "                               being emitted to STDERR\n"
+                        "                     - master: invoked process becomes a master process (using\n"
+-                       "                               the `share/h2o/start_server` command) and spawns\n"
++                       "                               the `/usr/libexec/h2o/start_server` command) and spawns\n"
+                        "                               a worker process for handling incoming\n"
+                        "                               connections. Users may send SIGHUP to the master\n"
+                        "                               process to reconfigure or upgrade the server.\n"
+@@ -2024,8 +2024,8 @@
+                        "  -v, --version      prints the version number\n"
+                        "  -h, --help         print this help\n"
+                        "\n"
+-                       "Please refer to the documentation under `share/doc/h2o` (or available online at\n"
+-                       "http://h2o.examp1e.net/) for how to configure the server.\n"
++                       "Please refer to the documentation under `/usr/share/doc/h2o` (or available online at\n"
++                       "https://h2o.examp1e.net/) for how to configure the server.\n"
+                        "\n",
+                        H2O_TO_STR(H2O_CONFIG_PATH));
+                 exit(0);
