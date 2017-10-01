@@ -96,13 +96,13 @@ src_install() {
 
 pkg_preinst() {
 	# Remove redundant file
-	rm -r "${D}"/usr/share/${PN}/conf/sample.ini || die
+	rm -r "${D%/}"/usr/share/${PN}/conf/sample.ini || die
 }
 
 pkg_postinst() {
-	if [ ! -e "${EROOT}"/etc/${PN}/grafana.ini ]; then
+	if [ ! -e "${EROOT%/}"/etc/${PN}/grafana.ini ]; then
 		elog "No grafana.ini found, copying the example over"
-		cp "${EROOT}"/etc/${PN}/grafana.ini{.example,} || die
+		cp "${EROOT%/}"/etc/${PN}/grafana.ini{.example,} || die
 	else
 		elog "grafana.ini found, please check example file for possible changes"
 	fi
