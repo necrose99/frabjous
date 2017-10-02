@@ -5,14 +5,14 @@
 This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
 It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** As I don't have time, nor the resources to make stable ebuilds in the same way Gentoo developers does,
-all ebuilds are permanently kept in the _testing¹_ branch. As such, you should probably consider it to be _unsafe_
-and treat it as such. Nevertheless, I try my best to follow Gentoo's QA standards and keep everything updated,
-as I use many of these packages in a production environment.
+**DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds in the same way Gentoo
+developers does, all ebuilds are permanently kept in the _testing¹_ branch. As such, you should probably
+consider it to be _unsafe_ and treat it as such. Nevertheless, I try my best to follow Gentoo's QA
+standards and keep everything updated, as I use many of these packages in a production environment.
 
-> ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not been thoroughly
-tested. Users using the testing branch might very well be the first to discover a bug in the package in which case
-they should file a bug report to let the developers know about it.* —
+> ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not
+been thoroughly tested. Users using the testing branch might very well be the first to discover a bug
+in the package in which case they should file a bug report to let the developers know about it.* —
 [Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
@@ -30,9 +30,9 @@ sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
 ```
 
-> ¹ To use the testing branch for particular packages, you must add the package category and name (e.g., foo-bar/xyz)
-in `/etc/portage/package.accept_keywords`. It is also possible to create a directory (with the same name) and list
-the package in the files under that directory. ↩
+> ¹ To use the testing branch for particular packages, you must add the package category and name
+(e.g., foo-bar/xyz) in `/etc/portage/package.accept_keywords`. It is also possible to create a directory
+(with the same name) and list the package in the files under that directory. ↩
 
 ## Repository tree
 This is a list of packages available and their associated description:
