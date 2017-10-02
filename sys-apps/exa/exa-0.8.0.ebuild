@@ -98,6 +98,8 @@ src_compile() {
 src_install() {
 	dobin target/release/exa
 
+	doman contrib/man/exa.1
+
 	newbashcomp contrib/completions.bash exa
 
 	if use fish-completion;then

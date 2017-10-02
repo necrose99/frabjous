@@ -86,17 +86,19 @@ src_compile() {
 }
 
 src_install() {
-	dobin target/release/${PN}
+	dobin target/release/exa
 
-	newbashcomp contrib/completions.bash ${PN}
+	doman contrib/man/exa.1
+
+	newbashcomp contrib/completions.bash exa
 
 	if use fish-completion;then
 		insinto /usr/share/fish/completions
-		newins contrib/completions.fish ${PN}.fish
+		newins contrib/completions.fish exa.fish
 	fi
 
 	if use zsh-completion;then
 		insinto /usr/share/zsh/site-functions
-		newins contrib/completions.zsh _${PN}
+		newins contrib/completions.zsh _exa
 	fi
 }
