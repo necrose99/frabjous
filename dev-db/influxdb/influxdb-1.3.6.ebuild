@@ -48,6 +48,9 @@ DEPEND="man? ( app-text/asciidoc
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup influxdb
 	enewuser influxdb -1 -1 /var/lib/influxdb influxdb
@@ -57,7 +60,7 @@ src_prepare() {
 	# By default InfluxDB sends anonymous statistics to
 	# usage.influxdata.com, let's disable this by default.
 	sed -i "s:# reporting.*:reporting-disabled = true:" \
-		src/${EGO_PN}/etc/config.sample.toml || die
+		etc/config.sample.toml || die
 
 	default
 }
@@ -68,27 +71,24 @@ src_compile() {
 		-X main.branch=${PV} \
 		-X main.commit=${PKG_COMMIT}"
 
-	GOPATH="${S}" go install -v -ldflags "${GOLDFLAGS}" \
+	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/cmd/influx{,d,_stress,_inspect,_tsm} || die
 
-	use man && emake -C src/${EGO_PN}/man
+	use man && emake -C man
 }
 
 src_install() {
-	dobin bin/influx*
+	dobin "${G}"/bin/influx*
 
 	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf
+	systemd_dounit scripts/${PN}.service
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
-
-	pushd src/${EGO_PN} > /dev/null || die
-	systemd_dounit scripts/influxdb.service
 
 	insinto /etc/influxdb
 	newins etc/config.sample.toml influxdb.conf.example
 
 	use man && doman man/*.1
-	popd > /dev/null || die
 
 	diropts -o influxdb -g influxdb -m 0750
 	dodir /var/log/influxdb
