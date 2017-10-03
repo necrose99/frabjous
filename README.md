@@ -1,23 +1,28 @@
-# _Welcome to the frabjous Gentoo overlay!_
+## _Welcome to the frabjous Gentoo overlay!_ [<img src="https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square" title="Build Status" alt="Build Status" align="right">](https://travis-ci.org/csmk/frabjous)
 
-[![Build Status](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
-
-This overlay contain only ebuilds for packages that I'm interested in or that have been requested.
+This overlay contains many ebuilds for packages related to cryptography, system monitoring,
+server-side applications and tools, web servers, and other things that I'm interested in.
 It also include support for the upcoming `libressl` USE flag.
 
-**DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds in the same way Gentoo
-developers does, all ebuilds are permanently kept in the _testing¹_ branch. As such, you should probably
-consider it to be _unsafe_ and treat it as such. Nevertheless, I try my best to follow Gentoo's QA
-standards and keep everything updated, as I use many of these packages in a production environment.
+If you find any bugs, please report them! I'm also happy to accept pull requests
+from anyone. You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues)
+to report bugs, ask questions or suggest new features.
 
-> ¹ *If a package is in testing, it means that the developers feel that it is functional, but has not
-been thoroughly tested. Users using the testing branch might very well be the first to discover a bug
-in the package in which case they should file a bug report to let the developers know about it.* —
+**DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
+in the same way Gentoo developers does, all ebuilds are permanently kept in the _testing¹_
+branch. As such, you should probably consider it to be _unsafe_ and treat it as such.
+Nevertheless, I try my best to follow Gentoo's QA standards and keep everything up to date,
+as I use many of these packages in a production environment.
+
+> ¹ *If a package is in testing, it means that the developers feel that it is functional,
+but has not been thoroughly tested. Users using the testing branch might very well be the
+first to discover a bug in the package in which case they should file a bug report to let
+the developers know about it.* —
 [Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
-You must have `app-portage/layman` installed on your system for this to work. Just run `layman -a frabjous`,
-then you will be _almost¹_ ready to emerge the goodies.
+You must have `app-portage/layman` installed on your system for this to work. Just
+run `layman -a frabjous`, then you will be _almost¹_ ready to emerge the goodies.
 
 Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
 
@@ -107,6 +112,7 @@ net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowso
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
+sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
@@ -136,21 +142,11 @@ x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process comple
 All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is
 [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
 
-## Tip Jar - Donations are welcome!
-Bitcoin _Cash_ donation address:
-`18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
+## Donations are welcome!
+* Bitcoin _Cash_: `18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
+* Dash: `Xg8AVx7YLSpTagR5DSzHk9Na1oDMUwb2hk`
+* Ether: `0x002e7A11013BF05D418FD3FbdA4f3381E82e5A23`
+* Zcash: `zcX1qbN2YJKARPmFcrU3HgpQfYbWe9yy4YsogDA4gpwJ6NGk2bXZ6nyNDo3HLBkAKizRPkASSEduGeVtzj3VfixFey9y1Yx`
+* Monero:
 
-Dash donation address:
-`Xg8AVx7YLSpTagR5DSzHk9Na1oDMUwb2hk`
-
-Monero donation address:
 `4KseVC8hDgP27ata3RuhyFbr1YMYn24hKDQixKTiQTufGX6Fn9vYTsvNY3uaZwivEQXXeewBk6d8eFymEGCU8pArN5m8JxkAcAu5CQRwat`
-
-Zcash donation z-address:
-`zcX1qbN2YJKARPmFcrU3HgpQfYbWe9yy4YsogDA4gpwJ6NGk2bXZ6nyNDo3HLBkAKizRPkASSEduGeVtzj3VfixFey9y1Yx`
-
-## Contributing 
-If you find any bugs, please report them! I am also happy to accept pull requests from anyone.
-
-You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report bugs,
-ask questions or suggest new features.
