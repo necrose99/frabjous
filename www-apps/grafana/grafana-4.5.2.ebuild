@@ -23,17 +23,18 @@ RESTRICT="strip mirror"
 
 QA_EXECSTACK="usr/libexec/grafana/phantomjs"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
-	if has network-sandbox $FEATURES; then
+	has network-sandbox $FEATURES && \
 		die "www-apps/grafana require 'network-sandbox' to be disabled in FEATURES"
-	fi
 
 	enewgroup grafana
 	enewuser grafana -1 -1 /usr/share/grafana grafana
 }
 
 src_prepare() {
-	pushd src/${EGO_PN} > /dev/null || die
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because yarn/npm fetch dependencies here:
 	emake deps-js
@@ -42,7 +43,6 @@ src_prepare() {
 	if ! command -v grunt &>/dev/null; then
 		npm install grunt-cli || die
 	fi
-	popd > /dev/null || die
 
 	default
 }
@@ -53,25 +53,23 @@ src_compile() {
 	-X main.commit=${PKG_COMMIT} \
 	-X main.buildstamp=$(date -u '+%s')"
 
-	GOPATH="${S}" go install -v -ldflags "${GOLDFLAGS}" \
+	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/pkg/cmd/grafana-{cli,server} || die
 
-	emake -C src/${EGO_PN} build-js
+	emake build-js
 }
 
 src_test() {
-	export GOPATH="${S}"
-	emake -C src/${EGO_PN} test
+	emake GOPATH="${G}" test
 }
 
 src_install() {
-	dobin bin/grafana-{cli,server}
+	dobin "${G}"/bin/grafana-{cli,server}
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
 	exeinto /usr/libexec/grafana
 	doexe vendor/phantomjs/phantomjs
 
@@ -88,7 +86,6 @@ src_install() {
 	doins vendor/phantomjs/render.js
 	dosym ../../../../libexec/grafana/phantomjs \
 		/usr/share/grafana/vendor/phantomjs/phantomjs
-	popd > /dev/null || die
 
 	diropts -o grafana -g grafana -m 0750
 	dodir /var/{lib,log}/grafana
@@ -96,7 +93,7 @@ src_install() {
 
 pkg_preinst() {
 	# Remove redundant file
-	rm -r "${D%/}"/usr/share/${PN}/conf/sample.ini || die
+	rm -f "${D%/}"/usr/share/${PN}/conf/sample.ini || die
 }
 
 pkg_postinst() {
