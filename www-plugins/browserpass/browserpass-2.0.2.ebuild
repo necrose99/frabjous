@@ -17,7 +17,7 @@ KEYWORDS="~amd64"
 RDEPEND="app-admin/pass
 	|| (
 		www-client/firefox
-		www-client/firebox-bin
+		www-client/firefox-bin
 		www-client/chromium
 		www-client/inox
 	)"
