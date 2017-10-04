@@ -3,6 +3,11 @@
 
 EAPI=6
 
+# Note: Keep the following repos
+# in sync with vendor/manifest:
+# github.com/golang/crypto
+# github.com/golang/net
+
 CADDY_PLUGINS=(
 	"AUTHZ1 github.com/casbin/caddy-authz e0ddc63" # Apache-2.0 license
 	"AUTHZ2 github.com/casbin/casbin 24e6518" #v1.0.0 Apache-2.0 license
@@ -33,7 +38,7 @@ CADDY_PLUGINS=(
 	"GRPC4 github.com/rs/cors eabcc6a" # MIT license
 	"GRPC5 github.com/grpc/grpc-go f92cdcd" #v1.6.0 Apache-2.0 license
 	"GRPC6 github.com/google/go-genproto 595979c" # Apache-2.0 license
-	"GRPC7 github.com/golang/net b129b8e" # BSD license
+	"GRPC7 github.com/golang/net f5079bd" # BSD license
 
 	"IPFILTER1 github.com/pyed/ipfilter 6b25e48" # Apache-2.0 license
 	"IPFILTER2 github.com/oschwald/maxminddb-golang d19f6d4" #1.2.0 ISC license
@@ -45,7 +50,7 @@ CADDY_PLUGINS=(
 	"LOGIN2 github.com/abbot/go-http-auth 0ddd408" #v0.4.0 Apache-2.0 license
 	"LOGIN3 github.com/tarent/lib-compose 69430f9" # MIT license
 	"LOGIN4 github.com/tarent/logrus e87ac79" # MIT license
-	"LOGIN5 github.com/golang/crypto faadfbd" # BSD license
+	"LOGIN5 github.com/golang/crypto 2faea14" # BSD license
 
 	"MAILOUT1 github.com/SchumacherFM/mailout 4c599f4" #v1.1.2 Apache-2.0 license
 	"MAILOUT2 github.com/juju/ratelimit 5b9ff86" # LGPL-3 license
@@ -82,6 +87,8 @@ CADDY_PLUGINS=(
 	"RESTIC1 github.com/restic/caddy 27c8005" #v0.1.0 BSD-2 license
 	"RESTIC2 github.com/restic/rest-server 0a0ed9c" #v0.9.4 BSD-2 license
 
+	"TEST github.com/mcuadros/go-syslog 9cf13b7" #v2.2.1 MIT license
+
 	"UPLOAD1 github.com/wmark/caddy.upload 0df3fb3" #v1.3 BSD license
 	"UPLOAD2 github.com/wmark/go.abs 1ba06a1" # ??? license
 
@@ -95,11 +102,9 @@ for mod in "${CADDY_PLUGINS[@]}"; do
 		HTTP_${mod[0]}_P=${mod[1]//\//-}-${mod[2]}
 done
 
-EGO_PN="github.com/mholt/${PN}"
-CADDYMAIN="${EGO_PN}/caddy/caddymain"
-
 inherit golang-vcs-snapshot systemd user
 
+EGO_PN="github.com/mholt/caddy"
 DESCRIPTION="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
 HOMEPAGE="https://caddyserver.com"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -195,6 +200,10 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 		${HTTP_RESTIC1_URI} -> ${HTTP_RESTIC1_P}.tar.gz
 		${HTTP_RESTIC2_URI} -> ${HTTP_RESTIC2_P}.tar.gz
 	)
+	test? (
+		${HTTP_TEST_URI} -> ${HTTP_TEST_P}.tar.gz
+		!grpc? ( ${HTTP_GRPC7_URI} -> ${HTTP_GRPC7_P}.tar.gz )
+	)
 	upload? (
 		${HTTP_UPLOAD1_URI} -> ${HTTP_UPLOAD1_P}.tar.gz
 		${HTTP_UPLOAD2_URI} -> ${HTTP_UPLOAD2_P}.tar.gz
@@ -202,7 +211,9 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	)
 	webdav? (
 		${HTTP_WEBDAV_URI} -> ${HTTP_WEBDAV_P}.tar.gz
-		!grpc? ( ${HTTP_GRPC7_URI} -> ${HTTP_GRPC7_P}.tar.gz )
+		!test? (
+			!grpc? ( ${HTTP_GRPC7_URI} -> ${HTTP_GRPC7_P}.tar.gz )
+		)
 	)"
 
 LICENSE="Apache-2.0"
@@ -210,13 +221,18 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="authz awses awslambda cache cgi cors datadog expires filter forwardproxy
 	git grpc ipfilter jwt login mailout minify multipass nobots prometheus
-	proxyprotocol ratelimit realip reauth restic upload webdav"
+	proxyprotocol ratelimit realip reauth restic test upload webdav"
 
 RDEPEND="sys-libs/libcap"
 REQUIRED_USE="login? ( jwt )"
 RESTRICT="mirror strip"
 
+DOCS=( {dist/CHANGES.txt,README.md} )
 PATCHES=( "${FILESDIR}"/${P}-rm_sponsors_header.patch )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+CADDYMAIN="caddy/caddymain"
 
 pkg_setup() {
 	enewgroup caddy
@@ -345,6 +361,13 @@ src_unpack() {
 		"${HTTP_RESTIC2_EGO_PN} ${HTTP_RESTIC2_COMMIT}"
 	)
 
+	if use test; then
+		EGO_VENDOR+=( "gopkg.in/mcuadros/go-syslog.v2 ${HTTP_TEST_COMMIT} ${HTTP_TEST_EGO_PN}" )
+		use grpc || EGO_VENDOR+=(
+			"golang.org/x/net ${HTTP_GRPC7_COMMIT} ${HTTP_GRPC7_EGO_PN}"
+		)
+	fi
+
 	if use upload; then
 		EGO_VENDOR+=(
 			"blitznote.com/src/caddy.upload ${HTTP_UPLOAD1_COMMIT} ${HTTP_UPLOAD1_EGO_PN}"
@@ -357,9 +380,11 @@ src_unpack() {
 
 	if use webdav; then
 		EGO_VENDOR+=( "${HTTP_WEBDAV_EGO_PN} ${HTTP_WEBDAV_COMMIT}" )
-		use grpc || EGO_VENDOR+=(
-			"golang.org/x/net ${HTTP_GRPC7_COMMIT} ${HTTP_GRPC7_EGO_PN}"
-		)
+		if ! use test; then
+			use grpc || EGO_VENDOR+=(
+				"golang.org/x/net ${HTTP_GRPC7_COMMIT} ${HTTP_GRPC7_EGO_PN}"
+			)
+		fi
 	fi
 
 	golang-vcs-snapshot_src_unpack
@@ -368,150 +393,157 @@ src_unpack() {
 src_prepare() {
 	if use authz; then
 		sed -i "/(imported)/a _ \"$HTTP_AUTHZ1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use awses; then
 		sed -i "/(imported)/a _ \"$HTTP_AWSES1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use awslambda; then
 		sed -i "/(imported)/a _ \"$HTTP_AWSLAMBDA_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use cache; then
 		sed -i "/(imported)/a _ \"$HTTP_CACHE1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use cgi; then
 		sed -i "/(imported)/a _ \"$HTTP_CGI_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use cors; then
 		sed -i "/(imported)/a _ \"$HTTP_CORS_EGO_PN/caddy\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use datadog; then
 		sed -i "/(imported)/a _ \"$HTTP_DATADOG1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use expires; then
 		sed -i "/(imported)/a _ \"$HTTP_EXPIRES_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use filter; then
 		sed -i "/(imported)/a _ \"$HTTP_FILTER_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use forwardproxy; then
 		sed -i "/(imported)/a _ \"$HTTP_FWDPROXY_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use git; then
 		sed -i "/(imported)/a _ \"$HTTP_GIT_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use grpc; then
 		sed -i "/(imported)/a _ \"$HTTP_GRPC1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use ipfilter; then
 		sed -i "/(imported)/a _ \"$HTTP_IPFILTER1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use jwt; then
 		sed -i "/(imported)/a _ \"$HTTP_JWT1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use login; then
 		sed -i "/(imported)/a _ \"$HTTP_LOGIN1_EGO_PN/caddy\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use mailout; then
 		sed -i "/(imported)/a _ \"$HTTP_MAILOUT1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use minify; then
 		sed -i "/(imported)/a _ \"$HTTP_MINIFY1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use multipass; then
 		sed -i "/(imported)/a _ \"$HTTP_MULTIPASS1_EGO_PN/caddy\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use nobots; then
 		sed -i "/(imported)/a _ \"$HTTP_NOBOTS_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use prometheus; then
 		sed -i "/(imported)/a _ \"$HTTP_PROMETHEUS1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use proxyprotocol; then
 		sed -i "/(imported)/a _ \"$HTTP_PROXYPROTO1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use realip; then
 		sed -i "/(imported)/a _ \"$HTTP_REALIP_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use ratelimit; then
 		sed -i "/(imported)/a _ \"$HTTP_RTLIMIT_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use reauth; then
 		sed -i "/(imported)/a _ \"$HTTP_REAUTH_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use restic; then
 		sed -i "/(imported)/a _ \"$HTTP_RESTIC1_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use upload; then
 		sed -i '/(imported)/a _ "blitznote.com/src/caddy.upload"' \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	if use webdav; then
 		sed -i "/(imported)/a _ \"$HTTP_WEBDAV_EGO_PN\"" \
-			src/${CADDYMAIN}/run.go || die
+			${CADDYMAIN}/run.go || die
 	fi
 
 	default
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags \
-		"-s -w -X ${CADDYMAIN}.gitTag=${PV}" ${EGO_PN}/caddy || die
+	local GOLDFLAGS="-s -w \
+		-X ${EGO_PN}/${CADDYMAIN}.gitTag=${PV}"
+
+	GOPATH="${G}" go install -v -ldflags \
+		"${GOLDFLAGS}" ${EGO_PN}/caddy || die
+}
+
+src_test() {
+	GOPATH="${G}" go test ${EGO_PN}/... || die
 }
 
 src_install() {
-	dosbin bin/caddy
-	dodoc src/${EGO_PN}/{dist/CHANGES.txt,README.md}
+	dosbin "${G}"/bin/caddy
+	einstalldocs
 
 	newinitd "${FILESDIR}"/caddy.initd-r3 caddy
 	newconfd "${FILESDIR}"/caddy.confd-r2 caddy

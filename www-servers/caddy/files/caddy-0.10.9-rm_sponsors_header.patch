@@ -11,8 +11,8 @@ This reverts commit 56453e9664aa2c24115eb52a4e933febb3cac1f7.
 
 diff --git a/caddyhttp/header/header.go b/caddyhttp/header/header.go
 index 6a60eacf9..3967dd380 100644
---- a/src/github.com/mholt/caddy/caddyhttp/header/header.go
-+++ b/src/github.com/mholt/caddy/caddyhttp/header/header.go
+--- a/caddyhttp/header/header.go
++++ b/caddyhttp/header/header.go
 @@ -27,10 +27,6 @@ func (h Headers) ServeHTTP(w http.ResponseWriter, r *http.Request) (int, error)
  	for _, rule := range h.Rules {
  		if httpserver.Path(r.URL.Path).Matches(rule.Path) {
@@ -26,8 +26,8 @@ index 6a60eacf9..3967dd380 100644
  				// set a header.
 diff --git a/caddyhttp/httpserver/server.go b/caddyhttp/httpserver/server.go
 index 6096a1336..6a51aa9c0 100644
---- a/src/github.com/mholt/caddy/caddyhttp/httpserver/server.go
-+++ b/src/github.com/mholt/caddy/caddyhttp/httpserver/server.go
+--- a/caddyhttp/httpserver/server.go
++++ b/caddyhttp/httpserver/server.go
 @@ -343,8 +343,6 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
  	r = r.WithContext(c)
  
