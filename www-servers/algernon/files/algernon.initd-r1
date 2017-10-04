@@ -2,17 +2,12 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-: ${ALGERNON_USER:=algernon}
-: ${ALGERNON_GROUP:=algernon}
-: ${ALGERNON_OPTS:="-e -a --domain --server --log /var/log/algernon/algernon.log --addr=:80 /var/www/algernon"}
-
 name="Algernon web server"
 command="/usr/bin/algernon"
 command_args="${ALGERNON_OPTS}"
-command_background=yes
+command_user="${ALGERNON_USER}"
+command_background=true
 pidfile="/run/${SVCNAME}.pid"
-start_stop_daemon_args="-u ${ALGERNON_USER} \
-	-g ${ALGERNON_GROUP}"
 
 depend() {
 	need net
