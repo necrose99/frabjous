@@ -19,6 +19,9 @@ RDEPEND="virtual/mysql"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup orchestrator
 	enewuser orchestrator -1 -1 -1 orchestrator
@@ -29,10 +32,8 @@ src_compile() {
 		-X main.AppVersion=${PV} \
 		-X main.GitCommit=${PKG_COMMIT}"
 
-	pushd src/${EGO_PN} > /dev/null || die
-	GOPATH="${S}" go build -v -ldflags "${GOLDFLAGS}" \
+	GOPATH="${G}" go build -v -ldflags "${GOLDFLAGS}" \
 		-o "${S}"/orchestrator go/cmd/orchestrator/main.go || die
-	popd > /dev/null || die
 }
 
 src_install() {
@@ -41,15 +42,14 @@ src_install() {
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 
-	pushd src/${EGO_PN} > /dev/null || die
 	insinto /etc/orchestrator
 	doins conf/orchestrator-*.conf.json
 
 	insinto /usr/share/orchestrator
 	doins -r resources
-	popd > /dev/null || die
 
-	dosym ../../share/${PN}/resources /usr/libexec/${PN}/resources
+	dosym ../../share/orchestrator/resources \
+		/usr/libexec/orchestrator/resources
 
 	diropts -o orchestrator -g orchestrator -m 0750
 	dodir /var/log/orchestrator
