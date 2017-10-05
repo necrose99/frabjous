@@ -30,6 +30,9 @@ RDEPEND="dev-vcs/git[curl,threads]
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup gogs
 	enewuser gogs -1 /bin/bash /var/lib/gogs gogs
@@ -42,7 +45,7 @@ src_prepare() {
 		-e "s:BuildGitHash=.*:BuildGitHash=${GIT_COMMIT}\":g" \
 		-e "s:TAGS =.*::g" \
 		-e "s:-ldflags ':-ldflags '-s -w :" \
-		src/${EGO_PN}/Makefile || die
+		Makefile || die
 
 	sed -i \
 		-e "s:^RUN_USER =.*:RUN_USER = gogs:" \
@@ -55,7 +58,7 @@ src_prepare() {
 		-e "s:^AVATAR_UPLOAD_PATH =.*:AVATAR_UPLOAD_PATH = ${GOGS_PREFIX}/data/avatars:" \
 		-e "s:^PATH = data/attachments:PATH = ${GOGS_PREFIX}/data/attachments:" \
 		-e "s:^ROOT_PATH =:ROOT_PATH = ${EPREFIX}/var/log/gogs:" \
-		src/${EGO_PN}/conf/app.ini || die
+		conf/app.ini || die
 
 	default
 }
@@ -68,20 +71,18 @@ src_compile() {
 	use sqlite && TAGS_OPTS+=" sqlite"
 	use tidb && TAGS_OPTS+=" tidb"
 
-	LDFLAGS="" GOPATH="${S}" TAGS="${TAGS_OPTS/ /}" emake -C src/${EGO_PN} build
+	LDFLAGS="" GOPATH="${G}" \
+		TAGS="${TAGS_OPTS/ /}" emake build
 }
 
 src_install() {
-	pushd src/${EGO_PN} > /dev/null || die
 	dobin gogs
 
 	insinto /var/lib/gogs/conf
 	newins conf/app.ini app.ini.example
 
 	insinto /usr/share/gogs
-	insopts -o root -g gogs -m640
 	doins -r {conf,public,templates}
-	popd > /dev/null || die
 
 	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
@@ -101,7 +102,7 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	if [[ ! -e "${EROOT%/}"/var/lib/${PN}/conf/app.ini ]]; then
+	if [ ! -e "${EROOT%/}"/var/lib/${PN}/conf/app.ini ]; then
 		elog "No app.ini found, copying the example over"
 		cp "${EROOT%/}"/var/lib/${PN}/conf/app.ini{.example,} || die
 	else
