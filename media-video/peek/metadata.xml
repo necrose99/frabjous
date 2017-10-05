@@ -2,13 +2,19 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
-	<longdescription lang="en">
-		A simple tool that allows you to record short animated GIF images from your screen.
-	</longdescription>
 	<upstream>
 		<remote-id type="github">phw/peek</remote-id>
+		<bugs-to>https://github.com/phw/peek/issues</bugs-to>
 	</upstream>
+	<longdescription lang="en">
+		A simple tool that allows you to record short animated
+		GIF images from your screen.
+	</longdescription>
+	<use>
+		<flag name="gnome-shell">Enable gnome-shell recorder</flag>
+		<flag name="open-filemanager">Enable file manager integration</flag>
+	</use>
 </pkgmetadata>
