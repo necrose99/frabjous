@@ -112,9 +112,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="libressl"
 
-DEPEND="dev-libs/libsodium:0=
+DEPEND="<=dev-libs/libsodium-1.0.14:0=[-minimal]
 	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( dev-libs/libressl:0= )"
+	libressl? ( <=dev-libs/libressl-2.6.0:0= )"
 RDEPEND="${DEPEND}"
 
 RESTRICT="mirror"
