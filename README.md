@@ -9,7 +9,7 @@ from anyone. You can use the [GitHub issue tracker](https://github.com/csmk/frab
 to report bugs, ask questions or suggest new features.
 
 **DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
-in the same way Gentoo developers does, all ebuilds are permanently kept in the _testing¹_
+in the same way Gentoo developers do, all ebuilds are permanently kept in the _testing¹_
 branch. As such, you should probably consider it to be _unsafe_ and treat it as such.
 Nevertheless, I try my best to follow Gentoo's QA standards and keep everything up to date,
 as I use many of these packages in a production environment.
@@ -110,6 +110,7 @@ net-p2p/**[monero-core](net-p2p/monero-core)** | The secure, private and untrace
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
+net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
