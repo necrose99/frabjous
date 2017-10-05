@@ -1,4 +1,4 @@
-## _Welcome to the frabjous Gentoo overlay!_ [<img src="https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square" title="Build Status" alt="Build Status" align="right">](https://travis-ci.org/csmk/frabjous)
+## _Welcome to the frabjous Gentoo overlay!_ [<img src="https://travis-ci.org/csmk/frabjous.svg?branch=master" title="Build Status" alt="Build Status" align="right">](https://travis-ci.org/csmk/frabjous)
 
 This overlay contains many ebuilds for packages related to cryptography, system monitoring,
 server-side applications and tools, web servers, and other things that I'm interested in.
