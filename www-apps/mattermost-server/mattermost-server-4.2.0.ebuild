@@ -22,10 +22,12 @@ DEPEND="${RDEPEND}
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
-	if has network-sandbox $FEATURES; then
+	has network-sandbox $FEATURES && \
 		die "www-apps/mattermost-server require 'network-sandbox' to be disabled in FEATURES"
-	fi
 
 	enewgroup mattermost
 	enewuser mattermost -1 -1 -1 mattermost
@@ -38,7 +40,7 @@ src_prepare() {
 		-e 's|"SiteURL": "http://localhost:8065"|"SiteURL": ""|g' \
 		-e 's|"Directory": ".*"|"Directory": "/var/lib/mattermost/"|g' \
 		-e 's|tcp(dockerhost:3306)|unix(/run/mysqld/mysqld.sock)|g' \
-		src/${EGO_PN}/config/default.json || die
+		config/default.json || die
 
 	# Reset email sending to original configuration
 	sed -i \
@@ -46,7 +48,7 @@ src_prepare() {
 		-e 's|"FeedbackEmail": "test@example.com",|"FeedbackEmail": "",|g' \
 		-e 's|"SMTPServer": "dockerhost",|"SMTPServer": "",|g' \
 		-e 's|"SMTPPort": "2500",|"SMTPPort": "",|g' \
-		src/${EGO_PN}/config/default.json || die
+		config/default.json || die
 
 	default
 }
@@ -61,20 +63,19 @@ src_compile() {
 
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because sys-apps/yarn fetch dependencies here:
-	emake -C src/${EGO_PN}/webapp build
+	emake -C webapp build
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/cmd/platform || die
+	GOPATH="${G}" go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/platform ${EGO_PN}/cmd/platform || die
 }
 
 src_install() {
 	exeinto /usr/libexec/${PN}/bin
-	doexe bin/platform
+	doexe platform
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
 	insinto /etc/${PN}
 	doins config/README.md
 	newins config/default.json config.json
@@ -86,7 +87,6 @@ src_install() {
 
 	insinto /usr/share/${PN}/webapp
 	doins -r webapp/dist
-	popd > /dev/null || die
 
 	dosym ../../../../etc/${PN}/config.json /usr/libexec/${PN}/config/config.json
 	dosym ../../share/${PN}/fonts /usr/libexec/${PN}/fonts
