@@ -71,8 +71,11 @@ src_compile() {
 	use sqlite && TAGS_OPTS+=" sqlite"
 	use tidb && TAGS_OPTS+=" tidb"
 
-	LDFLAGS="" GOPATH="${G}" \
-		TAGS="${TAGS_OPTS/ /}" emake build
+	emake \
+		LDFLAGS="" \
+		GOPATH="${G}" \
+		TAGS="${TAGS_OPTS/ /}" \
+		build
 }
 
 src_install() {
