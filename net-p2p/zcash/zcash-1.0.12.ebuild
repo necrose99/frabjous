@@ -89,7 +89,7 @@ IUSE="bundled-ssl examples hardened libressl libs mining proton reduce-exports r
 DEPEND="dev-libs/boost:0=[threads(+)]
 	>=dev-libs/gmp-6.1.0
 	>=dev-libs/libevent-2.1.8
-	dev-libs/libsodium[-minimal]
+	dev-libs/libsodium:0=[-minimal]
 	!bundled-ssl? (
 		!libressl? ( dev-libs/openssl:0=[-bindist] )
 		libressl? ( dev-libs/libressl:0= )
