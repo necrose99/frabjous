@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~arm ~x86"
 IUSE="hardened libressl +plugins ssl systemd verify-minisign"
 
 RDEPEND="
-	dev-libs/libsodium
+	dev-libs/libsodium:0=
 	net-libs/ldns
 	ssl? (
 		!libressl? ( dev-libs/openssl:0= )
@@ -31,8 +31,8 @@ DOCS=( ChangeLog NEWS README.markdown DNSCRYPT-V2-PROTOCOL.txt )
 
 pkg_setup() {
 	if use verify-minisign; then
-	minisign -VP ${MINISIGN_PK} -m "${DISTDIR}"/${P}.tar.gz \
-		|| die "Minisign verification failed!"
+		minisign -VP ${MINISIGN_PK} -m "${DISTDIR}"/${P}.tar.gz \
+			|| die "Minisign verification failed!"
 	fi
 
 	enewgroup dnscrypt
@@ -62,22 +62,23 @@ src_install() {
 pkg_preinst() {
 	# ship working default configuration for systemd users
 	if use systemd; then
-		sed -i 's/Daemonize yes/Daemonize no/g' "${D}"/etc/${PN}.conf
+		sed -i 's/Daemonize yes/Daemonize no/g' \
+			"${D%/}"/etc/${PN}.conf || die
 	fi
 }
 
 pkg_postinst() {
-	elog
+	einfo
 	elog "After starting the service you will need to update your"
-	elog "${EROOT}etc/resolv.conf and replace your current set of resolvers with:"
-	elog
+	elog "${EROOT%/}/etc/resolv.conf and replace your current set of resolvers with:"
+	einfo
 	elog "nameserver 127.0.0.1"
 	if use systemd; then
-		elog
+		einfo
 		elog "with systemd dnscrypt-proxy ignores LocalAddress setting in the config file"
 		elog "edit dnscrypt-proxy.socket if you need to change the defaults"
 	fi
-	elog
+	einfo
 	elog "Also see https://github.com/jedisct1/dnscrypt-proxy#usage."
-	elog
+	einfo
 }
