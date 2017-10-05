@@ -18,6 +18,11 @@ IUSE="examples"
 
 RESTRICT="mirror strip"
 
+DOCS=( {README,CHANGELOG,CONTRIBUTING}.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup prometheus
 	enewuser prometheus -1 -1 /var/lib/prometheus prometheus
@@ -31,37 +36,47 @@ src_compile() {
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${S}" go install -v -ldflags "${GOLDFLAGS}" \
+	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/cmd/{prometheus,promtool} || die
 }
 
 src_install() {
-	dobin bin/{prometheus,promtool}
+	dobin "${G}"/bin/{prometheus,promtool}
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
 
-	pushd src/${EGO_PN} > /dev/null || die
 	insinto /etc/prometheus
-	doins documentation/examples/prometheus.yml
+	newins documentation/examples/prometheus.yml \
+		prometheus.yml.example
 
 	insinto /usr/share/prometheus
 	doins -r console_libraries consoles
 
-	dosym ../../usr/share/prometheus/console_libraries /etc/prometheus/console_libraries
-	dosym ../../usr/share/prometheus/consoles /etc/prometheus/consoles
+	dosym ../../usr/share/prometheus/console_libraries \
+		/etc/prometheus/console_libraries
+	dosym ../../usr/share/prometheus/consoles \
+		/etc/prometheus/consoles
 
-	dodoc {README,CHANGELOG,CONTRIBUTING}.md
+	einstalldocs
 
 	if use examples; then
 		docinto examples
 		dodoc -r examples/*
 		docompress -x /usr/share/doc/${PF}/examples
 	fi
-	popd > /dev/null || die
 
 	diropts -o prometheus -g prometheus -m 0750
 	dodir /var/{lib,log}/prometheus
+}
+
+pkg_postinst() {
+	if [ ! -e "${EROOT%/}"/etc/${PN}/prometheus.yml ]; then
+		elog "No prometheus.yml found, copying the example over"
+		cp "${EROOT%/}"/etc/${PN}/prometheus.yml{.example,} || die
+	else
+		elog "prometheus.yml found, please check example file for possible changes"
+	fi
 }
