@@ -82,7 +82,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="man"
 
 RDEPEND=">=app-arch/squash-0.8.0_pre20170601
-	dev-libs/libsodium
+	dev-libs/libsodium:0=
 	sys-fs/fuse:0"
 DEPEND="${RDEPEND}
 	man? ( app-text/ronn )"
