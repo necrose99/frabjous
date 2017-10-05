@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-VALA_MIN_API_VERSION=0.22
 
 inherit cmake-utils git-r3 gnome2-utils vala
 
@@ -13,6 +12,7 @@ EGIT_REPO_URI="https://github.com/phw/peek.git"
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
+IUSE="gnome-shell open-filemanager"
 
 RDEPEND="dev-libs/keybinder:3
 	>=dev-libs/glib-2.38:2
@@ -31,6 +31,8 @@ src_prepare() {
 
 src_configure() {
 	local mycmakeargs=(
+		-DDISABLE_GNOME_SHELL=$(usex !gnome-shell)
+		-DDISABLE_OPEN_FILE_MANAGER=$(usex !open-filemanager)
 		-DGSETTINGS_COMPILE=OFF
 		-DVALA_EXECUTABLE="${VALAC}"
 	)
