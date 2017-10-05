@@ -16,6 +16,6 @@ KEYWORDS="~amd64 ~arm ~x86"
 RESTRICT="mirror"
 
 DEPEND="|| (
-	>=dev-libs/libsodium-1.0.13[-minimal]
-	<=dev-libs/libsodium-1.0.12
+	>=dev-libs/libsodium-1.0.13:0=[-minimal]
+	<=dev-libs/libsodium-1.0.12:0=
 	)"
