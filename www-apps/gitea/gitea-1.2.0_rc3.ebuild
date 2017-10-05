@@ -29,6 +29,9 @@ RDEPEND="dev-vcs/git[curl,threads]
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup git
 	enewuser git -1 /bin/bash /var/lib/gitea git
@@ -38,7 +41,7 @@ src_prepare() {
 	local GITEA_PREFIX=${EPREFIX}/var/lib/gitea
 
 	sed -i 's/Version=.*/Version='${PV}'" -X "main.Tags=$(TAGS)"/g' \
-		src/${EGO_PN}/Makefile || die
+		Makefile || die
 
 	sed -i -e "s:^ROOT =:ROOT = ${GITEA_PREFIX}/repos:" \
 		-e "s:^TEMP_PATH =.*:TEMP_PATH = ${GITEA_PREFIX}/data/tmp/uploads:" \
@@ -50,7 +53,7 @@ src_prepare() {
 		-e "s:^AVATAR_UPLOAD_PATH =.*:AVATAR_UPLOAD_PATH = ${GITEA_PREFIX}/data/avatars:" \
 		-e "s:^PATH = data/attachments:PATH = ${GITEA_PREFIX}/data/attachments:" \
 		-e "s:^ROOT_PATH =:ROOT_PATH = ${EPREFIX}/var/log/gitea:" \
-		src/${EGO_PN}/conf/app.ini || die
+		conf/app.ini || die
 
 	default
 }
@@ -62,12 +65,11 @@ src_compile() {
 	use sqlite && TAGS_OPTS+=" sqlite"
 	use tidb && TAGS_OPTS+=" tidb"
 
-	GOPATH="${S}" TAGS="${TAGS_OPTS/ /}" \
-		emake -C src/${EGO_PN} generate build
+	GOPATH="${G}" TAGS="${TAGS_OPTS/ /}" \
+		emake generate build
 }
 
 src_install() {
-	pushd src/${EGO_PN} > /dev/null || die
 	dobin gitea
 
 	insinto /var/lib/gitea/conf
@@ -78,7 +80,6 @@ src_install() {
 
 	insinto /usr/share/gitea
 	doins -r {public,templates}
-	popd > /dev/null || die
 
 	newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
