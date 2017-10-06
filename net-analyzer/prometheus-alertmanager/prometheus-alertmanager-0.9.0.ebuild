@@ -18,6 +18,11 @@ IUSE="test"
 
 RESTRICT="mirror strip"
 
+DOCS=( {NOTICE,{CHANGELOG,README}.md} )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	if use test; then
 		has network-sandbox $FEATURES && \
@@ -29,6 +34,7 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
@@ -36,31 +42,37 @@ src_compile() {
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${S}" go install -v -ldflags "${GOLDFLAGS}" \
+	go install -v -ldflags "${GOLDFLAGS}" \
 		${EGO_PN}/cmd/{alertmanager,amtool} || die
 }
 
 src_test() {
-	export GOPATH="${S}"
-	local PKGS=( $(go list ./... | grep -v -E '/vendor/|/ui|/test') )
-	go test -short ${PKGS[@]} || die
+	go test -short \
+		$(go list ./... | grep -v -E '/vendor/|/ui|/test') || die
 }
 
 src_install() {
-	dobin bin/{alertmanager,amtool}
+	dobin "${G}"/bin/{alertmanager,amtool}
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
 	insinto /etc/alertmanager
-	newins doc/examples/simple.yml alertmanager.yml.simple
+	newins doc/examples/simple.yml alertmanager.yml.example
 
-	dodoc {NOTICE,{CHANGELOG,README}.md}
-	popd > /dev/null || die
+	einstalldocs
 
 	diropts -o prometheus -g prometheus -m 0750
 	dodir /var/{lib,log}/prometheus
 	dodir /var/lib/prometheus/alertmanager
+}
+
+pkg_postinst() {
+	if [ ! -e "${EROOT%/}"/etc/alertmanager/alertmanager.yml ]; then
+		elog "No alertmanager.yml found, copying the example over"
+		cp "${EROOT%/}"/etc/alertmanager/alertmanager.yml{.example,} || die
+	else
+		elog "alertmanager.yml found, please check example file for possible changes"
+	fi
 }
