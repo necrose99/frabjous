@@ -143,14 +143,14 @@ src_install() {
 		newins contrib/debian/examples/bitcoin.conf bitcoin.conf.example
 		doins share/rpcuser/rpcuser.py
 
-		diropts -o bitcoin -g bitcoin -m 0750
-		dodir /var/lib/bitcoin/.bitcoin
-
 		doman doc/man/bitcoind.1
 		newbashcomp contrib/bitcoind.bash-completion bitcoind
 
 		insinto /etc/logrotate.d
 		newins "${FILESDIR}"/${PN}.logrotate ${PN}
+
+		diropts -o bitcoin -g bitcoin -m 0750
+		dodir /var/lib/bitcoin/.bitcoin
 	fi
 
 	if use gui; then
