@@ -18,24 +18,24 @@ RDEPEND=">=app-backup/restic-0.7.1"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_prepare() {
 	# Fix systemd unit file
 	sed -i \
 		-e "s:www-data:rest-server:" \
 		-e "s:/usr/local:/usr:" \
-		src/${EGO_PN}/etc/${PN}.service || die
+		etc/${PN}.service || die
 
 	default
 }
 
 src_compile() {
-	pushd src/${EGO_PN} > /dev/null || die
-	GOPATH="${S}" go run build.go || die
-	popd > /dev/null || die
+	GOPATH="${G}" go run build.go || die
 }
 
 src_install() {
-	pushd src/${EGO_PN} > /dev/null || die
 	dobin rest-server
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
@@ -43,7 +43,6 @@ src_install() {
 	systemd_dounit etc/${PN}.service
 
 	dodoc README.md
-	popd > /dev/null || die
 }
 
 pkg_preinst() {
