@@ -77,7 +77,7 @@ media-video/**[peek](media-video/peek)** | Simple animated GIF screen recorder w
 net-analyzer/**[goaccess](net-analyzer/goaccess)** | A real-time web log analyzer and interactive viewer that runs in a terminal
 net-analyzer/**[kapacitor](net-analyzer/kapacitor)** | A framework for processing, monitoring, and alerting on time series data
 net-analyzer/**[prometheus](net-analyzer/prometheus)** | The Prometheus monitoring system and time series database
-net-analyzer/**[prometheus](net-analyzer)-*** | Too many to list here; see `net-analyzer` category, they are self explanatory
+net-analyzer/**prometheus-*** | Too many to list here; see [`net-analyzer`](net-analyzer)` category, they're self-explanatory
 net-analyzer/**[telegraf](net-analyzer/telegraf)** | An agent for collecting, processing, aggregating, and writing metrics
 net-analyzer/**[wuzz](net-analyzer/wuzz)** | Interactive cli tool for HTTP inspection
 net-dns/**[dnscrypt-proxy](net-dns/dnscrypt-proxy)** | A tool for securing communications between a client and a DNS resolver
@@ -105,12 +105,14 @@ net-p2p/**[bucash](net-p2p/bucash)** | A full node Bitcoin Cash implementation w
 net-p2p/**[dash-core](net-p2p/dash-core)** | A peer-to-peer privacy-centric digital currency
 net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end encrypted messages
 net-p2p/**[parity](net-p2p/parity)** | Fast, light, and robust Ethereum client
+net-p2p/**[go-ipfs](net-p2p/go-ipfs)** | IPFS implementation written in Go
 net-p2p/**[monero](net-p2p/monero)** | The secure, private and untraceable cryptocurrency
 net-p2p/**[monero-core](net-p2p/monero-core)** | The secure, private and untraceable cryptocurrency (with GUI wallet)
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
+net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
@@ -140,8 +142,8 @@ x11-apps/**[radeon-profile](x11-apps/radeon-profile)** | App for display info ab
 x11-apps/**[radeon-profile-daemon](x11-apps/radeon-profile-daemon)** | Daemon for radeon-profile GUI
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
 
-All commits are signed with the key ID `A6C7CA717170C3FD`. The key fingerprint is
-[`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk).
+* All commits are signed with the key ID: `A6C7CA717170C3FD`
+* GnuPG FP: [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk/pgp_keys.asc)
 
 ## Donations are welcome!
 * Bitcoin _Cash_: `18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
