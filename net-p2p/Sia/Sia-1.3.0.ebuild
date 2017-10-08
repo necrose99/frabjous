@@ -45,29 +45,37 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+DOCS=( doc/*.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup sia
 	enewuser sia -1 -1 -1 sia
 }
 
 src_compile() {
-	cd src/${EGO_PN} || die
+	local PKGS=( ./api ./build ./compatibility \
+		./crypto ./encoding ./modules ./modules/consensus \
+		./modules/explorer ./modules/gateway ./modules/host \
+		./modules/host/contractmanager ./modules/renter \
+		./modules/renter/contractor ./modules/renter/hostdb \
+		./modules/renter/hostdb/hosttree ./modules/renter/proto \
+		./modules/miner ./modules/wallet ./modules/transactionpool \
+		./persist ./siac ./siad ./sync ./types )
 
-	local PKGS=( ./api ./build ./compatibility ./crypto ./encoding ./modules ./modules/consensus \
-		./modules/explorer ./modules/gateway ./modules/host ./modules/host/contractmanager \
-		./modules/renter ./modules/renter/contractor ./modules/renter/hostdb ./modules/renter/hostdb/hosttree \
-		./modules/renter/proto ./modules/miner ./modules/wallet ./modules/transactionpool ./persist ./siac \
-		./siad ./sync ./types )
-
-	GOPATH="${S}" go install -v -ldflags "-s -w" "${PKGS[@]}" || die
+	GOPATH="${G}" go install -v \
+		-ldflags "-s -w" "${PKGS[@]}" || die
 }
 
 src_install() {
-	dobin bin/sia*
-	dodoc src/${EGO_PN}/doc/*.md
+	dobin "${G}"/bin/sia*
 
 	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
+
+	einstalldocs
 
 	diropts -o sia -g sia -m 0750
 	dodir /var/lib/sia
