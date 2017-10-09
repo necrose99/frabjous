@@ -29,32 +29,34 @@ IUSE="examples"
 
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup openvpn_exporter
 	enewuser openvpn_exporter -1 -1 -1 openvpn_exporter
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v \
+	GOPATH="${G}" go install -v \
 		-ldflags "-s -w" ${EGO_PN} || die
 }
 
 src_install() {
-	dobin bin/openvpn_exporter
+	dobin "${G}"/bin/openvpn_exporter
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
 
 	if use examples; then
 		docinto examples
 		dodoc -r examples/*
 		docompress -x /usr/share/doc/${PF}/examples
 	fi
-	popd > /dev/null || die
 
 	diropts -o openvpn_exporter -g openvpn_exporter -m 0750
 	dodir /var/log/openvpn_exporter
