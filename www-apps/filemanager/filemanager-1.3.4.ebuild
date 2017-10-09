@@ -59,7 +59,7 @@ IUSE="+daemon"
 
 RESTRICT="mirror strip"
 
-src_setup() {
+pkg_setup() {
 	if use daemon; then
 		enewgroup filemanager
 		enewuser filemanager -1 -1 -1 filemanager
