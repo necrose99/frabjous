@@ -28,26 +28,29 @@ KEYWORDS="~amd64"
 
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup dovecot_exporter
 	enewuser dovecot_exporter -1 -1 -1 dovecot_exporter
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	GOPATH="${G}" go install -v \
+		-ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin bin/dovecot_exporter
+	dobin "${G}"/bin/dovecot_exporter
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
-	popd > /dev/null || die
+	einstalldocs
 
 	diropts -o dovecot_exporter -g dovecot_exporter -m 0750
 	dodir /var/log/dovecot_exporter
