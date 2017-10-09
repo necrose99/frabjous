@@ -25,8 +25,10 @@ G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 pkg_setup() {
-	has network-sandbox $FEATURES && \
+	if use test; then
+		has network-sandbox $FEATURES && \
 			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
+	fi
 
 	enewgroup snmp_exporter
 	enewuser snmp_exporter -1 -1 -1 snmp_exporter
