@@ -17,12 +17,18 @@ KEYWORDS="~amd64"
 
 RESTRICT="mirror strip"
 
+DOCS=( {NOTICE,README.md} )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup graphite_exporter
 	enewuser graphite_exporter -1 -1 -1 graphite_exporter
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
@@ -30,26 +36,23 @@ src_compile() {
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	go install -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {
-	export GOPATH="${S}"
-	local PKGS=( $(go list ./... | grep -v -E '/vendor/') )
-	go test -short ${PKGS[@]} || die
+	go test -short \
+		$(go list ./... | grep -v -E '/vendor/') || die
 }
 
 src_install() {
-	dobin bin/graphite_exporter
+	dobin "${G}"/bin/graphite_exporter
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc {NOTICE,README.md}
-	popd > /dev/null || die
+	einstalldocs
 
 	diropts -o graphite_exporter -g graphite_exporter -m 0750
 	dodir /var/log/graphite_exporter
