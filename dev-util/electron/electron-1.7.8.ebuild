@@ -715,8 +715,9 @@ src_configure() {
 	tools/gn/bootstrap/bootstrap.py -v --gn-gen-args "${myconf_gn} use_allocator=\"none\"" || die
 	# Remove the glibc allocator shim so that it doesn't get picked up
 	# when linking Electron.
-	use tcmalloc && \
+	if use tcmalloc; then
 		rm out/Release/obj/base/base/allocator_shim_default_dispatch_to_glibc.o || die
+	fi
 
 	myconf_gn+=" use_allocator=$(usex tcmalloc \"tcmalloc\" \"none\")"
 	out/Release/gn gen --args="${myconf_gn}" out/Release || die
