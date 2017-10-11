@@ -87,6 +87,9 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup telegraf
 	enewuser telegraf -1 -1 -1 telegraf
@@ -98,28 +101,25 @@ src_compile() {
 		-X main.branch=${PV} \
 		-X main.commit=${PKG_COMMIT}"
 
-	GOPATH="${S}" go install -v \
-		-ldflags "${GOLDFLAGS}" ${EGO_PN}/cmd/${PN} || die
+	GOPATH="${G}" go install -v -ldflags \
+		"${GOLDFLAGS}" ./cmd/${PN} || die
 }
 
 src_install() {
-	dobin bin/telegraf
+	dobin "${G}"/bin/telegraf
 
 	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
+	systemd_dounit scripts/${PN}.service
 	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
-	pushd src/${EGO_PN} > /dev/null || die
-	systemd_dounit scripts/telegraf.service
-
+	dodir /etc/telegraf/telegraf.d
 	insinto /etc/telegraf
 	doins etc/telegraf.conf
 
 	insinto /etc/logrotate.d
 	doins etc/logrotate.d/telegraf
-	popd > /dev/null || die
 
-	dodir /etc/telegraf/telegraf.d
 	diropts -o telegraf -g telegraf -m 0750
 	dodir /var/log/telegraf
 }
