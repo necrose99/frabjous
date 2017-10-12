@@ -34,6 +34,11 @@ DEPEND="test? ( dev-db/redis )"
 
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	if use test; then
 		has network-sandbox $FEATURES && \
@@ -59,29 +64,25 @@ src_prepare() {
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go install -v -ldflags "-s -w" || die
 }
 
 src_test() {
-	export GOPATH="${S}"
-	local PKGS=( $(go list ./... | grep -v -E '/vendor/') )
-	go test -short ${PKGS[@]} || die
+	go test -short \
+		$(go list ./... | grep -v -E '/vendor/') || die
 }
 
 src_install() {
-	dobin bin/redis_exporter
+	dobin "${G}"/bin/redis_exporter
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
-	pushd src/${EGO_PN} > /dev/null || die
 	insinto /usr/share/${PN}
 	doins -r contrib/*.json
-
-	dodoc README.md
-	popd > /dev/null || die
 
 	diropts -o redis_exporter -g redis_exporter -m 0750
 	dodir /var/log/redis_exporter
