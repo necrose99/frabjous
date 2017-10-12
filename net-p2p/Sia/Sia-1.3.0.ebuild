@@ -45,8 +45,6 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
-DOCS=( doc/*.md )
-
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
@@ -71,11 +69,10 @@ src_compile() {
 
 src_install() {
 	dobin "${G}"/bin/sia*
+	dodoc src/${EGO_PN}/doc/*.md
 
 	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
-
-	einstalldocs
 
 	diropts -o sia -g sia -m 0750
 	dodir /var/lib/sia
