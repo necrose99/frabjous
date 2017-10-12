@@ -17,6 +17,11 @@ KEYWORDS="~amd64"
 
 RESTRICT="mirror strip"
 
+DOCS=( {NOTICE,{CHANGELOG,README}.md} )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup pushgateway
 	enewuser pushgateway -1 -1 -1 pushgateway
@@ -30,20 +35,17 @@ src_compile() {
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${S}" go install -v -ldflags \
+	GOPATH="${G}" go install -v -ldflags \
 		"${GOLDFLAGS}" ${EGO_PN} || die
 }
 
 src_install() {
-	dobin bin/pushgateway
+	dobin "${G}"/bin/pushgateway
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc {NOTICE,{CHANGELOG,README}.md}
-	popd > /dev/null || die
 
 	diropts -o pushgateway -g pushgateway -m 0750
 	dodir /var/{lib,log}/pushgateway
