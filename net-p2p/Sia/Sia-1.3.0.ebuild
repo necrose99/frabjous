@@ -69,7 +69,7 @@ src_compile() {
 
 src_install() {
 	dobin "${G}"/bin/sia*
-	dodoc src/${EGO_PN}/doc/*.md
+	dodoc doc/*.md
 
 	newinitd "${FILESDIR}"/sia.initd-r1 sia
 	systemd_dounit "${FILESDIR}"/sia.service
