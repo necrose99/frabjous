@@ -16,33 +16,35 @@ KEYWORDS="~amd64"
 
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup postgres_exporter
 	enewuser postgres_exporter -1 -1 -1 postgres_exporter
 }
 
 src_compile() {
+	export GOPATH="${S}"
 	local GOLDFLAGS="-s -w -X main.Version=${PV}"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	go install -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {
-	export GOPATH="${S}"
-	emake -C src/${EGO_PN} test
+	emake test
 }
 
 src_install() {
-	dobin bin/postgres_exporter
+	dobin "${S}"/bin/postgres_exporter
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
-	popd > /dev/null || die
 
 	diropts -o postgres_exporter -g postgres_exporter -m 0750
 	dodir /var/log/postgres_exporter
