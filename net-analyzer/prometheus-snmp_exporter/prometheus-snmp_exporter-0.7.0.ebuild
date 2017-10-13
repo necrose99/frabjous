@@ -61,8 +61,17 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	insinto /etc/snmp_exporter
-	doins snmp.yml
+	newins snmp.yml snmp.yml.example
 
 	diropts -o snmp_exporter -g snmp_exporter -m 0750
 	dodir /var/log/snmp_exporter
+}
+
+pkg_postinst() {
+	if [ ! -e "${EROOT%/}"/etc/snmp_exporter/snmp.yml ]; then
+		elog "No snmp.yml found, copying the example over"
+		cp "${EROOT%/}"/etc/snmp_exporter/snmp.yml{.example,} || die
+	else
+		elog "snmp.yml found, please check example file for possible changes"
+	fi
 }
