@@ -76,8 +76,8 @@ src_install() {
 	insinto /etc/grafana
 	newins conf/sample.ini grafana.ini.example
 
-	insinto /usr/share/grafana
-	doins -r conf
+	insinto /usr/share/grafana/conf
+	doins conf/{defaults.ini,ldap.toml}
 
 	insinto /usr/share/grafana/public
 	doins -r public_gen/*
@@ -89,11 +89,6 @@ src_install() {
 
 	diropts -o grafana -g grafana -m 0750
 	dodir /var/{lib,log}/grafana
-}
-
-pkg_preinst() {
-	# Remove redundant file
-	rm -f "${D%/}"/usr/share/${PN}/conf/sample.ini || die
 }
 
 pkg_postinst() {
