@@ -21,7 +21,11 @@ S="${G}/src/${EGO_PN}"
 
 src_compile() {
 	GOPATH="${G}" go build -v \
-		-ldflags "-s -w" ${EGO_PN}/cmd/${PN} || die
+		-ldflags "-s -w" ./cmd/${PN} || die
+}
+
+src_test() {
+	GOPATH="${G}" go test || die
 }
 
 src_install() {
