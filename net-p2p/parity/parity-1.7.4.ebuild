@@ -282,7 +282,7 @@ pkg_setup() {
 src_prepare() {
 	if has_version "<=dev-libs/libressl-2.6.1" && \
 		has_version ">=dev-libs/libressl-2.5.5"; then
-		eapply "${FILESDIR}"/${P}-openssl-0.9.19.patch
+		eapply "${FILESDIR}"/${PN}-1.7.2-openssl-0.9.19.patch
 	fi
 
 	default
