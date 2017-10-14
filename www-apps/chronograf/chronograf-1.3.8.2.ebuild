@@ -3,21 +3,22 @@
 
 EAPI=6
 
+EGO_VENDOR=( "github.com/jteeuwen/go-bindata a0ff256" )
+
 inherit golang-vcs-snapshot systemd user
 
 PKG_COMMIT="6801670"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Open source monitoring and visualization UI for the TICK stack"
 HOMEPAGE="https://www.influxdata.com"
-SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
+	${EGO_VENDOR_URI}"
 
 LICENSE="AGPL-3"
 SLOT="0"
 KEYWORDS="~amd64"
 
-DEPEND="dev-go/go-bindata
-	>=sys-apps/yarn-1.0.0"
-
+DEPEND=">=sys-apps/yarn-1.0.0"
 RESTRICT="mirror strip"
 
 G="${WORKDIR}/${P}"
@@ -45,15 +46,21 @@ src_prepare() {
 }
 
 src_compile() {
-	# We already have go-bindata system-wide,
-	# so there is no need to build it locally.
-	touch .godep || die
+	export GOPATH="${G}"
+	local PATH="${G}/bin:$PATH"
 
-	GOPATH="${G}" make build || die
+	ebegin "Building go-bindata locally"
+	pushd vendor/github.com/jteeuwen/go-bindata > /dev/null || die
+	go build -v -ldflags "-s -w" -o \
+		"${G}"/bin/go-bindata ./go-bindata || die
+	popd > /dev/null || die
+	eend $?
+
+	make build || die
 }
 
 src_test() {
-	emake GOPATH="${G}" test
+	emake test
 }
 
 src_install() {
