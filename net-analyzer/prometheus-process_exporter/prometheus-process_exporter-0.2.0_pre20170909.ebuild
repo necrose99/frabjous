@@ -35,8 +35,7 @@ src_compile() {
 }
 
 src_test() {
-	go test -short \
-		$(go list ./... | grep -v -E '/vendor/') || die
+	go test -v ./... || die
 }
 
 src_install() {
