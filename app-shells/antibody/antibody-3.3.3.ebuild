@@ -10,16 +10,17 @@ EGO_VENDOR=(
 	"github.com/alecthomas/template a0175ee"
 	"github.com/alecthomas/units 2efee85"
 	"github.com/caarlos0/gohome 677b1a6"
-	"github.com/davecgh/go-spew 346938d"
 	"github.com/getantibody/folder 479aa91"
-	"github.com/pmezard/go-difflib 792786c"
 	"github.com/stretchr/testify 69483b4"
 	"golang.org/x/crypto e1a4589 github.com/golang/crypto"
 	"golang.org/x/net 59a0b19 github.com/golang/net"
 	"golang.org/x/sync 57af736 github.com/golang/sync"
 )
+# Deps that are not needed:
+# github.com/davecgh/go-spew
+# github.com/pmezard/go-difflib
 
-inherit golang-vcs-snapshot systemd user
+inherit golang-vcs-snapshot
 
 EGO_PN="github.com/getantibody/antibody"
 DESCRIPTION="The fastest shell plugin manager"
