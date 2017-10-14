@@ -14,7 +14,8 @@ SLOT="0"
 KEYWORDS=""
 
 CDEPEND=">=dev-libs/glib-2.44
-	>=x11-libs/gtk+-3.20:3"
+	>=x11-libs/gtk+-3.20:3
+	media-libs/libepoxy"
 RDEPEND="${CDEPEND}
 	x11-themes/gnome-icon-theme-symbolic
 	>=media-video/mpv-0.21[libmpv]"
