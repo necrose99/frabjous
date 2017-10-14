@@ -6,24 +6,12 @@ EAPI=6
 inherit golang-vcs-snapshot
 
 LINT_EGO_PN="github.com/golang/lint"
-LINT_COMMIT="6aaf7c3"
-LINT_URI="https://${LINT_EGO_PN}/archive/${LINT_COMMIT}.tar.gz"
-LINT_P="${LINT_EGO_PN//\//-}-${LINT_COMMIT}"
-
 GOTOOLS_EGO_PN="honnef.co/go/tools"
-GOTOOLS_GIT_PN="github.com/dominikh/go-tools"
-GOTOOLS_COMMIT="e514743"
-GOTOOLS_URI="https://${GOTOOLS_GIT_PN}/archive/${GOTOOLS_COMMIT}.tar.gz"
-GOTOOLS_P="${GOTOOLS_GIT_PN//\//-}-${GOTOOLS_COMMIT}"
 
 EGO_PN="github.com/variadico/noti"
 DESCRIPTION="Trigger notifications when a process completes"
 HOMEPAGE="https://github.com/variadico/noti"
-SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
-	test? (
-		${LINT_URI} -> ${LINT_P}.tar.gz
-		${GOTOOLS_URI} -> ${GOTOOLS_P}.tar.gz
-	)"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="MIT"
 SLOT="0"
@@ -42,15 +30,6 @@ RDEPEND="
 		x11-libs/libnotify
 		app-accessibility/espeak
 	)"
-
-src_unpack() {
-	use test && EGO_VENDOR+=(
-		"${LINT_EGO_PN} ${LINT_COMMIT}"
-		"${GOTOOLS_EGO_PN} ${GOTOOLS_COMMIT} ${GOTOOLS_GIT_PN}"
-	)
-
-	golang-vcs-snapshot_src_unpack
-}
 
 src_compile() {
 	export GOPATH="${G}"
