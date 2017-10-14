@@ -3,19 +3,21 @@
 
 EAPI=6
 
+EGO_VENDOR=( "github.com/jteeuwen/go-bindata a0ff256" )
+
 inherit golang-vcs-snapshot systemd user
 
 EGO_PN="code.gitea.io/gitea"
 DESCRIPTION="Gitea - Git with a cup of tea"
 HOMEPAGE="https://gitea.io"
-SRC_URI="https://github.com/go-gitea/gitea/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/go-gitea/gitea/archive/v${PV}.tar.gz -> ${P}.tar.gz
+	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="memcached mysql openssh pam postgres redis sqlite tidb"
 
-DEPEND="dev-go/go-bindata"
 RDEPEND="dev-vcs/git[curl,threads]
 	memcached? ( net-misc/memcached )
 	mysql? ( virtual/mysql )
@@ -25,7 +27,6 @@ RDEPEND="dev-vcs/git[curl,threads]
 	redis? ( dev-db/redis )
 	sqlite? ( dev-db/sqlite )
 	tidb? ( dev-db/tidb )"
-
 RESTRICT="mirror strip"
 
 G="${WORKDIR}/${P}"
@@ -37,10 +38,7 @@ pkg_setup() {
 }
 
 src_prepare() {
-	local GITEA_PREFIX=${EPREFIX}/var/lib/gitea
-
-	sed -i 's/Version=.*/Version='${PV}'" -X "main.Tags=$(TAGS)"/g' \
-		Makefile || die
+	local GITEA_PREFIX="${EPREFIX}/var/lib/gitea"
 
 	sed -i -e "s:^ROOT =:ROOT = ${GITEA_PREFIX}/repos:" \
 		-e "s:^TEMP_PATH =.*:TEMP_PATH = ${GITEA_PREFIX}/data/tmp/uploads:" \
@@ -54,35 +52,50 @@ src_prepare() {
 		-e "s:^ROOT_PATH =:ROOT_PATH = ${EPREFIX}/var/log/gitea:" \
 		conf/app.ini || die
 
+	sed -i 's:Version=.*:Version='${PV}'" -X "main.Tags=$(TAGS)":' \
+		Makefile || die
+
 	default
 }
 
 src_compile() {
-	local TAGS_OPTS=
+	export GOPATH="${G}"
+	local PATH="${G}/bin:$PATH" TAGS_OPTS=
+
+	ebegin "Building go-bindata locally"
+	pushd vendor/github.com/jteeuwen/go-bindata > /dev/null || die
+	go build -v -ldflags "-s -w" -o \
+		"${G}"/bin/go-bindata ./go-bindata || die
+	popd > /dev/null || die
+	eend $?
 
 	use pam && TAGS_OPTS+=" pam"
 	use sqlite && TAGS_OPTS+=" sqlite"
 	use tidb && TAGS_OPTS+=" tidb"
 
-	GOPATH="${G}" TAGS="${TAGS_OPTS/ /}" \
-		emake generate build
+	TAGS="${TAGS_OPTS/ /}" \
+	emake generate build
+}
+
+src_test() {
+	go test -v $(go list ./... | grep -v /integrations) || die
 }
 
 src_install() {
 	dobin gitea
 
-	insinto /var/lib/gitea/conf
-	newins conf/app.ini app.ini.example
+	newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
+	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /var/lib/gitea
 	doins -r options
 
+	insinto /var/lib/gitea/conf
+	newins conf/app.ini app.ini.example
+
 	insinto /usr/share/gitea
 	doins -r {public,templates}
-
-	newinitd "${FILESDIR}"/${PN}.initd-r3 ${PN}
-	systemd_dounit "${FILESDIR}"/${PN}.service
-	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd-r1 ${PN}.conf
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
@@ -93,9 +106,9 @@ src_install() {
 }
 
 pkg_postinst() {
-	if [ ! -e "${EROOT%/}"/var/lib/${PN}/conf/app.ini ]; then
+	if [ ! -e "${EROOT%/}"/var/lib/gitea/conf/app.ini ]; then
 		elog "No app.ini found, copying the example over"
-		cp "${EROOT%/}"/var/lib/${PN}/conf/app.ini{.example,} || die
+		cp "${EROOT%/}"/var/lib/gitea/conf/app.ini{.example,} || die
 	else
 		elog "app.ini found, please check example file for possible changes"
 	fi
