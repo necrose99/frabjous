@@ -24,33 +24,33 @@ KEYWORDS="~amd64 ~x86"
 IUSE="zsh-completion"
 
 RDEPEND="zsh-completion? ( app-shells/zsh )"
-
 RESTRICT="mirror strip"
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
 
 src_prepare() {
 	# Move everything to src/${EGO_PN},
 	# as we will use a vendored setup.
-	mv src/${EGO_PN}/src/${EGO_PN}/* \
-		src/${EGO_PN} || die
+	mv src/${EGO_PN}/* ./ || die
 
 	default
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" \
+		-o "${S}"/tmsu || die
 }
 
 src_test() {
-	GOPATH="${S}" go test ${EGO_PN}/... || die
+	go test -v ./... || die
 }
 
 src_install() {
-	newbin bin/TMSU tmsu
-
-	pushd src/${EGO_PN} > /dev/null || die
 	dosbin misc/bin/mount.tmsu
 	dobin misc/bin/tmsu-*
+	dobin tmsu
 
 	doman misc/man/tmsu.1
 
@@ -58,5 +58,4 @@ src_install() {
 		insinto /usr/share/zsh/site-functions
 		doins misc/zsh/_tmsu
 	fi
-	popd > /dev/null || die
 }

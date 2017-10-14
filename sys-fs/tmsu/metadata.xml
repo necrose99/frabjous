@@ -8,6 +8,7 @@
 	<upstream>
 		<remote-id type="github">oniony/TMSU</remote-id>
 		<bugs-to>https://github.com/oniony/TMSU/issues</bugs-to>
+		<doc>https://github.com/oniony/TMSU/wiki</doc>
 	</upstream>
 	<longdescription lang="en">
 		TMSU is a tool for tagging your files. It provides a
