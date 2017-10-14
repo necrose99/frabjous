@@ -4,18 +4,18 @@
 EAPI=6
 
 # Note: Keep EGO_VENDOR in sync with glide.lock
-EGO_VENDOR=(
-	"github.com/mattn/go-isatty 66b8e73"
-	"github.com/mattn/go-runewidth 14207d2"
-	"github.com/mattn/go-shellwords 02e3cf0"
-	"golang.org/x/crypto e1a4589 github.com/golang/crypto"
-)
 # Deps that are not needed:
 # github.com/gdamore/encoding
 # github.com/gdamore/tcell
 # github.com/lucasb-eyer/go-colorful
 # golang.org/x/sys
 # golang.org/x/text
+EGO_VENDOR=(
+	"github.com/mattn/go-isatty 66b8e73"
+	"github.com/mattn/go-runewidth 14207d2"
+	"github.com/mattn/go-shellwords 02e3cf0"
+	"golang.org/x/crypto e1a4589 github.com/golang/crypto"
+)
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
