@@ -5,11 +5,12 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<upstream>
+		<remote-id type="github">ssh-vault/ssh-vault</remote-id>
+		<bugs-to>https://github.com/ssh-vault/ssh-vault/issues</bugs-to>
+	</upstream>
 	<longdescription lang="en">
 		A command line tool (cli) for creating encrypted
 		files “vaults” using ssh rsa keys for encrypt/decrypt.
 	</longdescription>
-	<upstream>
-		<remote-id type="github">ssh-vault/ssh-vault</remote-id>
-	</upstream>
 </pkgmetadata>
