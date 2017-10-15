@@ -59,6 +59,9 @@ IUSE="+daemon"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	if use daemon; then
 		enewgroup filemanager
@@ -67,21 +70,24 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOLDFLAGS="-s -w -X filemanager.Version=${PV}"
+	export GOPATH="${G}"
+	local GOLDFLAGS="-s -w \
+		-X filemanager.Version=${PV}"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/cmd/${PN} || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/filemanager ./cmd/${PN} || die
 }
 
 src_install() {
-	dobin bin/filemanager
+	dobin filemanager
 
 	if use daemon; then
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
 
 		insinto /etc/filemanager
-		newins "${FILESDIR}"/filemanager.conf filemanager.yaml.example
+		newins "${FILESDIR}"/filemanager.conf \
+			filemanager.yaml.example
 
 		diropts -o filemanager -g filemanager -m 0750
 		dodir /var/{lib,log,www}/filemanager
