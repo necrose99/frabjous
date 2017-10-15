@@ -16,13 +16,17 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w -X main.version=${PV}"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/pick || die
 }
 
 src_install() {
-	dobin bin/pick
+	dobin pick
 }
