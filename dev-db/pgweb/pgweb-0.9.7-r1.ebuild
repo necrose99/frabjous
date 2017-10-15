@@ -14,11 +14,24 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="+daemon"
+IUSE="+daemon test"
 
 RESTRICT="mirror strip"
 
+DOCS=( {CHANGELOG,README}.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
+	if use test; then
+		has network-sandbox $FEATURES && \
+			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
+		ewarn
+		ewarn "The test phase require a local PostgreSQL server running on the default port"
+		ewarn
+	fi
+
 	if use daemon; then
 		enewgroup pgweb
 		enewuser pgweb -1 -1 -1 pgweb
@@ -26,18 +39,22 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/pkg/command.BuildTime=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
 		-X ${EGO_PN}/pkg/command.GitCommit=${PKG_COMMIT}"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/pgweb || die
+}
+
+src_test() {
+	go test -v ./pkg/... || die
 }
 
 src_install() {
-	dobin bin/pgweb
-
-	dodoc src/${EGO_PN}/{CHANGELOG,README}.md
+	dobin pgweb
+	einstalldocs
 
 	if use daemon; then
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
