@@ -18,7 +18,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="01ace8c5ffded06c5484fd52334e333a5235e4c4"
+PKG_COMMIT="01ace8c5ffded06c5484fd52334e333a5235e4c4"
 EGO_PN="github.com/oliver006/redis_exporter"
 DESCRIPTION="A server that export Redis metrics for Prometheus consumption"
 HOMEPAGE="https://github.com/oliver006/redis_exporter"
@@ -30,7 +30,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
 
-DEPEND="test? ( dev-db/redis )"
 RESTRICT="mirror strip"
 
 DOCS=( README.md )
@@ -42,7 +41,6 @@ pkg_setup() {
 	if use test; then
 		has network-sandbox $FEATURES && \
 			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
-
 		ewarn
 		ewarn "The test phase require a local Redis server running on the default port"
 		ewarn
@@ -52,19 +50,15 @@ pkg_setup() {
 	enewuser redis_exporter -1 -1 -1 redis_exporter
 }
 
-src_prepare() {
-	sed -i \
-		-e "s:VERSION     =.*:VERSION = \"${PV}\":" \
-		-e "s:BUILD_DATE  =.*:BUILD_DATE = \"$(date -u '+%Y-%m-%d' )\":" \
-		-e "s:COMMIT_SHA1 =.*:COMMIT_SHA1 = \"${GIT_COMMIT}\":" \
-		src/${EGO_PN}/main.go || die
-
-	default
-}
-
 src_compile() {
 	export GOPATH="${G}"
-	go install -v -ldflags "-s -w" || die
+	local GOLDFLAGS="-s -w \
+		-X main.VERSION=${PV} \
+		-X main.BUILD_DATE=$(date -u '+%Y-%m-%d') \
+		-X main.COMMIT_SHA1=${PKG_COMMIT}"
+
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/redis_exporter || die
 }
 
 src_test() {
@@ -72,7 +66,7 @@ src_test() {
 }
 
 src_install() {
-	dobin "${G}"/bin/redis_exporter
+	dobin redis_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
