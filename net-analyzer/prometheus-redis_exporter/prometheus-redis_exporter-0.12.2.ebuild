@@ -31,7 +31,6 @@ KEYWORDS="~amd64"
 IUSE="test"
 
 DEPEND="test? ( dev-db/redis )"
-
 RESTRICT="mirror strip"
 
 DOCS=( README.md )
@@ -69,8 +68,7 @@ src_compile() {
 }
 
 src_test() {
-	go test -short \
-		$(go list ./... | grep -v -E '/vendor/') || die
+	go test -v ./... || die
 }
 
 src_install() {
