@@ -16,18 +16,30 @@ KEYWORDS="~amd64 ~x86"
 IUSE="zsh-completion"
 
 RDEPEND="zsh-completion? ( app-shells/zsh )"
-
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go build -v -ldflags "-s -w" ${EGO_PN}/cmd/scw || die
+	export GOPATH="${G}"
+	local GOLDFLAGS="-s -w \
+		-X ${EGO_PN}/pkg/scwversion/version.GITCOMMIT=nogit"
+
+		go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/scw ./cmd/scw || die
+}
+
+src_test() {
+	go test -v ./cmd/scw/ || die
+	go test -v ./pkg/{sshcommand,pricing,cli}/ || die
 }
 
 src_install() {
 	dobin scw
-
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
+	einstalldocs
 
 	dobashcomp contrib/completion/bash/scw
 
@@ -35,5 +47,4 @@ src_install() {
 		insinto /usr/share/zsh/site-functions
 		doins contrib/completion/zsh/_scw
 	fi
-	popd > /dev/null || die
 }
