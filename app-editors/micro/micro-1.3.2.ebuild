@@ -42,27 +42,28 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.Version=${PV} \
 		-X main.CommitHash=${GIT_COMMIT} \
-		-X 'main.CompileDate=$(date -u '+%Y-%m-%d' )'"
+		-X main.CompileDate=$(date -u '+%Y-%m-%d' )"
 
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/cmd/micro || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/micro ./cmd/micro || die
 }
 
 src_test() {
-	GOPATH="${S}" go test ${EGO_PN}/cmd/micro || die
+	go test ./cmd/micro || die
 }
 
 src_install() {
-	dobin bin/micro
-
-	pushd src/${EGO_PN} > /dev/null || die
+	dobin micro
 	dodoc runtime/help/*.md
 
 	insinto /usr/share/micro
 	doins -r runtime/{colorschemes,plugins,syntax,README.md}
-	popd > /dev/null || die
 }
