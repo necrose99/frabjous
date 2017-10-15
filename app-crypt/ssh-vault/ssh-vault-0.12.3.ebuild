@@ -27,11 +27,19 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w -X main.version=${PV}"
 
-	GOPATH="${S}" go build -v -ldflags "${GOLDFLAGS}" \
-		${EGO_PN}/cmd/${PN} || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		-o "${S}"/${PN} ./cmd/${PN} || die
+}
+
+src_test() {
+	go test -race -v || die
 }
 
 src_install() {
@@ -39,5 +47,7 @@ src_install() {
 }
 
 pkg_postinst() {
-	einfo "See https://ssh-vault.com for configuration guide."
+	einfo
+	elog "See https://ssh-vault.com for configuration guide."
+	einfo
 }
