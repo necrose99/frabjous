@@ -60,6 +60,9 @@ app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternativ
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
 app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
+app-shells/**[antibody](app-shells/antibody)** | The fastest shell plugin manager
+app-shells/**[fzf](app-shells/fzf)** | A general-purpose command-line fuzzy finder
+app-shells/**[peco](app-shells/peco)** | Simplistic interactive filtering tool
 dev-db/**[influxdb](dev-db/influxdb)** | Scalable datastore for metrics, events, and real-time analytics
 dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written in Go
 dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and replication management tool
@@ -77,7 +80,7 @@ media-video/**[peek](media-video/peek)** | Simple animated GIF screen recorder w
 net-analyzer/**[goaccess](net-analyzer/goaccess)** | A real-time web log analyzer and interactive viewer that runs in a terminal
 net-analyzer/**[kapacitor](net-analyzer/kapacitor)** | A framework for processing, monitoring, and alerting on time series data
 net-analyzer/**[prometheus](net-analyzer/prometheus)** | The Prometheus monitoring system and time series database
-net-analyzer/**prometheus-*** | Too many to list here; see [`net-analyzer`](net-analyzer)` category, they're self-explanatory
+net-analyzer/**prometheus-*** | Too many to list here; see [`net-analyzer`](net-analyzer) category, they're self-explanatory
 net-analyzer/**[telegraf](net-analyzer/telegraf)** | An agent for collecting, processing, aggregating, and writing metrics
 net-analyzer/**[wuzz](net-analyzer/wuzz)** | Interactive cli tool for HTTP inspection
 net-dns/**[dnscrypt-proxy](net-dns/dnscrypt-proxy)** | A tool for securing communications between a client and a DNS resolver
@@ -115,11 +118,13 @@ net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
+sys-apps/**[fd](sys-apps/fd)** | A simple, fast and user-friendly alternative to 'find'
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
+www-apps/**[cryptpad](www-apps/cryptpad)** | The zero knowledge realtime collaborative editor
 www-apps/**[filemanager](www-apps/filemanager)** | A stylish web file manager
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
@@ -143,7 +148,7 @@ x11-apps/**[radeon-profile-daemon](x11-apps/radeon-profile-daemon)** | Daemon fo
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
 
 * All commits are signed with the key ID: `A6C7CA717170C3FD`
-* GnuPG FP: [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk/pgp_keys.asc)
+* Fingerprint: [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk/pgp_keys.asc)
 
 ## Donations are welcome!
 * Bitcoin _Cash_: `18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
