@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot
 
-EGO_PN="github.com/digitalocean/${PN}"
+EGO_PN="github.com/digitalocean/doctl"
 DESCRIPTION="A command line tool for DigitalOcean services"
 HOMEPAGE="https://digitalocean.com"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
@@ -16,12 +16,22 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+DOCS=( {README,CHANGELOG}.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w" ${EGO_PN}/cmd/${PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" \
+		-o "${S}"/doctl ./cmd/doctl || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin bin/${PN}
-	dodoc src/${EGO_PN}/{README,CHANGELOG}.md
+	dobin doctl
+	einstalldocs
 }
