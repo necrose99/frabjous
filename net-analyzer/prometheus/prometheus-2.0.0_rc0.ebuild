@@ -30,6 +30,7 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${MY_PV} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
@@ -37,8 +38,12 @@ src_compile() {
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
-		${EGO_PN}/cmd/{prometheus,promtool} || die
+	go install -v -ldflags "${GOLDFLAGS}" \
+		./cmd/{prometheus,promtool} || die
+}
+
+src_test() {
+	go test -v $(go list ./... | grep -v examples) || die
 }
 
 src_install() {
