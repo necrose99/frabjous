@@ -23,12 +23,22 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+DOCS=( {CHANGELOG,README.md} )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags \
-		"-s -w -X main.Version=v${PV}" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags \
+		"-s -w -X main.Version=${PV}" || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin bin/vegeta
-	dodoc src/${EGO_PN}/{README.md,CHANGELOG}
+	dobin vegeta
+	einstalldocs
 }
