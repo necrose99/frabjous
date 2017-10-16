@@ -53,7 +53,7 @@ src_compile() {
 		-X main.CompileDate=$(date -u '+%Y-%m-%d' )"
 
 	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/micro ./cmd/micro || die
+		./cmd/micro || die
 }
 
 src_test() {
