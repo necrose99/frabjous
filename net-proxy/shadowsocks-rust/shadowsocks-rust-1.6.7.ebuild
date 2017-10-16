@@ -119,7 +119,7 @@ IUSE="libressl"
 
 DEPEND="dev-libs/libsodium:0=[-minimal]
 	!libressl? ( dev-libs/openssl:0= )
-	libressl? ( <=dev-libs/libressl-2.6.1:0= )"
+	libressl? ( <=dev-libs/libressl-2.6.2:0= )"
 RDEPEND="${DEPEND}"
 
 RESTRICT="mirror"
