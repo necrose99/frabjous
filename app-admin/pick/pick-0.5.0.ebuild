@@ -23,8 +23,8 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w -X main.version=${PV}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/pick || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_install() {

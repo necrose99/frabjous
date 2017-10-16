@@ -24,7 +24,7 @@ S="${G}/src/${EGO_PN}"
 src_compile() {
 	export GOPATH="${G}"
 	go build -v -ldflags "-s -w" \
-		-o "${S}"/doctl ./cmd/doctl || die
+		./cmd/doctl || die
 }
 
 src_test() {
