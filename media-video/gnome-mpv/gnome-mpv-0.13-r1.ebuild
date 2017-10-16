@@ -22,8 +22,9 @@ RDEPEND="${CDEPEND}
 DEPEND="${CDEPEND}
 	>=dev-util/meson-0.37.0
 	dev-libs/appstream-glib"
-
 RESTRICT="mirror"
+
+PATCHES=( "${FILESDIR}"/${P}-fix_appdata_and_docs.patch )
 
 pkg_preinst() {
 	gnome2_icon_savelist
