@@ -5,6 +5,7 @@ EAPI=6
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
+GIT_COMMIT="4c4502f"
 EGO_PN="github.com/scaleway/${PN}"
 DESCRIPTION="Interact with Scaleway API from the command line"
 HOMEPAGE="https://www.scaleway.com"
@@ -26,10 +27,10 @@ S="${G}/src/${EGO_PN}"
 src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
-		-X ${EGO_PN}/pkg/scwversion/version.GITCOMMIT=nogit"
+		-X ${EGO_PN}/pkg/scwversion.GITCOMMIT=${GIT_COMMIT}"
 
-		go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/scw ./cmd/scw || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" ./cmd/scw || die
 }
 
 src_test() {
