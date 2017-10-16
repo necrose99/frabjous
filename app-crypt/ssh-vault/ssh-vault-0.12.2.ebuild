@@ -32,10 +32,11 @@ S="${G}/src/${EGO_PN}"
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w -X main.version=${PV}"
+	local GOLDFLAGS="-s -w \
+		-X main.version=${PV}"
 
 	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/${PN} ./cmd/${PN} || die
+		./cmd/ssh-vault || die
 }
 
 src_test() {
