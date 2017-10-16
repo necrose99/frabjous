@@ -38,7 +38,7 @@ src_prepare() {
 
 src_compile() {
 	GOPATH="${G}" go build -v -ldflags \
-		"-s -w" ${EGO_PN}/cmd/${PN} || die
+		"-s -w" ./cmd/browserpass || die
 }
 
 src_install() {
