@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="mirror"
 
 inherit flag-o-matic
 
@@ -19,6 +18,9 @@ IUSE="contrib libressl"
 DEPEND="
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )"
+RESTRICT="mirror"
+
+DOCS=( README.md )
 
 S="${WORKDIR}/${PN}-${MY_PV}"
 
@@ -27,23 +29,28 @@ src_prepare() {
 		-e "/^CXXFLAGS/s/-O2 //" \
 		src/Makefile || die
 
-	eapply_user
+	default
 }
 
 src_compile() {
-	cd src/ || die
 	use libressl && append-cxxflags -DHAVE_LIBRESSL -DHAVE_BN_GENCB_NEW=0
 
-	emake CXX="$(tc-getCXX)" LDFLAGS="${LDFLAGS}"
+	emake \
+		CXX="$(tc-getCXX)" \
+		LDFLAGS="${LDFLAGS}" \
+		-C ./src
 
 	if use contrib; then
-		emake contrib CXX="$(tc-getCXX)" LDFLAGS="${LDFLAGS}"
+		emake \
+			CXX="$(tc-getCXX)" \
+			LDFLAGS="${LDFLAGS}" \
+			-C ./src contrib
 	fi
 }
 
 src_install() {
-	dobin src/${PN}
-	dodoc README.md
+	dobin src/opmsg
+	einstalldocs
 
 	if use contrib; then
 		dobin src/{opmux,opcoin}
