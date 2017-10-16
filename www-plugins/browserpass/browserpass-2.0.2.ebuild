@@ -24,11 +24,13 @@ RDEPEND="app-admin/pass
 
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 src_prepare() {
-	sed -i "s:%%replace%%:/usr/bin/browserpass:" \
+	sed -i "s:%%replace%%:${EPREFIX}/usr/bin/browserpass:" \
 		firefox/host.json chrome/host.json || die
 
 	default
@@ -36,11 +38,12 @@ src_prepare() {
 
 src_compile() {
 	GOPATH="${G}" go build -v -ldflags \
-		"-s -w" ${EGO_PN}/cmd/${PN} || die
+		"-s -w" ./cmd/browserpass || die
 }
 
 src_install() {
 	dobin browserpass
+	einstalldocs
 
 	if has_version "www-client/firefox" || \
 		has_version "www-client/firefox-bin"; then
@@ -53,8 +56,6 @@ src_install() {
 		insinto /etc/chromium/native-messaging-hosts
 		newins chrome/host.json com.dannyvankooten.browserpass.json
 	fi
-
-	dodoc README.md
 }
 
 pkg_postinst() {
