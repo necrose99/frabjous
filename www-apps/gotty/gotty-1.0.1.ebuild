@@ -20,7 +20,7 @@ G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 src_compile() {
-	export GOPATH="${S}"
+	export GOPATH="${G}"
 	go build -v -ldflags "-s -w" || die
 }
 
