@@ -18,7 +18,6 @@ KEYWORDS="~amd64"
 RDEPEND="!www-apps/grafana-bin"
 DEPEND=">=net-libs/nodejs-6[npm]
 	sys-apps/yarn"
-
 RESTRICT="strip mirror"
 
 QA_EXECSTACK="usr/libexec/grafana/phantomjs"
@@ -37,30 +36,26 @@ pkg_setup() {
 src_prepare() {
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because yarn/npm fetch dependencies here:
-	emake deps-js
-
-	# Check if we already have grunt installed globally
-	if ! command -v grunt &>/dev/null; then
-		npm install grunt-cli || die
-	fi
+	emake deps
 
 	default
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 	-X main.version=${PV} \
 	-X main.commit=${PKG_COMMIT} \
 	-X main.buildstamp=$(date -u '+%s')"
 
-	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
-		${EGO_PN}/pkg/cmd/grafana-{cli,server} || die
+	go install -v -ldflags "${GOLDFLAGS}" \
+		./pkg/cmd/grafana-{cli,server} || die
 
 	emake build-js
 }
 
 src_test() {
-	emake GOPATH="${G}" test
+	emake test-go test-js
 }
 
 src_install() {
