@@ -85,18 +85,10 @@ pkg_postinst() {
 	else
 		elog "prometheus.yml found, please check example file for possible changes"
 	fi
-	if has_version '<=net-analyzer/prometheus-1.7.1'; then
-		ewarn
+	if has_version '<net-analyzer/prometheus-2.0.0_rc0'; then
 		ewarn "Old prometheus 1.x TSDB won't be converted to the new prometheus 2.0 format"
 		ewarn "Be aware that the old data currently cannot be accessed with prometheus 2.0"
-		ewarn "It's generally advised to start with a clean storage directory"
-		ewarn
-	else
-		if has_version '>=net-analyzer/prometheus-2.0.0_beta0'; then
-			ewarn
-			ewarn "This release requires a clean storage directory and is not compatible"
-			ewarn "with files created by previous beta releases."
-			ewarn
-		fi
+		ewarn "This release requires a clean storage directory and is not compatible with"
+		ewarn "files created by previous beta releases"
 	fi
 }
