@@ -48,6 +48,7 @@ src_test() {
 
 src_install() {
 	dobin "${G}"/bin/{prometheus,promtool}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
@@ -65,8 +66,6 @@ src_install() {
 		/etc/prometheus/console_libraries
 	dosym ../../usr/share/prometheus/consoles \
 		/etc/prometheus/consoles
-
-	einstalldocs
 
 	if use examples; then
 		docinto examples

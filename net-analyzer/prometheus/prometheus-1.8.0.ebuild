@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="3569eef"
+COMMIT_HASH="3569eef"
 EGO_PN="github.com/${PN}/${PN}"
 DESCRIPTION="The Prometheus monitoring system and time series database"
 HOMEPAGE="https://prometheus.io"
@@ -32,7 +32,7 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
@@ -47,6 +47,7 @@ src_test() {
 
 src_install() {
 	dobin "${G}"/bin/{prometheus,promtool}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
@@ -64,8 +65,6 @@ src_install() {
 		/etc/prometheus/console_libraries
 	dosym ../../usr/share/prometheus/consoles \
 		/etc/prometheus/consoles
-
-	einstalldocs
 
 	if use examples; then
 		docinto examples
