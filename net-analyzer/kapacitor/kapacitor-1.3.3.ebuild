@@ -5,7 +5,7 @@ EAPI=6
 
 inherit bash-completion-r1 golang-vcs-snapshot systemd user
 
-PKG_COMMIT="ce586f3"
+COMMIT_HASH="ce586f3"
 EGO_PN="github.com/influxdata/kapacitor"
 DESCRIPTION="A framework for processing, monitoring, and alerting on time series data"
 HOMEPAGE="https://influxdata.com"
@@ -28,13 +28,18 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.version=${PV} \
 		-X main.branch=${PV} \
-		-X main.commit=${PKG_COMMIT}"
+		-X main.commit=${COMMIT_HASH}"
 
-	GOPATH="${G}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/cmd/kapacitor{,d} || die
+	go install -v -ldflags \
+		"${GOLDFLAGS}" ./cmd/kapacitor{,d} || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
