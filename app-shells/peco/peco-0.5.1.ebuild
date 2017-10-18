@@ -38,7 +38,7 @@ S="${G}/src/${EGO_PN}"
 src_compile() {
 	export GOPATH="${G}"
 	go build -v -ldflags "-s -w" \
-		-o "${S}"/peco ./cmd/peco || die
+		./cmd/peco || die
 }
 
 src_test() {
