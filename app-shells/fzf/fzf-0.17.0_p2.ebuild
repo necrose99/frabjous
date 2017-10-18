@@ -50,8 +50,8 @@ src_compile() {
 	local GOLDFLAGS="-s -w \
 		-X main.revision=${PKG_COMMIT}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/fzf || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {

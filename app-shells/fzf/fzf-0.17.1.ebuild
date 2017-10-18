@@ -19,12 +19,11 @@ EGO_VENDOR=(
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
-MY_PV="${PV/_p/-}"
 PKG_COMMIT="0b33dc6"
 EGO_PN="github.com/junegunn/fzf"
 DESCRIPTION="A general-purpose command-line fuzzy finder"
 HOMEPAGE="https://github.com/junegunn/fzf"
-SRC_URI="https://${EGO_PN}/archive/${MY_PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
@@ -37,7 +36,6 @@ RDEPEND="fish-completion? ( app-shells/fish )
 	tmux? ( app-misc/tmux )
 	vim? ( app-editors/vim )
 	zsh-completion? ( app-shells/zsh )"
-
 RESTRICT="mirror strip"
 
 DOCS=( {CHANGELOG,README}.md )
@@ -50,8 +48,8 @@ src_compile() {
 	local GOLDFLAGS="-s -w \
 		-X main.revision=${PKG_COMMIT}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/fzf || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {
