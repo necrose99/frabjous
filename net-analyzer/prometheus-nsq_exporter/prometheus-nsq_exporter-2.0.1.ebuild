@@ -27,12 +27,12 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/nsq_exporter
+	dobin nsq_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
