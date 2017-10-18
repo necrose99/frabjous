@@ -44,8 +44,8 @@ src_compile() {
 		-X ${EGO_PN}/pkg/command.BuildTime=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
 		-X ${EGO_PN}/pkg/command.GitCommit=${PKG_COMMIT}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/pgweb || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {
