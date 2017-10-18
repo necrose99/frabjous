@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="9f5f4b2"
+COMMIT_HASH="9f5f4b2"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="Handles alerts sent by client applications such as the Prometheus"
 HOMEPAGE="https://prometheus.io"
@@ -37,7 +37,7 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
@@ -47,12 +47,13 @@ src_compile() {
 }
 
 src_test() {
-	go test -short \
-		$(go list ./... | grep -v -E '/vendor/|/ui|/test') || die
+	go test -v \
+		$(go list ./... | grep -v /test) || die
 }
 
 src_install() {
 	dobin "${G}"/bin/{alertmanager,amtool}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
@@ -60,8 +61,6 @@ src_install() {
 
 	insinto /etc/alertmanager
 	newins doc/examples/simple.yml alertmanager.yml.example
-
-	einstalldocs
 
 	diropts -o prometheus -g prometheus -m 0750
 	dodir /var/{lib,log}/prometheus
