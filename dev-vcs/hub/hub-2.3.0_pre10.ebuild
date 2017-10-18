@@ -19,9 +19,13 @@ IUSE="fish-completion man zsh-completion"
 DEPEND="man? ( app-text/ronn dev-ruby/bundler )"
 RDEPEND=">=dev-vcs/git-1.7.3
 	fish-completion? ( app-shells/fish )
-	zsh-completion? ( app-shells/gentoo-zsh-completions )"
-
+	zsh-completion? ( app-shells/zsh )"
 RESTRICT="mirror strip"
+
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
 
 src_setup() {
 	if use man; then
@@ -31,23 +35,25 @@ src_setup() {
 }
 
 src_compile() {
-	local GOLDFLAGS="-s -w -X ${EGO_PN}/version.Version=${MY_PV}"
-
-	GOPATH="${S}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
 
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because dev-ruby/bundler fetch dependencies here:
-	use man && emake -C src/${EGO_PN} man-pages
+	use man && emake -C man-pages
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin bin/hub
-
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
+	dobin hub
+	einstalldocs
 
 	newbashcomp etc/hub.bash_completion.sh hub
+
+	use man && doman share/man/man1/*.1
 
 	if use fish-completion; then
 		insinto /usr/share/fish/completions
@@ -58,7 +64,4 @@ src_install() {
 		insinto /usr/share/zsh/site-functions
 		newins etc/hub.zsh_completion _hub
 	fi
-
-	use man && doman share/man/man1/*.1
-	popd > /dev/null || die
 }
