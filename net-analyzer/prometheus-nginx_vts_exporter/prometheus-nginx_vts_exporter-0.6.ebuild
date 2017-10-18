@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="e48bd68"
+COMMIT_HASH="e48bd68"
 EGO_PN="github.com/hnlq715/nginx-vts-exporter"
 DESCRIPTION="A server that scrapes Nginx vts stats and exports them for Prometheus"
 HOMEPAGE="https://github.com/hnlq715/nginx-vts-exporter"
@@ -31,17 +31,17 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	go install -v -ldflags \
+	go build -v -ldflags \
 		"${GOLDFLAGS}" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/nginx-vts-exporter
+	dobin nginx-vts-exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
