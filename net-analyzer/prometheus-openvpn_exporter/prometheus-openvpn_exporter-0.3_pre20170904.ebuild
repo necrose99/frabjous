@@ -15,11 +15,11 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="26d010b2f0e4de01614fabb90f5f5604a9aee71b"
+COMMIT_HASH="26d010b2f0e4de01614fabb90f5f5604a9aee71b"
 EGO_PN="github.com/kumina/openvpn_exporter"
 DESCRIPTION="A Prometheus exporter for OpenVPN"
 HOMEPAGE="https://github.com/kumina/openvpn_exporter"
-SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${COMMIT_HASH}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="Apache-2.0"
@@ -40,12 +40,12 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/openvpn_exporter
+	dobin openvpn_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
