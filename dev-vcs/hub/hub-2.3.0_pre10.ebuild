@@ -20,7 +20,7 @@ DEPEND="man? ( app-text/ronn dev-ruby/bundler )"
 RDEPEND=">=dev-vcs/git-1.7.3
 	fish-completion? ( app-shells/fish )
 	zsh-completion? ( app-shells/zsh )"
-RESTRICT="mirror strip"
+RESTRICT="mirror strip test"
 
 DOCS=( README.md )
 
@@ -41,10 +41,6 @@ src_compile() {
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because dev-ruby/bundler fetch dependencies here:
 	use man && emake -C man-pages
-}
-
-src_test() {
-	go test -v ./... || die
 }
 
 src_install() {
