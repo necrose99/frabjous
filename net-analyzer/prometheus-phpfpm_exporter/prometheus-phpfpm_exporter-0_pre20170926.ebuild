@@ -16,11 +16,11 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="d0e3adbacd32126ede303e7907fe3f993b7b068b"
+COMMIT_HASH="d0e3adbacd32126ede303e7907fe3f993b7b068b"
 EGO_PN="github.com/kumina/phpfpm_exporter"
 DESCRIPTION="A Prometheus exporter for PHP-FPM"
 HOMEPAGE="https://github.com/kumina/phpfpm_exporter"
-SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${COMMIT_HASH}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="Apache-2.0"
@@ -40,12 +40,12 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go install -v \
-		-ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/phpfpm_exporter
+	dobin phpfpm_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
