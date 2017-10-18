@@ -67,19 +67,20 @@ src_prepare() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.version=${MY_PV} \
 		-X main.branch=${MY_PV} \
 		-X main.commit=${PKG_COMMIT}"
 
-	GOPATH="${G}" go install -v -ldflags "${GOLDFLAGS}" \
-		${EGO_PN}/cmd/influx{,d,_stress,_inspect,_tsm} || die
+	go install -v -ldflags "${GOLDFLAGS}" \
+		./cmd/influx{,d,_stress,_inspect,_tsm} || die
 
 	use man && emake -C man
 }
 
 src_install() {
-	dobin "${G}"/bin/influx*
+	dobin "${G}"/bin/influx{,d,_stress,_inspect,_tsm}
 
 	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	systemd_install_serviced "${FILESDIR}"/${PN}.service.conf
