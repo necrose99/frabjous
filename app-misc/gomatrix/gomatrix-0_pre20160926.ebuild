@@ -12,10 +12,10 @@ EGO_VENDOR=(
 	"github.com/mattn/go-runewidth 97311d9"
 	"golang.org/x/text 3bd178b github.com/golang/text"
 )
-EGO_PN="github.com/GeertJohan/gomatrix"
 
 inherit golang-vcs-snapshot
 
+EGO_PN="github.com/GeertJohan/gomatrix"
 GIT_COMMIT="fec9e8c9052e9a330a8dc92e7c873f95415b94ae"
 DESCRIPTION="Connects to The Matrix and displays it's data streams in your terminal"
 HOMEPAGE="https://github.com/GeertJohan/gomatrix"
@@ -28,11 +28,15 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags "-s -w" ${EGO_PN} || die
+	GOPATH="${G}" go build -v \
+		-ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin bin/${PN}
-	dodoc src/${EGO_PN}/README.md
+	dobin gomatrix
+	dodoc README.md
 }
