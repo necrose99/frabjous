@@ -35,7 +35,6 @@ IUSE="test"
 
 RDEPEND="app-shells/zsh[unicode]
 	dev-vcs/git"
-
 RESTRICT="mirror strip"
 
 DOCS=( README.md )
@@ -54,8 +53,8 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w -X main.version=${PV}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/antibody || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 
 	if use test; then
 		go install -v -ldflags "-s -w" \
