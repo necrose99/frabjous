@@ -10,6 +10,7 @@ env:
         - PORTAGE_VER="2.3.11"
         - REPOMAN_VER="2.3.3"
 before_install:
+    - sudo rm -vf /etc/apt/sources.list.d/*riak*
     - sudo apt-get -qq update
     - pip install lxml
 before_script:
