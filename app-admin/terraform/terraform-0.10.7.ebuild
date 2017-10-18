@@ -16,10 +16,10 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 
 LICENSE="MPL-2.0"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 ~arm ~x86"
 IUSE="examples fish-completion terraform-bundle zsh-completion"
 
-RDEPEND="fish-completion? ( app-shells/fish )
+RDEPEND="!arm? ( fish-completion? ( app-shells/fish ) )
 	zsh-completion? ( app-shells/zsh )"
 RESTRICT="mirror strip"
 
