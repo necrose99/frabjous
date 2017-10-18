@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="4d30f92"
+COMMIT_HASH="4d30f92"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="A server that accepts InfluxDB metrics for Prometheus consumption"
 HOMEPAGE="https://prometheus.io"
@@ -31,28 +31,26 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	go install -v -ldflags \
+	go build -v -ldflags \
 		"${GOLDFLAGS}" || die
 }
 
 src_test() {
-	go test -short \
-		$(go list ./... | grep -v -E '/vendor/') || die
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin "${G}"/bin/influxdb_exporter
+	dobin influxdb_exporter
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	einstalldocs
 
 	diropts -o influxdb_exporter -g influxdb_exporter -m 0750
 	dodir /var/log/influxdb_exporter
