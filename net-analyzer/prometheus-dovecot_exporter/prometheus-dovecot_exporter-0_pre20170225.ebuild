@@ -15,11 +15,11 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="f21fd8850b255e9a893a166e04af04eafdad4a7a"
+COMMIT_HASH="f21fd8850b255e9a893a166e04af04eafdad4a7a"
 EGO_PN="github.com/kumina/dovecot_exporter"
 DESCRIPTION="A Prometheus metrics exporter for the Dovecot mail server"
 HOMEPAGE="https://github.com/kumina/dovecot_exporter"
-SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${COMMIT_HASH}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="Apache-2.0"
@@ -39,18 +39,17 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go install -v \
+	GOPATH="${G}" go build -v \
 		-ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/dovecot_exporter
+	dobin dovecot_exporter
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	einstalldocs
 
 	diropts -o dovecot_exporter -g dovecot_exporter -m 0750
 	dodir /var/log/dovecot_exporter
