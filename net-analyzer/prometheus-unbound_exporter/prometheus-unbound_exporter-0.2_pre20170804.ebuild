@@ -16,11 +16,11 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="f538243789ba092158a6a403be05dc537e80f0d8"
+COMMIT_HASH="f538243789ba092158a6a403be05dc537e80f0d8"
 EGO_PN="github.com/kumina/unbound_exporter"
 DESCRIPTION="A Prometheus exporter for Unbound"
 HOMEPAGE="https://github.com/kumina/unbound_exporter"
-SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/${COMMIT_HASH}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="Apache-2.0"
@@ -40,12 +40,12 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go install -v \
-		-ldflags "-s -w" || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
 }
 
 src_install() {
-	dobin "${G}"/bin/unbound_exporter
+	dobin unbound_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
