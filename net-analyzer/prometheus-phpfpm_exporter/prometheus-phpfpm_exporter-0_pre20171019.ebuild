@@ -16,7 +16,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="d0e3adbacd32126ede303e7907fe3f993b7b068b"
+COMMIT_HASH="460c0d7d1bf8014b53df8d1f72fc0ee4a37dabb8"
 EGO_PN="github.com/kumina/phpfpm_exporter"
 DESCRIPTION="A Prometheus exporter for PHP-FPM"
 HOMEPAGE="https://github.com/kumina/phpfpm_exporter"
