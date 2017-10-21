@@ -23,10 +23,13 @@ EGO_VENDOR=(
 	"github.com/eapache/go-xerial-snappy bb955e0"
 	"github.com/eapache/queue 44cc805"
 	"github.com/eclipse/paho.mqtt.golang d4f545e"
+	"github.com/go-logfmt/logfmt 390ab79"
 	"github.com/go-sql-driver/mysql 2e00b5c"
 	"github.com/gobwas/glob bea32b9"
+	"github.com/gogo/protobuf 7b6c639"
 	"github.com/golang/protobuf 8ee7999"
 	"github.com/golang/snappy 7db9049"
+	"github.com/google/go-cmp f94e52c"
 	"github.com/gorilla/mux 392c28f"
 	"github.com/go-sql-driver/mysql 2e00b5c"
 	"github.com/hailocab/go-hostpool e80d13c"
@@ -46,6 +49,8 @@ EGO_VENDOR=(
 	"github.com/nats-io/nuid 289cccf"
 	"github.com/nsqio/go-nsq a53d495"
 	"github.com/opencontainers/runc 89ab7f2"
+	"github.com/opentracing-contrib/go-observer a52f234"
+	"github.com/opentracing/opentracing-go 06f47b4"
 	"github.com/openzipkin/zipkin-go-opentracing 1cafbdf"
 	"github.com/pierrec/lz4 5c9560b"
 	"github.com/pierrec/xxHash 5a00444"
@@ -81,15 +86,10 @@ EGO_VENDOR=(
 )
 
 # Deps that are not needed:
-# github.com/go-logfmt/logfmt
 # github.com/go-ini/ini
-# github.com/gogo/protobuf
 # github.com/go-ole/go-ole
-# github.com/google/go-cmp
 # github.com/jmespath/go-jmespath
 # github.com/Microsoft/go-winio
-# github.com/opentracing-contrib/go-observer
-# github.com/opentracing/opentracing-go
 # github.com/pmezard/go-difflib
 # github.com/shirou/w32
 # github.com/StackExchange/wmi
@@ -100,7 +100,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="34b7a4c"
+COMMIT_HASH="34b7a4c"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="An agent for collecting, processing, aggregating, and writing metrics"
 HOMEPAGE="https://influxdata.com"
@@ -110,6 +110,7 @@ SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE="test"
 
 RESTRICT="mirror strip"
 
@@ -117,22 +118,32 @@ G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 pkg_setup() {
+	if use test; then
+		has network-sandbox $FEATURES && \
+			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
+	fi
+
 	enewgroup telegraf
 	enewuser telegraf -1 -1 -1 telegraf
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.version=${PV} \
 		-X main.branch=${PV} \
-		-X main.commit=${PKG_COMMIT}"
+		-X main.commit=${COMMIT_HASH}"
 
-	GOPATH="${G}" go install -v -ldflags \
-		"${GOLDFLAGS}" ./cmd/${PN} || die
+	go build -v -ldflags "${GOLDFLAGS}" \
+		./cmd/telegraf || die
+}
+
+src_test() {
+	go test -short ./... || die
 }
 
 src_install() {
-	dobin "${G}"/bin/telegraf
+	dobin telegraf
 
 	newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
