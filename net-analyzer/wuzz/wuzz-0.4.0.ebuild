@@ -16,10 +16,10 @@ EGO_VENDOR=(
 	"github.com/x86kernel/htmlcolor cf1d377"
 	"github.com/tidwall/match 173748d"
 )
-EGO_PN="github.com/asciimoo/wuzz"
 
 inherit golang-vcs-snapshot
 
+EGO_PN="github.com/asciimoo/wuzz"
 DESCRIPTION="Interactive cli tool for HTTP inspection"
 HOMEPAGE="https://github.com/asciimoo/wuzz"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -31,11 +31,21 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+DOCS=( {CHANGELOG,README}.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags "-s -w" ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin bin/wuzz
-	dodoc src/${EGO_PN}/{CHANGELOG,README}.md
+	dobin wuzz
+	einstalldocs
 }
