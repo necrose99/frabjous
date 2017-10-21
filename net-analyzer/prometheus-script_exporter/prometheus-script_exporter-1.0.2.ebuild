@@ -18,7 +18,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="3ee25c0"
+COMMIT_HASH="3ee25c0"
 EGO_PN="github.com/adhocteam/script_exporter"
 DESCRIPTION="A Prometheus exporter for shell script exit status and duration"
 HOMEPAGE="https://github.com/adhocteam/script_exporter"
@@ -45,22 +45,21 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	go install -v -ldflags \
+	go build -v -ldflags \
 		"${GOLDFLAGS}" || die
 }
 
 src_test() {
-	go test -short \
-		$(go list ./... | grep -v -E '/vendor/') || die
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin "${G}"/bin/script_exporter
+	dobin script_exporter
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
