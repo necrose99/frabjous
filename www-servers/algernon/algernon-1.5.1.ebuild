@@ -18,8 +18,9 @@ IUSE="examples mysql postgres redis"
 RDEPEND="mysql? ( virtual/mysql )
 	postgres? ( dev-db/postgresql:* )
 	redis? ( dev-db/redis )"
-
 RESTRICT="mirror strip"
+
+DOCS=( Changelog.md )
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -30,12 +31,17 @@ pkg_setup() {
 }
 
 src_compile() {
-	GOPATH="${G}" go build -v -ldflags "-s -w" \
-		-o "${S}"/algernon ${EGO_PN} || die
+	export GOPATH="${G}"
+	go build -v -ldflags "-s -w" || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
 	dobin {algernon,desktop/mdview}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd-r1 ${PN}
