@@ -15,8 +15,9 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 RDEPEND=">=app-backup/restic-0.7.1"
-
 RESTRICT="mirror strip"
+
+DOCS=( README.md )
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -32,17 +33,17 @@ src_prepare() {
 }
 
 src_compile() {
-	GOPATH="${G}" go run build.go || die
+	export GOPATH="${G}"
+	go run build.go || die
 }
 
 src_install() {
 	dobin rest-server
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 	systemd_dounit etc/${PN}.service
-
-	dodoc README.md
 }
 
 pkg_preinst() {
