@@ -27,21 +27,25 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}.Version=${PV}"
 
-	GOPATH="${G}" go build -v -ldflags "${GOLDFLAGS}" \
+	go build -v -ldflags "${GOLDFLAGS}" \
 		-o "${S}"/toxiproxy-server ./cmd || die
 
-	GOPATH="${G}" go build -v -ldflags "${GOLDFLAGS}" \
+	go build -v -ldflags "${GOLDFLAGS}" \
 		-o "${S}"/toxiproxy-cli ./cli || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
 	dobin toxiproxy-{server,cli}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
-
-	einstalldocs
 }
