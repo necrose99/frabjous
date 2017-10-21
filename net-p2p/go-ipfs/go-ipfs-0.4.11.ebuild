@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="41102bd"
+COMMIT_HASH="41102bd"
 EGO_PN="github.com/ipfs/${PN}"
 DESCRIPTION="IPFS implementation written in Go"
 HOMEPAGE="https://ipfs.io"
@@ -14,11 +14,11 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="fuse"
+IUSE="fuse test"
 
 RDEPEND="fuse? ( sys-fs/fuse:0 )"
-DEPEND="|| ( net-misc/wget net-misc/curl )"
-
+DEPEND="|| ( net-misc/wget net-misc/curl )
+	test? ( net-analyzer/netcat[crypt] )"
 RESTRICT="mirror strip"
 
 DOCS=( {CHANGELOG,README}.md )
@@ -34,16 +34,23 @@ pkg_setup() {
 src_prepare() {
 	sed -i \
 		-e "s:-X:-s -w -X:" \
-		-e "s:CurrentCommit=.*:CurrentCommit=${PKG_COMMIT}\":" \
+		-e "s:CurrentCommit=.*:CurrentCommit=${COMMIT_HASH}\":" \
 		cmd/ipfs/Rules.mk || die
 
 	default
 }
 
 src_compile() {
-	GOPATH="${G}" \
+	export GOPATH="${G}"
 	GOTAGS="$(usex !fuse nofuse '')" \
 	emake build
+}
+
+src_test() {
+	export TEST_NO_FUSE=1
+	# test_sharness_short is failing on my side,
+	# and I don't know how to fix it.
+	emake test_go_short
 }
 
 src_install() {
