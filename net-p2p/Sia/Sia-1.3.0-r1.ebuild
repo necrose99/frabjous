@@ -30,10 +30,10 @@ EGO_VENDOR=(
 	"github.com/spf13/pflag e57e3ee"
 	"gopkg.in/yaml.v2 25c4ec8 github.com/go-yaml/yaml"
 )
-EGO_PN="github.com/NebulousLabs/Sia"
 
 inherit golang-vcs-snapshot systemd user
 
+EGO_PN="github.com/NebulousLabs/Sia"
 DESCRIPTION="Blockchain-based marketplace for file storage"
 HOMEPAGE="https://sia.tech"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
@@ -54,24 +54,19 @@ pkg_setup() {
 }
 
 src_compile() {
-	local PKGS=( ./api ./build ./compatibility \
-		./crypto ./encoding ./modules ./modules/consensus \
-		./modules/explorer ./modules/gateway ./modules/host \
-		./modules/host/contractmanager ./modules/renter \
-		./modules/renter/contractor ./modules/renter/hostdb \
-		./modules/renter/hostdb/hosttree ./modules/renter/proto \
-		./modules/miner ./modules/wallet ./modules/transactionpool \
-		./persist ./siac ./siad ./sync ./types )
+	export GOPATH="${G}"
+	emake release-std
+}
 
-	GOPATH="${G}" go install -v \
-		-ldflags "-s -w" "${PKGS[@]}" || die
+src_test() {
+	default
 }
 
 src_install() {
-	dobin "${G}"/bin/sia*
+	dobin "${G}"/bin/sia{c,d}
 	dodoc doc/*.md
 
-	newinitd "${FILESDIR}"/sia.initd-r1 sia
+	newinitd "${FILESDIR}"/sia.initd-r2 sia
 	systemd_dounit "${FILESDIR}"/sia.service
 
 	diropts -o sia -g sia -m 0750
