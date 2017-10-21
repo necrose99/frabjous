@@ -34,10 +34,6 @@ src_compile() {
 		"${GOLDFLAGS}" || die
 }
 
-src_test() {
-	emake test
-}
-
 src_install() {
 	dobin "${S}"/bin/postgres_exporter
 	einstalldocs
