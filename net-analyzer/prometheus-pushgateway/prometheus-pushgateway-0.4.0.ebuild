@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="6ceb4a1"
+COMMIT_HASH="6ceb4a1"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="Push acceptor for ephemeral and batch jobs to expose their metrics to Prometheus"
 HOMEPAGE="https://prometheus.io"
@@ -28,19 +28,24 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
-	GOPATH="${G}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN} || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin "${G}"/bin/pushgateway
+	dobin pushgateway
 	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
