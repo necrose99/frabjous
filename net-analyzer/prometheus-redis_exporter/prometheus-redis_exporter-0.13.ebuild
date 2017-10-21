@@ -22,7 +22,7 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="4d2a3464854853fa3d0dcb5afcaa4c78b39c279a"
+COMMIT_HASH="4d2a3464854853fa3d0dcb5afcaa4c78b39c279a"
 EGO_PN="github.com/oliver006/redis_exporter"
 DESCRIPTION="A server that export Redis metrics for Prometheus consumption"
 HOMEPAGE="https://github.com/oliver006/redis_exporter"
@@ -59,10 +59,10 @@ src_compile() {
 	local GOLDFLAGS="-s -w \
 		-X main.VERSION=${PV} \
 		-X main.BUILD_DATE=$(date -u '+%Y-%m-%d') \
-		-X main.COMMIT_SHA1=${PKG_COMMIT}"
+		-X main.COMMIT_SHA1=${COMMIT_HASH}"
 
-	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/redis_exporter || die
+	go build -v -ldflags \
+		"${GOLDFLAGS}" || die
 }
 
 src_test() {
