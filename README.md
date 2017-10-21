@@ -141,8 +141,6 @@ www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support f
 www-servers/**[hiawatha](www-servers/hiawatha)** | Advanced and secure webserver
 www-servers/**[nginx](www-servers/nginx)** | Robust, small and high performance http and reverse proxy server
 www-servers/**[rest-server](www-servers/rest-server)** | A high performance HTTP server that implements restic's REST backend API
-x11-apps/**[radeon-profile](x11-apps/radeon-profile)** | App for display info about radeon card
-x11-apps/**[radeon-profile-daemon](x11-apps/radeon-profile-daemon)** | Daemon for radeon-profile GUI
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
 
 * All commits are signed with the key ID: `A6C7CA717170C3FD`
