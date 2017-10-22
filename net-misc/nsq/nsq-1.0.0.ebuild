@@ -33,32 +33,34 @@ IUSE="test"
 
 RESTRICT="mirror strip"
 
+DOCS=( {ChangeLog,README}.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	if use test; then
 		has network-sandbox $FEATURES && \
-			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
+			die "The test phase requires 'network-sandbox' to be disabled in FEATURES"
 	fi
 }
 
 src_compile() {
+	export GOPATH="${G}"
+
 	emake \
-		GOPATH="${S}" \
-		PREFIX="${EPREFIX}/usr" \
-		GOFLAGS="-v -ldflags '-s -w'" \
-		-C src/${EGO_PN}
+	PREFIX="${EPREFIX}/usr" \
+	GOFLAGS="-v -ldflags '-s -w'"
 }
 
 src_test() {
-	export GOPATH="${S}"
-	src/${EGO_PN}/test.sh
+	./test.sh || die
 }
 
 src_install() {
-	pushd src/${EGO_PN} > /dev/null || die
 	emake \
 		PREFIX="/usr" \
 		DESTDIR="${D}" install
 
-	dodoc {ChangeLog,README}.md
-	popd > /dev/null || die
+	einstalldocs
 }
