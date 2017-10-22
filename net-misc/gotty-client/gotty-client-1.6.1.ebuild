@@ -3,10 +3,9 @@
 
 EAPI=6
 
-EGO_PN="github.com/moul/${PN}"
-
 inherit bash-completion-r1 golang-vcs-snapshot
 
+EGO_PN="github.com/moul/${PN}"
 DESCRIPTION="A terminal client for GoTTY"
 HOMEPAGE="https://github.com/moul/gotty-client"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
@@ -17,24 +16,32 @@ KEYWORDS="~amd64 ~x86"
 IUSE="zsh-completion"
 
 RDEPEND="zsh-completion? ( app-shells/zsh )"
-
 RESTRICT="mirror strip"
 
+DOCS=( README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 src_compile() {
-	GOPATH="${S}" go install -v \
-		-ldflags "-s -w" ${EGO_PN}/cmd/${PN} || die
+	export GOPATH="${G}"
+
+	go build -v -ldflags "-s -w" \
+		./cmd/gotty-client || die
+}
+
+src_test() {
+	go test -v ./... || die
 }
 
 src_install() {
-	dobin bin/${PN}
+	dobin gotty-client
+	einstalldocs
 
-	pushd src/${EGO_PN} > /dev/null || die
-	dodoc README.md
-	newbashcomp contrib/completion/bash_autocomplete ${PN}
+	newbashcomp contrib/completion/bash_autocomplete gotty-client
 
 	if use zsh-completion ; then
 		insinto /usr/share/zsh/site-functions
-		newins contrib/completion/zsh_autocomplete _${PN}
+		newins contrib/completion/zsh_autocomplete _gotty-client
 	fi
-	popd > /dev/null || die
 }
