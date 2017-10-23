@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="f6df3b7"
+COMMIT_HASH="3a7c51a"
 EGO_PN="github.com/${PN}/${PN}"
 DESCRIPTION="The Prometheus monitoring system and time series database"
 HOMEPAGE="https://prometheus.io"
