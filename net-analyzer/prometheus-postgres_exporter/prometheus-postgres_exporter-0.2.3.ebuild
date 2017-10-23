@@ -27,7 +27,7 @@ pkg_setup() {
 }
 
 src_compile() {
-	export GOPATH="${S}"
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w -X main.Version=${PV}"
 
 	go install -v -ldflags \
