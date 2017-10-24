@@ -65,7 +65,9 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	insinto /etc/cryptpad
-	newins config.example.js config.js.example
+	newins config.example.js config.js
+	dosym ../../../etc/cryptpad/config.js \
+		/usr/share/cryptpad/config.js
 	# Remove redundant file
 	rm config.example.js || die
 
@@ -74,14 +76,4 @@ src_install() {
 
 	diropts -o cryptpad -g cryptpad -m 0750
 	dodir /var/{lib,log}/cryptpad
-}
-
-pkg_postinst() {
-	if [ ! -e "${EROOT%/}"/etc/cryptpad/config.js ]; then
-		elog "No config.js found, copying the example over"
-		cp "${EROOT%/}"/etc/cryptpad/config.js{.example,} || die
-	else
-		elog "config.js found, please check example file for possible changes"
-	fi
-	ln -s ../../../etc/cryptpad/config.js /usr/share/cryptpad/config.js || die
 }
