@@ -22,6 +22,6 @@ depend() {
 }
 
 start_pre() {
-	checkpath -d -m 0750 -o ${BITCOIND_USER} \
+	checkpath -d -m 0750 -o ${MONEROD_USER} \
 		"${MONEROD_DATADIR}" "${MONEROD_LOGDIR}"
 }
