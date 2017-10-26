@@ -75,7 +75,7 @@ src_install() {
 		dobin "${BUILD_DIR}"/bin/monerod
 
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
-		systemd_newunit "${FILESDIR}"/${PN}.service ${PN}.service
+		systemd_dounit "${FILESDIR}"/${PN}.service
 
 		insinto /etc/monero
 		newins utils/conf/monerod.conf monerod.conf.example
@@ -102,9 +102,9 @@ src_install() {
 
 pkg_postinst() {
 	if use daemon; then
-		if [ ! -e "${EROOT%/}"/etc/${PN}/monerod.conf ]; then
+		if [ ! -e "${EROOT%/}"/etc/monero/monerod.conf ]; then
 			elog "No monerod.conf found, copying the example over"
-			cp "${EROOT%/}"/etc/${PN}/monerod.conf{.example,} || die
+			cp "${EROOT%/}"/etc/monero/monerod.conf{.example,} || die
 		fi
 	fi
 }
