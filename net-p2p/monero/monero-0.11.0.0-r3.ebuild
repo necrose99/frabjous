@@ -17,7 +17,7 @@ IUSE="+daemon doc dot libressl +simplewallet stacktrace utils"
 CDEPEND="app-arch/xz-utils
 	dev-libs/boost:0=[threads(+)]
 	dev-libs/expat
-	net-dns/unbound
+	net-dns/unbound[threads]
 	net-libs/ldns
 	net-libs/miniupnpc
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
