@@ -47,6 +47,7 @@ Package | Description
 app-admin/**[doctl](app-admin/doctl)** | A command line tool for DigitalOcean services
 app-admin/**[pick](app-admin/pick)** | A minimal password manager written in Go
 app-admin/**[scaleway-cli](app-admin/scaleway-cli)** | Interact with Scaleway API from the command line
+app-admin/**[terraform](app-admin/terraform)** | A tool for building, changing, and combining infrastructure safely/efficiently
 app-arch/**[squash](app-arch/squash)** | Compression abstraction library and utilities
 app-backup/**[restic](app-backup/restic)** | A backup program that is fast, efficient and secure
 app-backup/**[zvault](app-backup/zvault)** | A highly efficient deduplicating backup solution
@@ -110,6 +111,7 @@ net-p2p/**[go-ipfs](net-p2p/go-ipfs)** | IPFS implementation written in Go
 net-p2p/**[monero](net-p2p/monero)** | The secure, private and untraceable cryptocurrency
 net-p2p/**[monero-core](net-p2p/monero-core)** | The secure, private and untraceable cryptocurrency (with GUI wallet)
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
+net-proxy/**[ergo](net-proxy/ergo)** | The reverse proxy agent for local domain management
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
