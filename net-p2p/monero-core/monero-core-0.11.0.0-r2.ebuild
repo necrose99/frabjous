@@ -3,10 +3,7 @@
 
 EAPI=6
 
-inherit cmake-utils gnome2-utils qmake-utils
-
-# TODO: Finish the daemon part;
-# username/group, init script, unit files, etc.
+inherit cmake-utils gnome2-utils qmake-utils systemd user
 
 MO_CORE_COMMIT="4c75fe4"
 MO_PV="15b0ff2c3228409bfb33d0cf3386d0b3db004f5c" # branch: release-v0.11.0.0
@@ -26,7 +23,7 @@ IUSE="+daemon doc dot +gui libressl scanner simplewallet stacktrace utils"
 CDEPEND="app-arch/xz-utils
 	dev-libs/boost:0=[threads(+)]
 	dev-libs/expat
-	net-dns/unbound
+	net-dns/unbound[threads]
 	net-libs/ldns
 	net-libs/miniupnpc
 	gui? (
@@ -56,6 +53,13 @@ CMAKE_BUILD_TYPE=Release
 CMAKE_USE_DIR="${S}/monero"
 BUILD_DIR="${CMAKE_USE_DIR}/build/release"
 
+pkg_setup() {
+	if use daemon; then
+		enewgroup monero
+		enewuser monero -1 -1 /var/lib/monero monero
+	fi
+}
+
 src_prepare() {
 	rmdir "${CMAKE_USE_DIR}" || die
 	mv "${WORKDIR}/${MO_P}" "${CMAKE_USE_DIR}" || die
@@ -74,7 +78,7 @@ src_configure() {
 
 	if use gui; then
 		echo "var GUI_VERSION = \"${MO_CORE_COMMIT}\"" > version.js || die
-		echo "var GUI_MONERO_VERSION = \"${MO_PV:0:-33}\"" >> version.js || die
+		echo "var GUI_MONERO_VERSION = \"${MO_PV:0:7}\"" >> version.js || die
 
 		pushd "${S}"/build >/dev/null || die
 		eqmake5 ../monero-wallet-gui.pro \
@@ -142,14 +146,27 @@ src_install() {
 		done
 	fi
 
-	use daemon && \
+	if use daemon; then
 		dobin "${BUILD_DIR}"/bin/monerod
+
+		newinitd "${FILESDIR}"/${PN}.initd monero
+		systemd_newunit "${FILESDIR}"/${PN}.service monero.service
+
+		insinto /etc/monero
+		newins monero/utils/conf/monerod.conf \
+			monerod.conf.example
+
+		diropts -o monero -g monero -m 0750
+		dodir /var/log/monero
+	fi
 
 	use simplewallet && \
 		dobin "${BUILD_DIR}"/bin/monero-wallet-cli
 
-	use utils && \
-		dobin "${BUILD_DIR}"/bin/monero-blockchain-{export,import}
+	if use utils; then
+		dobin "${BUILD_DIR}"/bin/monero-blockchain-export
+		dobin "${BUILD_DIR}"/bin/monero-blockchain-import
+	fi
 
 	if use doc; then
 		docinto html
@@ -168,6 +185,12 @@ update_caches() {
 
 pkg_postinst() {
 	use gui && update_caches
+	if use daemon; then
+		if [ ! -e "${EROOT%/}"/etc/monero/monerod.conf ]; then
+			elog "No monerod.conf found, copying the example over"
+			cp "${EROOT%/}"/etc/monero/monerod.conf{.example,} || die
+		fi
+	fi
 }
 
 pkg_postrm() {
