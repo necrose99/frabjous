@@ -62,8 +62,7 @@ IUSE="fish-completion zsh-completion"
 DEPEND="dev-libs/libgit2"
 RDEPEND="${DEPEND}
 	fish-completion? ( app-shells/fish )
-	zsh-completion? ( app-shells/gentoo-zsh-completions )"
-
+	zsh-completion? ( app-shells/zsh )"
 RESTRICT="mirror"
 
 pkg_setup() {
@@ -71,9 +70,8 @@ pkg_setup() {
 	# the dependency 'zoneinfo_compiled' from GitHub and force
 	# Cargo to use it before compile phase. So let's block
 	# 'network-sandbox' for now.
-	if has network-sandbox $FEATURES; then
-		die "sys-apps/exa require 'network-sandbox' to be disabled in FEATURES"
-	fi
+	has network-sandbox $FEATURES && \
+		die "sys-apps/exa requires 'network-sandbox' to be disabled in FEATURES"
 }
 
 src_compile() {
@@ -87,7 +85,6 @@ src_compile() {
 
 src_install() {
 	dobin target/release/exa
-
 	doman contrib/man/exa.1
 
 	newbashcomp contrib/completions.bash exa

@@ -82,8 +82,7 @@ IUSE="fish-completion zsh-completion"
 DEPEND="dev-libs/libgit2"
 RDEPEND="${DEPEND}
 	fish-completion? ( app-shells/fish )
-	zsh-completion? ( app-shells/gentoo-zsh-completions )"
-
+	zsh-completion? ( app-shells/zsh )"
 RESTRICT="mirror"
 
 src_compile() {
@@ -97,7 +96,6 @@ src_compile() {
 
 src_install() {
 	dobin target/release/exa
-
 	doman contrib/man/exa.1
 
 	newbashcomp contrib/completions.bash exa
