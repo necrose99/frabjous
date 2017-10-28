@@ -23,6 +23,7 @@ SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
+IUSE="test"
 
 RESTRICT="mirror strip"
 
@@ -31,9 +32,24 @@ DOCS=( ChangeLog README.md )
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
+src_prepare() {
+	if use test; then
+		sed -i \
+			-e "s:/tmp:${T}:g" \
+			-e "/go build/d" \
+			test.sh || die
+	fi
+
+	default
+}
+
 src_compile() {
 	export GOPATH="${G}"
 	go build -v -ldflags "-s -w" || die
+}
+
+src_test() {
+	./test.sh || die
 }
 
 src_install() {
