@@ -16,10 +16,11 @@ KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 RDEPEND="net-libs/nodejs[npm]"
 DEPEND="${RDEPEND}
 	dev-lang/go"
+RESTRICT="mirror"
 
 pkg_setup() {
 	has network-sandbox $FEATURES && \
-		die "www-apps/spreed-webrtc require 'network-sandbox' to be disabled in FEATURES"
+		die "www-apps/spreed-webrtc requires 'network-sandbox' to be disabled in FEATURES"
 
 	enewgroup spreed
 	enewuser spreed -1 -1 -1 spreed
@@ -27,14 +28,15 @@ pkg_setup() {
 
 src_prepare() {
 	# Fix log path
-	sed -i 's:/var/log.*:/var/log/spreed-webrtc/server.log:' \
+	sed -i "s:/var/log.*:/var/log/${PN}/server.log:" \
 		server.conf.in || die
 
-	default
 	eautoreconf
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because net-libs/nodejs fetch dependencies here:
 	npm install || die
+
+	default
 }
 
 src_compile() {
