@@ -247,7 +247,7 @@ pkg_postinst() {
 	ewarn "Zcash is experimental and a work-in-progress. Use at your own risk."
 	ewarn
 	ewarn "Please, see important security warnings in"
-	ewarn "${EROOT}usr/share/doc/${P}/security-warnings.md.bz2"
+	ewarn "${EROOT%/}/usr/share/doc/${P}/security-warnings.md.bz2"
 	ewarn
 	if [ -z "${REPLACING_VERSIONS}" ]; then
 		einfo
