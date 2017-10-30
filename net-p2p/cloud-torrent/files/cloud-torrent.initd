@@ -1,0 +1,21 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="A self-hosted remote torrent client, written in Go"
+
+: ${TORRENT_USER:=torrent}
+: ${TORRENT_OPTS:="-h 127.0.0.1 -p 8080"}
+: ${TORRENT_CONFIGFILE:="/etc/cloud-torrent/cloud-torrent.json"}
+
+command="/usr/bin/cloud-torrent"
+command_args="-c ${TORRENT_CONFIGFILE} ${TORRENT_OPTS}"
+command_user="${TORRENT_USER}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+required_files="${TORRENT_CONFIGFILE}"
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
