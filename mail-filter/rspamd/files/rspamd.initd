@@ -1,0 +1,49 @@
+#!/sbin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+extra_commands="checkconfig"
+extra_started_commands="reload"
+
+: ${RSPAMD_USER:="rspamd"}
+: ${RSPAMD_CONFIG:="/etc/rspamd/rspamd.conf"}
+
+command="/usr/bin/rspamd"
+command_args="${RSPAMD_OPTS}"
+command_user="${RSPAMD_USER}"
+pidfile="/run/rspamd/rspamd.pid"
+required_files="${RSPAMD_CONFIG}"
+retry="TERM/30/KILL/5"
+start_stop_daemon_args="${SSD_OPTS:-"--wait 1000"}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0700 -o ${RSPAMD_USER} \
+		"/var/lib/rspamd" "/var/log/rspamd"
+	checkpath -d -m 2750 -o ${RSPAMD_USER} "${pidfile%/*}"
+	rm -f "${pidfile%/*}"/*.sock
+	if [ "${RC_CMD}" != "restart" ]; then
+		checkconfig || return 1
+	fi
+}
+
+stop_pre() {
+	if [ "${RC_CMD}" = "restart" ]; then
+		checkconfig || return 1
+	fi
+}
+
+reload() {
+	checkconfig || return 1
+	ebegin "Reloading ${RC_SVCNAME}"
+	start-stop-daemon --signal HUP --quiet --pidfile ${pidfile}
+	eend $? "Failed to reload ${RC_SVCNAME}"
+}
+
+checkconfig() {
+	/usr/bin/rspamadm configtest -c ${RSPAMD_CONFIG} > /dev/null \
+		|| return 1
+}
