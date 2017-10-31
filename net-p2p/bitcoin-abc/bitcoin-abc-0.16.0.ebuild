@@ -12,7 +12,7 @@ SRC_URI="https://github.com/Bitcoin-ABC/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports system-univalue upnp utils +wallet zeromq"
+IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports system-univalue test upnp utils +wallet zeromq"
 LANGS="af af_ZA ar be_BY bg bg_BG ca ca@valencia ca_ES cs cy da de el el_GR en en_GB
 	eo es es_AR es_CL es_CO es_DO es_ES es_MX es_UY es_VE et et_EE eu_ES fa fa_IR fi
 	fr fr_CA fr_FR gl he hi_IN hr hu id_ID it it_IT ja ka kk_KZ ko_KR ku_IQ ky la lt
@@ -113,7 +113,6 @@ src_configure() {
 		--disable-bench \
 		--disable-ccache \
 		--disable-maintainer-mode \
-		--disable-tests \
 		$(usex gui "--with-gui=qt5" --without-gui) \
 		$(use_with daemon) \
 		$(use_with qrcode qrencode) \
@@ -122,9 +121,14 @@ src_configure() {
 		$(use_with utils) \
 		$(use_enable hardened hardening) \
 		$(use_enable reduce-exports) \
+		$(use_enable test tests) \
 		$(use_enable wallet) \
 		$(use_enable zeromq zmq) \
 		|| die "econf failed"
+}
+
+src_test() {
+	emake -C src bitcoin_test_check
 }
 
 src_install() {
