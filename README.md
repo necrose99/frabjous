@@ -10,7 +10,7 @@ to report bugs, ask questions or suggest new features.
 
 **DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
 in the same way Gentoo developers do, all ebuilds are permanently kept in the _testing¹_
-branch. As such, you should probably consider it to be _unsafe_ and treat it as such.
+branch. Thus, you should probably consider it to be _unsafe_ and treat it as such.
 Nevertheless, I try my best to follow Gentoo's QA standards and keep everything up to date,
 as I use many of these packages in a production environment.
 
@@ -31,7 +31,7 @@ Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjou
 priority = 50
 location = /usr/local/overlay/frabjous
 sync-type = git
-sync-uri = https://github.com/csmk/frabjous.git
+sync-uri = https://github.com/gentoo-mirror/frabjous.git
 auto-sync = Yes
 ```
 
