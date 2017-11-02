@@ -74,6 +74,7 @@ EGO_VENDOR=(
 	"github.com/yuin/gopher-lua 66c871e"
 	"github.com/zensqlmonitor/go-mssqldb ffe5510"
 	"golang.org/x/crypto dc137be github.com/golang/crypto"
+	"golang.org/x/sys 739734 github.com/golang/sys"
 	"golang.org/x/net f249948 github.com/golang/net"
 	"golang.org/x/text 506f9d5 github.com/golang/text"
 	"gopkg.in/asn1-ber.v1 4e86f43 github.com/go-asn1-ber/asn1-ber"
@@ -94,7 +95,6 @@ EGO_VENDOR=(
 # github.com/shirou/w32
 # github.com/StackExchange/wmi
 # github.com/stretchr/objx
-# golang.org/x/sys
 # gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1
 
@@ -120,7 +120,7 @@ S="${G}/src/${EGO_PN}"
 pkg_setup() {
 	if use test; then
 		has network-sandbox $FEATURES && \
-			die "The test phase require 'network-sandbox' to be disabled in FEATURES"
+			die "The test phase requires 'network-sandbox' to be disabled in FEATURES"
 	fi
 
 	enewgroup telegraf
