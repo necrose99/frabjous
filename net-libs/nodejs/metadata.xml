@@ -8,7 +8,6 @@
 	<upstream>
 		<remote-id type="github">nodejs/node</remote-id>
 		<bugs-to>https://github.com/nodejs/node/issues</bugs-to>
-		<doc>https://rspamd.com/doc/</doc>
 	</upstream>
 	<longdescription lang="en">
 		Node.js is a JavaScript runtime built on Chrome's V8 JavaScript
