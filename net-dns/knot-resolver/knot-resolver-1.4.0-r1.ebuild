@@ -28,7 +28,6 @@ RDEPEND=">=net-dns/knot-2.3.1
 	memcached? ( dev-libs/libmemcached )
 	redis? ( >=dev-libs/hiredis-0.11.0 )"
 DEPEND="${RDEPEND}
-	!>=net-dns/knot-2.6.0
 	virtual/pkgconfig
 	test? (
 		dev-util/cmocka
