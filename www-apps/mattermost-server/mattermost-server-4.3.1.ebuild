@@ -83,7 +83,7 @@ src_install() {
 	doexe platform
 
 	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
-	systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}
+	systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
 
 	insinto /etc/mattermost
 	doins config/README.md
@@ -101,9 +101,9 @@ src_install() {
 	dodir /var/{lib,log}/mattermost
 
 	dosym ../../../../etc/mattermost/config.json /usr/libexec/mattermost/config/config.json
-	dosym ../../../var/log/mattermost /usr/libexec/mattermost/logs
 	dosym ../../share/mattermost/fonts /usr/libexec/mattermost/fonts
 	dosym ../../share/mattermost/i18n /usr/libexec/mattermost/i18n
 	dosym ../../share/mattermost/templates /usr/libexec/mattermost/templates
 	dosym ../../share/mattermost/webapp /usr/libexec/mattermost/webapp
+	dosym ../../../var/log/mattermost /usr/libexec/mattermost/logs
 }
