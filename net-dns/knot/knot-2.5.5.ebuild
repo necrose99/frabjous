@@ -3,7 +3,7 @@
 
 EAPI=6
 
-inherit ltprune systemd user
+inherit systemd user
 
 KNOT_MODULES=(
 	+module-dnsproxy module-dnstap +module-noudp
@@ -87,7 +87,6 @@ src_compile() {
 
 src_install() {
 	default
-	prune_libtool_files --modules
 
 	if use daemon; then
 		newinitd "${FILESDIR}"/${PN}.initd-r2 ${PN}
