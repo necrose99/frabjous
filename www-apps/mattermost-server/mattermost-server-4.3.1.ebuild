@@ -39,12 +39,15 @@ src_unpack() {
 
 	mkdir -p "${G}"/src/${EGO_PN/$PN} || die
 	mv "${WORKDIR}"/${P} "${S}" || die
-	mv "${WORKDIR}"/${MMWAPP_P} "${S}"/webapp || die
+	mv "${WORKDIR}"/${MMWAPP_P} "${S}"/client || die
 }
 
 src_prepare() {
-	# Disable developer settings and fix path
+	# Disable developer settings, fix path
+	# and set to listen localhost by default
 	sed -i \
+		-e 's|"ListenAddress": ":8065"|"ListenAddress": "127.0.0.1:8065"|g' \
+		-e 's|"ListenAddress": ":8067"|"ListenAddress": "127.0.0.1:8067"|g' \
 		-e 's|"ConsoleLevel": "DEBUG"|"ConsoleLevel": "INFO"|g' \
 		-e 's|"Directory": ".*"|"Directory": "/var/lib/mattermost/"|g' \
 		-e 's|tcp(dockerhost:3306)|unix(/run/mysqld/mysqld.sock)|g' \
@@ -72,7 +75,7 @@ src_compile() {
 
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because sys-apps/yarn fetch dependencies here:
-	emake -C webapp build
+	emake -C client build
 
 	go build -v -ldflags "${GOLDFLAGS}" \
 		-o "${S}"/platform ./cmd/platform || die
@@ -94,8 +97,8 @@ src_install() {
 	insinto /usr/share/mattermost
 	doins -r {fonts,i18n,templates}
 
-	insinto /usr/share/mattermost/webapp
-	doins -r webapp/dist
+	insinto /usr/share/mattermost/client
+	doins -r client/dist/*
 
 	diropts -o mattermost -g mattermost -m 0750
 	dodir /var/{lib,log}/mattermost
@@ -104,6 +107,6 @@ src_install() {
 	dosym ../../share/mattermost/fonts /usr/libexec/mattermost/fonts
 	dosym ../../share/mattermost/i18n /usr/libexec/mattermost/i18n
 	dosym ../../share/mattermost/templates /usr/libexec/mattermost/templates
-	dosym ../../share/mattermost/webapp /usr/libexec/mattermost/webapp
+	dosym ../../share/mattermost/client /usr/libexec/mattermost/client
 	dosym ../../../var/log/mattermost /usr/libexec/mattermost/logs
 }
