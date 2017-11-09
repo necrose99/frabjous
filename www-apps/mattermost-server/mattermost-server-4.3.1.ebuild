@@ -44,11 +44,13 @@ src_unpack() {
 
 src_prepare() {
 	# Disable developer settings, fix path
-	# and set to listen localhost by default
+	# set to listen localhost and disable 
+	# diagnostics (call home) by default
 	sed -i \
 		-e 's|"ListenAddress": ":8065"|"ListenAddress": "127.0.0.1:8065"|g' \
 		-e 's|"ListenAddress": ":8067"|"ListenAddress": "127.0.0.1:8067"|g' \
 		-e 's|"ConsoleLevel": "DEBUG"|"ConsoleLevel": "INFO"|g' \
+		-e 's|"EnableDiagnostics":.*|"EnableDiagnostics": false|' \
 		-e 's|"Directory": ".*"|"Directory": "/var/lib/mattermost/"|g' \
 		-e 's|tcp(dockerhost:3306)|unix(/run/mysqld/mysqld.sock)|g' \
 		config/default.json || die
