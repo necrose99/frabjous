@@ -86,26 +86,21 @@ RDEPEND=">=app-arch/squash-0.8.0_pre20170601
 	sys-fs/fuse:0"
 DEPEND="${RDEPEND}
 	man? ( app-text/ronn )"
-
 RESTRICT="mirror"
 
 src_compile() {
-	export CARGO_HOME="${ECARGO_HOME}"
-
-	cargo build -v \
-		$(usex debug "" --release) \
-		|| die "cargo build failed"
+	cargo_src_compile
 
 	if use man; then
-		ln -s ../deb/${PN}/Makefile docs/ || die
-		emake -C docs/ build
+		ln -s ../deb/zvault/Makefile docs/ || die
+		emake -C docs build
 	fi
 }
 
 src_install() {
-	dobin target/release/${PN}
+	dobin target/release/zvault
 
-	newdoc docs/man/${PN}.1.md ${PN}.md
+	newdoc docs/man/zvault.1.md zvault.md
 
 	if use man; then
 		doman docs/man/*.1
