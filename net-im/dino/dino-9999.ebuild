@@ -4,6 +4,7 @@
 EAPI=6
 
 CMAKE_MAKEFILE_GENERATOR="ninja"
+VALA_MIN_API_VERSION="0.30"
 
 inherit cmake-utils git-r3 gnome2-utils vala
 
@@ -15,7 +16,8 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-DEPEND=">=x11-libs/gtk+-3.22:3
+DEPEND="$(vala_depend)
+	>=x11-libs/gtk+-3.22:3
 	app-crypt/gpgme
 	dev-db/sqlite
 	dev-libs/libgcrypt:0=
