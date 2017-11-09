@@ -31,7 +31,6 @@ EGO_VENDOR=(
 	"github.com/golang/snappy 7db9049"
 	"github.com/google/go-cmp f94e52c"
 	"github.com/gorilla/mux 392c28f"
-	"github.com/go-sql-driver/mysql 2e00b5c"
 	"github.com/hailocab/go-hostpool e80d13c"
 	"github.com/hashicorp/consul 63d2fc6"
 	"github.com/influxdata/tail a395bf9"
