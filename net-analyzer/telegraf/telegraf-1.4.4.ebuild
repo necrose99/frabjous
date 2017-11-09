@@ -151,11 +151,20 @@ src_install() {
 
 	dodir /etc/telegraf/telegraf.d
 	insinto /etc/telegraf
-	doins etc/telegraf.conf
+	newins etc/telegraf.conf telegraf.conf.example
 
 	insinto /etc/logrotate.d
 	doins etc/logrotate.d/telegraf
 
 	diropts -o telegraf -g telegraf -m 0750
 	dodir /var/log/telegraf
+}
+
+pkg_postinst() {
+	if [ ! -e "${EROOT%/}"/etc/${PN}/telegraf.conf ]; then
+		elog "No telegraf.conf found, copying the example over"
+		cp "${EROOT%/}"/etc/${PN}/telegraf.conf{.example,} || die
+	else
+		elog "telegraf.conf found, please check example file for possible changes"
+	fi
 }
