@@ -14,25 +14,23 @@ EGIT_REPO_URI="https://github.com/${PN}/${PN}.git"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
-IUSE="bundled-ssl libh2o libressl libuv +mruby websocket"
+IUSE="libh2o libressl libuv +mruby websocket"
 
 CDEPEND="
 	libh2o? (
 		libuv? ( >=dev-libs/libuv-1.0.0 )
 		websocket? ( net-libs/wslay )
 	)
-	!bundled-ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:0= )
-	)"
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:0= )"
 DEPEND="${CDEPEND}
 	mruby? (
 		sys-devel/bison
 		${RUBY_DEPS}
 	)"
 RDEPEND="app-misc/ca-certificates"
-REQUIRED_USE="bundled-ssl? ( !libressl )
-	libuv? ( libh2o )
+
+REQUIRED_USE="libuv? ( libh2o )
 	websocket? ( libh2o )"
 
 PATCHES=( "${FILESDIR}"/${P}-system_ca.patch )
@@ -47,7 +45,7 @@ src_configure() {
 		-DCMAKE_INSTALL_SYSCONFDIR="${EPREFIX}"/etc/h2o
 		-DDISABLE_LIBUV="$(usex !libuv)"
 		-DWITHOUT_LIBS="$(usex !libh2o)"
-		-DWITH_BUNDLED_SSL="$(usex bundled-ssl)"
+		-DWITH_BUNDLED_SSL=OFF
 		-DWITH_MRUBY="$(usex mruby)"
 	)
 	cmake-utils_src_configure

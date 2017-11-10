@@ -16,7 +16,6 @@
 		when compared to older generations of HTTP servers.
 	</longdescription>
 	<use>
-		<flag name="bundled-ssl">Use bundled LibreSSL instead</flag>
 		<flag name="libh2o">Aside from the standalone server, build H2O as a library</flag>
 		<flag name="libuv">Use <pkg>dev-libs/libuv</pkg> at library level</flag>
 		<flag name="mruby">Enable support for mruby</flag>
