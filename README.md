@@ -53,6 +53,7 @@ app-backup/**[restic](app-backup/restic)** | A backup program that is fast, effi
 app-backup/**[zvault](app-backup/zvault)** | A highly efficient deduplicating backup solution
 app-benchmarks/**[bombardier](app-benchmarks/bombardier)** | Fast cross-platform HTTP benchmarking tool written in Go
 app-benchmarks/**[hey](app-benchmarks/hey)** | HTTP load generator, ApacheBench (ab) replacement
+app-benchmarks/**[pewpew](app-benchmarks/pewpew)** | Flexible HTTP command line stress tester for websites and web services
 app-benchmarks/**[vegeta](app-benchmarks/vegeta)** | HTTP load testing tool and library. It's over 9000!
 app-crypt/**[enchive](app-crypt/enchive)** | A tool to encrypt files to yourself for long-term archival
 app-crypt/**[minisign](app-crypt/minisign)** | A dead simple tool to sign files and verify digital signatures
@@ -120,6 +121,7 @@ net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service 
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[fd](sys-apps/fd)** | A simple, fast and user-friendly alternative to 'find'
+sys-apps/**[nnn](sys-apps/nnn)** | The missing terminal file browser for X
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
