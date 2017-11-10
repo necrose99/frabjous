@@ -530,15 +530,16 @@ src_prepare() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/${CADDYMAIN}.gitTag=${PV}"
 
-	GOPATH="${G}" go install -v -ldflags \
-		"${GOLDFLAGS}" ${EGO_PN}/caddy || die
+	go install -v -ldflags \
+		"${GOLDFLAGS}" ./caddy || die
 }
 
 src_test() {
-	GOPATH="${G}" go test ${EGO_PN}/... || die
+	go test -v ./... || die
 }
 
 src_install() {
