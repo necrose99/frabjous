@@ -5,12 +5,11 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-MY_PV=${PV/_/-}
 COMMIT_HASH="cac8b97"
 EGO_PN="github.com/${PN}/${PN}"
 DESCRIPTION="Grafana is an open source metric analytics & visualization suite"
 HOMEPAGE="https://grafana.com"
-SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -20,8 +19,6 @@ RDEPEND="!www-apps/grafana-bin"
 DEPEND=">=net-libs/nodejs-6[npm]
 	sys-apps/yarn"
 RESTRICT="strip mirror"
-
-QA_EXECSTACK="usr/libexec/grafana/phantomjs"
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -68,6 +65,7 @@ src_install() {
 
 	exeinto /usr/libexec/grafana
 	doexe vendor/phantomjs/phantomjs
+	scanelf -Xe "${ED%/}"/usr/libexec/grafana/phantomjs || die
 
 	insinto /etc/grafana
 	newins conf/sample.ini grafana.ini.example

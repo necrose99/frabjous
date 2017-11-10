@@ -20,14 +20,12 @@ DEPEND=">=net-libs/nodejs-6[npm]
 	sys-apps/yarn"
 RESTRICT="strip mirror"
 
-QA_EXECSTACK="usr/libexec/grafana/phantomjs"
-
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 pkg_setup() {
 	has network-sandbox $FEATURES && \
-		die "www-apps/grafana require 'network-sandbox' to be disabled in FEATURES"
+		die "www-apps/grafana requires 'network-sandbox' to be disabled in FEATURES"
 
 	enewgroup grafana
 	enewuser grafana -1 -1 /usr/share/grafana grafana
@@ -67,6 +65,7 @@ src_install() {
 
 	exeinto /usr/libexec/grafana
 	doexe vendor/phantomjs/phantomjs
+	scanelf -Xe "${ED%/}"/usr/libexec/grafana/phantomjs || die
 
 	insinto /etc/grafana
 	newins conf/sample.ini grafana.ini.example
