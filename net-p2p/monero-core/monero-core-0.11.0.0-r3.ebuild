@@ -74,8 +74,6 @@ src_prepare() {
 }
 
 src_configure() {
-	append-ldflags -Wl,-z,noexecstack
-
 	if use gui; then
 		echo "var GUI_VERSION = \"${MO_CORE_COMMIT}\"" > version.js || die
 		echo "var GUI_MONERO_VERSION = \"${MO_PV:0:7}\"" >> version.js || die
@@ -148,6 +146,7 @@ src_install() {
 
 	if use daemon; then
 		dobin "${BUILD_DIR}"/bin/monerod
+		scanelf -Xe "${ED%/}"/usr/bin/monerod || die
 
 		newinitd "${FILESDIR}"/${PN}.initd monero
 		systemd_newunit "${FILESDIR}"/${PN}.service monero.service
@@ -166,6 +165,8 @@ src_install() {
 	if use utils; then
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-export
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-import
+		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-export || die
+		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-import || die
 	fi
 
 	if use doc; then
