@@ -39,11 +39,12 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="0614ebb"
+MY_PV="${PV/_/}"
+COMMIT_HASH="fe35aee"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Scalable datastore for metrics, events, and real-time analytics"
 HOMEPAGE="https://influxdata.com"
-SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 
 LICENSE="MIT"
