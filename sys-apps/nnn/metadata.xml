@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">jarun/nnn</remote-id>
+		<bugs-to>https://github.com/jarun/nnn/issues</bugs-to>
+		<doc>https://github.com/jarun/nnn/wiki</doc>
+	</upstream>
+	<longdescription lang="en">
+		nnn is a fork of noice, a blazing-fast lightweight terminal
+		file browser with easy keyboard shortcuts for navigation,
+		opening files and running tasks. noice is developed
+		considering terminal based systems. There is no config
+		file and mime associations are hard-coded.
+	</longdescription>
+</pkgmetadata>
