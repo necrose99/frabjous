@@ -43,7 +43,6 @@ pkg_setup() {
 }
 
 src_configure() {
-	append-ldflags -Wl,-z,noexecstack
 	local mycmakeargs=(
 		-DBUILD_DOCUMENTATION="$(usex doc)"
 		-DSTACK_TRACE="$(usex stacktrace)"
@@ -73,6 +72,7 @@ src_compile() {
 src_install() {
 	if use daemon; then
 		dobin "${BUILD_DIR}"/bin/monerod
+		scanelf -Xe "${ED%/}"/usr/bin/monerod || die
 
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
@@ -92,6 +92,8 @@ src_install() {
 	if use utils; then
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-export
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-import
+		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-export || die
+		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-import || die
 	fi
 
 	if use doc; then
