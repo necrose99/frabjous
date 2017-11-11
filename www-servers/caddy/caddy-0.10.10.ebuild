@@ -219,11 +219,12 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="authz awses awslambda cache cgi cors datadog expires filter forwardproxy
-	git grpc ipfilter jwt login mailout minify multipass nobots prometheus
-	proxyprotocol ratelimit realip reauth restic test upload webdav"
+IUSE="authz awses awslambda cache +caps cgi cors datadog expires
+	filter forwardproxy git grpc ipfilter jwt login mailout minify
+	multipass nobots prometheus proxyprotocol ratelimit realip
+	reauth restic test upload webdav"
 
-RDEPEND="sys-libs/libcap"
+RDEPEND="caps? ( sys-libs/libcap )"
 REQUIRED_USE="login? ( jwt )"
 RESTRICT="mirror strip"
 
@@ -560,8 +561,10 @@ src_install() {
 }
 
 pkg_postinst() {
-	# Caddy currently does not support dropping privileges so we
-	# change attributes with setcap to allow access to priv ports
-	# https://caddyserver.com/docs/faq
-	setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/sbin/caddy || die
+	if use caps; then
+		# Caddy currently does not support dropping privileges so we
+		# change attributes with setcap to allow access to priv ports
+		# https://caddyserver.com/docs/faq
+		setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/sbin/caddy || die
+	fi
 }
