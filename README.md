@@ -31,7 +31,7 @@ Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjou
 priority = 50
 location = /usr/local/overlay/frabjous
 sync-type = git
-sync-uri = https://github.com/gentoo-mirror/frabjous.git
+sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
 ```
 
