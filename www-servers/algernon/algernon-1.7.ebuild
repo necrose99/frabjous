@@ -123,7 +123,7 @@ src_install() {
 	fi
 
 	insinto /etc/logrotate.d
-	doins "${FILESDIR}"/${PN}.logrotate
+	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 
 	dodir /var/www/algernon
 	diropts -o algernon -g algernon -m 0700
