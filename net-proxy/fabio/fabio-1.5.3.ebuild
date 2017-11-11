@@ -51,9 +51,13 @@ src_install() {
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newtmpfilesd "${FILESDIR}"/${PN}.tmpfilesd ${PN}.conf
+
+	insinto /etc/logrotate.d
+	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 
 	diropts -o fabio -g fabio -m 0750
-	dodir /var/{lib,log}/fabio
+	dodir /var/log/fabio
 }
 
 pkg_postinst() {
