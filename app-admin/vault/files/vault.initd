@@ -1,0 +1,26 @@
+#!/sbin/openrc-run
+# Copyright 2015-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+description="A tool for managing secrets"
+
+: ${VAULT_USER:=vault}
+: ${VAULT_CONFDIR:="/etc/vault.d"}
+: ${VAULT_LOG:="/var/log/vault/vault.log"}
+: ${SSD_OPTS:="-1 ${VAULT_LOG} -2 ${VAULT_LOG}"}
+
+command="/usr/bin/vault"
+command_args="server -config=${VAULT_CONFDIR} ${VAULT_OPTS}"
+command_user="${VAULT_USER}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+retry=${VAULT_TERMTIMEOUT:-"TERM/30/KILL/5"}
+start_stop_daemon_args="${SSD_OPTS}"
+
+depend() {
+	need net
+}
+
+start_pre() {
+	checkpath -d -m 0750 -o ${VAULT_USER} "${VAULT_LOG%/*}"
+}
