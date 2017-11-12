@@ -44,10 +44,12 @@ This is a list of packages available and their associated description:
 
 Package | Description
 --- | ---
+app-admin/**[consul](app-admin/consul)** | A tool for service discovery, monitoring and configuration
 app-admin/**[doctl](app-admin/doctl)** | A command line tool for DigitalOcean services
 app-admin/**[pick](app-admin/pick)** | A minimal password manager written in Go
 app-admin/**[scaleway-cli](app-admin/scaleway-cli)** | Interact with Scaleway API from the command line
 app-admin/**[terraform](app-admin/terraform)** | A tool for building, changing, and combining infrastructure safely/efficiently
+app-admin/**[vault](app-admin/vault)** | A tool for managing secrets
 app-arch/**[squash](app-arch/squash)** | Compression abstraction library and utilities
 app-backup/**[restic](app-backup/restic)** | A backup program that is fast, efficient and secure
 app-backup/**[zvault](app-backup/zvault)** | A highly efficient deduplicating backup solution
