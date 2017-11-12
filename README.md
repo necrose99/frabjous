@@ -94,6 +94,7 @@ net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
 net-im/**[dino](net-im/dino)** | A modern Jabber/XMPP Client using GTK+/Vala
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
+net-misc/**[electron-cash](net-misc/electron-cash)** | Lightweight Bitcoin Cash client
 net-misc/**[gotty-client](net-misc/gotty-client)** | A terminal client for GoTTY
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
 net-misc/**[ssh-chat](net-misc/ssh-chat)** | A chat over SSH server written in Go
@@ -114,6 +115,7 @@ net-p2p/**[monero](net-p2p/monero)** | The secure, private and untraceable crypt
 net-p2p/**[monero-core](net-p2p/monero-core)** | The secure, private and untraceable cryptocurrency (with GUI wallet)
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[ergo](net-proxy/ergo)** | The reverse proxy agent for local domain management
+net-proxy/**[fabio](net-proxy/fabio)** | A load balancing and TCP router for deploying applications managed by consul
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
