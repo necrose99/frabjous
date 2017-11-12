@@ -17,7 +17,7 @@ KEYWORDS="~amd64"
 IUSE="zsh-completion"
 
 RDEPEND="zsh-completion? ( app-shells/zsh )"
-RESTRICT="mirror strip test"
+RESTRICT="strip test"
 
 DOCS=( {CHANGELOG,README}.md )
 
