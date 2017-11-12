@@ -15,7 +15,7 @@ LICENSE="MPL-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
 
-RESTRICT="mirror strip test"
+RESTRICT="strip test"
 
 DOCS=( {CHANGELOG,README}.md )
 
