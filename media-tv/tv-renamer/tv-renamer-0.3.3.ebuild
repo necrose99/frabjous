@@ -96,13 +96,6 @@ src_prepare() {
 	default
 }
 
-src_compile() {
-	export CARGO_HOME="${ECARGO_HOME}"
-
-	cargo build -v $(usex debug "" --release) \
-		|| die "cargo build failed"
-}
-
 src_install() {
 	dobin target/release/${PN}
 	dosym ${PN} /usr/bin/${PN}-gtk
