@@ -80,7 +80,7 @@ SRC_URI="https://github.com/quixdb/${PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.ta
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~x86"
+KEYWORDS="~amd64 ~x86"
 
 DEPEND="app-arch/lz4
 	app-arch/lzop
