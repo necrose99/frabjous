@@ -271,7 +271,7 @@ pkg_setup() {
 	# Unfortunately 'network-sandbox' needs to
 	# disabled because Cargo fetch a few dependencies.
 	has network-sandbox $FEATURES && \
-		die "net-p2p/parity require 'network-sandbox' to be disabled in FEATURES"
+		die "net-p2p/parity requires 'network-sandbox' to be disabled in FEATURES"
 
 	if use daemon; then
 		enewgroup parity
@@ -286,14 +286,6 @@ src_prepare() {
 	fi
 
 	default
-}
-
-src_compile() {
-	export CARGO_HOME="${ECARGO_HOME}"
-
-	cargo build -v \
-		$(usex !debug --release '') \
-		|| die "cargo build failed"
 }
 
 src_install() {
