@@ -1,16 +1,19 @@
-## _Welcome to the frabjous Gentoo overlay!_ [<img src="https://travis-ci.org/csmk/frabjous.svg?branch=master" title="Build Status" alt="Build Status" align="right">](https://travis-ci.org/csmk/frabjous)
+## _Welcome to the Frabjous Gentoo overlay!_
+![ebuilds 267](https://img.shields.io/badge/ebuilds-267-orange.svg?style=flat-square)
+[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)]()
+[![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)]()
 
 This overlay contains many ebuilds for packages related to cryptography, system monitoring,
 server-side applications and tools, web servers, and other things that I'm interested in.
-It also include support for the upcoming `libressl` USE flag.
+It also include full support for `libressl` USE flag  and **_OpenRC!_**
 
-If you find any bugs, please report them! I'm also happy to accept pull requests
-from anyone. You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues)
-to report bugs, ask questions or suggest new features.
+If you find any bugs, please report them! I'm also happy to accept pull requestsfrom anyone.
+You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report
+bugs, ask questions or suggest new features.
 
-**DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
-in the same way Gentoo developers do, all ebuilds are permanently kept in the _testing¹_
-branch. Thus, you should probably consider it to be _unsafe_ and treat it as such.
+> **DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
+in the same way Gentoo developers do, all ebuilds are permanently kept in the _testing
+branch¹_. Thus, you should probably consider it to be _unsafe_ and treat it as such.
 Nevertheless, I try my best to follow Gentoo's QA standards and keep everything up to date,
 as I use many of these packages in a production environment.
 
@@ -21,10 +24,20 @@ the developers know about it.* —
 [Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
-You must have `app-portage/layman` installed on your system for this to work. Just
-run `layman -a frabjous`, then you will be _almost¹_ ready to emerge the goodies.
+For automatic install, you must have [`app-eselect/eselect-repository`](https://packages.gentoo.org/packages/app-eselect/eselect-repository) or [`app-portage/layman`](https://packages.gentoo.org/packages/app-portage/layman) installed on your system for this to work.
 
-Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf`:
+#### `eselect-repository` way:
+```console
+eselect repository enable frabjous
+```
+
+#### `layman` way:
+```console
+layman -L
+lauman -a frabjous
+```
+
+#### Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
 
 ```ini
 [frabjous]
@@ -35,9 +48,9 @@ sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
 ```
 
-> ¹ To use the testing branch for particular packages, you must add the package category and name
+> **Note:** To use the testing branch for particular packages, you must add the package category and name
 (e.g., foo-bar/xyz) in `/etc/portage/package.accept_keywords`. It is also possible to create a directory
-(with the same name) and list the package in the files under that directory. ↩
+(with the same name) and list the package in the files under that directory.
 
 ## Repository tree
 This is a list of packages available and their associated description:
@@ -156,10 +169,12 @@ x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process comple
 * Fingerprint: [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk/pgp_keys.asc)
 
 ## Donations are welcome!
+If you are into cryptocurrencies and appreciates the work done here, please consider to buy me a cup of _coffee_.
 * Bitcoin _Cash_: `18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
 * Dash: `Xg8AVx7YLSpTagR5DSzHk9Na1oDMUwb2hk`
 * Ether: `0x002e7A11013BF05D418FD3FbdA4f3381E82e5A23`
 * Zcash: `zcX1qbN2YJKARPmFcrU3HgpQfYbWe9yy4YsogDA4gpwJ6NGk2bXZ6nyNDo3HLBkAKizRPkASSEduGeVtzj3VfixFey9y1Yx`
-* Monero:
+* Monero: ↴
 
 `4KseVC8hDgP27ata3RuhyFbr1YMYn24hKDQixKTiQTufGX6Fn9vYTsvNY3uaZwivEQXXeewBk6d8eFymEGCU8pArN5m8JxkAcAu5CQRwat`
+
