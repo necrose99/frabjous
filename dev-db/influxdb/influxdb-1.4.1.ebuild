@@ -40,7 +40,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/}"
-COMMIT_HASH="0993cb4"
+COMMIT_HASH="882ce87"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Scalable datastore for metrics, events, and real-time analytics"
 HOMEPAGE="https://influxdata.com"
@@ -105,7 +105,7 @@ src_install() {
 
 src_test() {
 	go fmt ./... || die
-	go test -v -short -timeout 300s ./... || die
+	go test -v -short -timeout 5m ./... || die
 }
 
 pkg_postinst() {
