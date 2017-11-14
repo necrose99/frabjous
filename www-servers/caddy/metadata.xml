@@ -29,6 +29,7 @@
 		<flag name="grpc">Proxies gRPC calls from clients to gRPC services</flag>
 		<flag name="ipfilter">Adds the ability to allow or block requests based on the client's IP address</flag>
 		<flag name="jwt">An authorization layer based on JSON Web Tokens (JWT)</flag>
+		<flag name="locale">Locale detection for caddy</flag>
 		<flag name="login">Enable login checks against a backend and then returned as JWT token</flag>
 		<flag name="mailout">A SMTP client email middleware with PGP encryption</flag>
 		<flag name="minify">Minify static assets on-the-fly. Supports CSS, HTML, JS, JSON, SVG and XML</flag>
