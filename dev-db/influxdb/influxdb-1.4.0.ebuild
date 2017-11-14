@@ -40,7 +40,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/}"
-COMMIT_HASH="fe35aee"
+COMMIT_HASH="0993cb4"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Scalable datastore for metrics, events, and real-time analytics"
 HOMEPAGE="https://influxdata.com"
@@ -77,7 +77,7 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.version=${PV} \
-		-X main.branch=${PV} \
+		-X main.branch=non-git \
 		-X main.commit=${COMMIT_HASH}"
 
 	go install -v -ldflags "${GOLDFLAGS}" \
