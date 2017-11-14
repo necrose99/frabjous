@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 267](https://img.shields.io/badge/ebuilds-267-orange.svg?style=flat-square)
+![ebuilds 270](https://img.shields.io/badge/ebuilds-270-orange.svg?style=flat-square)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)]()
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)]()
 
@@ -134,6 +134,7 @@ net-proxy/**[fabio](net-proxy/fabio)** | A load balancing and TCP router for dep
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
+net-proxy/**[traefik](net-proxy/traefik)** | A modern HTTP reverse proxy and load balancer made to deploy microservices
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
