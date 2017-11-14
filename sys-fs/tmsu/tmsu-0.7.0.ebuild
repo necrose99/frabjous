@@ -30,9 +30,14 @@ G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
 
 src_prepare() {
-	# Move everything to src/${EGO_PN},
-	# as we will use a vendored setup.
+	# Move the sources from src/${EGO_PN} to
+	# ${S}, as we will use a vendored setup.
 	mv src/${EGO_PN}/* ./ || die
+
+	# We will only use make for tests,
+	# so let's silence the "compile".
+	sed -i "s/ compile//g" \
+		Makefile || die
 
 	default
 }
@@ -40,17 +45,18 @@ src_prepare() {
 src_compile() {
 	export GOPATH="${G}"
 	go build -v -ldflags "-s -w" \
-		-o "${S}"/tmsu || die
+		-o "${G}"/bin/tmsu || die
 }
 
 src_test() {
-	go test -v ./... || die
+	local PATH="${G}/bin:$PATH"
+	default
 }
 
 src_install() {
 	dosbin misc/bin/mount.tmsu
 	dobin misc/bin/tmsu-*
-	dobin tmsu
+	dobin "${G}"/bin/tmsu
 
 	doman misc/man/tmsu.1
 
