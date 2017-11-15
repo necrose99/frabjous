@@ -273,7 +273,7 @@ inherit cargo systemd user
 
 DESCRIPTION="Fast, light, and robust Ethereum client"
 HOMEPAGE="https://parity.io"
-SRC_URI="https://github.com/paritytech/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://github.com/paritytech/${PN}/archive/v${PV/_*}.tar.gz -> ${P}.tar.gz
 	$(cargo_crate_uris ${CRATES})"
 
 LICENSE="GPL-3+"
@@ -282,11 +282,11 @@ KEYWORDS="~amd64"
 IUSE="+daemon libressl"
 
 RDEPEND="!libressl? ( dev-libs/openssl:0= )
-	libressl? ( <=dev-libs/libressl-2.6.2:0= )"
+	libressl? ( <dev-libs/libressl-2.6.3:0= )"
 DEPEND="${RDEPEND}"
 RESTRICT="mirror"
 
-PATCHES=( "${FILESDIR}"/${P}-openssl-0.9.20.patch )
+PATCHES=( "${FILESDIR}"/${PN}-1.8.2-openssl-0.9.20.patch )
 DOCS=( {CHANGELOG,README,SECURITY}.md )
 
 pkg_setup() {
