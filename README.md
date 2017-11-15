@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 270](https://img.shields.io/badge/ebuilds-270-orange.svg?style=flat-square)
+![ebuilds 272](https://img.shields.io/badge/ebuilds-270-orange.svg?style=flat-square)
 [![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)]()
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)]()
 
@@ -7,7 +7,7 @@ This overlay contains many ebuilds for packages related to cryptography, system 
 server-side applications and tools, web servers, and other things that I'm interested in.
 It also include full support for `libressl` USE flag  and **_OpenRC!_**
 
-If you find any bugs, please report them! I'm also happy to accept pull requestsfrom anyone.
+If you find any bugs, please report them! I'm also happy to accept pull requests from anyone.
 You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report
 bugs, ask questions or suggest new features.
 
@@ -34,7 +34,7 @@ eselect repository enable frabjous
 #### `layman` way:
 ```console
 layman -L
-lauman -a frabjous
+layman -a frabjous
 ```
 
 #### Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
