@@ -1,7 +1,7 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
 ![ebuilds 276](https://img.shields.io/badge/ebuilds-276-orange.svg?style=flat-square)
-[![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)]()
-[![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)]()
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
+[![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
 This overlay contains many ebuilds for packages related to cryptography, system monitoring,
 server-side applications and tools, web servers, and other things that I'm interested in.
