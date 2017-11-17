@@ -8,7 +8,7 @@ inherit systemd user
 MMWAPP_PN="mattermost-webapp"
 MMWAPP_P="${MMWAPP_PN}-${PV}"
 
-COMMIT_HASH="a0017f1"
+COMMIT_HASH="2cf0fc7"
 EGO_PN="github.com/mattermost/${PN}"
 DESCRIPTION="Open source Slack-alternative in Golang and React"
 HOMEPAGE="https://mattermost.com"
