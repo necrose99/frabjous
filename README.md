@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 280](https://img.shields.io/badge/ebuilds-280-orange.svg?style=flat-square)
+![ebuilds 282](https://img.shields.io/badge/ebuilds-282-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -33,8 +33,7 @@ eselect repository enable frabjous
 
 #### `layman` way:
 ```console
-layman -L
-layman -a frabjous
+layman -L && layman -a frabjous
 ```
 
 #### Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
