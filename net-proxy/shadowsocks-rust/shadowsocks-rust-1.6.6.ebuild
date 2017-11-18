@@ -113,7 +113,7 @@ SRC_URI="https://github.com/shadowsocks/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 IUSE="libressl"
 
 DEPEND="dev-libs/libsodium:0=[-minimal]
