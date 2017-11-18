@@ -5,8 +5,8 @@ EAPI=6
 
 inherit cmake-utils gnome2-utils qmake-utils systemd user
 
-MO_CORE_COMMIT="6f14fde"
-MO_PV="c328163ffa28fee3236ddc7a958a50cede727ba6" # branch: release-v0.11.0.0
+MO_GUI_COMMIT="4c75fe4"
+MO_PV="15b0ff2c3228409bfb33d0cf3386d0b3db004f5c" # branch: release-v0.11.0.0
 MO_URI="https://github.com/monero-project/monero/archive/${MO_PV}.tar.gz"
 MO_P="monero-${MO_PV}"
 
@@ -75,7 +75,7 @@ src_prepare() {
 
 src_configure() {
 	if use gui; then
-		echo "var GUI_VERSION = \"${MO_CORE_COMMIT}\"" > version.js || die
+		echo "var GUI_VERSION = \"${MO_GUI_COMMIT}\"" > version.js || die
 		echo "var GUI_MONERO_VERSION = \"${MO_PV:0:7}\"" >> version.js || die
 
 		pushd "${S}"/build >/dev/null || die
