@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 282](https://img.shields.io/badge/ebuilds-282-orange.svg?style=flat-square)
+![ebuilds 278](https://img.shields.io/badge/ebuilds-278-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -24,7 +24,10 @@ the developers know about it.* —
 [Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
-For automatic install, you must have [`app-eselect/eselect-repository`](https://packages.gentoo.org/packages/app-eselect/eselect-repository) or [`app-portage/layman`](https://packages.gentoo.org/packages/app-portage/layman) installed on your system for this to work.
+For automatic install, you must have
+[`app-eselect/eselect-repository`](https://packages.gentoo.org/packages/app-eselect/eselect-repository)
+or [`app-portage/layman`](https://packages.gentoo.org/packages/app-portage/layman)
+installed on your system for this to work.
 
 #### `eselect-repository` way:
 ```console
@@ -33,7 +36,7 @@ eselect repository enable frabjous
 
 #### `layman` way:
 ```console
-layman -L && layman -a frabjous
+layman -fa frabjous
 ```
 
 #### Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
@@ -47,9 +50,10 @@ sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
 ```
 
-> **Note:** To use the testing branch for particular packages, you must add the package category and name
-(e.g., foo-bar/xyz) in `/etc/portage/package.accept_keywords`. It is also possible to create a directory
-(with the same name) and list the package in the files under that directory.
+> **Note:** To use the testing branch for particular packages, you must add the package
+category and name (e.g., foo-bar/xyz) in `/etc/portage/package.accept_keywords`. It is
+also possible to create a directory (with the same name) and list the package in the
+files under that directory.
 
 ## Repository tree
 This is a list of packages available and their associated description:
@@ -126,7 +130,7 @@ net-p2p/**[drops](net-p2p/drops)** | A p2p transport network for opmsg end2end e
 net-p2p/**[parity](net-p2p/parity)** | Fast, light, and robust Ethereum client
 net-p2p/**[go-ipfs](net-p2p/go-ipfs)** | IPFS implementation written in Go
 net-p2p/**[monero](net-p2p/monero)** | The secure, private and untraceable cryptocurrency
-net-p2p/**[monero-core](net-p2p/monero-core)** | The secure, private and untraceable cryptocurrency (with GUI wallet)
+net-p2p/**[monero-gui](net-p2p/monero-gui)** | The secure, private and untraceable cryptocurrency (with GUI wallet)
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[ergo](net-proxy/ergo)** | The reverse proxy agent for local domain management
 net-proxy/**[fabio](net-proxy/fabio)** | A load balancing and TCP router for deploying applications managed by consul
