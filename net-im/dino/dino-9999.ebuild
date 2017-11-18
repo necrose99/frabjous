@@ -26,7 +26,7 @@ DEPEND="$(vala_depend)
 RDEPEND="${DEPEND}"
 
 src_prepare() {
-	default
+	cmake-utils_src_prepare
 }
 
 pkg_preinst() {
