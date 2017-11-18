@@ -4,13 +4,13 @@
 EAPI=6
 
 EGO_VENDOR=(
-	"github.com/Yawning/chacha20 6f059cf"
-	"golang.org/x/crypto 558b687 github.com/golang/crypto"
+	"github.com/Yawning/chacha20 e3b1f96"
+	"golang.org/x/crypto 9f005a0 github.com/golang/crypto"
 )
-EGO_PN="github.com/shadowsocks/shadowsocks-go"
 
 inherit golang-vcs-snapshot user
 
+EGO_PN="github.com/shadowsocks/${PN}"
 DESCRIPTION="A Go port of Shadowsocks"
 HOMEPAGE="https://shadowsocks.org"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
@@ -22,25 +22,31 @@ KEYWORDS="~amd64 ~x86"
 
 RESTRICT="mirror strip"
 
+DOCS=( CHANGELOG README.md )
+
+G="${WORKDIR}/${P}"
+S="${G}/src/${EGO_PN}"
+
 pkg_setup() {
 	enewgroup shadowsocks
 	enewuser shadowsocks -1 -1 -1 shadowsocks
 }
 
 src_compile() {
-	GOPATH="${S}" go install -v -ldflags "-s -w" \
-		${EGO_PN}/cmd/shadowsocks-{httpget,local,server} || die
+	export GOPATH="${G}"
+	go install -v -ldflags "-s -w" \
+		./cmd/shadowsocks-{httpget,local,server} || die
 }
 
 src_install() {
-	dobin bin/shadowsocks-{httpget,local,server}
-	dodoc src/${EGO_PN}/{CHANGELOG,README.md}
+	dobin "${G}"/bin/shadowsocks-{httpget,local,server}
+	einstalldocs
 
 	newinitd "${FILESDIR}"/${PN}-local.initd-r2 ${PN}-local
 	newinitd "${FILESDIR}"/${PN}-server.initd-r2 ${PN}-server
 
 	diropts -o shadowsocks -g shadowsocks -m 0700
-	dodir /etc/shadowsocks-go /var/log/shadowsocks-go
+	dodir /{etc,var/log}/shadowsocks-go
 
 	insinto /etc/shadowsocks-go
 	newins "${FILESDIR}"/${PN}-local.conf local.json.example
