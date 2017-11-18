@@ -26,9 +26,9 @@ CDEPEND="app-arch/xz-utils
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )"
 RDEPEND="${CDEPEND}
-	daemon? ( !net-p2p/monero-core[daemon] )
-	simplewallet? ( !net-p2p/monero-core[simplewallet] )
-	utils? ( !net-p2p/monero-core[utils] )"
+	daemon? ( !net-p2p/monero-gui[daemon] )
+	simplewallet? ( !net-p2p/monero-gui[simplewallet] )
+	utils? ( !net-p2p/monero-gui[utils] )"
 
 REQUIRED_USE="dot? ( doc )"
 RESTRICT="mirror"
