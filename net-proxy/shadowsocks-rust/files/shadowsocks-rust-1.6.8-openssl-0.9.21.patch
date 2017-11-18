@@ -1,0 +1,45 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -16,7 +16,7 @@
+  "libsodium-ffi 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)",
+  "log 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
+  "md-5 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)",
+- "openssl 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)",
++ "openssl 0.9.21 (registry+https://github.com/rust-lang/crates.io-index)",
+  "qrcode 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+  "rand 0.3.17 (registry+https://github.com/rust-lang/crates.io-index)",
+  "ring 0.11.0 (registry+https://github.com/rust-lang/crates.io-index)",
+@@ -383,19 +383,19 @@
+ 
+ [[package]]
+ name = "openssl"
+-version = "0.9.20"
++version = "0.9.21"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ dependencies = [
+  "bitflags 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "foreign-types 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+  "lazy_static 0.2.9 (registry+https://github.com/rust-lang/crates.io-index)",
+  "libc 0.2.33 (registry+https://github.com/rust-lang/crates.io-index)",
+- "openssl-sys 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)",
++ "openssl-sys 0.9.21 (registry+https://github.com/rust-lang/crates.io-index)",
+ ]
+ 
+ [[package]]
+ name = "openssl-sys"
+-version = "0.9.20"
++version = "0.9.21"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ dependencies = [
+  "cc 1.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+@@ -769,8 +769,8 @@
+ "checksum nodrop 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)" = "9a2228dca57108069a5262f2ed8bd2e82496d2e074a06d1ccc7ce1687b6ae0a2"
+ "checksum num-traits 0.1.40 (registry+https://github.com/rust-lang/crates.io-index)" = "99843c856d68d8b4313b03a17e33c4bb42ae8f6610ea81b28abe076ac721b9b0"
+ "checksum num_cpus 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "514f0d73e64be53ff320680ca671b64fe3fb91da01e1ae2ddc99eb51d453b20d"
+-"checksum openssl 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)" = "8bf434ff6117485dc16478d77a4f5c84eccc9c3645c4da8323b287ad6a15a638"
+-"checksum openssl-sys 0.9.20 (registry+https://github.com/rust-lang/crates.io-index)" = "0ad395f1cee51b64a8d07cc8063498dc7554db62d5f3ca87a67f4eed2791d0c8"
++"checksum openssl 0.9.21 (registry+https://github.com/rust-lang/crates.io-index)" = "2225c305d8f57001a0d34263e046794aa251695f20773102fbbfeb1e7b189955"
++"checksum openssl-sys 0.9.21 (registry+https://github.com/rust-lang/crates.io-index)" = "92867746af30eea7a89feade385f7f5366776f1c52ec6f0de81360373fa88363"
+ "checksum percent-encoding 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "de154f638187706bde41d9b4738748933d64e6b37bdbffc0b47a97d16a6ae356"
+ "checksum pkg-config 0.3.9 (registry+https://github.com/rust-lang/crates.io-index)" = "3a8b4c6b8165cd1a1cd4b9b120978131389f64bdaf456435caa41e630edba903"
+ "checksum qrcode 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "27da0765ec67aa59c7ad13ac3c856ae2b2306e68eef4ddf3c19f80a5f4578465"
