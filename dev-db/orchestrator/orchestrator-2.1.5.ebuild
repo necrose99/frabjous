@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot user
 
-PKG_COMMIT="fae7c1e"
+GIT_COMMIT="fae7c1e"
 EGO_PN="github.com/github/${PN}"
 DESCRIPTION="A MySQL high availability and replication management tool"
 HOMEPAGE="https://github.com/github/orchestrator"
@@ -13,10 +13,9 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64"
 
 RDEPEND="virtual/mysql"
-
 RESTRICT="mirror strip"
 
 G="${WORKDIR}/${P}"
@@ -28,12 +27,13 @@ pkg_setup() {
 }
 
 src_compile() {
+	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X main.AppVersion=${PV} \
-		-X main.GitCommit=${PKG_COMMIT}"
+		-X main.GitCommit=${GIT_COMMIT}"
 
-	GOPATH="${G}" go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/orchestrator go/cmd/orchestrator/main.go || die
+	go build -v -ldflags "${GOLDFLAGS}" -o \
+		./orchestrator go/cmd/orchestrator/main.go || die
 }
 
 src_install() {
@@ -51,6 +51,6 @@ src_install() {
 	dosym ../../share/orchestrator/resources \
 		/usr/libexec/orchestrator/resources
 
-	diropts -o orchestrator -g orchestrator -m 0750
+	diropts -m 0750 -o orchestrator -g orchestrator
 	dodir /var/log/orchestrator
 }
