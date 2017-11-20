@@ -5,7 +5,6 @@ EAPI=6
 
 # Note: Keep EGO_VENDOR in sync with Godeps
 # Deps that are not needed:
-# github.com/dgryski/go-bits 2ad8d70
 # github.com/spaolacci/murmur3 0d12bf8
 EGO_VENDOR=(
 	"collectd.org e84e8af github.com/collectd/go-collectd"
@@ -15,6 +14,7 @@ EGO_VENDOR=(
 	"github.com/cespare/xxhash 1b6d2e4"
 	"github.com/davecgh/go-spew 346938d"
 	"github.com/dgrijalva/jwt-go 24c63f5"
+	"github.com/dgryski/go-bits 2ad8d70"
 	"github.com/dgryski/go-bitstream 7d46cd2"
 	"github.com/gogo/protobuf 1c2b16b"
 	"github.com/golang/snappy d9eb7a3"
