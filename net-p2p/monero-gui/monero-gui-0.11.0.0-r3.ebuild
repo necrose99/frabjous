@@ -28,6 +28,7 @@ CDEPEND="app-arch/xz-utils
 	net-libs/miniupnpc
 	gui? (
 		dev-qt/qtwidgets:5
+		dev-qt/qtdeclarative:5[xml]
 		dev-qt/qtquickcontrols:5
 		dev-qt/qtquickcontrols2:5
 		scanner? (
