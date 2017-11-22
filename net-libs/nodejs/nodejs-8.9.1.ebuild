@@ -72,7 +72,7 @@ src_prepare() {
 	# Avoid writing a depfile, not useful
 	sed -i -e "/DEPFLAGS =/d" tools/gyp/pylib/gyp/generator/make.py || die
 
-	sed -i -e "/'-O3'/d" common.gypi || die
+	sed -i -e "/'-O3'/d" common.gypi deps/v8/gypfiles/toolchain.gypi || die
 
 	# Avoid a test that I've only been able to reproduce from emerge. It doesnt
 	# seem sandbox related either (invoking it from a sandbox works fine).
