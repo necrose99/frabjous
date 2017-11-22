@@ -7,8 +7,8 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
 env:
     global:
-        - PORTAGE_VER="2.3.15"
-        - REPOMAN_VER="2.3.5"
+        - PORTAGE_VER="2.3.16"
+        - REPOMAN_VER="2.3.6"
 before_install:
     - sudo apt-get -qq update
     - pip install lxml
