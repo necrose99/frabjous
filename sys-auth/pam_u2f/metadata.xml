@@ -6,9 +6,9 @@
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
-		<remote-id type="github">Yubico/pam-u2f</remote-id>
-		<bugs-to>https://github.com/Yubico/pam-u2f/issues</bugs-to>
-		</upstream>
+		<remote-id type="github">maximbaz/pam-u2f</remote-id>
+		<bugs-to>https://github.com/maximbaz/pam-u2f/issues</bugs-to>
+	</upstream>
 	<use>
 		<flag name="debug">
 			Enable debug messages using the pam logging macros.
