@@ -7,7 +7,7 @@ EGO_VENDOR=( "github.com/jteeuwen/go-bindata a0ff256" )
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="b752fe6"
+PKG_COMMIT="6f2347f"
 EGO_PN="github.com/gogits/gogs"
 DESCRIPTION="A painless self-hosted Git service"
 HOMEPAGE="https://gogs.io"
