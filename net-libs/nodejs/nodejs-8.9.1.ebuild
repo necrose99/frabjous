@@ -18,13 +18,18 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x64-macos"
 IUSE="bundled-ssl cpu_flags_x86_sse2 debug doc icu libressl +npm +snapshot +ssl systemtap test"
 
-RDEPEND="icu? ( >=dev-libs/icu-56:= )
-	npm? ( ${PYTHON_DEPS} )
-	>=net-libs/http-parser-2.7.0:=
+RDEPEND="
 	>=dev-libs/libuv-1.15.0:=
+	>=net-libs/http-parser-2.7.0:=
 	>=net-libs/nghttp2-1.25.0
-	!bundled-ssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )
-	sys-libs/zlib"
+	sys-libs/zlib
+	icu? ( >=dev-libs/icu-56:= )
+	npm? ( ${PYTHON_DEPS} )
+	ssl? (
+		!bundled-ssl? (
+			>=dev-libs/openssl-1.0.2g:0=[-bindist]
+		)
+	)"
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
 	systemtap? ( dev-util/systemtap )
