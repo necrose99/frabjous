@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 281](https://img.shields.io/badge/ebuilds-281-orange.svg?style=flat-square)
+![ebuilds 280](https://img.shields.io/badge/ebuilds-280-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -144,6 +144,7 @@ sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[fd](sys-apps/fd)** | A simple, fast and user-friendly alternative to 'find'
 sys-apps/**[nnn](sys-apps/nnn)** | The missing terminal file browser for X
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
+sys-auth/**[pam_u2f](sys-auth/pam_u2f)** | Library for authenticating against PAM with a Yubikey
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
