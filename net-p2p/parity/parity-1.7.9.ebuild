@@ -283,13 +283,18 @@ pkg_setup() {
 src_compile() {
 	export CARGO_HOME="${ECARGO_HOME}"
 
-	cargo build -v --features final \
-		$(usex debug '' --release) \
-		|| die "cargo build failed"
+	cargo build -v $(usex debug '' --release) \
+		--features final || die
+	cargo build -v $(usex debug '' --release) \
+		-p evmbin || die
+	cargo build -v $(usex debug '' --release) \
+		-p ethstore-cli || die
+	cargo build -v $(usex debug '' --release) \
+		-p ethkey-cli || die
 }
 
 src_install() {
-	dobin target/release/parity
+	dobin target/release/{ethkey,ethstore,parity,parity-evm}
 	einstalldocs
 
 	if use daemon; then
