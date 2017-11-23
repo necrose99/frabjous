@@ -88,7 +88,6 @@ dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and r
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
-dev-util/**[electron](dev-util/electron)** | Cross platform application development framework based on web technologies
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
