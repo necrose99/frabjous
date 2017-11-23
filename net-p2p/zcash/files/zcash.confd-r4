@@ -8,7 +8,7 @@
 #ZCASHD_DATADIR="/var/lib/zcashd"
 
 # Additional options (avoid -conf and -datadir, use flags above)
-ZCASHD_OPTS="-disablewallet"
+ZCASHD_OPTS="-daemon -disablewallet"
 
 # User to own zcashd process
 #ZCASHD_USER="zcash"

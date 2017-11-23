@@ -234,8 +234,8 @@ src_configure() {
 src_install() {
 	default
 
-	newinitd "${FILESDIR}"/zcash.initd-r3 zcash
-	newconfd "${FILESDIR}"/zcash.confd-r3 zcash
+	newinitd "${FILESDIR}"/zcash.initd-r4 zcash
+	newconfd "${FILESDIR}"/zcash.confd-r4 zcash
 	systemd_newunit "${FILESDIR}"/zcash.service-r1 zcash.service
 	systemd_newtmpfilesd "${FILESDIR}"/zcash.tmpfilesd-r2 zcash.conf
 

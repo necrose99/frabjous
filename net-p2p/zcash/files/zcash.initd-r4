@@ -2,20 +2,20 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
+description="Zcash cryptocurrency P2P network daemon"
+
 : ${ZCASHD_USER:="zcash"}
 : ${ZCASHD_DATADIR:="/var/lib/zcashd"}
 : ${ZCASHD_CONFIGFILE:="/etc/zcash/zcash.conf"}
 : ${ZCASHD_NICE:=0}
 : ${ZCASHD_SIGTERM_TIMEOUT:=60}
 
-name="Zcash daemon"
-description="Zcash cryptocurrency P2P network daemon"
-pidfile="/run/${SVCNAME}/zcashd.pid"
+pidfile="/run/${RC_SVCNAME}/zcashd.pid"
 command="/usr/bin/zcashd"
 command_args="-pid=${pidfile} \
 	-conf=${ZCASHD_CONFIGFILE} \
 	-datadir=${ZCASHD_DATADIR} \
-	-daemon ${ZCASHD_OPTS}"
+	${ZCASHD_OPTS}"
 command_user="${ZCASHD_USER}"
 retry="${ZCASHD_SIGTERM_TIMEOUT}"
 required_files="${ZCASHD_CONFIGFILE}"
