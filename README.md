@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 283](https://img.shields.io/badge/ebuilds-283-orange.svg?style=flat-square)
+![ebuilds 289](https://img.shields.io/badge/ebuilds-289-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -87,6 +87,7 @@ dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written
 dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and replication management tool
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
+dev-libs/**[libstrophe](dev-libs/libstrophe)** | A simple, lightweight C library for writing XMPP clients
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
@@ -109,6 +110,7 @@ net-dns/**[knot](net-dns/knot)** | High-performance authoritative-only DNS serve
 net-dns/**[unbound](net-dns/unbound)** | A validating, recursive and caching DNS resolver
 net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
 net-im/**[dino](net-im/dino)** | A modern Jabber/XMPP Client using GTK+/Vala
+net-im/**[profanity](net-im/profanity)** | A console based XMPP client inspired by Irssi
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
 net-misc/**[electron-cash](net-misc/electron-cash)** | Lightweight Bitcoin Cash client
