@@ -21,7 +21,7 @@ RDEPEND="
 	gnome-base/libgnome-keyring
 	media-gfx/graphite2
 	media-libs/alsa-lib
-	media-libs/libpng
+	media-libs/libpng:0
 	net-print/cups
 	net-libs/gnutls
 	sys-libs/zlib
