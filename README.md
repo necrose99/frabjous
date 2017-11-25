@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 289](https://img.shields.io/badge/ebuilds-289-orange.svg?style=flat-square)
+![ebuilds 298](https://img.shields.io/badge/ebuilds-298-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -87,8 +87,15 @@ dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written
 dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and replication management tool
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
+dev-libs/**[libmesode](dev-libs/libmesode)** | Fork of libstrophe for use with Profanity XMPP Client
 dev-libs/**[libstrophe](dev-libs/libstrophe)** | A simple, lightweight C library for writing XMPP clients
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
+dev-python/**[gmusicapi](dev-python/gmusicapi)** | An unofficial client library for Google Music
+dev-python/**[gpsoauth](dev-python/gpsoauth)** | A python client library for Google Play Services OAuth
+dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain TestNG like features
+dev-python/**[pycryptodomex](dev-python/pycryptodomex)** | A self-contained (and independent) cryptographic library for Python
+dev-python/**[validictory](dev-python/validictory)** | General purpose python data validator
+dev-vcs/**[gitkraken-bin](dev-vcs/gitkraken-bin)** | The downright luxurious Git client, for Windows, Mac & Linux
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
