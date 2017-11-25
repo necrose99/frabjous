@@ -118,6 +118,7 @@ net-dns/**[unbound](net-dns/unbound)** | A validating, recursive and caching DNS
 net-firewall/**[firehol](net-firewall/firehol)** | A firewall for humans...
 net-im/**[dino](net-im/dino)** | A modern Jabber/XMPP Client using GTK+/Vala
 net-im/**[profanity](net-im/profanity)** | A console based XMPP client inspired by Irssi
+net-im/**[rambox-bin](net-im/rambox-bin)** | Free, Open Source and Cross Platform messaging and emailing app
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
 net-misc/**[electron-cash](net-misc/electron-cash)** | Lightweight Bitcoin Cash client
