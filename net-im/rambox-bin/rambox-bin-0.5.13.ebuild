@@ -9,8 +9,8 @@ MY_P=${P/-bin}
 SRC_URI_BASE="https://github.com/saenzramiro/rambox/releases/download"
 DESCRIPTION="Free, Open Source and Cross Platform messaging and emailing app"
 HOMEPAGE="http://rambox.pro/"
-SRC_URI="amd64? ( ${SRC_URI_BASE}/${PV}/${MY_P^}-x64.tar.gz )
-	x86? ( ${SRC_URI_BASE}/${PV}/${MY_P^}-ia32.tar.gz )"
+SRC_URI="amd64? ( ${SRC_URI_BASE}/${PV}/${MY_P^}-x64.tar.gz -> ${P}-x64.tar.gz )
+	x86? ( ${SRC_URI_BASE}/${PV}/${MY_P^}-ia32.tar.gz -> ${P}-ia32.tar.gz )"
 RESTRICT="mirror"
 
 LICENSE="GPL-3"
