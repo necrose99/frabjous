@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>csmk+frabjous@chaoslab.org</email>
+		<name>Ian Moone</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="github">simon-weber/gmusicapi</remote-id>
+		<bugs-to>https://github.com/simon-weber/gmusicapi/issues</bugs-to>
+		<doc>https://unofficial-google-music-api.readthedocs.io/en/latest/</doc>
+	</upstream>
+</pkgmetadata>
