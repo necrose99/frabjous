@@ -12,7 +12,7 @@ RESTRICT="mirror"
 
 LICENSE="gitkraken-EULA"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="-* ~amd64"
 
 RDEPEND="
 	dev-libs/expat
