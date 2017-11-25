@@ -18,11 +18,14 @@ KEYWORDS="~amd64 ~x86"
 IUSE="c-plugins icons +largefile libnotify +otr pgp plugins python-plugins test +themes xscreensaver"
 
 CDEPEND="dev-libs/glib:2
-	>=dev-libs/libstrophe-0.9.1[ssl,xml]
 	net-misc/curl
 	sys-apps/util-linux:0
 	sys-libs/ncurses:0[unicode]
 	sys-libs/readline:0
+	|| (
+		>=dev-libs/libmesode-0.9.1[ssl]
+		>=dev-libs/libstrophe-0.9.1[ssl,xml]
+	)
 	icons? ( >=x11-libs/gtk+-2.24.10:2 )
 	libnotify? ( x11-libs/libnotify )
 	otr? ( net-libs/libotr )
