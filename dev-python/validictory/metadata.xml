@@ -5,6 +5,11 @@
 		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
+	<maintainer type="person">
+		<email>rasmus.thomsen@protonmail.com</email>
+		<name>Rasmus Thomsen</name>
+		<description>Original author. Retired maintainer.</description>
+	</maintainer>
 	<upstream>
 		<remote-id type="github">jamesturk/validictory</remote-id>
 		<bugs-to>https://github.com/jamesturk/validictory/issues</bugs-to>
