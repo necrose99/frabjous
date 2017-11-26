@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 298](https://img.shields.io/badge/ebuilds-298-orange.svg?style=flat-square)
+![ebuilds 303](https://img.shields.io/badge/ebuilds-303-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -179,6 +179,7 @@ www-servers/**[hiawatha](www-servers/hiawatha)** | Advanced and secure webserver
 www-servers/**[nginx](www-servers/nginx)** | Robust, small and high performance http and reverse proxy server
 www-servers/**[rest-server](www-servers/rest-server)** | A high performance HTTP server that implements restic's REST backend API
 x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process completes
+x11-terms/**[hyper](x11-terms/hyper)** | A terminal built on web technologies
 
 * All commits are signed with the key ID: `A6C7CA717170C3FD`
 * Fingerprint: [`10E4 B84B FAB9 3923 F181 695F B0E3 361B A998 2E58`](https://keybase.io/csmk/pgp_keys.asc)
