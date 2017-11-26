@@ -5,9 +5,11 @@ EAPI=6
 
 inherit autotools user
 
+MY_PV="${PV/_pre}"
 DESCRIPTION="A WebRTC audio/video call and conferencing server and web client"
 HOMEPAGE="https://www.spreed.me"
-SRC_URI="https://github.com/strukturag/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/strukturag/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="AGPL-3"
 SLOT="0"
@@ -16,7 +18,8 @@ KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 RDEPEND="net-libs/nodejs[npm]"
 DEPEND="${RDEPEND}
 	dev-lang/go"
-RESTRICT="mirror"
+
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 pkg_setup() {
 	has network-sandbox $FEATURES && \
@@ -31,12 +34,12 @@ src_prepare() {
 	sed -i "s:/var/log.*:/var/log/${PN}/server.log:" \
 		server.conf.in || die
 
-	eautoreconf
 	# Unfortunately 'network-sandbox' needs to disabled
 	# because net-libs/nodejs fetch dependencies here:
 	npm install || die
 
 	default
+	eautoreconf
 }
 
 src_compile() {
