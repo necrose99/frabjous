@@ -26,9 +26,9 @@ QA_PRESTRIPPED="/opt/hyper/libnode.so
 src_prepare() {
 	# Not a nice solution, but it works for now
 	yarn install || \
-		yarn run rebuild-node-pty && \
-		yarn install || \
-		die "yarn dependency instllation failed!"
+	yarn run rebuild-node-pty && \
+	yarn install || \
+	die "yarn dependency installation failed!"
 
 	default
 }
