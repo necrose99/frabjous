@@ -37,11 +37,11 @@ src_compile() {
 	local PATH="${S}/node_modules/.bin:$PATH"
 
 	npm run build && \
-		cross-env BABEL_ENV=production babel \
+	cross-env BABEL_ENV=production babel \
 		--out-file app/renderer/bundle.js \
 		--minified app/renderer/bundle.js \
 		--no-comments && \
-		build --linux --dir || die
+	build --linux --dir || die
 }
 
 src_install() {
