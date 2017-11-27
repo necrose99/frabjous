@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 303](https://img.shields.io/badge/ebuilds-303-orange.svg?style=flat-square)
+![ebuilds 305](https://img.shields.io/badge/ebuilds-305-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -7,11 +7,11 @@ This overlay contains many ebuilds for packages related to cryptography, system 
 server-side applications and tools, web servers, and other things that I'm interested in.
 It also include full support for `libressl` USE flag  and **_OpenRC!_**
 
-If you find any bugs, please report them! I'm also happy to accept pull requests from anyone.
+**If you find any bugs, please report them!** I am also happy to accept pull requests from anyone.
 You can use the [GitHub issue tracker](https://github.com/csmk/frabjous/issues) to report
 bugs, ask questions or suggest new features.
 
-> **DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
+**DISCLAIMER:** As I don't have the resources, nor the time to make stable ebuilds
 in the same way Gentoo developers do, all ebuilds are permanently kept in the _testing
 branch¹_. Thus, you should probably consider it to be _unsafe_ and treat it as such.
 Nevertheless, I try my best to follow Gentoo's QA standards and keep everything up to date,
@@ -95,6 +95,7 @@ dev-python/**[gpsoauth](dev-python/gpsoauth)** | A python client library for Goo
 dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain TestNG like features
 dev-python/**[pycryptodomex](dev-python/pycryptodomex)** | A self-contained (and independent) cryptographic library for Python
 dev-python/**[validictory](dev-python/validictory)** | General purpose python data validator
+dev-util/**[electron-bin](dev-util/electron-bin)** | Cross platform application development framework based on web technologies
 dev-vcs/**[gitkraken-bin](dev-vcs/gitkraken-bin)** | The downright luxurious Git client, for Windows, Mac & Linux
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
@@ -128,6 +129,7 @@ net-misc/**[ssh-chat](net-misc/ssh-chat)** | A chat over SSH server written in G
 net-misc/**[piknik](net-misc/piknik)** | Copy/paste anything over the network
 net-misc/**[tinyssh](net-misc/tinyssh)** | A small SSH server with state-of-the-art cryptography
 net-news/**[feedreader](net-news/feedreader)** | A modern desktop application designed to complement web-based RSS accounts
+net-p2p/**[Sia-UI](net-p2p/Sia-UI)** | The graphical front-end for Sia
 net-p2p/**[Sia](net-p2p/Sia)** | Blockchain-based marketplace for file storage
 net-p2p/**[bitcoin-abc](net-p2p/bitcoin-abc)** | A full node Bitcoin Cash implementation with GUI, daemon and utils
 net-p2p/**[bitcoin-unlimited](net-p2p/bitcoin-unlimited)** | A full node Bitcoin implementation with GUI, daemon and utils
