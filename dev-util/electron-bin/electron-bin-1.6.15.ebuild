@@ -4,13 +4,11 @@
 EAPI=6
 
 SRC_URI_BASE="https://github.com/electron/electron/releases/download"
-DESCRIPTION="Build cross platform desktop apps with JavaScript, HTML, and CSS"
+DESCRIPTION="Cross platform application development framework based on web technologies"
 HOMEPAGE="https://electron.atom.io"
 SRC_URI="amd64? ( ${SRC_URI_BASE}/v${PV}/${PN/-bin}-v${PV}-linux-x64.zip -> ${P}-x64.zip )
-	x86? ( ${SRC_URI_BASE}/${PV}/v${PN/-bin}-v${PV}-linux-ia32.zip -> ${P}-ia32.zip )"
+	x86? ( ${SRC_URI_BASE}/v${PV}/${PN/-bin}-v${PV}-linux-ia32.zip -> ${P}-ia32.zip )"
 RESTRICT="mirror"
-
-https://github.com/electron/electron/releases/download/v1.6.15/electron-v1.6.15-linux-x64.zip
 
 LICENSE="MIT"
 SLOT="1.6"
