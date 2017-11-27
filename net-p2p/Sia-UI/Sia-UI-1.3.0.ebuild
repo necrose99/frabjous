@@ -6,7 +6,7 @@ EAPI=6
 inherit gnome2-utils xdg
 
 ELECTRON_SLOT="1.7"
-DESCRIPTION="A Graphical Frontend for Sia"
+DESCRIPTION="The graphical front-end for Sia"
 HOMEPAGE="https://sia.tech"
 SRC_URI="https://github.com/NebulousLabs/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 RESTRICT="mirror"
@@ -45,7 +45,8 @@ src_install() {
 	newicon assets/icon.ico sia.ico
 	make_desktop_entry sia-ui Sia /usr/share/pixmaps/sia.ico \
 		Utility "Terminal=false"
-	sed "/^Exec/s/$/ %f/" -i "${ED%/}"/usr/share/applications/*.desktop || die
+	sed "/^Exec/s/$/ %f/" -i \
+		"${ED%/}"/usr/share/applications/*.desktop || die
 }
 
 pkg_preinst() {
