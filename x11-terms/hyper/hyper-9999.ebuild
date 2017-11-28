@@ -13,23 +13,15 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS=""
 
-DEPEND="media-gfx/graphicsmagick
+DEPEND=">=dev-util/electron-bin-1.7.9
+	media-gfx/graphicsmagick
 	media-libs/libicns
 	>=net-libs/nodejs-6.0.0
 	sys-apps/yarn"
 RDEPEND="app-arch/xz-utils"
 
-QA_PRESTRIPPED="/opt/hyper/libnode.so
-	/opt/hyper/libffmpeg.so
-	/opt/hyper/hyper"
-
 src_prepare() {
-	# Not a nice solution, but it works for now
-	yarn install || \
-	yarn run rebuild-node-pty && \
-	yarn install || \
-	die "yarn dependency installation failed!"
-
+	npm install || die
 	default
 }
 
@@ -37,42 +29,24 @@ src_compile() {
 	local PATH="${S}/node_modules/.bin:$PATH"
 
 	npm run build && \
-	cross-env BABEL_ENV=production babel \
-		--out-file app/renderer/bundle.js \
-		--minified app/renderer/bundle.js \
-		--no-comments && \
-	build --linux --dir || die
+		cross-env BABEL_ENV=production babel \
+			--out-file app/renderer/bundle.js \
+			--minified app/renderer/bundle.js \
+			--no-comments && \
+		build --linux --dir || die
 }
 
 src_install() {
-	pushd dist/linux-unpacked > /dev/null || die
-	exeinto /opt/hyper
-	doexe hyper
-	scanelf -Xe "${ED%/}"/opt/hyper/hyper || die
+	newbin "${FILESDIR}"/hyper-launcher.sh hyper
 
-	insinto /opt/hyper
-	doins -r locales resources
-	doins blink_image_resources_200_percent.pak \
-		content_resources_200_percent.pak \
-		ui_resources_200_percent.pak \
-		views_resources_200_percent.pak \
-		content_shell.pak \
-		icudtl.dat \
-		natives_blob.bin \
-		snapshot_blob.bin \
-		libnode.so \
-		libffmpeg.so
-	popd > /dev/null || die
-
-	insinto /opt/hyper/resources
+	insinto /usr/lib/${PN}
+	doins -r dist/linux-unpacked/resources/*
 	doins -r bin
 
-	dosym ../../opt/hyper/hyper /usr/bin/hyper
-
 	# Install icons and desktop entry
-	local size
-	for size in 16 24 32 48 64 96 128 256; do
-		newicon -s ${size} "${FILESDIR}/icon/${size}.png" hyper.png
+	local s
+	for s in 16 24 32 48 64 96 128 256; do
+		newicon -s ${s} "${FILESDIR}/icon/${s}.png" hyper.png
 	done
 	make_desktop_entry hyper Hyper hyper \
 		Development "Terminal=false"
