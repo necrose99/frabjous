@@ -9,13 +9,13 @@ EGO_PN="github.com/maximbaz/${PN}"
 DESCRIPTION="A tool that can detect when your YubiKey is waiting for a touch"
 HOMEPAGE="https://github.com/maximbaz/yubikey-touch-detector"
 SRC_URI="https://${EGO_PN}/releases/download/${PV}/${PN}-src.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND="sys-auth/pam_u2f"
-RESTRICT="mirror strip"
+RDEPEND="sys-auth/pam_u2f[touch-notifications]"
 
 DOCS=( README.md )
 
