@@ -12,22 +12,21 @@ SRC_URI="https://developers.yubico.com/${PN/_/-}/Releases/${P}.tar.gz"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="debug"
+IUSE="debug touch-notifications"
 
-RDEPEND="
-	app-crypt/libu2f-host
+RDEPEND="app-crypt/libu2f-host
 	app-crypt/libu2f-server
 	virtual/pam"
-
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-PATCHES=(
-	"${FILESDIR}/${PN}-1.0.2-fix-Makefile.patch"
-	"${FILESDIR}/${P}-touch_notifications.patch"
-)
+PATCHES=( "${FILESDIR}/${PN}-1.0.2-fix-Makefile.patch" )
 
 src_prepare() {
+	if use touch-notifications; then
+		eapply "${FILESDIR}/${P}-touch_notifications.patch"
+	fi
+
 	default
 	use debug || append-cppflags -UDEBUG_PAM -UPAM_DEBUG
 	eautoreconf

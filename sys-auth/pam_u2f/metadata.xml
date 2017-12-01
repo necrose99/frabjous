@@ -14,5 +14,9 @@
 			Enable debug messages using the pam logging macros.
 			(Note: these will be visible on stdout for terminal logins).
 		</flag>
+		<flag name="touch-notifications">
+			Apply a patch that adds touch notifications for
+			<pkg>sys-auth/yubikey-touch-detector</pkg>
+		</flag>
 	</use>
 </pkgmetadata>
