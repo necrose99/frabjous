@@ -24,9 +24,9 @@ S="${WORKDIR}/gitkraken"
 src_install() {
 	newbin "${FILESDIR}"/gitkraken-launcher.sh gitkraken
 
-	insinto /usr/libexec/webapps/${PN}
+	insinto /usr/libexec/${PN}
 	doins -r resources/app.asar{,.unpacked}
-	scanelf -Xe "${ED%/}"/usr/libexec/webapps/${PN}/app.asar.unpacked/node_modules/nodegit/build/Release/nodegit.node
+	scanelf -Xe "${ED%/}"/usr/libexec/${PN}/app.asar.unpacked/node_modules/nodegit/build/Release/nodegit.node
 
 	dosym libcurl.so.4 /usr/$(get_libdir)/libcurl-gnutls.so.4
 
