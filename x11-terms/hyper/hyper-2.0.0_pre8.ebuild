@@ -5,7 +5,7 @@ EAPI=6
 
 inherit gnome2-utils xdg
 
-MY_PV="${PV/_pre}"
+MY_PV="${PV/_pre/-canary.}"
 DESCRIPTION="A terminal built on web technologies"
 HOMEPAGE="https://hyper.is"
 SRC_URI="https://github.com/zeit/hyper/archive/${MY_PV}.tar.gz -> ${P}.tar.gz"
