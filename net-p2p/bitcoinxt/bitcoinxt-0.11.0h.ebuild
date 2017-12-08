@@ -164,7 +164,7 @@ src_install() {
 			newicon -s ${X} "share/pixmaps/bitcoin${X}.png" bitcoin.png
 		done
 		make_desktop_entry "bitcoin-qt %u" "Bitcoin XT" "bitcoin" \
-			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoin;\nTerminal=false"
+			"Qt;Network;P2P;Office;Finance;" "MimeType=x-scheme-handler/bitcoincash;\nTerminal=false"
 
 		doman contrib/debian/manpages/bitcoin-qt.1
 	fi
