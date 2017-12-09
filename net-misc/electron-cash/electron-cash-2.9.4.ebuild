@@ -16,13 +16,16 @@ RESTRICT="mirror"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="audio_modem cli cosign digitalbitbox email greenaddress_it ncurses qrcode +qt5 sync vkb"
+IUSE="audio_modem cli cosign digitalbitbox email ncurses qrcode +qt5 sync vkb"
 
 RDEPEND="
 	dev-python/ecdsa[${PYTHON_USEDEP}]
 	dev-python/jsonrpclib[${PYTHON_USEDEP}]
 	dev-python/pbkdf2[${PYTHON_USEDEP}]
-	dev-python/pyaes[${PYTHON_USEDEP}]
+	|| (
+		dev-python/pycryptodomex[${PYTHON_USEDEP}]
+		dev-python/pyaes[${PYTHON_USEDEP}]
+	)
 	dev-python/PySocks[${PYTHON_USEDEP}]
 	dev-python/qrcode[${PYTHON_USEDEP}]
 	dev-python/requests[${PYTHON_USEDEP}]
@@ -44,7 +47,6 @@ REQUIRED_USE="
 	cosign? ( qt5 )
 	digitalbitbox? ( qt5 )
 	email? ( qt5 )
-	greenaddress_it? ( qt5 )
 	qrcode? ( qt5 )
 	sync? ( qt5 )
 	vkb? ( qt5 )"
@@ -93,7 +95,7 @@ src_prepare() {
 		$(usex cosign '' cosigner_pool ) \
 		$(usex digitalbitbox '' digitalbitbox ) \
 		$(usex email '' email_requests ) \
-		$(usex greenaddress_it '' greenaddress_instant ) \
+		greenaddress_instant \
 		hw_wallet \
 		ledger \
 		keepkey \

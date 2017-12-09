@@ -23,7 +23,6 @@
 		<flag name="cosign">Enable plugin to support multisig wallets between multiple Electron Cash clients</flag>
 		<flag name="digitalbitbox">Enable plugin to support Digital Bitbox hardware wallet</flag>
 		<flag name="email">Enable plugin to support emailing invoices</flag>
-		<flag name="greenaddress_it">Enable plugin to verify GreenAddress.it instant transactions</flag>
 		<flag name="qrcode">Enable QR code scanning with <pkg>media-gfx/zbar</pkg></flag>
 		<flag name="sync">Enable plugin to sync wallet metadata across multiple Electrum clients</flag>
 		<flag name="vkb">Enable plugin for virtual keyboard</flag>
