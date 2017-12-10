@@ -75,6 +75,7 @@ SRC_URI="https://github.com/quixdb/${PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.ta
 	${WICONV_URI} -> ${WICONV_P}.tar.gz
 	${MUNIT_URI} -> ${MUNIT_P}.tar.gz
 	${PARG_URI} -> ${PARG_P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
@@ -87,8 +88,6 @@ DEPEND="app-arch/brotli
 	app-arch/xz-utils
 	app-arch/zstd
 	dev-util/ragel"
-
-RESTRIC="mirror"
 
 DOCS=( AUTHORS NEWS README )
 
