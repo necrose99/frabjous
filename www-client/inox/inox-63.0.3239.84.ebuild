@@ -585,13 +585,6 @@ host_binary() {
 
 src_compile() {
 	# Build mksnapshot and pax-mark it.
-	if tc-is-cross-compiler; then
-		eninja -C out/Release host/mksnapshot || die
-		pax-mark m out/Release/host/mksnapshot
-	else
-		eninja -C out/Release mksnapshot || die
-		pax-mark m out/Release/mksnapshot
-	fi
 	host_binary mksnapshot v8_context_snapshot_generator
 
 	# Work around circular dep issue
@@ -600,7 +593,6 @@ src_compile() {
 
 	# Even though ninja autodetects number of CPUs, we respect
 	# user's options, for debugging with -j 1 or any other reason.
-	eninja -C out/Release ${ninja_targets} || die
 	eninja -C out/Release chrome chromedriver
 	use suid && eninja -C out/Release chrome_sandbox
 
