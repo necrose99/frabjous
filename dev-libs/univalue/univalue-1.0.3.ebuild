@@ -8,6 +8,7 @@ inherit autotools eutils
 DESCRIPTION="C++ universal value object and JSON library"
 HOMEPAGE="https://github.com/jgarzik/univalue"
 SRC_URI="https://github.com/jgarzik/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
