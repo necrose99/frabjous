@@ -10,11 +10,11 @@ inherit distutils-r1 meson
 DESCRIPTION="Nautilus extension to add important information about the current git directory"
 HOMEPAGE="https://github.com/bil-elmoussaoui/nautilus-git"
 SRC_URI="https://github.com/bil-elmoussaoui/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND="dev-vcs/git
 	dev-python/nautilus-python"
