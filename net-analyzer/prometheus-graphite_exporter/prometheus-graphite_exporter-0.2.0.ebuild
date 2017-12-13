@@ -5,17 +5,16 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="e76b500"
+GIT_COMMIT="e76b500"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="A server that accepts Graphite metrics for Prometheus consumption"
 HOMEPAGE="https://prometheus.io"
-SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror strip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-
-RESTRICT="mirror strip"
 
 DOCS=( {NOTICE,README.md} )
 
@@ -31,7 +30,7 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
