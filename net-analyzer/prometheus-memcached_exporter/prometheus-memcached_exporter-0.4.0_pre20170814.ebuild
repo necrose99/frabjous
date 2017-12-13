@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="7ed897c"
+GIT_COMMIT="7ed897c"
 EGO_PN="github.com/${PN/-//}"
 DESCRIPTION="Exports metrics from memcached servers for consumption by Prometheus"
 HOMEPAGE="https://prometheus.io"
@@ -37,7 +37,7 @@ src_compile() {
 	export GOPATH="${G}"
 	local GOLDFLAGS="-s -w \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV/_/-} \
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${COMMIT_HASH} \
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT} \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f) \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git \
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
