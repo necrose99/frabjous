@@ -33,10 +33,7 @@ RDEPEND="app-misc/ca-certificates"
 REQUIRED_USE="libuv? ( libh2o )
 	websocket? ( libh2o )"
 
-PATCHES=(
-	"${FILESDIR}"/${P}-system_ca.patch
-	"${FILESDIR}"/${P}-fix_duplicate_header.patch
-)
+PATCHES=( "${FILESDIR}"/${PN}-2.2.3-system_ca.patch )
 
 pkg_setup() {
 	enewgroup h2o
