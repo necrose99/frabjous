@@ -262,7 +262,7 @@ RDEPEND="!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )"
 DEPEND="${RDEPEND}"
 
-PATCHES=( "${FILESDIR}"/${PN}-1.7.2-openssl-0.9.21.patch )
+PATCHES=( "${FILESDIR}"/${PN}-1.7.10-openssl-0.9.21.patch )
 DOCS=( {CHANGELOG,README,SECURITY}.md )
 
 pkg_setup() {
