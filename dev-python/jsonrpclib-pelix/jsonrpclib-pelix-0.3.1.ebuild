@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
 
 inherit distutils-r1
 
-DESCRIPTION="python (2 & 3) implementation of the JSON-RPC spec (1.0 and 2.0)"
+DESCRIPTION="Python (2 & 3) implementation of the JSON-RPC spec (1.0 and 2.0)"
 HOMEPAGE="https://github.com/tcalmant/jsonrpclib"
 SRC_URI="https://github.com/tcalmant/jsonrpclib/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 RESTRICT="mirror"
