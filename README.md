@@ -92,7 +92,6 @@ dev-libs/**[libstrophe](dev-libs/libstrophe)** | A simple, lightweight C library
 dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-python/**[gmusicapi](dev-python/gmusicapi)** | An unofficial client library for Google Music
 dev-python/**[gpsoauth](dev-python/gpsoauth)** | A python client library for Google Play Services OAuth
-dev-python/**[jsonrpclib-pelix](dev-python/jsonrpclib-pelix)** | Python (2 & 3) implementation of the JSON-RPC spec (1.0 and 2.0)
 dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain TestNG like features
 dev-python/**[pycryptodomex](dev-python/pycryptodomex)** | A self-contained (and independent) cryptographic library for Python
 dev-python/**[validictory](dev-python/validictory)** | General purpose python data validator
