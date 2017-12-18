@@ -20,7 +20,7 @@ IUSE="audio_modem cli cosign digitalbitbox email ncurses +qt5 sync vkb"
 
 RDEPEND="
 	dev-python/ecdsa[${PYTHON_USEDEP}]
-	dev-python/jsonrpclib-pelix[${PYTHON_USEDEP}]
+	>=dev-python/jsonrpclib-0.3.1[${PYTHON_USEDEP}]
 	dev-python/pbkdf2[${PYTHON_USEDEP}]
 	|| (
 		dev-python/pycryptodomex[${PYTHON_USEDEP}]
