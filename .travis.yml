@@ -7,7 +7,7 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
 env:
     global:
-        - PORTAGE_VER="2.3.19"
+        - PORTAGE_VER="2.3.24"
         - REPOMAN_VER="2.3.6"
 before_install:
     - sudo apt-get -qq update
