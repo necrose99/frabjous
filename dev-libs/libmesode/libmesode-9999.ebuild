@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,7 +8,6 @@ inherit autotools git-r3
 DESCRIPTION="Fork of libstrophe for use with Profanity XMPP Client"
 HOMEPAGE="https://github.com/boothj5/libmesode"
 EGIT_REPO_URI="https://github.com/boothj5/libmesode.git"
-RESTRICT="mirror"
 
 LICENSE="|| ( MIT GPL-3 )"
 SLOT="0"
@@ -21,7 +20,6 @@ RDEPEND="dev-libs/expat
 		libressl? ( dev-libs/libressl:0= )
 	)"
 DEPEND="${RDEPEND}
-	test? ( dev-libs/check )
 	doc? ( app-doc/doxygen )"
 
 src_prepare() {
