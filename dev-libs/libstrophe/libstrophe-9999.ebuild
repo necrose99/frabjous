@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -8,12 +8,11 @@ inherit autotools git-r3
 DESCRIPTION="A simple, lightweight C library for writing XMPP clients"
 HOMEPAGE="http://strophe.im/libstrophe/"
 EGIT_REPO_URI="https://github.com/strophe/libstrophe.git"
-RESTRICT="mirror"
 
 LICENSE="|| ( MIT GPL-3 )"
 SLOT="0"
 KEYWORDS=""
-IUSE="doc examples libressl +ssl static-libs test +xml"
+IUSE="doc examples libressl +ssl +xml"
 
 RDEPEND="ssl? (
 		!libressl? ( dev-libs/openssl:0= )
@@ -22,8 +21,9 @@ RDEPEND="ssl? (
 	xml? ( dev-libs/libxml2:2 )
 	!xml? ( dev-libs/expat )"
 DEPEND="${RDEPEND}
-	test? ( dev-libs/check )
 	doc? ( app-doc/doxygen )"
+
+PATCHES=( "${FILESDIR}"/${PN}-0.9.2-libressl.patch )
 
 src_prepare() {
 	default
@@ -33,8 +33,6 @@ src_prepare() {
 src_configure() {
 	econf \
 		$(use_enable ssl tls) \
-		$(use_enable test static) \
-		$(use_enable static-libs static) \
 		$(use_with xml libxml2) \
 		|| die "econf failed"
 }
