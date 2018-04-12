@@ -8,16 +8,13 @@ inherit autotools bash-completion-r1 gnome2-utils systemd user xdg-utils
 DESCRIPTION="A peer-to-peer privacy-centric digital currency"
 HOMEPAGE="https://www.dash.org"
 SRC_URI="https://github.com/dashpay/dash/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="daemon dbus +gui hardened libressl +qrcode reduce-exports system-univalue test upnp utils +wallet zeromq"
 LANGS="bg de en es fi fr it ja pl pt ru sk sv vi zh_CN zh_TW"
-
-for X in ${LANGS}; do
-	IUSE="${IUSE} linguas_${X}"
-done
 
 CDEPEND="dev-libs/boost:0=[threads(+)]
 	dev-libs/libevent
@@ -40,7 +37,40 @@ DEPEND="${CDEPEND}
 RDEPEND="${CDEPEND}"
 
 REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
-RESTRICT="mirror"
+
+declare -A LANG2USE USE2LANGS
+dash_langs_prep() {
+	local lang l10n
+	for lang in ${LANGS}; do
+		l10n="${lang/:*/}"
+		l10n="${l10n/[@_]/-}"
+		lang="${lang/*:/}"
+		LANG2USE["${lang}"]="${l10n}"
+		USE2LANGS["${l10n}"]+=" ${lang}"
+	done
+}
+dash_langs_prep
+
+dash_lang2use() {
+	local l
+	for l; do
+		echo l10n_${LANG2USE["${l}"]}
+	done
+}
+
+IUSE+=" $(dash_lang2use ${!LANG2USE[@]})"
+
+dash_lang_requireduse() {
+	local lang l10n
+	for l10n in ${!USE2LANGS[@]}; do
+		for lang in ${USE2LANGS["${l10n}"]}; do
+			continue 2
+		done
+		echo "l10n_${l10n}?"
+	done
+}
+
+REQUIRED_USE+=" $(dash_lang_requireduse)"
 
 S="${WORKDIR}/dash-${PV}"
 
@@ -59,16 +89,17 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-0.12.1-libressl.patch
 
 		for lan in $LANGS; do
+			lan="${lan/*:/}"
 			if [ ! -e src/qt/locale/dash_$lan.ts ]; then
+				continue
 				die "Language '$lan' no longer supported. Ebuild needs update."
 			fi
 		done
 
-		for ts in $(ls src/qt/locale/*.ts)
-		do
+		for ts in $(ls src/qt/locale/*.ts); do
 			x="${ts/*dash_/}"
 			x="${x/.ts/}"
-			if ! use "linguas_$x"; then
+			if ! use "$(dash_lang2use "$x")"; then
 				nolang="$nolang $x"
 				rm "$ts" || die
 				filt="$filt\\|$x"
@@ -76,6 +107,7 @@ src_prepare() {
 				yeslang="$yeslang $x"
 			fi
 		done
+
 		filt="dash_\\(${filt:2}\\)\\.\(qm\|ts\)"
 		sed "/${filt}/d" -i 'src/qt/dash_locale.qrc' || die
 		sed "s/locale\/${filt}/dash.qrc/" -i 'src/Makefile.qt.include' || die
