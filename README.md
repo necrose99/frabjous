@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 321](https://img.shields.io/badge/ebuilds-321-orange.svg?style=flat-square)
+![ebuilds 345](https://img.shields.io/badge/ebuilds-345-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -89,7 +89,6 @@ dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with M
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
 dev-libs/**[libmesode](dev-libs/libmesode)** | Fork of libstrophe for use with Profanity XMPP Client
 dev-libs/**[libstrophe](dev-libs/libstrophe)** | A simple, lightweight C library for writing XMPP clients
-dev-libs/**[univalue](dev-libs/univalue)** | C++ universal value object and JSON library
 dev-python/**[gmusicapi](dev-python/gmusicapi)** | An unofficial client library for Google Music
 dev-python/**[gpsoauth](dev-python/gpsoauth)** | A python client library for Google Play Services OAuth
 dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain TestNG like features
