@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,20 +9,17 @@ MY_PV="${PV/\.0h/H}"
 DESCRIPTION="A full node Bitcoin Cash implementation with GUI, daemon and utils"
 HOMEPAGE="https://bitcoinxt.software"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="daemon dbus +gui libressl +qrcode reduce-exports test upnp utils +wallet zeromq"
-LANGS="ach af_ZA ar be_BY bg bs ca ca@valencia ca_ES cmn cs cy da de el_GR en
-	eo es es_CL es_DO es_MX es_UY et eu_ES fa fa_IR fi fr fr_CA gl gu_IN he
-	hi_IN hr hu id_ID it ja ka kk_KZ ko_KR ky la lt lv_LV mn ms_MY nb nl pam
-	pl pt_BR pt_PT ro_RO ru sah sk sl_SI sq sr sv th_TH tr uk ur_PK uz@Cyrl
-	vi vi_VN zh_HK zh_CN zh_TW"
-
-for X in ${LANGS}; do
-	IUSE="${IUSE} linguas_${X}"
-done
+LANGS="ach af:af_ZA ar be:be_BY bg bs ca ca@valencia ca:ca_ES cs cy da de el:el_GR en
+	eo es es_CL es_DO es_MX es_UY et eu:eu_ES fa fa:fa_IR fi fr fr_CA gl gu:gu_IN he
+	hi:hi_IN hr hu id:id_ID it ja ka kk:kk_KZ ko:ko_KR ky la lt lv:lv_LV mn ms:ms_MY
+	nb nl pam pl pt_BR pt_PT ro:ro_RO ru ru:sah sk sl:sl_SI sq sr sv th:th_TH tr uk
+	ur_PK uz@Cyrl vi vi:vi_VN zh:cmn zh_HK zh_CN zh_TW"
 
 CDEPEND="dev-libs/boost:0=[threads(+)]
 	dev-libs/libevent
@@ -64,7 +61,40 @@ RDEPEND="${CDEPEND}
 	)"
 
 REQUIRED_USE="dbus? ( gui ) qrcode? ( gui )"
-RESTRICT="mirror"
+
+declare -A LANG2USE USE2LANGS
+bitcoin_langs_prep() {
+	local lang l10n
+	for lang in ${LANGS}; do
+		l10n="${lang/:*/}"
+		l10n="${l10n/[@_]/-}"
+		lang="${lang/*:/}"
+		LANG2USE["${lang}"]="${l10n}"
+		USE2LANGS["${l10n}"]+=" ${lang}"
+	done
+}
+bitcoin_langs_prep
+
+bitcoin_lang2use() {
+	local l
+	for l; do
+		echo l10n_${LANG2USE["${l}"]}
+	done
+}
+
+IUSE+=" $(bitcoin_lang2use ${!LANG2USE[@]})"
+
+bitcoin_lang_requireduse() {
+	local lang l10n
+	for l10n in ${!USE2LANGS[@]}; do
+		for lang in ${USE2LANGS["${l10n}"]}; do
+			continue 2
+		done
+		echo "l10n_${l10n}?"
+	done
+}
+
+REQUIRED_USE+=" $(bitcoin_lang_requireduse)"
 
 DOCS=( doc/{assets-attribution,bips,tor}.md )
 
@@ -85,16 +115,17 @@ src_prepare() {
 		local filt= yeslang= nolang= lan ts x
 
 		for lan in $LANGS; do
+			lan="${lan/*:/}"
 			if [ ! -e src/qt/locale/bitcoin_$lan.ts ]; then
+				continue
 				die "Language '$lan' no longer supported. Ebuild needs update."
 			fi
 		done
 
-		for ts in $(ls src/qt/locale/*.ts)
-		do
+		for ts in src/qt/locale/*.ts; do
 			x="${ts/*bitcoin_/}"
 			x="${x/.ts/}"
-			if ! use "linguas_$x"; then
+			if ! use "$(bitcoin_lang2use "$x")"; then
 				nolang="$nolang $x"
 				rm "$ts" || die
 				filt="$filt\\|$x"
@@ -102,6 +133,7 @@ src_prepare() {
 				yeslang="$yeslang $x"
 			fi
 		done
+
 		filt="bitcoin_\\(${filt:2}\\)\\.\(qm\|ts\)"
 		sed "/${filt}/d" -i 'src/qt/bitcoin_locale.qrc' || die
 		sed "s/locale\/${filt}/bitcoin.qrc/" -i 'src/Makefile.qt.include' || die
