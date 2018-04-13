@@ -19,7 +19,5 @@
 	<use>
 		<flag name="dnstap">Enables dnstap packet logging</flag>
 		<flag name="go">Build modules written in Go</flag>
-		<flag name="memcached">Build memcached backend module</flag>
-		<flag name="redis">Build redis backend module</flag>
 	</use>
 </pkgmetadata>
