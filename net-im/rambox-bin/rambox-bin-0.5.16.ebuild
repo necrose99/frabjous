@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -17,20 +17,17 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~x86"
 
-RDEPEND="dev-libs/expat
-	dev-libs/libappindicator
-	dev-libs/nss
-	gnome-base/gconf
-	media-gfx/graphite2
-	media-libs/alsa-lib
-	media-libs/libpng
-	net-print/cups
-	net-libs/gnutls
-	sys-libs/zlib
-	x11-libs/gtk+
-	x11-libs/libnotify
-	x11-libs/libxcb
-	x11-libs/libXtst"
+RDEPEND="dev-libs/libpcre:3
+	dev-libs/libtasn1:0
+	dev-libs/nettle:0
+	dev-libs/nspr:0
+	dev-libs/nss:0
+	gnome-base/gconf:2
+	media-libs/alsa-lib:0
+	media-libs/libpng:0
+	net-libs/gnutls:0
+	x11-libs/gtk+:2
+	x11-libs/libXScrnSaver:0"
 
 QA_PRESTRIPPED="/opt/rambox-bin/libffmpeg.so
 	/opt/rambox-bin/libnode.so
