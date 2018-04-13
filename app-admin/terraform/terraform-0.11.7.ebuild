@@ -3,26 +3,24 @@
 
 EAPI=6
 
-EGO_VENDOR=( "golang.org/x/tools 9bd2f44 github.com/golang/tools" )
+EGO_VENDOR=( "golang.org/x/tools 1c0c7a8 github.com/golang/tools" )
 
 inherit golang-vcs-snapshot
 
-MY_PV="${PV/_/-}"
-COMMIT_HASH="a6008b8a48a749c7c167453b9cf55ffd572b9a5d"
+COMMIT_HASH="41e50bd32a8825a84535e353c3674af8ce799161"
 EGO_PN="github.com/hashicorp/terraform"
 DESCRIPTION="A tool for building, changing, and combining infrastructure safely/efficiently"
 HOMEPAGE="https://www.terraform.io"
-SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
+SRC_URI="https://${EGO_PN}/archive/v${PV/_/-}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
 RESTRICT="mirror strip"
 
 LICENSE="MPL-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~x86"
-IUSE="examples fish-completion terraform-bundle zsh-completion"
+IUSE="examples fish-completion terraform-bundle"
 
-RDEPEND="!arm? ( fish-completion? ( app-shells/fish ) )
-	zsh-completion? ( app-shells/zsh )"
+RDEPEND="!arm? ( fish-completion? ( app-shells/fish ) )"
 
 DOCS=( {CHANGELOG,README}.md )
 
@@ -43,7 +41,7 @@ src_compile() {
 	popd > /dev/null || die
 	eend $?
 
-	emake fmtcheck generate
+	emake generate
 
 	go install -v -ldflags \
 		"${GOLDFLAGS}" || die
@@ -78,10 +76,5 @@ src_install() {
 	if use fish-completion; then
 		insinto /usr/share/fish/functions/
 		doins contrib/fish-completion/terraform.fish
-	fi
-
-	if use zsh-completion; then
-		insinto /usr/share/zsh/site-functions
-		doins contrib/zsh-completion/_terraform
 	fi
 }
