@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -20,11 +20,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="caps +daemon doc +fastparser idn libidn2 ${KNOT_MODULES[@]} static-libs systemd +utils"
 
-RDEPEND=">=net-libs/gnutls-3.3:=
-	>=dev-db/lmdb-0.9.15
-	>=dev-libs/userspace-rcu-0.5.4
+RDEPEND=">=net-libs/gnutls-3.5:=
+	>=dev-db/lmdb-0.9.18
+	>=dev-libs/userspace-rcu-0.9.1
 	dev-libs/libedit
-	caps? ( >=sys-libs/libcap-ng-0.6.4 )
+	caps? ( >=sys-libs/libcap-ng-0.7.8 )
 	daemon? ( dev-python/lmdb )
 	module-dnstap? (
 		dev-libs/fstrm
