@@ -1,11 +1,11 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 inherit fcaps golang-vcs-snapshot systemd user
 
-GIT_COMMIT="87b6919"
+GIT_COMMIT="5dd7f25"
 EGO_PN="github.com/hashicorp/${PN}"
 DESCRIPTION="A tool for managing secrets"
 HOMEPAGE="https://vaultproject.io"
@@ -35,8 +35,7 @@ src_compile() {
 		-X ${EGO_PN}/version.Version=${PV} \
 		-X ${EGO_PN}/version.VersionPrerelease="
 
-	go install -v -ldflags \
-		"${GOLDFLAGS}" || die
+	go install -v -ldflags "${GOLDFLAGS}" || die
 }
 
 src_install() {
