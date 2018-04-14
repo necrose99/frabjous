@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -41,7 +41,7 @@
+ 
+ [features]
+ default-features = []
+-openmp = ["imagequant/openmp-static"]
++openmp = ["imagequant/openmp"]
+ video = ["ffmpeg"]
+ 
+ [lib]
