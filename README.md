@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 345](https://img.shields.io/badge/ebuilds-345-orange.svg?style=flat-square)
+![ebuilds 333](https://img.shields.io/badge/ebuilds-345-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -100,6 +100,7 @@ dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you b
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
 mail-filter/**[rspamd](mail-filter/rspamd)** | Rapid spam filtering system
+media-gfx/**[gifski](media-gfx/gifski)** | GIF encoder based on libimagequant
 media-tv/**[tv-renamer](media-tv/tv-renamer)** | A TV series renaming application written in Rust
 media-video/**[curlew](media-video/curlew)** | Easy to use and Free Multimedia Converter for Linux
 media-video/**[gnome-mpv](media-video/gnome-mpv)** | A simple GTK+ frontend for mpv
