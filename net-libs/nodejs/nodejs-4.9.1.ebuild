@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,7 +9,7 @@ PYTHON_REQ_USE="threads"
 inherit flag-o-matic pax-utils python-single-r1 toolchain-funcs
 
 DESCRIPTION="A JavaScript runtime built on Chrome's V8 JavaScript engine"
-HOMEPAGE="https://nodejs.org"
+HOMEPAGE="https://nodejs.org/"
 SRC_URI="https://nodejs.org/dist/v${PV}/node-v${PV}.tar.xz"
 
 LICENSE="Apache-1.1 Apache-2.0 BSD BSD-2 MIT"
@@ -75,7 +75,7 @@ src_prepare() {
 		BUILDTYPE=Debug
 	fi
 
-	eapply_user
+	default
 }
 
 src_configure() {
@@ -85,7 +85,7 @@ src_configure() {
 	use icu && myconf+=( --with-intl=system-icu )
 	use snapshot && myconf+=( --with-snapshot )
 	use ssl || myconf+=( --without-ssl )
-	use bundled-ssl || myconf+=( --shared-openssl )
+	use ssl && use bundled-ssl || myconf+=( --shared-openssl )
 	use debug && myconf+=( --debug )
 
 	case ${ABI} in
@@ -141,6 +141,6 @@ src_test() {
 pkg_postinst() {
 	einfo "When using node-gyp to install native modules, you can avoid"
 	einfo "having to download the full tarball by doing the following:"
-	einfo
+	einfo ""
 	einfo "node-gyp --nodedir /usr/include/node <command>"
 }

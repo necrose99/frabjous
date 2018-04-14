@@ -1,8 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-RESTRICT="test"
 
 PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads"
@@ -17,23 +16,26 @@ LICENSE="Apache-1.1 Apache-2.0 BSD BSD-2 MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~x86 ~amd64-linux ~x64-macos"
 IUSE="bundled-ssl cpu_flags_x86_sse2 debug doc icu inspector libressl +npm +snapshot +ssl test"
-REQUIRED_USE="${PYTHON_REQUIRED_USE}
+REQUIRED_USE="
+	${PYTHON_REQUIRED_USE}
+	inspector? ( icu ssl )
 	libressl? ( bundled-ssl )
-	bundled-ssl? ( ssl )"
+	bundled-ssl? ( ssl )
+"
 
 RDEPEND="
-	>=dev-libs/libuv-1.15.0:=
-	!bundled-ssl? ( >=dev-libs/openssl-1.0.2g:0=[-bindist] )
+	>=dev-libs/libuv-1.16.1:=
 	>=net-libs/http-parser-2.7.0:=
 	sys-libs/zlib
-	icu? ( >=dev-libs/icu-58.2:= )"
+	icu? ( >=dev-libs/icu-58.2:= )
+	!bundled-ssl? ( >=dev-libs/openssl-1.0.2n:0=[-bindist] )
+"
 DEPEND="
 	${RDEPEND}
 	${PYTHON_DEPS}
-	test? ( net-misc/curl )"
-
+	test? ( net-misc/curl )
+"
 S="${WORKDIR}/node-v${PV}"
-
 PATCHES=(
 	"${FILESDIR}"/gentoo-global-npm-config.patch
 )

@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -25,11 +25,11 @@ REQUIRED_USE="
 "
 
 RDEPEND="
-	>=dev-libs/libuv-1.15.0:=
-	>=net-libs/http-parser-2.7.0:=
+	>=dev-libs/libuv-1.19.1:=
+	>=net-libs/http-parser-2.8.0:=
 	>=net-libs/nghttp2-1.25.0
 	sys-libs/zlib
-	icu? ( >=dev-libs/icu-59.1:= )
+	icu? ( >=dev-libs/icu-60.1:= )
 	npm? ( ${PYTHON_DEPS} )
 	ssl? (
 		!bundled-ssl? (
@@ -45,7 +45,6 @@ S="${WORKDIR}/node-v${PV}"
 
 PATCHES=(
 	"${FILESDIR}"/gentoo-global-npm-config.patch
-	"${FILESDIR}"/nodejs-8.9.0-shared-nghttp2.patch
 )
 
 pkg_pretend() {
