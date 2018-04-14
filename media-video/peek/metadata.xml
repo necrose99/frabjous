@@ -15,6 +15,7 @@
 	</longdescription>
 	<use>
 		<flag name="gnome-shell">Enable gnome-shell recorder</flag>
+		<flag name="keybinder">Enable support for global hotkeys using <pkg>dev-libs/keybinder</pkg></flag>
 		<flag name="open-filemanager">Enable file manager integration</flag>
 	</use>
 </pkgmetadata>
