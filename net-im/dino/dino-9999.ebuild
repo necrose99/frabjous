@@ -1,15 +1,15 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 CMAKE_MAKEFILE_GENERATOR="ninja"
-VALA_MIN_API_VERSION="0.30"
+VALA_MIN_API_VERSION="0.34"
 
 inherit cmake-utils git-r3 gnome2-utils vala
 
 DESCRIPTION="A modern Jabber/XMPP Client using GTK+/Vala"
-HOMEPAGE="https://github.com/dino/dino"
+HOMEPAGE="https://dino.im"
 EGIT_REPO_URI="https://github.com/dino/dino.git"
 
 LICENSE="GPL-3"
