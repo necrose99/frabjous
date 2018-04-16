@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=>=dev-lang/go-1.9
+DESCRIPTION=A minimal password manager written in Go
+EAPI=6
+HOMEPAGE=https://bndw.github.io/pick/
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+RESTRICT=mirror strip
+SLOT=0
+SRC_URI=https://github.com/bndw/pick/archive/v0.4.0.tar.gz -> pick-0.4.0.tar.gz https://github.com/BurntSushi/toml/archive/9906417.tar.gz -> github.com-BurntSushi-toml-9906417.tar.gz https://github.com/atotto/clipboard/archive/bb272b8.tar.gz -> github.com-atotto-clipboard-bb272b8.tar.gz https://github.com/leonklingele/randomstring/archive/fd6b15e.tar.gz -> github.com-leonklingele-randomstring-fd6b15e.tar.gz https://github.com/mitchellh/go-homedir/archive/b8bc1bf.tar.gz -> github.com-mitchellh-go-homedir-b8bc1bf.tar.gz https://github.com/pkg/term/archive/b1f72af.tar.gz -> github.com-pkg-term-b1f72af.tar.gz https://github.com/spf13/cobra/archive/92ea23a.tar.gz -> github.com-spf13-cobra-92ea23a.tar.gz https://github.com/spf13/pflag/archive/9ff6c69.tar.gz -> github.com-spf13-pflag-9ff6c69.tar.gz https://github.com/golang/crypto/archive/453249f.tar.gz -> github.com-golang-crypto-453249f.tar.gz
+_eclasses_=golang-base	928887539e385bb489681b292f6b862f	golang-vcs-snapshot	913580335becddd3ebecefe852e47536
+_md5_=f27939778f2b2f13271a3231267f6060

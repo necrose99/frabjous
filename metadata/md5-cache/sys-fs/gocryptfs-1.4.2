@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=>=dev-lang/go-1.9
+DESCRIPTION=Encrypted overlay filesystem written in Go
+EAPI=6
+HOMEPAGE=https://nuetzlich.net/gocryptfs
+IUSE=libressl +ssl
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+RDEPEND=sys-fs/fuse:0 ssl? ( !libressl? ( dev-libs/openssl:0= ) libressl? ( dev-libs/libressl:0= ) )
+RESTRICT=mirror strip
+SLOT=0
+SRC_URI=https://github.com/rfjakob/gocryptfs/archive/v1.4.2.tar.gz -> gocryptfs-1.4.2.tar.gz https://github.com/hanwen/go-fuse/archive/cf21bc2.tar.gz -> github.com-hanwen-go-fuse-cf21bc2.tar.gz https://github.com/jacobsa/crypto/archive/c73681c.tar.gz -> github.com-jacobsa-crypto-c73681c.tar.gz https://github.com/rfjakob/eme/archive/2222dbd.tar.gz -> github.com-rfjakob-eme-2222dbd.tar.gz https://github.com/golang/crypto/archive/bd6f299.tar.gz -> github.com-golang-crypto-bd6f299.tar.gz https://github.com/golang/sync/archive/8e0aa68.tar.gz -> github.com-golang-sync-8e0aa68.tar.gz https://github.com/golang/sys/archive/95c6576.tar.gz -> github.com-golang-sys-95c6576.tar.gz
+_eclasses_=golang-base	928887539e385bb489681b292f6b862f	golang-vcs-snapshot	913580335becddd3ebecefe852e47536
+_md5_=f259dfccad097d1af5f069876c66cc52
