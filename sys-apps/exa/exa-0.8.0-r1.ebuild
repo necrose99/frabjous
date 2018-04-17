@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -73,17 +73,18 @@ DESCRIPTION="A replacement for 'ls' written in Rust"
 HOMEPAGE="https://the.exa.website"
 SRC_URI="https://github.com/ogham/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	$(cargo_crate_uris ${CRATES})"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="fish-completion zsh-completion"
+IUSE="bash-completion fish-completion zsh-completion"
 
-DEPEND="dev-libs/libgit2"
+DEPEND="dev-libs/libgit2
+	net-libs/http-parser:="
 RDEPEND="${DEPEND}
 	fish-completion? ( app-shells/fish )
 	zsh-completion? ( app-shells/zsh )"
-RESTRICT="mirror"
 
 src_compile() {
 	export CARGO_HOME="${ECARGO_HOME}"
@@ -95,10 +96,12 @@ src_compile() {
 }
 
 src_install() {
-	dobin target/release/exa
+	cargo_src_install
 	doman contrib/man/exa.1
 
-	newbashcomp contrib/completions.bash exa
+	if use bash-completion; then
+		newbashcomp contrib/completions.bash exa
+	fi
 
 	if use fish-completion;then
 		insinto /usr/share/fish/completions
