@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -11,20 +11,6 @@ BDB_PKG="db-${BDB_PV}.tar.gz"
 BDB_HASH="47612c8991aa9ac2f6be721267c8d3cdccf5ac83105df8e50809daea24e95dc7"
 BDB_URI="https://z.cash/depends-sources/${BDB_PKG}"
 BDB_STAMP=".stamp_fetched-bdb-${BDB_PKG}.hash"
-
-# depends/packages/googlemock.mk (https://github.com/google/googlemock, ??? license)
-GMOCK_PV="1.7.0"
-GMOCK_PKG="googlemock-${GMOCK_PV}.tar.gz"
-GMOCK_HASH="3f20b6acb37e5a98e8c4518165711e3e35d47deb6cdb5a4dd4566563b5efd232"
-GMOCK_URI="https://github.com/google/googlemock/archive/release-${GMOCK_PV}.tar.gz"
-GMOCK_STAMP=".stamp_fetched-googlemock-${GMOCK_PKG}.hash"
-
-# depends/packages/googletest.mk (https://github.com/google/googletest, ??? license)
-GTEST_PV="1.7.0"
-GTEST_PKG="googletest-${GTEST_PV}.tar.gz"
-GTEST_HASH="f73a6546fdf9fce9ff93a5015e0333a8af3062a152a9ad6bcb772c96687016cc"
-GTEST_URI="https://github.com/google/googletest/archive/release-${GTEST_PV}.tar.gz"
-GTEST_STAMP=".stamp_fetched-googletest-${GTEST_PKG}.hash"
 
 # depends/packages/openssl.mk (https://www.openssl.org, openssl license)
 OPENSSL_PV="1.1.0d"
@@ -65,8 +51,6 @@ DESCRIPTION="Cryptocurrency that offers privacy of transactions"
 HOMEPAGE="https://z.cash"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 	${BDB_URI}
-	${GMOCK_URI} -> ${GMOCK_PKG}
-	${GTEST_URI} -> ${GTEST_PKG}
 	bundled-ssl? ( ${OPENSSL_URI} )
 	proton? ( ${PROTON_URI} )
 	rust? (
@@ -77,9 +61,9 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="bundled-ssl examples hardened libressl libs mining proton reduce-exports rust zeromq"
+IUSE="bundled-ssl examples +hardened libressl libs mining proton reduce-exports rust zeromq"
 
-DEPEND="dev-libs/boost:0=[threads(+)]
+RDEPEND="dev-libs/boost:0=[threads(+)]
 	>=dev-libs/gmp-6.1.0
 	>=dev-libs/libevent-2.1.8
 	dev-libs/libsodium:0=[-minimal]
@@ -89,11 +73,13 @@ DEPEND="dev-libs/boost:0=[threads(+)]
 	)
 	rust? ( >=dev-util/cargo-0.16.0 )
 	zeromq? ( >=net-libs/zeromq-4.2.1 )"
-RDEPEND="${DEPEND}"
+DEPEND="${RDEPEND}
+	dev-cpp/gmock"
 
 REQUIRED_USE="bundled-ssl? ( !libressl )"
 RESTRICT="mirror"
 
+PATCHES=( "${FILESDIR}"/${P}-no_gtest.patch )
 DOCS=( doc/{payment-api,security-warnings,tor}.md )
 
 S="${WORKDIR}/${PN}-${MY_PV}"
@@ -152,13 +138,9 @@ src_prepare() {
 	# Prepare download-stamps
 	mkdir -p "${STAMP_DIR}" || die
 	echo "${BDB_HASH} ${BDB_PKG}" > "${STAMP_DIR}/${BDB_STAMP}" || die
-	echo "${GMOCK_HASH} ${GMOCK_PKG}" > "${STAMP_DIR}/${GMOCK_STAMP}" || die
-	echo "${GTEST_HASH} ${GTEST_PKG}" > "${STAMP_DIR}/${GTEST_STAMP}" || die
 
 	# Symlink dependencies
 	ln -s "${DISTDIR}"/${BDB_PKG} "${DEP_SRC}" || die
-	ln -s "${DISTDIR}"/${GMOCK_PKG} "${DEP_SRC}" || die
-	ln -s "${DISTDIR}"/${GTEST_PKG} "${DEP_SRC}" || die
 
 	if use bundled-ssl; then
 		echo "${OPENSSL_HASH} ${OPENSSL_PKG}" > "${STAMP_DIR}/${OPENSSL_STAMP}" || die
@@ -183,7 +165,7 @@ src_prepare() {
 	pushd depends > /dev/null || die
 	make install \
 		native_packages="" \
-		packages="bdb googletest googlemock \
+		packages="bdb \
 			$(usex bundled-ssl openssl '') \
 			$(usex proton proton '') \
 			$(usex rust librustzcash '')" || die
@@ -195,13 +177,13 @@ src_prepare() {
 }
 
 src_configure() {
-	local depends_prefix
-	append-cppflags "-I${S}/depends/x86_64-unknown-linux-gnu/include"
-	append-ldflags "-L${S}/depends/x86_64-unknown-linux-gnu/lib \
-		-L${S}/depends/x86_64-unknown-linux-gnu/lib64"
+	local BUILD depends_prefix
+	BUILD="$(./depends/config.guess)"
+	append-cppflags "-I${S}/depends/${BUILD}/include"
+	append-ldflags "-L${S}/depends/${BUILD}/lib"
 
 	econf \
-		depends_prefix="${S}/depends/x86_64-unknown-linux-gnu" \
+		depends_prefix="${S}/depends/${BUILD}" \
 		--prefix="${EPREFIX}"/usr \
 		--disable-ccache \
 		--disable-tests \
@@ -216,7 +198,6 @@ src_configure() {
 }
 
 src_install() {
-	local X
 	default
 
 	newinitd "${FILESDIR}"/zcash.initd-r4 zcash
@@ -230,8 +211,9 @@ src_install() {
 	fperms 0600 /etc/zcash/zcash.conf
 	newins contrib/debian/examples/zcash.conf zcash.conf.example
 
+	local X
 	for X in '-cli' '-tx' 'd'; do
-		newbashcomp contrib/bitcoin${X}.bash-completion zcash${X}
+		newbashcomp contrib/zcash${X}.bash-completion zcash${X}
 	done
 
 	insinto /etc/logrotate.d
