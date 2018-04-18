@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="cpu_flags_x86_ssse3 fann gd jemalloc +jit libressl pcre2 +torch"
 REQUIRED_USE="torch? ( jit )"
 
-RDEPEND="!libressl? ( dev-libs/openssl:0=[-bindist] )
+DEPEND="!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
 	fann? ( sci-mathematics/fann )
 	pcre2? ( dev-libs/libpcre2[jit=] )
@@ -25,12 +25,13 @@ RDEPEND="!libressl? ( dev-libs/openssl:0=[-bindist] )
 	dev-libs/libevent
 	dev-db/sqlite:3
 	dev-libs/glib:2
+	<dev-util/ragel-7.0
 	sys-apps/file
 	gd? ( media-libs/gd[jpeg] )
 	dev-libs/icu
 	cpu_flags_x86_ssse3? ( dev-libs/hyperscan )"
-DEPEND="<dev-util/ragel-7.0
-	${RDEPEND}"
+RDEPEND="elibc_glibc? ( net-libs/libnsl:0= )
+	${DEPEND}"
 
 QA_MULTILIB_PATHS="usr/lib/rspamd/.*"
 
