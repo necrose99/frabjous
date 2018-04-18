@@ -95,7 +95,7 @@ dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain Tes
 dev-python/**[pycryptodomex](dev-python/pycryptodomex)** | A self-contained (and independent) cryptographic library for Python
 dev-python/**[validictory](dev-python/validictory)** | General purpose python data validator
 dev-util/**[electron-bin](dev-util/electron-bin)** | Cross platform application development framework based on web technologies
-dev-vcs/**[gitkraken-bin](dev-vcs/gitkraken-bin)** | The downright luxurious Git client, for Windows, Mac & Linux
+dev-vcs/**[gitkraken-bin](dev-vcs/gitkraken-bin)** | The intuitive, fast, and beautiful cross-platform Git client
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
 gnome-extra/**[nautilus-git](gnome-extra/nautilus-git)** | Nautilus extension to add important information about the current git directory
