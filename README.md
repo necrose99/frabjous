@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 314](https://img.shields.io/badge/ebuilds-314-orange.svg?style=flat-square)
+![ebuilds 316](https://img.shields.io/badge/ebuilds-316-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -24,30 +24,32 @@ the developers know about it.* —
 [Gentoo's Handbook](https://wiki.gentoo.org/wiki/Handbook:AMD64/Full/Portage#Testing) ↩
 
 ## How to install the overlay
-For automatic install, you must have
-[`app-eselect/eselect-repository`](https://packages.gentoo.org/packages/app-eselect/eselect-repository)
-or [`app-portage/layman`](https://packages.gentoo.org/packages/app-portage/layman)
-installed on your system for this to work.
+You can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
 
-#### `eselect-repository` way:
-```console
-eselect repository enable frabjous
-```
-
-#### `layman` way:
-```console
-layman -fa frabjous
-```
-
-#### Alternatively, you can use it by adding this in `/etc/portage/repos.conf/frabjous.conf` (recommended):
-
-```ini
+```bash
+cat << EOF > /etc/portage/repos.conf/frabjous.conf
 [frabjous]
 priority = 50
 location = /usr/local/overlay/frabjous
 sync-type = git
 sync-uri = https://github.com/csmk/frabjous.git
 auto-sync = Yes
+EOF
+```
+
+Alternatively, for automatic install, you must have
+[`app-eselect/eselect-repository`](https://packages.gentoo.org/packages/app-eselect/eselect-repository)
+or [`app-portage/layman`](https://packages.gentoo.org/packages/app-portage/layman)
+installed on your system for this to work.
+
+#### With `eselect-repository`:
+```console
+eselect repository enable frabjous
+```
+
+#### With `layman`:
+```console
+layman -fa frabjous
 ```
 
 > **Note:** To use the testing branch for particular packages, you must add the package
