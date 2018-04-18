@@ -13,7 +13,7 @@ DESCRIPTION="A modern HTTP reverse proxy and load balancer made to deploy micros
 HOMEPAGE="https://traefik.io"
 SRC_URI="https://${EGO_PN}/releases/download/v${MY_PV}/${PN}-v${MY_PV}.src.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
-RESTRICT="mirror strip test"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
@@ -50,10 +50,9 @@ src_compile() {
 		./cmd/traefik || die
 }
 
-# Broken :/
-#src_test() {
-#	go test -v ./... || die
-#}
+src_test() {
+	go test -v ./... || die
+}
 
 src_install() {
 	dobin traefik
