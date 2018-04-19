@@ -1,15 +1,15 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-inherit git-r3 gnome2-utils meson
+inherit git-r3 gnome2-utils xdg-utils meson
 
 DESCRIPTION="A simple GTK+ frontend for mpv"
-HOMEPAGE="https://github.com/gnome-mpv/gnome-mpv"
+HOMEPAGE="https://gnome-mpv.github.io/"
 EGIT_REPO_URI="https://github.com/gnome-mpv/gnome-mpv.git"
 
-LICENSE="GPL-3"
+LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
 
@@ -18,12 +18,13 @@ CDEPEND=">=dev-libs/glib-2.44
 	media-libs/libepoxy"
 RDEPEND="${CDEPEND}
 	x11-themes/gnome-icon-theme-symbolic
-	>=media-video/mpv-0.21[libmpv]"
+	>=media-video/mpv-0.27[libmpv]"
 DEPEND="${CDEPEND}
-	>=dev-util/meson-0.37.0
-	dev-libs/appstream-glib"
+	dev-libs/appstream-glib
+	virtual/pkgconfig"
 
-pkg_preinst() {
+pkg_postinst() {
+	xdg_desktop_database_update
 	gnome2_icon_savelist
 	gnome2_schemas_savelist
 }
