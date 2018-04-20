@@ -157,7 +157,8 @@ PATCHES=(
 	"${FILESDIR}/chromium-ffmpeg-clang.patch"
 	"${FILESDIR}/chromium-add-missing-blink-tools.patch"
 
-	"${FILESDIR}/inox-66/0001-fix-building-without-safebrowsing.patch"
+	"${FILESDIR}/inox-66/0001-fix-building-without-safebrowsing-part1.patch"
+	"${FILESDIR}/inox-66/0001-fix-building-without-safebrowsing-part2.patch"
 	"${FILESDIR}/inox-66/0002-fix-building-without-reporting.patch"
 	"${FILESDIR}/inox-66/0003-disable-autofill-download-manager.patch"
 	"${FILESDIR}/inox-66/0004-disable-google-url-tracker.patch"
