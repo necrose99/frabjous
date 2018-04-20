@@ -10,7 +10,7 @@ inherit distutils-r1
 
 DESCRIPTION="A self-contained (and independent) cryptographic library for Python"
 HOMEPAGE="https://www.pycryptodome.org https://github.com/Legrandin/pycryptodome"
-SRC_URI="https://pypi.org/packages/source/p/${PN}/${P}.tar.gz -> ${P}.tar.gz"
+SRC_URI="mirror://pypi/p/${PN}/${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="BSD-2 Unlicense"
