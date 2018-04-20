@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -45,7 +45,6 @@ src_configure() {
 		-DCMAKE_INSTALL_SYSCONFDIR="${EPREFIX}"/etc/h2o
 		-DDISABLE_LIBUV="$(usex !libuv)"
 		-DWITHOUT_LIBS="$(usex !libh2o)"
-		-DWITH_BUNDLED_SSL=OFF
 		-DWITH_MRUBY="$(usex mruby)"
 	)
 	cmake-utils_src_configure
