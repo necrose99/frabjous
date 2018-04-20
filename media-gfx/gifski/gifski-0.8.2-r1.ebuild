@@ -3,7 +3,7 @@
 
 EAPI=6
 
-# Generate with
+# Partially generated with
 # curl -s https://raw.githubusercontent.com/ImageOptim/gifski/0.8.2/Cargo.lock | sed 's/^"checksum \([[:graph:]]\+\) \([[:graph:]]\+\) (.*$/\1-\2/'
 CRATES="
 aho-corasick-0.6.4
@@ -93,24 +93,24 @@ DESCRIPTION="GIF encoder based on libimagequant"
 HOMEPAGE="https://gif.ski"
 SRC_URI="https://github.com/ImageOptim/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	$(cargo_crate_uris ${CRATES})"
+RESTRICT="mirror"
 
 LICENSE="AGPL-3+"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
+IUSE="openmp"
 
-DEPEND="media-gfx/libimagequant[openmp]
-	sys-devel/llvm:5
-	virtual/ffmpeg
+RDEPEND="media-gfx/libimagequant[openmp?]
+	virtual/ffmpeg"
+DEPEND="${RDEPEND}
+	sys-devel/clang:5
 	>=virtual/rust-1.23.0"
-RDEPEND="${DEPEND}"
-RESTRICT="mirror"
 
 PATCHES=( "${FILESDIR}"/${P}-openmp.patch )
 
 pkg_setup() {
 	# Unfortunately 'network-sandbox' needs to be
-	# disabled because Cargo fetch a few dependencies.
+	# disabled because Cargo fetches a few dependencies.
 	has network-sandbox $FEATURES && \
 		die "media-gfx/gifski requires 'network-sandbox' to be disabled in FEATURES"
 }
@@ -118,11 +118,7 @@ pkg_setup() {
 src_compile() {
 	export CARGO_HOME="${ECARGO_HOME}"
 
-	LIBCLANG_PATH=/usr/lib/llvm/5/$(get_libdir) \
+	LIBCLANG_PATH="/usr/lib/llvm/5/$(get_libdir)" \
 		cargo build -v $(usex debug '' --release) \
-		--features=video,openmp || die
-}
-
-src_install() {
-	dobin target/release/gifski
+		--features "video $(usex openmp 'openmp' '')" || die
 }
