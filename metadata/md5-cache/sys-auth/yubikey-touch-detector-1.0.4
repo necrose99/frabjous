@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=>=dev-lang/go-1.9
+DESCRIPTION=A tool that can detect when your YubiKey is waiting for a touch
+EAPI=6
+HOMEPAGE=https://github.com/maximbaz/yubikey-touch-detector
+KEYWORDS=~amd64 ~x86
+LICENSE=MIT
+RDEPEND=sys-auth/pam_u2f[touch-notifications]
+RESTRICT=mirror strip
+SLOT=0
+SRC_URI=https://github.com/maximbaz/yubikey-touch-detector/releases/download/1.0.4/yubikey-touch-detector-src.tar.gz -> yubikey-touch-detector-1.0.4.tar.gz
+_eclasses_=golang-base	928887539e385bb489681b292f6b862f	golang-vcs-snapshot	913580335becddd3ebecefe852e47536
+_md5_=d5b8d81d15be0fb4cdf63e950fa9f095

@@ -1,0 +1,12 @@
+DEFINED_PHASES=compile install unpack
+DEPEND=>=dev-lang/go-1.9
+DESCRIPTION=Connects to The Matrix and displays it's data streams in your terminal
+EAPI=6
+HOMEPAGE=https://github.com/GeertJohan/gomatrix
+KEYWORDS=~amd64 ~x86
+LICENSE=BSD-2
+RESTRICT=mirror strip
+SLOT=0
+SRC_URI=https://github.com/GeertJohan/gomatrix/archive/fec9e8c9052e9a330a8dc92e7c873f95415b94ae.tar.gz -> gomatrix-0_pre20160926.tar.gz https://github.com/davecgh/go-spew/archive/adab964.tar.gz -> github.com-davecgh-go-spew-adab964.tar.gz https://github.com/gdamore/tcell/archive/01ac1e4.tar.gz -> github.com-gdamore-tcell-01ac1e4.tar.gz https://github.com/jessevdk/go-flags/archive/6cf8f02.tar.gz -> github.com-jessevdk-go-flags-6cf8f02.tar.gz https://github.com/gdamore/encoding/archive/b23993c.tar.gz -> github.com-gdamore-encoding-b23993c.tar.gz https://github.com/lucasb-eyer/go-colorful/archive/d1be5f1.tar.gz -> github.com-lucasb-eyer-go-colorful-d1be5f1.tar.gz https://github.com/mattn/go-runewidth/archive/97311d9.tar.gz -> github.com-mattn-go-runewidth-97311d9.tar.gz https://github.com/golang/text/archive/3bd178b.tar.gz -> github.com-golang-text-3bd178b.tar.gz
+_eclasses_=golang-base	928887539e385bb489681b292f6b862f	golang-vcs-snapshot	913580335becddd3ebecefe852e47536
+_md5_=cdb91a167da16161245828e5d9205b4a
