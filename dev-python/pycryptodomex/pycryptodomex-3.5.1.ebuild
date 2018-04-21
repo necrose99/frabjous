@@ -21,7 +21,6 @@ DEPEND="${PYTHON_DEPS}"
 RDEPEND="${DEPEND}
 	dev-libs/gmp:0
 	virtual/python-cffi[${PYTHON_USEDEP}]
-	!dev-python/pycrypto
 	!dev-python/pycryptodome"
 
 python_test() {
