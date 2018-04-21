@@ -2,6 +2,7 @@ port: 8080
 baseURL: /admin
 noAuth: false
 address: 127.0.0.1
+alternativeReCaptcha: false
 reCaptchaKey: ''
 reCaptchaSecret: ''
 database: "/var/lib/filebrowser/filebrowser.db"
