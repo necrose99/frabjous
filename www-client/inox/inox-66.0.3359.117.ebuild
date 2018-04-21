@@ -12,7 +12,8 @@ inherit check-reqs chromium-2 eutils gnome2-utils flag-o-matic multilib ninja-ut
 
 DESCRIPTION="Chromium spin-off to enhance privacy by disabling data transmission to Google"
 HOMEPAGE="http://chromium.org/"
-SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz"
+SRC_URI="https://commondatastorage.googleapis.com/chromium-browser-official/chromium-${PV}.tar.xz
+	https://dev.gentoo.org/~floppym/dist/chromium-${PV}-blink.tar.xz"
 
 LICENSE="BSD"
 SLOT="0"
@@ -155,7 +156,6 @@ PATCHES=(
 	"${FILESDIR}/chromium-clang-r4.patch"
 	"${FILESDIR}/chromium-ffmpeg-r1.patch"
 	"${FILESDIR}/chromium-ffmpeg-clang.patch"
-	"${FILESDIR}/chromium-add-missing-blink-tools.patch"
 
 	"${FILESDIR}/inox-66/0001-fix-building-without-safebrowsing-part1.patch"
 	"${FILESDIR}/inox-66/0001-fix-building-without-safebrowsing-part2.patch"
