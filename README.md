@@ -163,7 +163,7 @@ sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
 www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
 www-apps/**[cryptpad](www-apps/cryptpad)** | The zero knowledge realtime collaborative editor
-www-apps/**[filemanager](www-apps/filemanager)** | A stylish web file manager
+www-apps/**[filebrowser](www-apps/filebrowser)** | A stylish web file manager
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
 www-apps/**[gogs](www-apps/gogs)** | A painless self-hosted Git service
 www-apps/**[gotty](www-apps/gotty)** | A simple command line tool that turns your CLI tools into web applications
