@@ -155,7 +155,6 @@ net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service 
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[fd](sys-apps/fd)** | A simple, fast and user-friendly alternative to 'find'
-sys-apps/**[nnn](sys-apps/nnn)** | The missing terminal file browser for X
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
 sys-auth/**[pam_u2f](sys-auth/pam_u2f)** | Library for authenticating against PAM with a Yubikey
 sys-auth/**[yubikey-touch-detector](sys-auth/yubikey-touch-detector)** | A tool that can detect when your YubiKey is waiting for a touch
