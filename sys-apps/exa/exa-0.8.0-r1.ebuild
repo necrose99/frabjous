@@ -80,8 +80,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bash-completion fish-completion zsh-completion"
 
-DEPEND="dev-libs/libgit2
-	net-libs/http-parser:="
+DEPEND="net-libs/http-parser:="
 RDEPEND="${DEPEND}
 	fish-completion? ( app-shells/fish )
 	zsh-completion? ( app-shells/zsh )"
