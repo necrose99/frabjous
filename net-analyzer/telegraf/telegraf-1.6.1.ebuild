@@ -78,7 +78,7 @@ EGO_VENDOR=(
 	"github.com/rcrowley/go-metrics 1f30fe9"
 	"github.com/samuel/go-zookeeper 1d7be4e"
 	"github.com/satori/go.uuid 5bf94b6"
-	"github.com/shirou/gopsutil fc04d2d"
+	"github.com/shirou/gopsutil a5c2888"
 	"github.com/Shopify/sarama 3b1b388"
 	"github.com/Sirupsen/logrus 61e43dc"
 	"github.com/soniah/gosnmp f15472a"
@@ -107,7 +107,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/-}"
-GIT_COMMIT="9253f6f"
+GIT_COMMIT="bf0ab27"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="An agent for collecting, processing, aggregating, and writing metrics"
 HOMEPAGE="https://influxdata.com"
