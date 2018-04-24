@@ -51,8 +51,8 @@ pkg_setup() {
 	enewuser unbound -1 -1 /etc/unbound unbound
 	# improve security on existing installs (bug #641042)
 	# as well as new installs where unbound homedir has just been created
-	if [[ -d "${ROOT}/etc/unbound" ]]; then
-		chown --no-dereference --from=unbound root "${ROOT}/etc/unbound" || die
+	if [[ -d "${ROOT%/}/etc/unbound" ]]; then
+		chown --no-dereference --from=unbound root "${ROOT%/}/etc/unbound" || die
 	fi
 
 	use python && python-single-r1_pkg_setup
@@ -112,13 +112,13 @@ src_install() {
 	keepdir /etc/unbound/var
 	# ... and point example config to it
 	sed -i '/# auto-trust-anchor-file:/s,/etc/dnssec/root-anchors.txt,/etc/unbound/var/root-anchors.txt,' \
-		"${ED}/etc/unbound/unbound.conf" || die
+		"${ED%/}/etc/unbound/unbound.conf" || die
 }
 
 pkg_postinst() {
 	# make var/ writable by unbound
-	if [[ -d "${ROOT}/etc/unbound/var" ]]; then
-		chown --no-dereference --from=root unbound: "${ROOT}/etc/unbound/var" || die
+	if [[ -d "${ROOT%/}/etc/unbound/var" ]]; then
+		chown --no-dereference --from=root unbound: "${ROOT%/}/etc/unbound/var" || die
 	fi
 	einfo ""
 	einfo "If you want unbound to automatically update the root-anchor file for DNSSEC validation"
