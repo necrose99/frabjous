@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -26,5 +26,5 @@ src_install() {
 	while read -r -d '' path; do
 		[[ $(head -n1 "${path}") == \#\!* ]] || continue
 		chmod +x "${path}" || die #614094
-	done < <(find "${ED}" -type f -print0)
+	done < <(find "${ED%/}" -type f -print0)
 }

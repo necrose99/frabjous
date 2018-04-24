@@ -26,5 +26,5 @@ src_install() {
 	while read -r -d '' path; do
 		[[ $(head -n1 "${path}") == \#\!* ]] || continue
 		chmod +x "${path}" || die #614094
-	done < <(find "${ED}" -type f -print0)
+	done < <(find "${ED%/}" -type f -print0)
 }
