@@ -115,8 +115,8 @@ src_compile() {
 }
 
 src_install() {
-	local LIBDIR="${ED}/usr/$(get_libdir)"
-	emake install DESTDIR="${ED}" PREFIX=/usr
+	local LIBDIR="${ED%/}/usr/$(get_libdir)"
+	emake install DESTDIR="${ED%/}" PREFIX=/usr
 	if use npm; then
 		dodoc -r "${LIBDIR}"/node_modules/npm/html
 		rm -rf "${LIBDIR}"/node_modules/npm/{doc,html} || die
@@ -130,7 +130,7 @@ src_install() {
 		dosym ../.. /usr/include/node/${var}
 	done
 
-	pax-mark -m "${ED}"/usr/bin/node
+	pax-mark -m "${ED%/}"/usr/bin/node
 }
 
 src_test() {
