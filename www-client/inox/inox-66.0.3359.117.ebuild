@@ -705,7 +705,7 @@ src_install() {
 		inox-browser \
 		"Network;WebBrowser" \
 		"MimeType=${mime_types}\nStartupWMClass=inox-browser"
-	sed -e "/^Exec/s/$/ %U/" -i "${ED}"/usr/share/applications/*.desktop || die
+	sed -e "/^Exec/s/$/ %U/" -i "${ED%/}"/usr/share/applications/*.desktop || die
 
 	# Install GNOME default application entry (bug #303100).
 	insinto /usr/share/gnome-control-center/default-apps
