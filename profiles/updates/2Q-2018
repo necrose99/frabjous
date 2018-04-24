@@ -1,1 +1,2 @@
 move www-apps/filemanager www-apps/filebrowser
+move www-apps/chronograf net-analyzer/chronograf
