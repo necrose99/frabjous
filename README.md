@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 294](https://img.shields.io/badge/ebuilds-294-orange.svg?style=flat-square)
+![ebuilds 288](https://img.shields.io/badge/ebuilds-288-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -81,6 +81,7 @@ app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternativ
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
 app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
+app-misc/**[watchman](app-misc/watchman)** | An inotify-based file watching and job triggering command line utility
 app-shells/**[antibody](app-shells/antibody)** | The fastest shell plugin manager
 app-shells/**[fzf](app-shells/fzf)** | A general-purpose command-line fuzzy finder
 app-shells/**[peco](app-shells/peco)** | Simplistic interactive filtering tool
@@ -107,6 +108,7 @@ media-tv/**[tv-renamer](media-tv/tv-renamer)** | A TV series renaming applicatio
 media-video/**[curlew](media-video/curlew)** | Easy to use and Free Multimedia Converter for Linux
 media-video/**[gnome-mpv](media-video/gnome-mpv)** | A simple GTK+ frontend for mpv
 media-video/**[peek](media-video/peek)** | Simple animated GIF screen recorder with an easy to use interface
+net-analyzer/**[chronograf](net-analyzer/chronograf)** | Open source monitoring and visualization UI for the TICK stack
 net-analyzer/**[goaccess](net-analyzer/goaccess)** | A real-time web log analyzer and interactive viewer that runs in a terminal
 net-analyzer/**[kapacitor](net-analyzer/kapacitor)** | A framework for processing, monitoring, and alerting on time series data
 net-analyzer/**[prometheus](net-analyzer/prometheus)** | The Prometheus monitoring system and time series database
@@ -147,6 +149,7 @@ net-p2p/**[monero-gui](net-p2p/monero-gui)** | The secure, private and untraceab
 net-p2p/**[zcash](net-p2p/zcash)** | Cryptocurrency that offers privacy of transactions
 net-proxy/**[ergo](net-proxy/ergo)** | The reverse proxy agent for local domain management
 net-proxy/**[fabio](net-proxy/fabio)** | A load balancing and TCP router for deploying applications managed by consul
+net-proxy/**[shadowsocks2](net-proxy/shadowsocks2)** | A fresh implementation of Shadowsocks in Go
 net-proxy/**[shadowsocks-go](net-proxy/shadowsocks-go)** | A Go port of Shadowsocks
 net-proxy/**[shadowsocks-rust](net-proxy/shadowsocks-rust)** | A Rust port of Shadowsocks
 net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network and system conditions
@@ -161,7 +164,6 @@ sys-auth/**[yubikey-touch-detector](sys-auth/yubikey-touch-detector)** | A tool 
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
 sys-fs/**[tmsu](sys-fs/tmsu)** | Files tagger and virtual tag-based filesystem
 sys-process/**[gkill](sys-process/gkill)** | An interactive process killer
-www-apps/**[chronograf](www-apps/chronograf)** | Open source monitoring and visualization UI for the TICK stack
 www-apps/**[cryptpad](www-apps/cryptpad)** | The zero knowledge realtime collaborative editor
 www-apps/**[filebrowser](www-apps/filebrowser)** | A stylish web file manager
 www-apps/**[gitea](www-apps/gitea)** | Gitea - Git with a cup of tea
