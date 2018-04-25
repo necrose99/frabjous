@@ -6,7 +6,6 @@ EAPI=6
 CRATES="
 aho-corasick-0.6.4
 ansi_term-0.10.2
-app_dirs-1.2.1
 arrayvec-0.4.7
 aster-0.41.0
 atty-0.2.2
@@ -237,7 +236,7 @@ vecio-0.1.0
 vergen-0.1.1
 version_check-0.1.3
 void-1.0.2
-wasmi-0.1.1
+wasmi-0.1.3
 webpki-0.17.0
 webpki-roots-0.13.0
 winapi-0.2.8
@@ -271,7 +270,7 @@ DOCS=( {CHANGELOG,README,SECURITY}.md )
 
 pkg_setup() {
 	# Unfortunately 'network-sandbox' needs to
-	# disabled because Cargo fetch a few dependencies.
+	# disabled because Cargo fetches a few dependencies.
 	has network-sandbox $FEATURES && \
 		die "net-p2p/parity requires 'network-sandbox' to be disabled in FEATURES"
 
@@ -297,7 +296,7 @@ src_compile() {
 }
 
 src_install() {
-	dobin target/release/{ethkey,ethstore,parity,parity-evm}
+	dobin target/release/{ethkey,ethstore,parity{,-evm}}
 	einstalldocs
 
 	if use daemon; then
