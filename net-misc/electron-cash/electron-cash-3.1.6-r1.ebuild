@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python3_{4,5,6} )
+PYTHON_COMPAT=( python3_{5,6} )
 PYTHON_REQ_USE="ncurses?"
 
 inherit distutils-r1 gnome2-utils xdg-utils
@@ -61,14 +61,12 @@ src_prepare() {
 	# Prevent icon from being installed in the wrong location
 	sed -i '/icons/d' setup.py || die
 
-	if use qt5; then
-		pyrcc5 icons.qrc -o gui/qt/icons_rc.py || die
-	else
+	if use !qt5; then
 		sed "s|'electroncash_gui.qt',||" -i setup.py || die
 	fi
 
 	local wordlist=
-	for wordlist in  \
+	for wordlist in \
 		$(usex l10n_ja '' japanese) \
 		$(usex l10n_pt '' portuguese) \
 		$(usex l10n_es '' spanish) \
@@ -80,18 +78,18 @@ src_prepare() {
 
 	# Remove unrequested GUI implementations:
 	local gui setup_py_gui
-	for gui in  \
-		$(usex cli      '' stdio)  \
+	for gui in \
+		$(usex cli '' stdio) \
 		kivy \
-		$(usex qt5      '' qt   )  \
-		$(usex ncurses  '' text )  \
+		$(usex qt5 '' qt) \
+		$(usex ncurses '' text) \
 	; do
 		rm gui/"${gui}"* -r || die
 	done
 
 	# And install requested ones...
-	for gui in  \
-		$(usex qt5      qt   '')  \
+	for gui in \
+		$(usex qt5 qt '') \
 	; do
 		setup_py_gui="${setup_py_gui}'electrum_gui.${gui}',"
 	done
@@ -111,23 +109,34 @@ src_prepare() {
 	local plugin
 	# trezor requires python trezorlib module
 	# keepkey requires trezor
-	for plugin in  \
-		$(usex audio_modem     '' audio_modem          ) \
-		$(usex cosign          '' cosigner_pool        ) \
-		$(usex digitalbitbox   '' digitalbitbox        ) \
-		$(usex email           '' email_requests       ) \
+	for plugin in \
+		$(usex audio_modem '' audio_modem) \
+		$(usex cosign '' cosigner_pool) \
+		$(usex digitalbitbox '' digitalbitbox) \
+		$(usex email '' email_requests) \
 		hw_wallet \
 		ledger \
 		keepkey \
-		$(usex sync            '' labels               ) \
-		trezor  \
-		$(usex vkb             '' virtualkeyboard      ) \
+		$(usex sync '' labels) \
+		trezor \
+		$(usex vkb '' virtualkeyboard) \
 	; do
 		rm -r plugins/"${plugin}"* || die
 		sed -i "/${plugin}/d" setup.py || die
 	done
 
 	distutils-r1_src_prepare
+}
+
+src_compile() {
+	if use qt5; then
+		pyrcc5 icons.qrc -o gui/qt/icons_rc.py || die
+	fi
+
+	# Compile the protobuf description file:
+	protoc --proto_path=lib/ --python_out=lib/ lib/paymentrequest.proto || die
+
+	distutils-r1_src_compile
 }
 
 src_install() {
