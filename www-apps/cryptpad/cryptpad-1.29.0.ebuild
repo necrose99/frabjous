@@ -10,7 +10,7 @@ HOMEPAGE="https://cryptpad.fr"
 SRC_URI="https://github.com/xwiki-labs/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 RESTRICT="mirror"
 
-LICENSE="AGPL-3"
+LICENSE="AGPL-3+"
 SLOT="0"
 KEYWORDS="~amd64"
 
