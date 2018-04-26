@@ -5,7 +5,7 @@ EAPI=6
 
 inherit fcaps golang-vcs-snapshot systemd user
 
-GIT_COMMIT="5dd7f25"
+GIT_COMMIT="756fdc4"
 EGO_PN="github.com/hashicorp/${PN}"
 DESCRIPTION="A tool for managing secrets"
 HOMEPAGE="https://vaultproject.io"
@@ -17,7 +17,6 @@ SLOT="0"
 KEYWORDS="~amd64"
 
 DOCS=( {CHANGELOG,README}.md )
-
 FILECAPS=( -m 755 'cap_ipc_lock=+ep' usr/bin/vault )
 
 G="${WORKDIR}/${P}"
@@ -30,9 +29,9 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w \
-		-X ${EGO_PN}/version.GitCommit=${GIT_COMMIT} \
-		-X ${EGO_PN}/version.Version=${PV} \
+	local GOLDFLAGS="-s -w
+		-X ${EGO_PN}/version.GitCommit=${GIT_COMMIT}
+		-X ${EGO_PN}/version.Version=${PV}
 		-X ${EGO_PN}/version.VersionPrerelease="
 
 	go install -v -ldflags "${GOLDFLAGS}" || die
@@ -52,5 +51,5 @@ src_install() {
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 
 	diropts -o vault -g vault -m 0750
-	dodir /var/log/vault
+	keepdir /var/log/vault
 }
