@@ -173,7 +173,6 @@ www-apps/**[grafana](www-apps/grafana)** | Grafana is an open source metric anal
 www-apps/**[hiawatha-monitor](www-apps/hiawatha-monitor)** | Monitoring application for www-servers/hiawatha
 www-apps/**[hugo](www-apps/hugo)** | A static HTML and CSS website generator written in Go
 www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack-alternative in Golang and React
-www-apps/**[spreed-webrtc](www-apps/spreed-webrtc)** | A WebRTC audio/video call and conferencing server and web client
 www-apps/**[wekan](www-apps/wekan)** | The open-source Trello-like kanban
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
 www-plugins/**[browserpass](www-plugins/browserpass)** | WebExtension host binary for app-admin/pass, a UNIX password manager
