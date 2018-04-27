@@ -13,7 +13,7 @@ RESTRICT="mirror"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="dnstap go pie test"
+IUSE="dnstap go +pie test"
 
 RDEPEND=">=net-dns/knot-2.6.4
 	>=dev-libs/libuv-1.7.0
@@ -32,11 +32,6 @@ DEPEND="${RDEPEND}
 		dev-util/cmocka
 		dnstap? ( >=dev-lang/go-1.5.0 )
 	)"
-
-pkg_setup() {
-	enewgroup kresd
-	enewuser kresd -1 -1 /var/lib/knot-resolver kresd
-}
 
 src_compile() {
 	append-cflags -DNDEBUG
@@ -59,32 +54,24 @@ src_test() {
 src_install() {
 	emake \
 		PREFIX=/usr \
-		ETCDIR=/etc/kresd \
+		ETCDIR=/etc/knot-resolver \
 		LIBDIR="$(get_libdir)" \
 		DESTDIR="${D}" install
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 
-	insinto /var/lib/knot-resolver
-	doins "${FILESDIR}"/root.keys
-	fowners kresd:kresd /var/lib/knot-resolver/root.keys
-
 	insinto /etc/knot-resolver
 	newins "${FILESDIR}"/${PN}.config config
+	doins "${FILESDIR}"/root.hints
+
+	keepdir /var/{cache,lib}/knot-resolver
 
 	insinto /etc/logrotate.d
 	newins "${FILESDIR}"/${PN}.logrotate ${PN}
 }
 
-pkg_postinst() {
-	if [ -z "${REPLACING_VERSIONS}" ]; then
-		einfo
-		elog "If you prefer not to use the bundled root.keys, just delete"
-		elog "'${EROOT%/}/var/lib/knot-resolver/root.keys', then start ${PN}."
-		elog "The bootstrapping of the keys is automated, and kresd fetches"
-		elog "root trust anchors set over a secure channel from IANA."
-		elog "From there, it can perform automatic updates for you."
-		einfo
-	fi
+pkg_preinst() {
+	enewgroup kresd
+	enewuser kresd -1 -1 /var/lib/knot-resolver kresd
 }
