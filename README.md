@@ -190,7 +190,7 @@ x11-misc/**[noti](x11-misc/noti)** | Trigger notifications when a process comple
 
 ## Donations are welcome!
 If you are into cryptocurrencies and appreciates the work done here, please consider to buy me a cup of _coffee_.
-* Bitcoin _Cash_: `18RsspfceUbXEqgzx29DuZYafZVDgM4F4g`
+* Bitcoin _Cash_: `qpgh64feure4a42073wxz3v867t45ht3csxlsx693d`
 * Dash: `Xg8AVx7YLSpTagR5DSzHk9Na1oDMUwb2hk`
 * Ether: `0x002e7A11013BF05D418FD3FbdA4f3381E82e5A23`
 * Zcash: `zcX1qbN2YJKARPmFcrU3HgpQfYbWe9yy4YsogDA4gpwJ6NGk2bXZ6nyNDo3HLBkAKizRPkASSEduGeVtzj3VfixFey9y1Yx`
