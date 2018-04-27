@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
-USE_RUBY="ruby22 ruby23 ruby24"
+USE_RUBY="ruby23 ruby24"
 
 inherit cmake-utils ruby-single systemd user
 
@@ -72,5 +72,5 @@ src_install() {
 	newins "${FILESDIR}"/h2o.logrotate-r2 h2o
 
 	diropts -o h2o -g h2o -m 0700
-	dodir /var/log/h2o
+	keepdir /var/log/h2o
 }
