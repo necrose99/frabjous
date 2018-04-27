@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="a07f525"
+GIT_COMMIT="844bdc5"
 EGO_PN="github.com/${PN}/${PN}"
 DESCRIPTION="Grafana is an open source metric analytics & visualization suite"
 HOMEPAGE="https://grafana.com"
