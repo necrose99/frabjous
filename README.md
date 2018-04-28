@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 282](https://img.shields.io/badge/ebuilds-282-orange.svg?style=flat-square)
+![ebuilds 274](https://img.shields.io/badge/ebuilds-274-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -99,6 +99,7 @@ dev-python/**[proboscis](dev-python/proboscis)** | Extends Nose with certain Tes
 dev-python/**[pycryptodomex](dev-python/pycryptodomex)** | A self-contained (and independent) cryptographic library for Python
 dev-python/**[validictory](dev-python/validictory)** | General purpose python data validator
 dev-util/**[electron-bin](dev-util/electron-bin)** | Cross platform application development framework based on web technologies
+dev-vcs/**[fossil](dev-vcs/fossil)** | Simple, high-reliability, source control management, and more
 dev-vcs/**[gitkraken-bin](dev-vcs/gitkraken-bin)** | The intuitive, fast, and beautiful cross-platform Git client
 dev-vcs/**[hub](dev-vcs/hub)** | A command-line wrapper for git that makes you better at GitHub
 gnome-extra/**[gnome-pomodoro](gnome-extra/gnome-pomodoro)** | A Pomodoro timer for Gnome
