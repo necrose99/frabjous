@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
@@ -16,9 +16,4 @@
 		Hugo takes a directory with content and templates and
 		renders them into a full HTML website.
 	</longdescription>
-	<use>
-		<flag name="pygments">
-			Enables syntax highlighting via <pkg>dev-python/pygments</pkg>
-		</flag>
-	</use>
 </pkgmetadata>
