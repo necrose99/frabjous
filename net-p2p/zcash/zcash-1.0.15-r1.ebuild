@@ -57,11 +57,14 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 		${RUSTZCASH_URI} -> ${RUSTZCASH_PKG}
 		$(cargo_crate_uris ${CRATES})
 	)"
+RESTRICT="mirror"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="bundled-ssl examples +hardened libressl libs mining proton reduce-exports rust zeromq"
+
+REQUIRED_USE="bundled-ssl? ( !libressl )"
 
 RDEPEND="dev-libs/boost:0=[threads(+)]
 	>=dev-libs/gmp-6.1.0
@@ -71,13 +74,10 @@ RDEPEND="dev-libs/boost:0=[threads(+)]
 		!libressl? ( dev-libs/openssl:0=[-bindist] )
 		libressl? ( dev-libs/libressl:0= )
 	)
-	rust? ( >=dev-util/cargo-0.16.0 )
 	zeromq? ( >=net-libs/zeromq-4.2.1 )"
 DEPEND="${RDEPEND}
-	dev-cpp/gmock"
-
-REQUIRED_USE="bundled-ssl? ( !libressl )"
-RESTRICT="mirror"
+	>=dev-cpp/gtest-1.8.0
+	rust? ( >=dev-util/cargo-0.16.0 )"
 
 PATCHES=( "${FILESDIR}"/${P}-no_gtest.patch )
 DOCS=( doc/{payment-api,security-warnings,tor}.md )
@@ -182,19 +182,20 @@ src_configure() {
 	append-cppflags "-I${S}/depends/${BUILD}/include"
 	append-ldflags "-L${S}/depends/${BUILD}/lib"
 
-	econf \
-		depends_prefix="${S}/depends/${BUILD}" \
-		--prefix="${EPREFIX}"/usr \
-		--disable-ccache \
-		--disable-tests \
-		$(use_enable hardened hardening) \
-		$(use_enable mining) \
-		$(use_enable proton) \
-		$(use_enable reduce-exports) \
-		$(use_enable rust) \
-		$(use_enable zeromq zmq) \
-		$(use_with libs) \
-		|| die "econf failed"
+	local myeconf=(
+		depends_prefix="${S}/depends/${BUILD}"
+		--prefix="${EPREFIX}"/usr
+		--disable-ccache
+		--disable-tests
+		$(use_enable hardened hardening)
+		$(use_enable mining)
+		$(use_enable proton)
+		$(use_enable reduce-exports)
+		$(use_enable rust)
+		$(use_enable zeromq zmq)
+		$(use_with libs)
+	)
+	econf ${myeconf[@]}
 }
 
 src_install() {
