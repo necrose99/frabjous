@@ -36,7 +36,7 @@ src_prepare() {
 
 	sed -i \
 		-e "s:'knot-resolver':'kresd':g" \
-		-e "s:root.keys:/var/lib/knot-resolver/root.keys:g" \
+		-e "s:root.keys:${EPREFIX}/var/lib/knot-resolver/root.keys:g" \
 		etc/config.{cluster,isp,personal,splitview} || die
 
 	sed -i "s:-- net:net:" etc/config.personal || die
