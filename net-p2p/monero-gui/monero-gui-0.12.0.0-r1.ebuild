@@ -6,7 +6,7 @@ EAPI=6
 inherit cmake-utils gnome2-utils qmake-utils systemd user
 
 MO_GUI_COMMIT="755977d"
-MO_PV="c29890c2c03f7f24aa4970b3ebbfe2dbb95b24eb" # branch: release-v0.12.0.0
+MO_PV="c29890c2c03f7f24aa4970b3ebbfe2dbb95b24eb" # tag v0.12.0.0
 MO_URI="https://github.com/monero-project/monero/archive/${MO_PV}.tar.gz"
 MO_P="monero-${MO_PV}"
 
@@ -14,11 +14,14 @@ DESCRIPTION="The secure, private and untraceable cryptocurrency (with GUI wallet
 HOMEPAGE="https://getmonero.org"
 SRC_URI="https://github.com/monero-project/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${MO_URI} -> ${MO_P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+daemon doc dot +gui libressl +readline scanner simplewallet stacktrace utils"
+IUSE="+daemon doc dot +gui libressl scanner simplewallet stacktrace utils"
+
+REQUIRED_USE="dot? ( doc ) scanner? ( gui )"
 
 CDEPEND="app-arch/xz-utils
 	dev-libs/boost:0=[threads(+)]
@@ -41,7 +44,6 @@ CDEPEND="app-arch/xz-utils
 	)
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
-	readline? ( sys-libs/readline:0= )
 	stacktrace? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )
@@ -50,9 +52,6 @@ RDEPEND="${CDEPEND}
 	daemon? ( !net-p2p/monero[daemon] )
 	simplewallet? ( !net-p2p/monero[simplewallet] )
 	utils? ( !net-p2p/monero[utils] )"
-
-REQUIRED_USE="dot? ( doc ) scanner? ( gui )"
-RESTRICT="mirror"
 
 CMAKE_BUILD_TYPE=Release
 CMAKE_USE_DIR="${S}/monero"
@@ -96,7 +95,6 @@ src_configure() {
 		-DBUILD_DOCUMENTATION="$(usex doc)"
 		-DBUILD_GUI_DEPS=ON
 		-DSTACK_TRACE="$(usex stacktrace)"
-		-DUSE_READLINE="$(usex readline)"
 	)
 	cmake-utils_src_configure
 }
@@ -152,7 +150,6 @@ src_install() {
 
 	if use daemon; then
 		dobin "${BUILD_DIR}"/bin/monerod
-		scanelf -Xe "${ED%/}"/usr/bin/monerod || die
 
 		newinitd "${FILESDIR}"/${PN}.initd monero
 		systemd_newunit "${FILESDIR}"/${PN}.service monero.service
@@ -162,7 +159,7 @@ src_install() {
 			monerod.conf.example
 
 		diropts -o monero -g monero -m 0750
-		dodir /var/log/monero
+		keepdir /var/log/monero
 	fi
 
 	use simplewallet && \
@@ -171,8 +168,6 @@ src_install() {
 	if use utils; then
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-export
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-import
-		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-export || die
-		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-import || die
 	fi
 
 	if use doc; then
