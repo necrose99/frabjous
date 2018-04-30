@@ -8,11 +8,14 @@ inherit cmake-utils systemd user
 DESCRIPTION="The secure, private and untraceable cryptocurrency"
 HOMEPAGE="https://getmonero.org"
 SRC_URI="https://github.com/monero-project/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+daemon doc dot libressl readline +simplewallet stacktrace utils"
+IUSE="+daemon doc dot libressl +simplewallet stacktrace utils"
+
+REQUIRED_USE="dot? ( doc )"
 
 CDEPEND="app-arch/xz-utils
 	dev-libs/boost:0=[threads(+)]
@@ -24,7 +27,6 @@ CDEPEND="app-arch/xz-utils
 	net-libs/miniupnpc
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
-	readline? ( sys-libs/readline:0= )
 	stacktrace? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )"
@@ -32,11 +34,6 @@ RDEPEND="${CDEPEND}
 	daemon? ( !net-p2p/monero-gui[daemon] )
 	simplewallet? ( !net-p2p/monero-gui[simplewallet] )
 	utils? ( !net-p2p/monero-gui[utils] )"
-
-REQUIRED_USE="dot? ( doc )"
-RESTRICT="mirror"
-
-CMAKE_BUILD_TYPE=Release
 
 pkg_setup() {
 	if use daemon; then
@@ -46,10 +43,10 @@ pkg_setup() {
 }
 
 src_configure() {
+	CMAKE_BUILD_TYPE=Release
 	local mycmakeargs=(
 		-DBUILD_DOCUMENTATION="$(usex doc)"
 		-DSTACK_TRACE="$(usex stacktrace)"
-		-DUSE_READLINE="$(usex readline)"
 	)
 	cmake-utils_src_configure
 }
@@ -76,7 +73,6 @@ src_compile() {
 src_install() {
 	if use daemon; then
 		dobin "${BUILD_DIR}"/bin/monerod
-		scanelf -Xe "${ED%/}"/usr/bin/monerod || die
 
 		newinitd "${FILESDIR}"/${PN}.initd ${PN}
 		systemd_dounit "${FILESDIR}"/${PN}.service
@@ -85,7 +81,7 @@ src_install() {
 		newins utils/conf/monerod.conf monerod.conf.example
 
 		diropts -o monero -g monero -m 0750
-		dodir /var/log/monero
+		keepdir /var/log/monero
 	fi
 
 	if use simplewallet; then
@@ -96,8 +92,6 @@ src_install() {
 	if use utils; then
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-export
 		dobin "${BUILD_DIR}"/bin/monero-blockchain-import
-		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-export || die
-		scanelf -Xe "${ED%/}"/usr/bin/monero-blockchain-import || die
 	fi
 
 	if use doc; then
