@@ -28,10 +28,21 @@ RDEPEND=">=net-dns/knot-2.6.4
 	go? ( >=dev-lang/go-1.5.0 )"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
-	test? (
-		dev-util/cmocka
-		dnstap? ( >=dev-lang/go-1.5.0 )
-	)"
+	test? ( dev-util/cmocka )"
+
+src_prepare() {
+	sed -i 's:^LIBDIR.*:LIBDIR ?= $(PREFIX)/'$(get_libdir)':' \
+		./config.mk || die
+
+	sed -i \
+		-e "s:'knot-resolver':'kresd':g" \
+		-e "s:root.keys:/var/lib/knot-resolver/root.keys:g" \
+		etc/config.{cluster,isp,personal,splitview} || die
+
+	sed -i "s:-- net:net:" etc/config.personal || die
+
+	default
+}
 
 src_compile() {
 	append-cflags -DNDEBUG
@@ -53,25 +64,25 @@ src_test() {
 
 src_install() {
 	emake \
-		PREFIX=/usr \
-		ETCDIR=/etc/knot-resolver \
-		LIBDIR="$(get_libdir)" \
+		PREFIX="${EPREFIX}"/usr \
+		ETCDIR="${EPREFIX}"/etc/knot-resolver \
 		DESTDIR="${D}" install
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
-	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-
-	insinto /etc/knot-resolver
-	newins "${FILESDIR}"/${PN}.config config
-	doins "${FILESDIR}"/root.hints
-
-	keepdir /var/{cache,lib}/knot-resolver
+	newinitd "${FILESDIR}"/${PN}.initd-r1 kresd
+	newconfd "${FILESDIR}"/${PN}.confd-r1 kresd
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/${PN}.logrotate ${PN}
+	newins "${FILESDIR}"/${PN}.logrotate-r1 ${PN}
 }
 
 pkg_preinst() {
 	enewgroup kresd
 	enewuser kresd -1 -1 /var/lib/knot-resolver kresd
+}
+
+pkg_postinst() {
+	if [ ! -e "${EROOT%/}"/etc/${PN}/config ]; then
+		elog "No config found, copying the example over"
+		cp "${EROOT%/}"/etc/${PN}/config{.personal,} || die
+	fi
 }

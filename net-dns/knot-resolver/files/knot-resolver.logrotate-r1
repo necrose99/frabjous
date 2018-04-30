@@ -2,6 +2,6 @@
 	notifempty
 	missingok
 	postrotate
-		/etc/init.d/knot-resolver --quiet --ifstarted restart
+		/etc/init.d/kresd --quiet --ifstarted restart
 	endscript
 }
