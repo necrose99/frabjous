@@ -1,22 +1,21 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="52290a5"
+GIT_COMMIT="92dcbf3"
 EGO_PN="github.com/justwatchcom/${PN/prometheus-}"
 DESCRIPTION="Elasticsearch stats exporter for Prometheus"
 HOMEPAGE="https://github.com/justwatchcom/elasticsearch_exporter"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror strip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="examples"
-
-RESTRICT="mirror strip"
 
 DOCS=( {CHANGELOG,README}.md )
 
@@ -61,5 +60,5 @@ src_install() {
 	fi
 
 	diropts -o elasticsearch_exporter -g elasticsearch_exporter -m 0750
-	dodir /var/log/elasticsearch_exporter
+	keepdir /var/log/elasticsearch_exporter
 }
