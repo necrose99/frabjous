@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -26,18 +26,17 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-EGO_PN="github.com/caarlos0/version_exporter"
+EGO_PN="github.com/caarlos0/${PN/prometheus-}"
 DESCRIPTION="Exports the expiration time of your domains as prometheus metrics"
 HOMEPAGE="https://github.com/caarlos0/version_exporter"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="test"
-
-RESTRICT="mirror strip"
 
 DOCS=( README.md )
 
@@ -51,7 +50,7 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w \
+	local GOLDFLAGS="-s -w
 		-X main.version=${PV}"
 
 	go build -v -ldflags \
@@ -81,5 +80,5 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	diropts -o version_exporter -g version_exporter -m 0750
-	dodir /var/log/version_exporter
+	keepdir /var/log/version_exporter
 }
