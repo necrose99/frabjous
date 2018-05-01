@@ -1,33 +1,32 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 EGO_VENDOR=(
-	"github.com/beorn7/perks 4c0e845"
-	"github.com/golang/protobuf 2402d76"
+	"github.com/beorn7/perks 3a771d9"
+	"github.com/golang/protobuf b4deda0"
 	"github.com/matttproud/golang_protobuf_extensions c12348c"
-	"github.com/prometheus/client_golang c5b7fcc"
-	"github.com/prometheus/client_model fa8ad6f"
-	"github.com/prometheus/common dd2f054"
-	"github.com/prometheus/procfs fcdb11c"
-	"github.com/Sirupsen/logrus d264929"
+	"github.com/prometheus/client_golang 82f5ff1"
+	"github.com/prometheus/client_model 99fa1f4"
+	"github.com/prometheus/common d811d2e"
+	"github.com/prometheus/procfs 8b1c2da"
+	"github.com/Sirupsen/logrus 778f2e7"
 )
 
 inherit golang-vcs-snapshot systemd user
 
 GIT_COMMIT="4f36729f553665a4268b5c265448977276a95096"
-EGO_PN="github.com/kumina/unbound_exporter"
+EGO_PN="github.com/kumina/${PN/prometheus-}"
 DESCRIPTION="A Prometheus exporter for Unbound"
 HOMEPAGE="https://github.com/kumina/unbound_exporter"
 SRC_URI="https://${EGO_PN}/archive/${GIT_COMMIT}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
+RESTRICT="mirror strip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-
-RESTRICT="mirror strip"
 
 DOCS=( README.md )
 
@@ -53,5 +52,5 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	diropts -m 0750 -o unbound_exporter -g unbound_exporter
-	dodir /var/log/unbound_exporter
+	keepdir /var/log/unbound_exporter
 }
