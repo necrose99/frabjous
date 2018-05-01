@@ -3,7 +3,7 @@
 
 EAPI=6
 
-EGO_VENDOR=( "github.com/jteeuwen/go-bindata a0ff256" )
+EGO_VENDOR=( "github.com/containous/go-bindata e237f24" )
 
 inherit golang-vcs-snapshot systemd user
 
@@ -32,13 +32,13 @@ pkg_setup() {
 src_compile() {
 	export GOPATH="${G}"
 	local PATH="${G}/bin:$PATH"
-	local GOLDFLAGS="-s -w \
-		-X ${EGO_PN}/version.Version=${PV} \
-		-X ${EGO_PN}/version.Codename=cheddar \
+	local GOLDFLAGS="-s -w
+		-X ${EGO_PN}/version.Version=${PV}
+		-X ${EGO_PN}/version.Codename=cancoillotte
 		-X '${EGO_PN}/version.BuildDate=$(date -u '+%Y-%m-%d_%I:%M:%S%p')'"
 
 	ebegin "Building go-bindata locally"
-	pushd vendor/github.com/jteeuwen/go-bindata > /dev/null || die
+	pushd vendor/github.com/containous/go-bindata > /dev/null || die
 	go build -v -ldflags "-s -w" -o \
 		"${G}"/bin/go-bindata ./go-bindata || die
 	popd > /dev/null || die
@@ -71,7 +71,7 @@ src_install() {
 	fi
 
 	diropts -o traefik -g traefik -m 0750
-	dodir /var/log/traefik
+	keepdir /var/log/traefik
 }
 
 pkg_postinst() {
