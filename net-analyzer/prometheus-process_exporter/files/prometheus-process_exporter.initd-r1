@@ -1,11 +1,11 @@
 #!/sbin/openrc-run
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 description="A Prometheus exporter that mines /proc to report on selected processes"
 
-: ${PROCESS_EXPORTER_USER:=process_exporter}
-: ${PROCESS_EXPORTER_LOG:="/var/log/process_exporter/process_exporter.log"}
+: ${PROCESS_EXPORTER_USER:=process-exporter}
+: ${PROCESS_EXPORTER_LOG:="/var/log/process-exporter/process-exporter.log"}
 : ${SSD_OPTS:="-1 ${PROCESS_EXPORTER_LOG} -2 ${PROCESS_EXPORTER_LOG}"}
 
 name="${PROCESS_EXPORTER_NAME:-"Process Exporter"}"
@@ -13,7 +13,7 @@ command="/usr/bin/process-exporter"
 command_args="${PROCESS_EXPORTER_OPTS}"
 command_user="${PROCESS_EXPORTER_USER}"
 command_background=true
-pidfile="/run/${SVCNAME}.pid"
+pidfile="/run/${RC_SVCNAME}.pid"
 start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {

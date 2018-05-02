@@ -40,10 +40,10 @@ src_install() {
 	dobin process-exporter
 	einstalldocs
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
-	systemd_dounit "${FILESDIR}"/${PN}.service
+	systemd_newunit "${FILESDIR}"/${PN}.service-r1 ${PN}.service
 
 	diropts -o process-exporter -g process-exporter -m 0750
-	keepdir /var/log/process_exporter
+	keepdir /var/log/process-exporter
 }
