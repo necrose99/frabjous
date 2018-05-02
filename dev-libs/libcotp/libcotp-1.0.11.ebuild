@@ -15,7 +15,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 DEPEND=">=dev-libs/libbaseencode-1.0.4
-	>=dev-libs/libgcrypt-1.6.0"
+	dev-libs/libgcrypt:0="
+RDEPEND="${DEPEND}"
 
 PATCHES=( "${FILESDIR}"/${P}-fix_cmake_dest.patch )
 
