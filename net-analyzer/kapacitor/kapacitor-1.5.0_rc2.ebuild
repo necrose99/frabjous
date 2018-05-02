@@ -6,7 +6,7 @@ EAPI=6
 inherit bash-completion-r1 golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/-}"
-GIT_COMMIT="97e7719"
+GIT_COMMIT="761f380"
 EGO_PN="github.com/influxdata/kapacitor"
 DESCRIPTION="A framework for processing, monitoring, and alerting on time series data"
 HOMEPAGE="https://influxdata.com"
@@ -29,9 +29,9 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w \
-		-X main.version=${MY_PV} \
-		-X main.branch=${MY_PV} \
+	local GOLDFLAGS="-s -w
+		-X main.version=${MY_PV}
+		-X main.branch=${MY_PV}
 		-X main.commit=${GIT_COMMIT}"
 
 	go install -v -ldflags \
