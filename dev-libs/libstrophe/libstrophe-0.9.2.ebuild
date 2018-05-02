@@ -5,7 +5,7 @@ EAPI=6
 
 DESCRIPTION="A simple, lightweight C library for writing XMPP clients"
 HOMEPAGE="http://strophe.im/libstrophe/"
-SRC_URI="https://github.com/strophe/${PN}/releases/download/${PV}/libstrophe-${PV}.tar.gz"
+SRC_URI="https://github.com/strophe/${PN}/releases/download/${PV}/${P}.tar.gz"
 RESTRICT="mirror"
 
 LICENSE="|| ( MIT GPL-3 )"
@@ -27,10 +27,11 @@ DEPEND="${RDEPEND}
 PATCHES=( "${FILESDIR}"/${P}-libressl.patch )
 
 src_configure() {
-	econf \
-		$(use_enable ssl tls) \
-		$(use_with xml libxml2) \
-		|| die "econf failed"
+	local myeconf=(
+		$(use_enable ssl tls)
+		$(use_with xml libxml2)
+	)
+	econf ${myeconf[@]}
 }
 src_compile() {
 	default

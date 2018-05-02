@@ -7,7 +7,7 @@ inherit autotools git-r3
 
 DESCRIPTION="A simple, lightweight C library for writing XMPP clients"
 HOMEPAGE="http://strophe.im/libstrophe/"
-EGIT_REPO_URI="https://github.com/strophe/libstrophe.git"
+EGIT_REPO_URI="https://github.com/strophe/${PN}.git"
 
 LICENSE="|| ( MIT GPL-3 )"
 SLOT="0"
@@ -31,10 +31,11 @@ src_prepare() {
 }
 
 src_configure() {
-	econf \
-		$(use_enable ssl tls) \
-		$(use_with xml libxml2) \
-		|| die "econf failed"
+	local myeconf=(
+		$(use_enable ssl tls)
+		$(use_with xml libxml2)
+	)
+	econf ${myeconf[@]}
 }
 src_compile() {
 	default
