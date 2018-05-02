@@ -7,7 +7,7 @@ EGO_VENDOR=( "github.com/kevinburke/go-bindata 95df019" )
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="eec3912"
+COMMIT_HASH="cc398c1"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="Open source monitoring and visualization UI for the TICK stack"
 HOMEPAGE="https://www.influxdata.com"
