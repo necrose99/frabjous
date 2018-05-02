@@ -1,0 +1,31 @@
+From 819f97d915be8d86989d2a5567ea482e167deb6f Mon Sep 17 00:00:00 2001
+From: Pavel <mpolr21@gmail.com>
+Date: Mon, 5 Mar 2018 01:16:23 +0300
+Subject: [PATCH] Fix CMakeLists.txt
+
+Update CMakeLists.txt to use GNUInstallDirs
+See https://github.com/open-source-parsers/jsoncpp/issues/560
+---
+ CMakeLists.txt | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 789c6f1..39fe221 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -23,10 +23,13 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_LIBS})
+ 
+ set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${BUILD_VERSION} SOVERSION ${BUILD_MAJOR})
+ 
++include(GNUInstallDirs)
++set(LIB_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}") # "lib" or "lib64"
++
+ install(
+   TARGETS ${PROJECT_NAME}
+-  ARCHIVE DESTINATION lib
+-  LIBRARY DESTINATION lib
++  ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
++  LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+   COMPONENT library
+ )
+ 
