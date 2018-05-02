@@ -1,20 +1,19 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-EGO_PN="github.com/lovoo/nsq_exporter"
+EGO_PN="github.com/lovoo/${PN/prometheus-}"
 DESCRIPTION="A Prometheus metrics exporter for NSQ"
 HOMEPAGE="https://github.com/lovoo/nsq_exporter"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror strip"
 
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64"
-
-RESTRICT="mirror strip"
 
 DOCS=( README.md )
 
@@ -40,5 +39,5 @@ src_install() {
 	systemd_dounit "${FILESDIR}"/${PN}.service
 
 	diropts -o nsq_exporter -g nsq_exporter -m 0750
-	dodir /var/log/nsq_exporter
+	keepdir /var/log/nsq_exporter
 }
