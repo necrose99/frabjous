@@ -14,7 +14,7 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
-RDEPEND=">=dev-libs/libgcrypt-1.6.0
+RDEPEND="dev-libs/libgcrypt:0=
 	dev-libs/glib
 	dev-libs/jansson
 	dev-libs/libzip
