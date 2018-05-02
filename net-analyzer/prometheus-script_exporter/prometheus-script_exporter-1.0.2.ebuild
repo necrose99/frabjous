@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,18 +18,17 @@ EGO_VENDOR=(
 
 inherit golang-vcs-snapshot systemd user
 
-COMMIT_HASH="3ee25c0"
-EGO_PN="github.com/adhocteam/script_exporter"
+GIT_COMMIT="3ee25c0"
+EGO_PN="github.com/adhocteam/${PN/prometheus-}"
 DESCRIPTION="A Prometheus exporter for shell script exit status and duration"
 HOMEPAGE="https://github.com/adhocteam/script_exporter"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
-
-RESTRICT="mirror strip"
 
 DOCS=( README.md )
 
@@ -43,12 +42,13 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Version=${PV} \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Revision=${COMMIT_HASH} \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildUser=$(id -un)@$(hostname -f) \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.Branch=non-git \
-		-X ${EGO_PN}/vendor/github.com/prometheus/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
+	local PROMU="vendor/github.com/prometheus/common"
+	local GOLDFLAGS="-s -w
+		-X ${EGO_PN}/${PROMU}/version.Version=${PV}
+		-X ${EGO_PN}/${PROMU}/version.Revision=${GIT_COMMIT}
+		-X ${EGO_PN}/${PROMU}/version.Branch=non-git
+		-X ${EGO_PN}/${PROMU}/version.BuildUser=$(id -un)@$(hostname -f)
+		-X ${EGO_PN}/${PROMU}/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
 	go build -v -ldflags \
 		"${GOLDFLAGS}" || die
@@ -70,5 +70,5 @@ src_install() {
 	doins script-exporter.yml
 
 	diropts -o script_exporter -g script_exporter -m 0750
-	dodir /var/log/script_exporter
+	keepdir /var/log/script_exporter
 }
