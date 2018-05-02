@@ -29,11 +29,12 @@ src_prepare() {
 }
 
 src_configure() {
-	econf \
-		$(use_enable ssl tls) \
-		$(use_enable test static) \
-		$(use_enable static-libs static) \
-		|| die "econf failed"
+	local myeconf=(
+		$(use_enable ssl tls)
+		$(use_enable test static)
+		$(use_enable static-libs static)
+	)
+	econf ${myeconf[@]}
 }
 src_compile() {
 	default

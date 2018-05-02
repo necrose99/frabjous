@@ -7,7 +7,7 @@ inherit autotools git-r3
 
 DESCRIPTION="Fork of libstrophe for use with Profanity XMPP Client"
 HOMEPAGE="https://github.com/boothj5/libmesode"
-EGIT_REPO_URI="https://github.com/boothj5/libmesode.git"
+EGIT_REPO_URI="https://github.com/boothj5/${PN}.git"
 
 LICENSE="|| ( MIT GPL-3 )"
 SLOT="0"
@@ -28,11 +28,12 @@ src_prepare() {
 }
 
 src_configure() {
-	econf \
-		$(use_enable ssl tls) \
-		$(use_enable test static) \
-		$(use_enable static-libs static) \
-		|| die "econf failed"
+	local myeconf=(
+		$(use_enable ssl tls)
+		$(use_enable test static)
+		$(use_enable static-libs static)
+	)
+	econf ${myeconf[@]}
 }
 src_compile() {
 	default
