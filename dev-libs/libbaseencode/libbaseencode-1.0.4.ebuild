@@ -15,3 +15,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 
 PATCHES=( "${FILESDIR}"/${P}-fix_cmake_dest.patch )
+
+src_prepare() {
+	# Leave optimization level to user CFLAGS
+	sed -i '/CMAKE_C_FLAGS/d' CMakeLists.txt || die
+
+	cmake-utils_src_prepare
+}
