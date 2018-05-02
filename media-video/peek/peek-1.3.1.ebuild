@@ -14,17 +14,19 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="gnome-shell keybinder open-filemanager test"
 
-RDEPEND=">=dev-libs/glib-2.38:2
+RDEPEND="dev-libs/glib
 	media-gfx/gifski
-	media-libs/gst-plugins-good:1.0
-	media-libs/gst-plugins-ugly:1.0
-	>=x11-libs/gtk+-3.22:3
 	virtual/ffmpeg[encode,X]
+	>=x11-libs/gtk+-3.22:3
+	gnome-shell? (
+		media-libs/gst-plugins-good:1.0
+		media-libs/gst-plugins-ugly:1.0
+	)
 	keybinder? ( dev-libs/keybinder:3 )"
 DEPEND="${RDEPEND}
 	$(vala_depend)
 	app-text/txt2man
-	>=sys-devel/gettext-0.19"
+	sys-devel/gettext"
 
 src_prepare() {
 	cmake-utils_src_prepare
