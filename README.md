@@ -91,6 +91,8 @@ dev-db/**[pgweb](dev-db/pgweb)** | Web-based PostgreSQL database browser written
 dev-db/**[orchestrator](dev-db/orchestrator)** | A MySQL high availability and replication management tool
 dev-db/**[tidb](dev-db/tidb)** | A distributed NewSQL database compatible with MySQL protocol
 dev-go/**[depth](dev-go/depth)** | Retrieve and visualize Go source code dependency trees
+dev-libs/**[libbaseencode](dev-libs/libbaseencode)** | Library written in C for encoding and decoding data using base32 or base64
+dev-libs/**[libcotp](dev-libs/libcotp)** | C library that generates TOTP and HOTP
 dev-libs/**[libmesode](dev-libs/libmesode)** | Fork of libstrophe for use with Profanity XMPP Client
 dev-libs/**[libstrophe](dev-libs/libstrophe)** | A simple, lightweight C library for writing XMPP clients
 dev-python/**[gmusicapi](dev-python/gmusicapi)** | An unofficial client library for Google Music
@@ -158,9 +160,11 @@ net-proxy/**[toxiproxy](net-proxy/toxiproxy)** | A TCP proxy to simulate network
 net-proxy/**[traefik](net-proxy/traefik)** | A modern HTTP reverse proxy and load balancer made to deploy microservices
 net-vpn/**[onioncat](net-vpn/onioncat)** | An IP-Transparent Tor Hidden Service Connector
 net-vpn/**[vpncloud](net-vpn/vpncloud)** | A fully-meshed VPN network in a peer-to-peer manner
+sys-apps/**[bat](sys-apps/bat)** | A 'cat' clone with syntax highlighting and Git integration
 sys-apps/**[exa](sys-apps/exa)** | A replacement for 'ls' written in Rust
 sys-apps/**[fd](sys-apps/fd)** | A simple, fast and user-friendly alternative to 'find'
 sys-apps/**[yarn](sys-apps/yarn)** | Fast, reliable, and secure node dependency management
+sys-auth/**[otpclient](sys-auth/otpclient)** | Simple GTK+ v3 OTP client (TOTP and HOTP
 sys-auth/**[pam_u2f](sys-auth/pam_u2f)** | Library for authenticating against PAM with a Yubikey
 sys-auth/**[yubikey-touch-detector](sys-auth/yubikey-touch-detector)** | A tool that can detect when your YubiKey is waiting for a touch
 sys-fs/**[gocryptfs](sys-fs/gocryptfs)** | Encrypted overlay filesystem written in Go
