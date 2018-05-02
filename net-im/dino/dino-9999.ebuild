@@ -16,14 +16,15 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 
-DEPEND="$(vala_depend)
+REPEND="$(vala_depend)
 	>=x11-libs/gtk+-3.22:3
 	app-crypt/gpgme
 	dev-db/sqlite
 	dev-libs/libgcrypt:0=
 	dev-libs/libgee:0.8
 	net-libs/libsoup"
-RDEPEND="${DEPEND}"
+DEPEND="${RDEPEND}
+	virtual/pkgconfig"
 
 src_prepare() {
 	cmake-utils_src_prepare
