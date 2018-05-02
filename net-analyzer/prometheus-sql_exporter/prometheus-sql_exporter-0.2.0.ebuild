@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -10,13 +10,12 @@ EGO_PN="github.com/justwatchcom/${PN/prometheus-}"
 DESCRIPTION="Flexible SQL Exporter for Prometheus"
 HOMEPAGE="https://github.com/justwatchcom/sql_exporter"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="examples"
-
-RESTRICT="mirror strip"
 
 DOCS=( README.md )
 
@@ -31,11 +30,11 @@ pkg_setup() {
 src_compile() {
 	export GOPATH="${G}"
 	local PROMU="vendor/github.com/prometheus/common"
-	local GOLDFLAGS="-s -w \
-		-X ${EGO_PN}/${PROMU}/version.Version=${PV} \
-		-X ${EGO_PN}/${PROMU}/version.Revision=${GIT_COMMIT} \
-		-X ${EGO_PN}/${PROMU}/version.BuildUser=$(id -un)@$(hostname -f) \
-		-X ${EGO_PN}/${PROMU}/version.Branch=non-git \
+	local GOLDFLAGS="-s -w
+		-X ${EGO_PN}/${PROMU}/version.Version=${PV}
+		-X ${EGO_PN}/${PROMU}/version.Revision=${GIT_COMMIT}
+		-X ${EGO_PN}/${PROMU}/version.Branch=non-git
+		-X ${EGO_PN}/${PROMU}/version.BuildUser=$(id -un)@$(hostname -f)
 		-X ${EGO_PN}/${PROMU}/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
 	go build -v -ldflags \
@@ -64,7 +63,7 @@ src_install() {
 	fi
 
 	diropts -o sql_exporter -g sql_exporter -m 0750
-	dodir /var/log/sql_exporter
+	keepdir /var/log/sql_exporter
 }
 
 pkg_postinst() {
