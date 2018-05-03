@@ -144,7 +144,8 @@ src_install() {
 			sed -i '/fonts.googleapis.com/ d' $i;
 		done
 		# Install docs!
-		dohtml -r "${S}"/doc/*
+		HTML_DOCS=( doc/* )
+		einstalldocs
 	fi
 
 	if use npm; then
