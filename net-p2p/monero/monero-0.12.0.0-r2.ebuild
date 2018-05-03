@@ -13,8 +13,7 @@ RESTRICT="mirror"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+daemon doc dot libressl +simplewallet stacktrace utils"
-
+IUSE="+daemon doc dot libressl readline +simplewallet stacktrace utils"
 REQUIRED_USE="dot? ( doc )"
 
 CDEPEND="app-arch/xz-utils
@@ -25,8 +24,10 @@ CDEPEND="app-arch/xz-utils
 	net-libs/cppzmq
 	net-libs/ldns
 	net-libs/miniupnpc
+	sys-apps/pcsc-lite
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
+	readline? ( sys-libs/readline:0= )
 	stacktrace? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )"
@@ -34,6 +35,8 @@ RDEPEND="${CDEPEND}
 	daemon? ( !net-p2p/monero-gui[daemon] )
 	simplewallet? ( !net-p2p/monero-gui[simplewallet] )
 	utils? ( !net-p2p/monero-gui[utils] )"
+
+PATCHES=( "${FILESDIR}"/${P}-fix_cmake.patch )
 
 pkg_setup() {
 	if use daemon; then
@@ -43,10 +46,10 @@ pkg_setup() {
 }
 
 src_configure() {
-	CMAKE_BUILD_TYPE=Release
 	local mycmakeargs=(
-		-DBUILD_DOCUMENTATION="$(usex doc)"
-		-DSTACK_TRACE="$(usex stacktrace)"
+		-DBUILD_DOCUMENTATION=$(usex doc)
+		-DSTACK_TRACE=$(usex stacktrace)
+		-DUSE_READLINE=$(usex readline)
 	)
 	cmake-utils_src_configure
 }
