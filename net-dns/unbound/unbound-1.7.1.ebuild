@@ -14,7 +14,7 @@ RESTRICT="mirror"
 LICENSE="BSD GPL-2"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="debug dnscrypt dnstap +ecdsa gost libressl python selinux static-libs test threads"
+IUSE="debug dnscrypt dnstap +ecdsa gost libressl python redis selinux static-libs test threads"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 CDEPEND=">=dev-libs/expat-2.1.0-r3
@@ -29,7 +29,8 @@ CDEPEND=">=dev-libs/expat-2.1.0-r3
 	)
 	libressl? ( dev-libs/libressl:0= )
 	!libressl? ( dev-libs/openssl:0= )
-	python? ( ${PYTHON_DEPS} )"
+	python? ( ${PYTHON_DEPS} )
+	redis? ( dev-libs/hiredis )"
 DEPEND="${CDEPEND}
 	python? ( dev-lang/swig )
 	test? (
@@ -63,14 +64,16 @@ src_configure() {
 	append-ldflags -Wl,-z,noexecstack
 	local myeconf=(
 		$(use_enable debug)
-		$(use_enable gost)
 		$(use_enable dnscrypt)
 		$(use_enable dnstap)
 		$(use_enable ecdsa)
+		$(use_enable gost)
+		$(use_enable redis cachedb)
 		$(use_enable static-libs static)
 		$(use_with python pythonmodule)
 		$(use_with python pyunbound)
 		$(use_with threads pthreads)
+		$(use_with redis libhiredis)
 		--disable-flto
 		--disable-rpath
 		--with-libevent="${EPREFIX}"/usr
