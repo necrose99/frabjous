@@ -13,12 +13,12 @@ LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS=""
 
-CDEPEND=">=dev-libs/glib-2.44
-	>=x11-libs/gtk+-3.20:3
-	media-libs/libepoxy"
+CDEPEND="dev-libs/glib
+	media-libs/libepoxy
+	>=media-video/mpv-0.27[libmpv]
+	>=x11-libs/gtk+-3.20:3"
 RDEPEND="${CDEPEND}
-	x11-themes/gnome-icon-theme-symbolic
-	>=media-video/mpv-0.27[libmpv]"
+	x11-themes/gnome-icon-theme-symbolic"
 DEPEND="${CDEPEND}
 	dev-libs/appstream-glib
 	virtual/pkgconfig"
@@ -30,6 +30,7 @@ pkg_postinst() {
 }
 
 pkg_postrm() {
+	xdg_desktop_database_update
 	gnome2_icon_cache_update
 	gnome2_schemas_update
 }
