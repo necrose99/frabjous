@@ -216,6 +216,7 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 			!grpc? ( ${HTTP_GRPC7_URI} -> ${HTTP_GRPC7_P}.tar.gz )
 		)
 	)"
+RESTRICT="mirror strip"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -224,12 +225,11 @@ IUSE="authz awses awslambda cache +caps cgi cors datadog expires
 	filter forwardproxy git grpc ipfilter jwt locale login mailout
 	minify multipass nobots prometheus proxyprotocol ratelimit realip
 	reauth restic test upload webdav"
-
-RDEPEND="caps? ( sys-libs/libcap )"
 REQUIRED_USE="login? ( jwt )"
-RESTRICT="mirror strip"
 
-DOCS=( {dist/CHANGES.txt,README.md} )
+DEPEND="caps? ( sys-libs/libcap )"
+
+DOCS=( dist/CHANGES.txt README.md )
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -573,7 +573,7 @@ pkg_postinst() {
 	if use caps; then
 		# Caddy currently does not support dropping privileges so we
 		# change attributes with setcap to allow access to priv ports
-		# https://caddyserver.com/docs/faq
+		# https://github.com/mholt/caddy/issues/528
 		setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/sbin/caddy || die
 	fi
 }
