@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 251](https://img.shields.io/badge/ebuilds-251-orange.svg?style=flat-square)
+![ebuilds 252](https://img.shields.io/badge/ebuilds-252-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
