@@ -43,7 +43,6 @@ QA_PRESTRIPPED="/opt/${MY_PN}/libffmpeg.so
 src_install() {
 	exeinto /opt/${MY_PN}
 	doexe electron
-	scanelf -Xe "${ED%/}"/opt/${MY_PN}/electron || die
 
 	insinto /opt/${MY_PN}
 	doins -r locales resources
