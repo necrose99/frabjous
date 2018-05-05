@@ -1,5 +1,5 @@
 ## _Welcome to the Frabjous Gentoo overlay!_
-![ebuilds 252](https://img.shields.io/badge/ebuilds-252-orange.svg?style=flat-square)
+![ebuilds 260](https://img.shields.io/badge/ebuilds-260-orange.svg?style=flat-square)
 ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/csmk/frabjous.svg?style=flat-square)
 [![Travis branch](https://img.shields.io/travis/csmk/frabjous/master.svg?style=flat-square)](https://travis-ci.org/csmk/frabjous)
 
@@ -82,6 +82,7 @@ app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternativ
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
 app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
+app-misc/**[watchexec](app-misc/watchexec)** | Executes commands in response to file modifications
 app-misc/**[watchman](app-misc/watchman)** | An inotify-based file watching and job triggering command line utility
 app-shells/**[antibody](app-shells/antibody)** | The fastest shell plugin manager
 app-shells/**[fzf](app-shells/fzf)** | A general-purpose command-line fuzzy finder
@@ -130,6 +131,7 @@ net-im/**[profanity](net-im/profanity)** | A console based XMPP client inspired 
 net-im/**[rambox-bin](net-im/rambox-bin)** | Free, Open Source and Cross Platform messaging and emailing app
 net-libs/**[nodejs](net-libs/nodejs)** | A JavaScript runtime built on Chrome's V8 JavaScript engine
 net-libs/**[wslay](net-libs/wslay)** | The WebSocket library written in C
+net-misc/**[cointop](net-misc/cointop)** | A terminal based UI application for tracking cryptocurrencies
 net-misc/**[electron-cash](net-misc/electron-cash)** | Lightweight Bitcoin Cash client
 net-misc/**[gotty-client](net-misc/gotty-client)** | A terminal client for GoTTY
 net-misc/**[pget](net-misc/pget)** | A parallel file download client in Go
