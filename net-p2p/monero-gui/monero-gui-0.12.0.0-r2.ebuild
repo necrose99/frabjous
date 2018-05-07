@@ -19,7 +19,7 @@ RESTRICT="mirror"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+daemon doc dot +gui libressl readline scanner simplewallet stacktrace utils"
+IUSE="+daemon doc dot +gui libressl readline scanner simplewallet unwind utils"
 
 REQUIRED_USE="dot? ( doc ) scanner? ( gui )"
 
@@ -45,7 +45,7 @@ CDEPEND="app-arch/xz-utils
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
 	readline? ( sys-libs/readline:0= )
-	stacktrace? ( sys-libs/libunwind )"
+	unwind? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )
 	gui? ( dev-qt/linguist-tools )"
@@ -88,7 +88,7 @@ src_configure() {
 		eqmake5 ../monero-wallet-gui.pro \
 			"CONFIG+=release \
 			$(usex !scanner '' WITH_SCANNER) \
-			$(usex stacktrace '' libunwind_off)"
+			$(usex unwind '' libunwind_off)"
 		popd > /dev/null || die
 	fi
 
@@ -96,7 +96,7 @@ src_configure() {
 		-DCMAKE_INSTALL_PREFIX="${CMAKE_USE_DIR}"
 		-DBUILD_DOCUMENTATION=$(usex doc)
 		-DBUILD_GUI_DEPS=ON
-		-DSTACK_TRACE=$(usex stacktrace)
+		-DSTACK_TRACE=$(usex unwind)
 		-DUSE_READLINE=$(usex readline)
 	)
 	cmake-utils_src_configure
