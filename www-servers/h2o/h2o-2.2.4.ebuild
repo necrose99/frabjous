@@ -15,6 +15,8 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="libh2o libressl libuv +mruby websocket"
+REQUIRED_USE="libuv? ( libh2o )
+	websocket? ( libh2o )"
 
 CDEPEND="
 	libh2o? (
@@ -30,10 +32,10 @@ DEPEND="${CDEPEND}
 	)"
 RDEPEND="app-misc/ca-certificates"
 
-REQUIRED_USE="libuv? ( libh2o )
-	websocket? ( libh2o )"
-
-PATCHES=( "${FILESDIR}"/${PN}-2.2.3-system_ca.patch )
+PATCHES=(
+	"${FILESDIR}"/${PN}-2.2.3-system_ca.patch
+	"${FILESDIR}"/${P}-libressl.patch
+)
 
 pkg_setup() {
 	enewgroup h2o
