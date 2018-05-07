@@ -13,7 +13,7 @@ RESTRICT="mirror"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="+daemon doc dot libressl readline +simplewallet stacktrace utils"
+IUSE="+daemon doc dot libressl readline +simplewallet unwind utils"
 REQUIRED_USE="dot? ( doc )"
 
 CDEPEND="app-arch/xz-utils
@@ -28,7 +28,7 @@ CDEPEND="app-arch/xz-utils
 	!libressl? ( dev-libs/openssl:0=[-bindist] )
 	libressl? ( dev-libs/libressl:0= )
 	readline? ( sys-libs/readline:0= )
-	stacktrace? ( sys-libs/libunwind )"
+	unwind? ( sys-libs/libunwind )"
 DEPEND="${CDEPEND}
 	doc? ( app-doc/doxygen[dot?] )"
 RDEPEND="${CDEPEND}
@@ -48,7 +48,7 @@ pkg_setup() {
 src_configure() {
 	local mycmakeargs=(
 		-DBUILD_DOCUMENTATION=$(usex doc)
-		-DSTACK_TRACE=$(usex stacktrace)
+		-DSTACK_TRACE=$(usex unwind)
 		-DUSE_READLINE=$(usex readline)
 	)
 	cmake-utils_src_configure
