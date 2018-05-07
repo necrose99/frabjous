@@ -15,23 +15,23 @@ KEYWORDS="~amd64 ~x86"
 IUSE="cpu_flags_x86_ssse3 fann gd jemalloc +jit libressl pcre2 +torch"
 REQUIRED_USE="torch? ( jit )"
 
-DEPEND="!libressl? ( dev-libs/openssl:0=[-bindist] )
-	libressl? ( dev-libs/libressl:0= )
-	fann? ( sci-mathematics/fann )
-	pcre2? ( dev-libs/libpcre2[jit=] )
-	!pcre2? ( dev-libs/libpcre[jit=] )
-	jit? ( dev-lang/luajit:2 )
-	jemalloc? ( dev-libs/jemalloc )
-	dev-libs/libevent
-	dev-db/sqlite:3
+DEPEND="dev-db/sqlite:3
 	dev-libs/glib:2
+	dev-libs/icu
+	dev-libs/libevent
 	<dev-util/ragel-7.0
 	sys-apps/file
+	cpu_flags_x86_ssse3? ( dev-libs/hyperscan )
+	elibc_glibc? ( net-libs/libnsl:0= )
+	fann? ( sci-mathematics/fann )
 	gd? ( media-libs/gd[jpeg] )
-	dev-libs/icu
-	cpu_flags_x86_ssse3? ( dev-libs/hyperscan )"
-RDEPEND="elibc_glibc? ( net-libs/libnsl:0= )
-	${DEPEND}"
+	jemalloc? ( dev-libs/jemalloc )
+	jit? ( dev-lang/luajit:2 )
+	!libressl? ( dev-libs/openssl:0=[-bindist] )
+	libressl? ( dev-libs/libressl:0= )
+	!pcre2? ( dev-libs/libpcre[jit=] )
+	pcre2? ( dev-libs/libpcre2[jit=] )"
+RDEPEND="${DEPEND}"
 
 QA_MULTILIB_PATHS="usr/lib/rspamd/.*"
 
@@ -60,7 +60,7 @@ src_configure() {
 src_install() {
 	cmake-utils_src_install
 
-	newinitd "${FILESDIR}"/rspamd.initd rspamd
+	newinitd "${FILESDIR}"/rspamd.initd-r1 rspamd
 	systemd_dounit rspamd.service
 
 	# Remove mprotect for JIT support
@@ -70,8 +70,8 @@ src_install() {
 	fi
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/rspamd.logrotate rspamd
+	newins "${FILESDIR}"/rspamd.logrotate-r1 rspamd
 
 	diropts -o rspamd -g rspamd
-	dodir /var/{lib,log}/rspamd
+	keepdir /var/{lib,log}/rspamd
 }

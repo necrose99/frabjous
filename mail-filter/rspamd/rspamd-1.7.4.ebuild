@@ -23,6 +23,7 @@ DEPEND="dev-db/sqlite:3
 	<dev-util/ragel-7.0
 	sys-apps/file
 	cpu_flags_x86_ssse3? ( dev-libs/hyperscan )
+	elibc_glibc? ( net-libs/libnsl:0= )
 	fann? ( sci-mathematics/fann )
 	gd? ( media-libs/gd[jpeg] )
 	jemalloc? ( dev-libs/jemalloc )
@@ -31,8 +32,7 @@ DEPEND="dev-db/sqlite:3
 	libressl? ( dev-libs/libressl:0= )
 	!pcre2? ( dev-libs/libpcre[jit=] )
 	pcre2? ( dev-libs/libpcre2[jit=] )"
-RDEPEND="elibc_glibc? ( net-libs/libnsl:0= )
-	${DEPEND}"
+RDEPEND="${DEPEND}"
 
 QA_MULTILIB_PATHS="usr/lib/rspamd/.*"
 
@@ -61,7 +61,7 @@ src_configure() {
 src_install() {
 	cmake-utils_src_install
 
-	newinitd "${FILESDIR}"/rspamd.initd rspamd
+	newinitd "${FILESDIR}"/rspamd.initd-r1 rspamd
 	systemd_dounit rspamd.service
 
 	# Remove mprotect for JIT support
@@ -71,7 +71,7 @@ src_install() {
 	fi
 
 	insinto /etc/logrotate.d
-	newins "${FILESDIR}"/rspamd.logrotate rspamd
+	newins "${FILESDIR}"/rspamd.logrotate-r1 rspamd
 
 	diropts -o rspamd -g rspamd
 	keepdir /var/{lib,log}/rspamd
