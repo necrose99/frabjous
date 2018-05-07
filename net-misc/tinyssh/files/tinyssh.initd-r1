@@ -1,5 +1,5 @@
 #!/sbin/openrc-run
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 description="A small SSH server with state-of-the-art cryptography"
@@ -10,15 +10,17 @@ description="A small SSH server with state-of-the-art cryptography"
 : ${TINYSSH_KEYDIR:="${TINYSSH_CONFDIR}/keys"}
 : ${TINYSSH_OPTS:="-l -v"}
 
+TINYSSHD="/usr/sbin/tinysshd"
+MAKEKEY="${TINYSSHD}-makekey"
+PRINTKEY="/usr/bin/tinysshd-printkey"
+
 name="TinySSH server"
-daemon="/usr/sbin/tinysshd"
-makekey="${daemon}-makekey"
-printkey="/usr/bin/tinysshd-printkey"
 command="/usr/bin/tcpserver"
-command_args="-HRDl0 ${TINYSSH_IP} ${TINYSSH_PORT} \
-	${daemon} ${TINYSSH_OPTS} ${TINYSSH_KEYDIR}"
-command_background="yes"
-pidfile="/run/${SVCNAME}.pid"
+command_args="-HRDl0 ${TINYSSH_IP} ${TINYSSH_PORT}
+	${TINYSSHD} ${TINYSSH_OPTS} ${TINYSSH_KEYDIR}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+start_stop_daemon_args="${SSD_OPTS}"
 
 depend() {
 	use net
@@ -28,8 +30,8 @@ depend() {
 start_pre() {
 	if [ "${RC_CMD}" != "restart" ]; then
 		checkpath -d "${TINYSSH_CONFDIR}"
-		if ! $printkey ${TINYSSH_KEYDIR} &>/dev/null; then
-			$makekey ${TINYSSH_KEYDIR} || return 1
+		if ! ${PRINTKEY} ${TINYSSH_KEYDIR} &>/dev/null; then
+			${MAKEKEY} ${TINYSSH_KEYDIR} || return 1
 		fi
 	fi
 }

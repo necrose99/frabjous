@@ -38,7 +38,7 @@ src_install() {
 	dobin build/bin/${PN}d-printkey
 	doman man/*
 
-	newinitd "${FILESDIR}"/${PN}.initd ${PN}
+	newinitd "${FILESDIR}"/${PN}.initd-r1 ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 
 	systemd_newunit "${FILESDIR}"/${PN}.service "${PN}@.service"
