@@ -8,7 +8,7 @@ inherit systemd user
 MMWAPP_PN="mattermost-webapp"
 MMWAPP_P="${MMWAPP_PN}-${PV}"
 
-GIT_COMMIT="30b5547"
+GIT_COMMIT="416c752"
 EGO_PN="github.com/mattermost/${PN}"
 DESCRIPTION="Open source Slack-alternative in Golang and React"
 HOMEPAGE="https://mattermost.com"
@@ -44,14 +44,16 @@ src_unpack() {
 
 src_prepare() {
 	# Disable developer settings, fix path,
-	# set to listen localhost and disable 
+	# set to listen localhost and disable
 	# diagnostics (call home) by default.
 	sed -i \
 		-e 's|"ListenAddress": ":8065"|"ListenAddress": "127.0.0.1:8065"|g' \
 		-e 's|"ListenAddress": ":8067"|"ListenAddress": "127.0.0.1:8067"|g' \
 		-e 's|"ConsoleLevel": "DEBUG"|"ConsoleLevel": "INFO"|g' \
 		-e 's|"EnableDiagnostics":.*|"EnableDiagnostics": false|' \
-		-e 's|"Directory": ".*"|"Directory": "/var/lib/mattermost/"|g' \
+		-e 's|"Directory": "./data/"|"Directory": "'${EPREFIX}}'/var/lib/mattermost/data"|g' \
+		-e 's|"Directory": "./plugins"|"Directory": "'${EPREFIX}}'/var/lib/mattermost/plugins"|g' \
+		-e 's|"ClientDirectory": "./client/plugins"|"Directory": "'${EPREFIX}}'/var/lib/mattermost/client/plugins"|g' \
 		-e 's|tcp(dockerhost:3306)|unix(/run/mysqld/mysqld.sock)|g' \
 		config/default.json || die
 
@@ -78,7 +80,7 @@ src_compile() {
 	emake -C client build
 
 	go build -v -ldflags "${GOLDFLAGS}" \
-		-o "${S}"/platform ./cmd/platform || die
+		-o "${S}"/platform || die
 }
 
 src_install() {
@@ -97,6 +99,9 @@ src_install() {
 	insinto /usr/share/mattermost
 	doins -r {fonts,i18n,templates}
 
+	insinto /usr/share/mattermost/config
+	doins config/timezones.json
+
 	insinto /usr/share/mattermost/client
 	doins -r client/dist/*
 
@@ -104,6 +109,7 @@ src_install() {
 	keepdir /var/{lib,log}/mattermost
 
 	dosym ../../../../etc/mattermost/config.json /usr/libexec/mattermost/config/config.json
+	dosym ../../../share/mattermost/config/timezones.json /usr/libexec/mattermost/config/timezones.json
 	dosym ../../share/mattermost/fonts /usr/libexec/mattermost/fonts
 	dosym ../../share/mattermost/i18n /usr/libexec/mattermost/i18n
 	dosym ../../share/mattermost/templates /usr/libexec/mattermost/templates
