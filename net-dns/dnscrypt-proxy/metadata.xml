@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>csmk@chaoslab.org</email>
+		<email>csmk+frabjous@chaoslab.org</email>
 		<name>Ian Moone</name>
 	</maintainer>
 	<upstream>
@@ -11,10 +11,8 @@
 		<doc>https://github.com/jedisct1/dnscrypt-proxy/wiki</doc>
 	</upstream>
 	<longdescription lang="en">
-		dnscrypt-proxy provides local service which can be used directly as your
-		local resolver or as a DNS forwarder, encrypting and authenticating
-		requests using the DNSCrypt protocol and passing them to an upstream
-		server.
+		A flexible DNS proxy, with support for modern encrypted
+		DNS protocols such as DNSCrypt v2 and DNS-over-HTTP.
 	</longdescription>
 	<use>
 		<flag name="plugins">Enable plugin support to inspect and modify
