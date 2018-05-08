@@ -103,7 +103,7 @@ for mod in "${CADDY_PLUGINS[@]}"; do
 		HTTP_${mod[0]}_P=${mod[1]//\//-}-${mod[2]}
 done
 
-inherit golang-vcs-snapshot systemd user
+inherit fcaps golang-vcs-snapshot systemd user
 
 EGO_PN="github.com/mholt/caddy"
 DESCRIPTION="Fast, cross-platform HTTP/2 web server with automatic HTTPS"
@@ -221,13 +221,13 @@ RESTRICT="mirror strip"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="authz awses awslambda cache +caps cgi cors datadog expires
+IUSE="authz awses awslambda cache cgi cors datadog expires
 	filter forwardproxy git grpc ipfilter jwt locale login mailout
 	minify multipass nobots prometheus proxyprotocol ratelimit realip
 	reauth restic test upload webdav"
 REQUIRED_USE="login? ( jwt )"
 
-DEPEND="caps? ( sys-libs/libcap )"
+FILECAPS=( cap_net_bind_service+ep usr/sbin/caddy )
 
 DOCS=( dist/CHANGES.txt README.md )
 
@@ -570,10 +570,16 @@ src_install() {
 }
 
 pkg_postinst() {
-	if use caps; then
-		# Caddy currently does not support dropping privileges so we
-		# change attributes with setcap to allow access to priv ports
-		# https://github.com/mholt/caddy/issues/528
-		setcap "cap_net_bind_service=+ep" "${EROOT%/}"/usr/sbin/caddy || die
+	# Caddy currently does not support dropping privileges so we
+	# change attributes with setcap to allow access to priv ports
+	# https://github.com/mholt/caddy/issues/528
+	fcaps_pkg_postinst
+
+	if ! use filecaps; then
+		ewarn
+		ewarn "'filecaps' USE flag is disabled"
+		ewarn "${PN} will fail to listen on port 80/443 if started via OpenRC"
+		ewarn "please either change port to > 1024 or re-enable 'filecaps'"
+		ewarn
 	fi
 }

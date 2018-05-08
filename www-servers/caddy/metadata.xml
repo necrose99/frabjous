@@ -18,7 +18,6 @@
 		<flag name="awses">A plugin for signing and proxying requests to AWS Elasticsearch</flag>
 		<flag name="awslambda">Gateways requests to AWS Lambda functions</flag>
 		<flag name="cache">A simple middleware caching</flag>
-		<flag name="caps">Bind to ports below 1024 without running as root</flag>
 		<flag name="cgi">Implements the Common Gateway Interface (CGI) for Caddy</flag>
 		<flag name="cors">Supports Cross Origin Resource Sharing headers</flag>
 		<flag name="datadog">Allows Caddy to send some metrics to Datadog</flag>
