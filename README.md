@@ -81,7 +81,6 @@ app-crypt/**[minisign](app-crypt/minisign)** | A dead simple tool to sign files 
 app-crypt/**[opmsg](app-crypt/opmsg)** | opmsg message encryption (an alternative to GnuPG)
 app-crypt/**[ssh-vault](app-crypt/ssh-vault)** | Encrypt/Decrypt using SSH private keys
 app-editors/**[micro](app-editors/micro)** | A modern and intuitive terminal-based text editor
-app-misc/**[gomatrix](app-misc/gomatrix)** | Connects to The Matrix and displays it's data streams in your terminal
 app-misc/**[watchexec](app-misc/watchexec)** | Executes commands in response to file modifications
 app-misc/**[watchman](app-misc/watchman)** | An inotify-based file watching and job triggering command line utility
 app-shells/**[antibody](app-shells/antibody)** | The fastest shell plugin manager
