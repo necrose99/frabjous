@@ -14,12 +14,4 @@
 		A flexible DNS proxy, with support for modern encrypted
 		DNS protocols such as DNSCrypt v2 and DNS-over-HTTP.
 	</longdescription>
-	<use>
-		<flag name="plugins">Enable plugin support to inspect and modify
-			queries and responses</flag>
-		<flag name="systemd">Use systemd's socket activation instead of
-			creating the sockets itself</flag>
-		<flag name="verify-minisign">Verify signarure with
-		<pkg>app-crypt/minisign</pkg> before the package is built</flag>
-	</use>
 </pkgmetadata>
