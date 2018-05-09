@@ -63,7 +63,7 @@ EGO_VENDOR=(
 
 inherit bash-completion-r1 golang-vcs-snapshot
 
-GIT_COMMIT="459935b"
+GIT_COMMIT="ecae210"
 EGO_PN="github.com/gohugoio/hugo"
 DESCRIPTION="A static HTML and CSS website generator written in Go"
 HOMEPAGE="https://gohugo.io"
@@ -85,8 +85,7 @@ src_compile() {
 		-X ${EGO_PN}/hugolib.CommitHash=${GIT_COMMIT}
 		-X ${EGO_PN}/hugolib.BuildDate=$(date +%FT%T%z)"
 
-	go build -v -ldflags \
-		"${GOLDFLAGS}" || die
+	go build -v -ldflags "${GOLDFLAGS}" || die
 
 	./hugo gen man --dir="${T}"/man || die
 
