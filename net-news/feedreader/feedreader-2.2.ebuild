@@ -36,7 +36,6 @@ RDEPEND="$(vala_depend)
 	>=x11-libs/gtk+-3.22:3
 	x11-libs/libnotify"
 DEPEND="${RDEPEND}
-	dev-util/intltool
 	virtual/pkgconfig"
 
 S="${WORKDIR}/${MY_PN}-${PV}"
