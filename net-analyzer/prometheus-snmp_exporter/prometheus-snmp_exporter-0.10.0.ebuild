@@ -5,7 +5,7 @@ EAPI=6
 
 inherit golang-vcs-snapshot systemd user
 
-GIT_COMMIT="abb143a"
+GIT_COMMIT="5c997da"
 EGO_PN="github.com/prometheus/${PN/prometheus-}"
 DESCRIPTION="An exporter that exposes information gathered from SNMP for Prometheus"
 HOMEPAGE="https://prometheus.io"
@@ -39,8 +39,8 @@ src_compile() {
 	local GOLDFLAGS="-s -w
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Version=${PV}
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Revision=${GIT_COMMIT}
-		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f)
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.Branch=non-git
+		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildUser=$(id -un)@$(hostname -f)
 		-X ${EGO_PN}/vendor/${EGO_PN%/*}/common/version.BuildDate=$(date -u '+%Y%m%d-%I:%M:%S')"
 
 	go build -v -ldflags \
