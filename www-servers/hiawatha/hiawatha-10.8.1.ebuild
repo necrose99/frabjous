@@ -15,7 +15,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="+cache ipv6 monitor +rewrite +rproxy +ssl tomahawk +xslt"
 
 RDEPEND="sys-libs/zlib
-	ssl? ( >=net-libs/mbedtls-2.7.0[threads] )
+	ssl? ( >=net-libs/mbedtls-2.8.0[threads] )
 	xslt? (
 		dev-libs/libxslt
 		dev-libs/libxml2
