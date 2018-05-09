@@ -3,16 +3,17 @@
 
 EAPI=6
 
-EGO_VENDOR=( "github.com/jteeuwen/go-bindata a0ff256" )
+EGO_VENDOR=( "github.com/kevinburke/go-bindata 2197b05" )
 
 inherit golang-vcs-snapshot systemd user
 
-PKG_COMMIT="2978bb1"
+GIT_COMMIT="2978bb1"
 EGO_PN="github.com/gogits/gogs"
 DESCRIPTION="A painless self-hosted Git service"
 HOMEPAGE="https://gogs.io"
 SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
+RESTRICT="mirror strip"
 
 LICENSE="MIT"
 SLOT="0"
@@ -28,7 +29,6 @@ RDEPEND="dev-vcs/git[curl,threads]
 	redis? ( dev-db/redis )
 	sqlite? ( dev-db/sqlite )
 	tidb? ( dev-db/tidb )"
-RESTRICT="mirror strip"
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -54,7 +54,7 @@ src_prepare() {
 		-e "s:^ROOT_PATH =:ROOT_PATH = ${EPREFIX}/var/log/gogs:" \
 		conf/app.ini || die
 
-	sed -i "s:GitHash=.*:GitHash=${PKG_COMMIT}\":" \
+	sed -i "s:GitHash=.*:GitHash=${GIT_COMMIT}\":" \
 		Makefile || die
 
 	default
@@ -65,7 +65,7 @@ src_compile() {
 	local PATH="${G}/bin:$PATH" TAGS_OPTS=
 
 	ebegin "Building go-bindata locally"
-	pushd vendor/github.com/jteeuwen/go-bindata > /dev/null || die
+	pushd vendor/github.com/kevinburke/go-bindata > /dev/null || die
 	go build -v -ldflags "-s -w" -o \
 		"${G}"/bin/go-bindata ./go-bindata || die
 	popd > /dev/null || die
@@ -105,7 +105,7 @@ src_install() {
 	newins "${FILESDIR}"/${PN}.logrotate-r1 ${PN}
 
 	diropts -m 0750
-	dodir /var/lib/gogs/data /var/log/gogs
+	keepdir /var/lib/gogs/data /var/log/gogs
 	fowners -R gogs:gogs /var/{lib,log}/gogs
 }
 
