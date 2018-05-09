@@ -107,6 +107,7 @@ miow-0.2.1
 msdos_time-0.1.5
 multibase-0.6.0
 multihash-0.7.0
+nan-preserving-float-0.1.0
 net2-0.2.31
 nodrop-0.1.12
 ntp-0.3.1
@@ -142,7 +143,7 @@ primal-estimate-0.2.1
 primal-sieve-0.2.8
 protobuf-1.4.1
 pulldown-cmark-0.0.3
-pwasm-utils-0.1.3
+pwasm-utils-0.1.5
 quasi-0.32.0
 quasi_codegen-0.32.0
 quasi_macros-0.32.0
@@ -236,7 +237,7 @@ vecio-0.1.0
 vergen-0.1.1
 version_check-0.1.3
 void-1.0.2
-wasmi-0.1.3
+wasmi-0.2.0
 webpki-0.17.0
 webpki-roots-0.13.0
 winapi-0.2.8
