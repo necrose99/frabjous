@@ -78,7 +78,7 @@ EGO_VENDOR=(
 	"github.com/rcrowley/go-metrics 1f30fe9"
 	"github.com/samuel/go-zookeeper 1d7be4e"
 	"github.com/satori/go.uuid 5bf94b6"
-	"github.com/shirou/gopsutil a5c2888"
+	"github.com/shirou/gopsutil c95755e"
 	"github.com/Shopify/sarama 3b1b388"
 	"github.com/Sirupsen/logrus 61e43dc"
 	"github.com/soniah/gosnmp f15472a"
@@ -107,7 +107,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/-}"
-GIT_COMMIT="bf0ab27"
+GIT_COMMIT="1fb4283"
 EGO_PN="github.com/influxdata/${PN}"
 DESCRIPTION="An agent for collecting, processing, aggregating, and writing metrics"
 HOMEPAGE="https://influxdata.com"
@@ -135,9 +135,9 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w \
-		-X main.version=${MY_PV} \
-		-X main.branch=${MY_PV} \
+	local GOLDFLAGS="-s -w
+		-X main.version=${MY_PV}
+		-X main.branch=${MY_PV}
 		-X main.commit=${GIT_COMMIT}"
 
 	go build -v -ldflags "${GOLDFLAGS}" \
