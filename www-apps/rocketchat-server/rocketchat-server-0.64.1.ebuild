@@ -5,7 +5,7 @@ EAPI=6
 
 inherit user
 
-DESCRIPTION="An open source web chat platform"
+DESCRIPTION="A Web Chat Server developed in JavaScript, using the Meteor framework"
 HOMEPAGE="https://rocket.chat"
 SRC_URI="https://cdn-download.rocket.chat/build/rocket.chat-${PV}.tgz -> ${P}.tgz"
 RESTRICT="mirror"
