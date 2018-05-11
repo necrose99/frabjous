@@ -25,10 +25,6 @@ depend() {
 }
 
 start_pre() {
-	if [ ! -e /usr/libexec/rocketchat/.node_version.txt ]; then
-		${command} --version > /usr/libexec/rocketchat/.node_version.txt
-	fi
-
 	checkpath -d -m 0750 -o ${command_user} "${ROCKETCHAT_LOG_DIR}"
 	checkpath -d -m 0700 -o ${command_user} "/tmp/ufs"
 }

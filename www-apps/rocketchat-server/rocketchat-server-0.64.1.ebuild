@@ -110,6 +110,9 @@ src_install() {
 	cp -a --no-preserve=ownership \
 		./* "${D%/}"/usr/libexec/rocketchat || die
 
+	insinto /usr/libexec/rocketchat
+	doins .node_version.txt
+
 	diropts -o rocketchat -g rocketchat -m 0750
 	keepdir /var/log/rocketchat
 	keepdir /var/lib/rocketchat/.babel-cache
