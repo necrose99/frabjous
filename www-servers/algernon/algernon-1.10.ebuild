@@ -76,7 +76,7 @@ EGO_VENDOR=(
 inherit golang-vcs-snapshot systemd user
 
 EGO_PN="github.com/xyproto/${PN}"
-DESCRIPTION="Web server with built-in QUIC, HTTP/2, Lua, Markdown, HyperApp & Pongo2 support"
+DESCRIPTION="Pure Go web server with Lua, Markdown, QUIC and Pongo2 support"
 HOMEPAGE="http://algernon.roboticoverlords.org"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"

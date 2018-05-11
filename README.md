@@ -183,7 +183,7 @@ www-apps/**[mattermost-server](www-apps/mattermost-server)** | Open source Slack
 www-apps/**[rocketchat-server](www-apps/rocketchat-server)** | An open source web chat platform
 www-client/**[inox](www-client/inox)** | Chromium spin-off to enhance privacy by disabling data transmission to Google
 www-plugins/**[browserpass](www-plugins/browserpass)** | WebExtension host binary for app-admin/pass, a UNIX password manager
-www-servers/**[algernon](www-servers/algernon)** | Web server with built-in QUIC, HTTP/2, Lua, Markdown, HyperApp & Pongo2 support
+www-servers/**[algernon](www-servers/algernon)** | Pure Go web server with Lua, Markdown, QUIC and Pongo2 support
 www-servers/**[caddy](www-servers/caddy)** | Fast, cross-platform HTTP/2 web server with automatic HTTPS
 www-servers/**[h2o](www-servers/h2o)** | An optimized HTTP server with support for HTTP/1.x and HTTP/2
 www-servers/**[hiawatha](www-servers/hiawatha)** | Advanced and secure webserver
