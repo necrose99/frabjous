@@ -22,7 +22,6 @@ start_stop_daemon_args="${SSD_OPTS}
 
 depend() {
 	need net
-	after mongodb
 }
 
 start_pre() {
