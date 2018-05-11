@@ -103,7 +103,7 @@ pkg_postinst() {
 			elog "please clean up old config/log files"
 			elog
 		fi
-		if [[ ${v} == 2.* ]] ; then
+		if [ ${v} -lt 2.0.12 ] ; then
 			elog "As of version 2.0.12 of ${PN} runs as an 'dnscrypt-proxy' user/group"
 			elog "you can remove obsolete 'dnscrypt' accounts from the system"
 			elog
