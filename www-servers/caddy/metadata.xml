@@ -24,6 +24,7 @@
 		<flag name="expires">Allows you to set expiration header relative to the request time</flag>
 		<flag name="filter">Provides a directive to filter response bodies</flag>
 		<flag name="forwardproxy">Enables Caddy to act as a ForwardProxy for http/2.0 and http/1.1 requests</flag>
+		<flag name="geoip">Determine user Geolocation by IP address using MaxMind database</flag>
 		<flag name="git">The git plugin makes it possible to deploy your site with a simple git push</flag>
 		<flag name="grpc">Proxies gRPC calls from clients to gRPC services</flag>
 		<flag name="ipfilter">Adds the ability to allow or block requests based on the client's IP address</flag>
@@ -51,6 +52,11 @@
 		<flag name="restic">
 			A plugin that serves a Restic repository at
 			a path, see https://restic.github.io for details
+		</flag>
+		<flag name="telemetry">
+			Produces as a series of reports to Caddy Telemetry Project which aggregates
+			the global data set and makes it queryable (Please read the documentation
+			to stay aware of the privacy implications)
 		</flag>
 		<flag name="upload">Upload files using an API and HTTP method POST or PUT</flag>
 		<flag name="webdav">A plugin that implements WebDAV</flag>
