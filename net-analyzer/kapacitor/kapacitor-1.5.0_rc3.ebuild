@@ -6,18 +6,21 @@ EAPI=6
 inherit bash-completion-r1 golang-vcs-snapshot systemd user
 
 MY_PV="${PV/_/-}"
-GIT_COMMIT="761f380"
+GIT_COMMIT="70a7380"
 EGO_PN="github.com/influxdata/kapacitor"
 DESCRIPTION="A framework for processing, monitoring, and alerting on time series data"
 HOMEPAGE="https://influxdata.com"
 SRC_URI="https://${EGO_PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 	${EGO_VENDOR_URI}"
-RESTRICT="mirror strip test"
+RESTRICT="mirror test"
 
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="bash-completion examples"
+
+QA_PRESTRIPPED="usr/bin/kapacitor
+	usr/bin/kapacitord"
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
@@ -29,13 +32,17 @@ pkg_setup() {
 
 src_compile() {
 	export GOPATH="${G}"
-	local GOLDFLAGS="-s -w
-		-X main.version=${MY_PV}
-		-X main.branch=${MY_PV}
-		-X main.commit=${GIT_COMMIT}"
-
-	go install -v -ldflags \
-		"${GOLDFLAGS}" ./cmd/kapacitor{,d} || die
+	local mygoargs=(
+		-v -work -x
+		-asmflags "-trimpath=${S}"
+		-gcflags "-trimpath=${S}"
+		-ldflags "-s -w
+			-X main.version=${MY_PV}
+			-X main.branch=${MY_PV}
+			-X main.commit=${GIT_COMMIT}"
+	)
+	go install "${mygoargs[@]}" \
+		./cmd/kapacitor{,d} || die
 }
 
 src_test() {
