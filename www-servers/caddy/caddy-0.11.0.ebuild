@@ -222,7 +222,7 @@ SRC_URI="https://${EGO_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz
 			!grpc? ( ${HTTP_GRPC7_URI} -> ${HTTP_GRPC7_P}.tar.gz )
 		)
 	)"
-RESTRICT="mirror strip" # Pre-stripped by Go
+RESTRICT="mirror"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -234,8 +234,9 @@ IUSE="authz awses awslambda cache cgi cors datadog expires filter
 REQUIRED_USE="login? ( jwt )"
 
 FILECAPS=( cap_net_bind_service+ep usr/sbin/caddy )
-
 DOCS=( dist/CHANGES.txt README.md )
+
+QA_PRESTRIPPED="usr/sbin/caddy"
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
