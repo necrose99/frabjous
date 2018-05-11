@@ -1,0 +1,7 @@
+# config file for /etc/init.d/rocketchat-server
+
+ROCKETCHAT_MONGO_URL="mongodb://localhost:27017/rocket?replicaSet=rs0"
+ROCKETCHAT_MONGO_OPLOG_URL="mongodb://localhost:27017/local?replicaSet=rs0"
+ROCKETCHAT_ROOT_URL="http://localhost:3000"
+ROCKETCHAT_PORT="3000"
+ROCKETCHAT_MAIL_URL="smtp://user:pass@localhost:25/"

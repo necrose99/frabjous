@@ -1,0 +1,35 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+: ${ROCKETCHAT_LOG_DIR:="/var/log/rocketchat"}
+: ${ROCKETCHAT_LOG_APP:="${ROCKETCHAT_LOG_DIR}/app.log"}
+: ${ROCKETCHAT_LOG_ERR:="${ROCKETCHAT_LOG_DIR}/err.log"}
+: ${SSD_OPTS:="--wait 1000 -1 ${ROCKETCHAT_LOG_APP} -2 ${ROCKETCHAT_LOG_ERR}"}
+
+command="/usr/libexec/rocketchat/npm/bin/node"
+command_args="/usr/libexec/rocketchat/main.js"
+command_user="${ROCKETCHAT_USER:-rocketchat}:${ROCKETCHAT_GROUP:-rocketchat}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
+retry=${ROCKETCHAT_TERMTIMEOUT:-"TERM/60/KILL/5"}
+start_stop_daemon_args="${SSD_OPTS}
+	-e \"MONGO_URL=${ROCKETCHAT_MONGO_URL}\"
+	-e \"MONGO_OPLOG_URL=${ROCKETCHAT_MONGO_OPLOG_URL}\"
+	-e \"ROOT_URL=${ROCKETCHAT_ROOT_URL}\"
+	-e \"PORT=${ROCKETCHAT_PORT}\"
+	-e \"MAIL_URL=${ROCKETCHAT_MAIL_URL}\""
+
+depend() {
+	need net
+	after mongodb
+}
+
+start_pre() {
+	if [ ! -e /usr/libexec/rocketchat/.node_version.txt ]; then
+		${command} --version > /usr/libexec/rocketchat/.node_version.txt
+	fi
+
+	checkpath -d -m 0750 -o ${command_user} "${ROCKETCHAT_LOG_DIR}"
+	checkpath -d -m 0700 -o ${command_user} "/tmp/ufs"
+}
