@@ -13,13 +13,14 @@ RESTRICT="mirror"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="+mongodb"
 
 CDEPEND=">=net-libs/nodejs-6.11.5[npm]"
 DEPEND="${CDEPEND}
 	media-libs/libpng:0
 	dev-util/patchelf"
 RDEPEND="${CDEPEND}
-	dev-db/mongodb
+	mongodb? ( >=dev-db/mongodb-3.2 )
 	media-gfx/graphicsmagick[jpeg,png]"
 
 S="${WORKDIR}/bundle"
@@ -122,4 +123,9 @@ src_install() {
 
 	newinitd "${FILESDIR}"/${PN}.initd ${PN}
 	newconfd "${FILESDIR}"/${PN}.confd ${PN}
+
+	if use mongodb; then
+		sed -i '/\/"/a \\nrc_after="mongodb"' \
+			"${D%/}"/etc/conf.d/${PN} || die
+	fi
 }
