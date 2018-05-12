@@ -9,7 +9,6 @@ EGO_PN="github.com/jedisct1/${PN}"
 DESCRIPTION="A flexible DNS proxy, with support for modern encrypted DNS protocols"
 HOMEPAGE="https://dnscrypt.info"
 SRC_URI="https://${EGO_PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
-RESTRICT="strip" # pre-striped by Go
 
 LICENSE="ISC"
 SLOT="0"
@@ -18,6 +17,8 @@ IUSE="systemd"
 
 FILECAPS=( cap_net_bind_service+ep usr/bin/dnscrypt-proxy )
 DOCS=( ChangeLog README.md )
+
+QA_PRESTRIPPED="usr/bin/dnscrypt-proxy"
 
 G="${WORKDIR}/${P}"
 S="${G}/src/${EGO_PN}"
